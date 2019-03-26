@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+
+  <title>An artificial, but realistic, image</title>
+  <meta name="description" content="Construction of an artificial (but realistic) image">
+
+  <link rel="canonical" href="/YOUR%20URL//01-03-Construction-of-an-artificial-but-realistic-image.html">
+  <link rel="alternate" type="application/rss+xml" title="YOUR BOOK NAME" href="/YOUR%20URL//feed.xml">
+
+  <meta property="og:url"         content="/YOUR%20URL//01-03-Construction-of-an-artificial-but-realistic-image.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="An artificial, but realistic, image" />
+<meta property="og:description" content="Construction of an artificial (but realistic) image" />
+<meta property="og:image"       content="" />
+
+
+  <script type="application/ld+json">
+  {
+  "@context": "http://schema.org",
+  "@type": "NewsArticle",
+  "mainEntityOfPage":
+    "YOUR URL//01-03-Construction-of-an-artificial-but-realistic-image.html",
+  "headline":
+    "An artificial, but realistic, image",
+  "datePublished":
+    "2019-03-26T07:25:28-05:00",
+  "dateModified":
+    "2019-03-26T07:25:28-05:00",
+  "description":
+    "Construction of an artificial (but realistic) image",
+  "author": {
+    "@type": "Person",
+    "name": "YOUR AUTHOR NAME"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Data 100 at UC Berkeley",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "YOUR URL/",
+      "width": 60,
+      "height": 60
+    }
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "YOUR URL/",
+    "height": 60,
+    "width": 60
+  }
+}
+
+  </script>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css ">
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+
+  <!-- <link rel="manifest" href="/manifest.json"> -->
+  <!-- <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#efae0a"> -->
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+  <meta name="theme-color" content="#233947">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo/favicon.ico">
+
+  <!-- MathJax Config -->
+  <!-- Allow inline math using $ and automatically break long math lines -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true,
+        processEnvironments: true
+    },
+    CommonHTML: {
+        linebreaks: {
+            automatic: true,
+        },
+    },
+});
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML' async></script>
+
+  <!-- DOM updating function -->
+  <script>
+const runWhenDOMLoaded = cb => {
+  if (document.readyState != 'loading') {
+    cb()
+  } else if (document.addEventListener) {
+    document.addEventListener('DOMContentLoaded', cb)
+  } else {
+    document.attachEvent('onreadystatechange', function() {
+      if (document.readyState == 'complete') cb()
+    })
+  }
+}
+
+// Helper function to init things quickly
+initFunction = function(myfunc) {
+  runWhenDOMLoaded(myfunc);
+  document.addEventListener('turbolinks:load', myfunc);
+};
+</script>
+
+  <!-- Define some javascript variables that will be useful in other javascript -->
+  <script>
+    const site_basename = '/';
+  </script>
+
+  <!-- Add AnchorJS to let headers be linked -->
+  <script src="/assets/js/anchor.min.js"  type="text/javascript"></script>
+  <script>
+
+initFunction(function () {
+    anchors.add("main h1, main h2, main h3, main h4")
+});
+
+</script>
+
+  <!-- Include Turbolinks to make page loads fast -->
+  <!-- https://github.com/turbolinks/turbolinks -->
+  <script src="/assets/js/turbolinks.js" async></script>
+  <meta name="turbolinks-cache-control" content="no-cache">
+
+  <!-- Load nbinteract for widgets -->
+  <script src="https://unpkg.com/nbinteract-core" async></script>
+
+  <!-- Load Thebelab for interactive widgets -->
+  <!-- Include Thebelab for interactive code if it's enabled -->
+
+<script type="text/x-thebe-config">
+    {
+      requestKernel: true,
+      binderOptions: {
+        repo: 'YOUR-ORG/YOUR-REPO',
+        ref: 'master',
+      },
+      kernelOptions: {
+        name: 'python3',
+      }
+    }
+</script>
+<script src="https://unpkg.com/thebelab@0.3.3/lib/index.js"></script>
+<script>
+    /**
+     * Add attributes to Thebelab blocks
+     */
+
+    const initThebelab = () => {
+        const addThebelabToCodeCells = () => {
+            console.log("Adding thebelab to code cells...");
+            // If Thebelab hasn't loaded, wait a bit and try again. This
+            // happens because we load ClipboardJS asynchronously.
+            if (window.thebelab === undefined) {
+                setTimeout(addThebelabToCodeCells, 250)
+            return
+            }
+
+            // If we already detect a Thebelab cell, don't re-run
+            if (document.querySelectorAll('div.thebelab-cell').length > 0) {
+                return;
+            }
+
+            // Find all code cells, replace with Thebelab interactive code cells
+            const codeCells = document.querySelectorAll('.input_area pre')
+            codeCells.forEach((codeCell, index) => {
+                const id = codeCellId(index)
+                codeCell.setAttribute('data-executable', 'true')
+
+                // Figure out the language it uses and add this too
+                var parentDiv = codeCell.parentElement.parentElement;
+                var arrayLength = parentDiv.classList.length;
+                for (var ii = 0; ii < arrayLength; ii++) {
+                    var parts = parentDiv.classList[ii].split('language-');
+                    if (parts.length === 2) {
+                        // If found, assign dataLanguage and break the loop
+                        var dataLanguage = parts[1];
+                        break;
+                    }
+                }
+                codeCell.setAttribute('data-language', dataLanguage)
+
+                // If the code cell is hidden, show it
+                var inputCheckbox = document.querySelector(`input#hidebtn${codeCell.id}`);
+                if (inputCheckbox !== null) {
+                    setCodeCellVisibility(inputCheckbox, 'visible');
+                }
+            });
+
+            // Remove the event listener from the page so keyboard press doesn't
+            // Change page
+            document.removeEventListener('keydown', initPageNav)
+            keyboardListener = false;
+
+            // Init thebelab
+            thebelab.bootstrap();
+
+            // Remove copy buttons since they won't work anymore
+            const copyButtons = document.querySelectorAll('.copybtn')
+            copyButtons.forEach((copyButton, index) => {
+                copyButton.remove();
+            });
+
+            // Remove outputs since they'll be stale
+            const outputs = document.querySelectorAll('.output *, .output')
+            outputs.forEach((output, index) => {
+                output.remove();
+            });
+        }
+
+        // Add event listener for the function to modify code cells
+        const thebelabButton = document.getElementById('interact-button-thebelab');
+        if (thebelabButton === null) {
+            setTimeout(initThebelab, 250)
+        return
+        };
+        thebelabButton.addEventListener('click', addThebelabToCodeCells);
+    }
+
+    // Initialize Thebelab
+    initFunction(initThebelab);
+</script>
+
+
+  <!-- Google analytics -->
+  <script src="/assets/js/ga.js" async></script>
+
+  <!-- Clipboard copy button -->
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" async></script>
+
+  <!-- Load JS that depends on site variables -->
+  <script>
+/**
+ * Set up copy/paste for code blocks
+ */
+const codeCellId = index => `codecell${index}`
+
+const clipboardButton = id =>
+  `<a class="btn copybtn o-tooltip--left" data-tooltip="Copy" data-clipboard-target="#${id}">
+    <img src="/assets/images/copy-button.svg" alt="Copy to clipboard">
+  </a>`
+
+// Clears selected text since ClipboardJS will select the text when copying
+const clearSelection = () => {
+  if (window.getSelection) {
+    window.getSelection().removeAllRanges()
+  } else if (document.selection) {
+    document.selection.empty()
+  }
+}
+
+// Changes tooltip text for two seconds, then changes it back
+const temporarilyChangeTooltip = (el, newText) => {
+  const oldText = el.getAttribute('data-tooltip')
+  el.setAttribute('data-tooltip', newText)
+  setTimeout(() => el.setAttribute('data-tooltip', oldText), 2000)
+}
+
+const addCopyButtonToCodeCells = () => {
+  // If ClipboardJS hasn't loaded, wait a bit and try again. This
+  // happens because we load ClipboardJS asynchronously.
+  if (window.ClipboardJS === undefined) {
+    setTimeout(addCopyButtonToCodeCells, 250)
+    return
+  }
+
+  const codeCells = document.querySelectorAll('div.highlighter-rouge:not(.output) pre')
+  codeCells.forEach((codeCell, index) => {
+    const id = codeCellId(index)
+    codeCell.setAttribute('id', id)
+    if (document.querySelector(`pre#${id} + a`) == null) {
+      codeCell.insertAdjacentHTML('afterend', clipboardButton(id));
+    }
+  })
+
+  const clipboard = new ClipboardJS('.copybtn')
+  clipboard.on('success', event => {
+    clearSelection()
+    temporarilyChangeTooltip(event.trigger, 'Copied!')
+  })
+
+  clipboard.on('error', event => {
+    temporarilyChangeTooltip(event.trigger, 'Failed to copy')
+  })
+
+  // Get rid of clipboard before the next page visit to avoid memory leak
+  document.addEventListener('turbolinks:before-visit', () =>
+    clipboard.destroy()
+  )
+}
+
+initFunction(addCopyButtonToCodeCells);
+</script>
+
+  <!-- Hide cell code -->
+  
+<script>
+/**
+Add buttons to hide code cells
+*/
+
+
+var setCodeCellVisibility = function(inputField, kind) {
+    // Update the image and class for hidden
+    var id = inputField.getAttribute('data-id');
+    var codeCell = document.querySelector(`#${id}`);
+
+    if (kind === "visible") {
+        codeCell.classList.remove('hidden');
+        inputField.checked = true;
+    } else {
+        codeCell.classList.add('hidden');
+        inputField.checked = false;
+    }
+}
+
+var toggleCodeCellVisibility = function (event) {
+    // The label is clicked, and now we decide what to do based on the input field's clicked status
+    if (event.target.tagName === "LABEL") {
+        var inputField = event.target.previousElementSibling;
+    } else {
+        // It is the span inside the target
+        var inputField = event.target.parentElement.previousElementSibling;
+    }
+
+    if (inputField.checked === true) {
+        setCodeCellVisibility(inputField, "visible");
+    } else {
+        setCodeCellVisibility(inputField, "hidden");
+    }
+}
+
+
+// Button constructor
+const hideCodeButton = id => `<input class="hidebtn" type="checkbox" id="hidebtn${id}" data-id="${id}"><label title="Toggle cell" for="hidebtn${id}" class="plusminus"><span class="pm_h"></span><span class="pm_v"></span></label>`
+
+var addHideButton = function () {
+  // If a hide button is already added, don't add another
+  if (document.querySelector('div.hidecode input') !== null) {
+      return;
+  }
+
+  // Find the input cells and add a hide button
+  document.querySelectorAll('div.input_area div.highlight').forEach(function (item, index) {
+    if (!item.parentElement.classList.contains("hidecode")) {
+        // Skip the cell if it doesn't have a hidecode class
+        return;
+    }
+
+    const id = codeCellId(index)
+    item.setAttribute('id', id);
+    item.insertAdjacentHTML('afterend', hideCodeButton(id))
+
+    // Set up the visibility toggle
+    hideLink = document.querySelector(`#${id} + input + label`);
+    hideLink.addEventListener('click', toggleCodeCellVisibility)
+  });
+}
+
+
+// Initialize the hide buttos
+var initHiddenCells = function () {
+    // Add hide buttons to the cells
+    addHideButton();
+
+    // Toggle the code cells that should be hidden
+    document.querySelectorAll('div.hidecode input').forEach(function (item) {
+        setCodeCellVisibility(item, 'hidden');
+        item.checked = true;
+    })
+}
+
+initFunction(initHiddenCells);
+
+</script>
+
+
+  <!-- Load custom website scripts -->
+  <script src="/assets/js/scripts.js" async></script>
+
+  <!-- Load custom user CSS and JS  -->
+  <script src="/assets/custom/custom.js" async></script>
+  <link rel="stylesheet" href="/assets/custom/custom.css">
+
+  <!-- Update interact links w/ REST param, is defined in includes so we can use templates -->
+  
+
+  <!-- Lunr search code - will only be executed on the /search page -->
+  <script src="/assets/js/lunr/lunr.min.js" type="text/javascript"></script>
+  <script>var initQuery = function() {
+  // See if we have a search box
+  var searchInput = document.querySelector('input#lunr_search');
+  if (searchInput === null) {
+    return;
+  }
+
+  // Function to parse our lunr cache
+  var idx = lunr(function () {
+    this.field('title')
+    this.field('excerpt')
+    this.field('categories')
+    this.field('tags')
+    this.ref('id')
+
+    this.pipeline.remove(lunr.trimmer)
+
+    for (var item in store) {
+      this.add({
+        title: store[item].title,
+        excerpt: store[item].excerpt,
+        categories: store[item].categories,
+        tags: store[item].tags,
+        id: item
+      })
+    }
+  });
+
+  // Run search upon keyup
+  searchInput.addEventListener('keyup', function () {
+    var resultdiv = document.querySelector('#results');
+    var query = document.querySelector("input#lunr_search").value.toLowerCase();
+    var result =
+      idx.query(function (q) {
+        query.split(lunr.tokenizer.separator).forEach(function (term) {
+          q.term(term, { boost: 100 })
+          if(query.lastIndexOf(" ") != query.length-1){
+            q.term(term, {  usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 10 })
+          }
+          if (term != ""){
+            q.term(term, {  usePipeline: false, editDistance: 1, boost: 1 })
+          }
+        })
+      });
+
+      // Empty the results div
+      while (resultdiv.firstChild) {
+        resultdiv.removeChild(resultdiv.firstChild);
+      }
+
+    resultdiv.insertAdjacentHTML('afterbegin', '<p class="results__found">'+result.length+' Result(s) found</p>');
+    for (var item in result) {
+      var ref = result[item].ref;
+      if(store[ref].teaser){
+        var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<div class="archive__item-teaser">'+
+                '<img src="'+store[ref].teaser+'" alt="">'+
+              '</div>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      else{
+    	  var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      resultdiv.insertAdjacentHTML('beforeend', searchitem);
+    }
+  });
+};
+
+initFunction(initQuery);
+</script>
+</head>
+
+  <body>
+    <!-- .js-show-sidebar shows sidebar by default -->
+    <div id="js-textbook" class="c-textbook js-show-sidebar">
+      
+
+
+
+<nav id="js-sidebar" class="c-textbook__sidebar">
+  <a href="https://jupyter.org/jupyter-book/"><img src="/images/logo/logo.png" class="textbook_logo" id="sidebar-logo" data-turbolinks-permanent/></a>
+  <h2 class="c-sidebar__title">YOUR BOOK NAME</h2>
+  <ul class="c-sidebar__chapters">
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/00-00-Preface.html"
+        >
+          
+          Home
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="https://github.com/jupyter/jupyter-book"
+        >
+          
+          GitHub repository
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__chapter"><a class="c-sidebar__entry" href="/search.html">Search</a></li>
+        
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">CCD Guide</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/01-00-Understanding-an-astronomical-CCD-image.html"
+        >
+          
+            1.
+          
+          Understanding astronomical images
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry c-sidebar__entry--active"
+                  href="/01-03-Construction-of-an-artificial-but-realistic-image.html"
+                >
+                  
+                    1.1
+                  
+                  An artificial, but realistic, image
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-04-Nonuniform-sensitivity.html"
+                >
+                  
+                  Non-uniform sensitivity in astronomical detectors
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-05-Calibration-overview.html"
+                >
+                  
+                    1.2
+                  
+                  Calibration overview
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+  </ul>
+  <p class="sidebar_footer">Powered by <a href="https://github.com/jupyter/jupyter-book">Jupyter Book</a></p>
+</nav>
+
+      
+      <!-- Shamelessly copied from minimal mistakes -->
+
+
+<!-- TOC will only show up if it has at least one item -->
+
+
+  <aside class="sidebar__right">
+    <nav class="onthispage">
+      <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
+      <ul class="toc__menu">
+  <li><a href="#imports">Imports</a></li>
+  <li><a href="#start-a-blank-image">Start: a blank image</a></li>
+  <li><a href="#add-some-read-noise">Add some read noise</a></li>
+  <li><a href="#bias">Bias</a></li>
+  <li><a href="#dark-current">Dark current</a></li>
+  <li><a href="#sky-background">Sky background</a>
+    <ul>
+      <li><a href="#summary">Summary</a></li>
+      <li><a href="#interactive-demo">Interactive demo</a></li>
+    </ul>
+  </li>
+  <li><a href="#add-some-stars">Add some “stars”</a>
+    <ul>
+      <li><a href="#discussion">Discussion</a></li>
+    </ul>
+  </li>
+  <li><a href="#summary-1">Summary</a></li>
+  <li><a href="#generate-some-cosmic-rays">Generate some cosmic rays</a></li>
+</ul>
+    </nav>
+  </aside>
+
+
+      
+      <main class="c-textbook__page" tabindex="-1">
+          <div class="o-wrapper">
+            <div class="c-sidebar-toggle">
+  <!-- We show the sidebar by default so we use .is-active -->
+  <button
+    id="js-sidebar-toggle"
+    class="hamburger hamburger--arrowalt is-active"
+  >
+    <span class="hamburger-box">
+      <span class="hamburger-inner"></span>
+    </span>
+    <span class="c-sidebar-toggle__label">Toggle Sidebar</span>
+  </button>
+</div>
+
+            
+<div class="buttons">
+<a href="/content/01-03-Construction-of-an-artificial-but-realistic-image.ipynb" download>
+<button id="interact-button-download" class="interact-button">Download</button>
+</a>
+
+<button id="interact-button-thebelab" class="interact-button">Thebelab</button>
+
+
+
+
+</div>
+
+
+            <div class="c-textbook__content">
+              <h1 id="construction-of-an-artificial-but-realistic-image">Construction of an artificial (but realistic) image</h1>
+
+<p>Before we move on to looking at a real image, let’s spend a few minutes getting comfortable with what each of the sources of counts look like in an artificial image. The advantage is that we can control how much of each source of counts goes into the image. Looking at extreme examples can help build an understanding of what’s going on in your images.</p>
+
+<h2 id="imports">Imports</h2>
+
+<p>Almost all of the notebooks in this tutorial will start with the import of the Python packages needed for that notebook. The lines below set up <a href="https://matplotlib.org/">matplotlib</a>, a widely used plotting package.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">photutils.aperture</span> <span class="kn">import</span> <span class="n">EllipticalAperture</span>
+</code></pre></div></div>
+
+<p>The Python file referenced below, <a href="convenience_functions.py">convenience_functions.py</a>, contains a few functions for convenient display of images in a notebook. Note that by clicking the above link you can read (or edit) the file in the browser. You can also read/edit it in your preferred editor, but it’s handy to know that editing Python files in the Jupyter notebook environment is possible.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">convenience_functions</span> <span class="kn">import</span> <span class="n">show_image</span>
+</code></pre></div></div>
+
+<h2 id="start-a-blank-image">Start: a blank image</h2>
+
+<p>We’ll begin with the simplest possible image: an array of zeros. The dimensions of the image below are chosen to match some real images we’ll be working with later.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">synthetic_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">show_image</span><span class="p">(</span><span class="n">synthetic_image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10.0, 10)
+
+</code></pre></div></div>
+
+<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_7_1.png" alt="png" /></p>
+
+<h2 id="add-some-read-noise">Add some read noise</h2>
+
+<p>Which each of the things we add, we’ll write a small function for adding so that it’s easier to experiment with different values. Read noise has a Gaussian distribution; the standard deviation of the Gaussian (in counts) is the read noise (in electrons) divided by the gain (in electrons per count). Read noise is almost always given in electrons.</p>
+
+<p>Note that each time you run this function you’ll get a different set of pixels so that it behaves like real noise.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">read_noise</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="s">"""
+    Generate simulated read noise.
+    
+    Parameters
+    ----------
+    
+    image: numpy array
+        Image whose shape the noise array should match.
+    amount : float
+        Amount of read noise, in electrons.
+    gain : float, optional
+        Gain of the camera, in units of electrons/ADU.
+    """</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+    
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="n">amount</span><span class="o">/</span><span class="n">gain</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">noise</span>
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">noise_im</span> <span class="o">=</span> <span class="n">synthetic_image</span> <span class="o">+</span> <span class="n">read_noise</span><span class="p">(</span><span class="n">synthetic_image</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">noise_im</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10.0, 10)
+
+</code></pre></div></div>
+
+<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_10_1.png" alt="png" /></p>
+
+<h2 id="bias">Bias</h2>
+
+<p>Bias is an offset voltage (which translates into some non-zero number of counts) added to every pixel in the image to ensure that when voltages are converted to counts there is never a negative count. Note that in the noise image above, some counts are positive and some are negative, as you would expect for a Gaussian distribution centered on zero.</p>
+
+<p>The bias value is roughly the same across the CCD chip, though it’s not uncommon to have “bad” columns in which the bias level is consistently offset from the rest of the chip.</p>
+
+<p>To model a bias image, we create a uniform array and, optionally, add in some “bad” columns. The bad columns are exaggeratesd here to ensure they are visible.</p>
+
+<p>The bad columns in a CCD are typically stable over a very long time. A random number generator is used below to pick which columns in our CCD are bad, but we’ll use a seed to make sure that each time we generate the bias we get the same bad columns (and pixel values within the bad columns).</p>
+
+<p>This stability is what makes it possible to correct for the effect in real images.</p>
+
+<p>Finally, note that the bias doesn’t depend on exposure time. That’s because a bias exposure is a zero-second exposure in which the camera simply reads the chip out.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">bias</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">realistic</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="s">"""
+    Generate simulated bias image.
+    
+    Parameters
+    ----------
+    
+    image: numpy array
+        Image whose shape the bias array should match.
+    value: float
+        Bias level to add.
+    realistic : bool, optional
+        If ``True``, add some clomuns with somewhat higher bias value (a not uncommon thing)
+    """</span>
+    <span class="c"># This is the whole thing: the bias is really suppose to be a constant offset!</span>
+    <span class="n">bias_im</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">image</span><span class="p">)</span> <span class="o">+</span> <span class="n">value</span>
+    
+    <span class="c"># If we want a more realistic bias we need to do a little more work. </span>
+    <span class="k">if</span> <span class="n">realistic</span><span class="p">:</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">number_of_colums</span> <span class="o">=</span> <span class="mi">5</span>
+        
+        <span class="c"># We want a random-looking variation in the bias, but unlike the readnoise the bias should </span>
+        <span class="c"># *not* change from image to image, so we make sure to always generate the same "random" numbers.</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">8392</span><span class="p">)</span>  <span class="c"># 20180520</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">number_of_colums</span><span class="p">)</span>
+        <span class="c"># This adds a little random-looking noise into the data.</span>
+        <span class="n">col_pattern</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        
+        <span class="c"># Make the chosen columns a little brighter than the rest...</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+            <span class="n">bias_im</span><span class="p">[:,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span> <span class="o">+</span> <span class="n">col_pattern</span>
+            
+    <span class="k">return</span> <span class="n">bias_im</span>
+        
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bias_only</span> <span class="o">=</span> <span class="n">bias</span><span class="p">(</span><span class="n">synthetic_image</span><span class="p">,</span> <span class="mi">1100</span><span class="p">,</span> <span class="n">realistic</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">bias_only</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Bias alone, bad columns included'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s">'20'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(9.0, 9)
+
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Bias alone, bad columns included')
+</code></pre></div></div>
+
+<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_13_2.png" alt="png" /></p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bias_noise_im</span> <span class="o">=</span> <span class="n">noise_im</span> <span class="o">+</span> <span class="n">bias_only</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">bias_noise_im</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Realistic bias frame (includes read noise)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s">'20'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(9.0, 9)
+
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Realistic bias frame (includes read noise)')
+</code></pre></div></div>
+
+<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_14_2.png" alt="png" /></p>
+
+<h2 id="dark-current">Dark current</h2>
+
+<p>Dark current depends on the temperature of the sensor. The amount of dark counts in an image also depend on the exposure time. Dark current is typically very small (0.1 electrons/pixel/second or less). Dark counts in this function are calculated by multiplying the input dark current by the input exposure time after converting the dark current unit from electrons to counts using the gain.</p>
+
+<p>A small fraction of pixels are “hot”: their dark current is much larger than the rest of the pixels. Hot pixels are modeled here by choosing a subset of the pixels to have a dark current 10,000 times larger than the input dark current. This exaggerates the effect to make those pixels more visible.</p>
+
+<p>The location and current of hot pixels is typically stable over long periods of time, which makes it straightforward to remove their effect from science images by subtracting it out.</p>
+
+<p>A dark frame (or dark image) is an image taken with the camera shutter closed.</p>
+
+<p>The function below simulates dark currrent only, i.e. it does <em>not</em> simulate the read noise that is a part of any actual dark frame from a CCD.</p>
+
+<p>Note that the simulation dark image looks noisy even though it doesn’t include read noise. This is because the number of electrons generated obey a Poisson distribution.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">dark_current</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">current</span><span class="p">,</span> <span class="n">exposure_time</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">hot_pixels</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="s">"""
+    Simulate dark current in a CCD, optionally including hot pixels.
+    
+    Parameters
+    ----------
+    
+    image : numpy array
+        Image whose shape the cosmic array should match.
+    current : float
+        Dark current, in electrons/pixel/second, which is the way manufacturers typically 
+        report it.
+    exposure_time : float
+        Length of the simulated exposure, in seconds.
+    gain : float, optional
+        Gain of the camera, in units of electrons/ADU.
+    strength : float, optional
+        Pixel count in the cosmic rays.    
+    """</span>
+    
+    <span class="c"># dark current for every pixel; we'll modify the current for some pixels if </span>
+    <span class="c"># the user wants hot pixels.</span>
+    <span class="n">base_current</span> <span class="o">=</span> <span class="n">current</span> <span class="o">*</span> <span class="n">exposure_time</span> <span class="o">/</span> <span class="n">gain</span>
+    
+    <span class="c"># This random number generation should change on each call.</span>
+    <span class="n">dark_im</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">base_current</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">hot_pixels</span><span class="p">:</span>
+        <span class="c"># We'll set 0.01% of the pixels to be hot; that is probably too high but should </span>
+        <span class="c"># ensure they are visible.</span>
+        <span class="n">y_max</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">dark_im</span><span class="o">.</span><span class="n">shape</span>
+        
+        <span class="n">n_hot</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.0001</span> <span class="o">*</span> <span class="n">x_max</span> <span class="o">*</span> <span class="n">y_max</span><span class="p">)</span>
+        
+        <span class="c"># Like with the bias image, we want the hot pixels to always be in the same places</span>
+        <span class="c"># (at least for the same image size) but also want them to appear to be randomly</span>
+        <span class="c"># distributed. So we set a random number seed to ensure we always get the same thing.</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">16201649</span><span class="p">)</span>
+        <span class="n">hot_x</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_hot</span><span class="p">)</span>
+        <span class="n">hot_y</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_hot</span><span class="p">)</span>
+        
+        <span class="n">hot_current</span> <span class="o">=</span> <span class="mi">10000</span> <span class="o">*</span> <span class="n">current</span>
+        
+        <span class="n">dark_im</span><span class="p">[[</span><span class="n">hot_y</span><span class="p">,</span> <span class="n">hot_x</span><span class="p">]]</span> <span class="o">=</span> <span class="n">hot_current</span> <span class="o">*</span> <span class="n">exposure_time</span> <span class="o">/</span> <span class="n">gain</span>
+    <span class="k">return</span> <span class="n">dark_im</span>
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dark_exposure</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">dark_cur</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">dark_only</span> <span class="o">=</span> <span class="n">dark_current</span><span class="p">(</span><span class="n">synthetic_image</span><span class="p">,</span> <span class="n">dark_cur</span><span class="p">,</span> <span class="n">dark_exposure</span><span class="p">,</span> <span class="n">hot_pixels</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">dark_only</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">title_string</span> <span class="o">=</span> <span class="s">'Dark current only, {dark_cur} $e^-$/sec/pix</span><span class="se">\n</span><span class="s">{dark_exposure} sec exposure'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dark_cur</span><span class="o">=</span><span class="n">dark_cur</span><span class="p">,</span> <span class="n">dark_exposure</span><span class="o">=</span><span class="n">dark_exposure</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title_string</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s">'20'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(9.0, 9)
+
+</code></pre></div></div>
+
+<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_17_1.png" alt="png" /></p>
+
+<p>Note that the central value of the image colorbar is 10, the product of the dark current and the exposure time.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dark_bias_noise_im</span> <span class="o">=</span> <span class="n">bias_noise_im</span> <span class="o">+</span> <span class="n">dark_only</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">dark_bias_noise_im</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Realistic dark frame </span><span class="se">\n</span><span class="s">(with bias, read noise)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s">'20'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(9.0, 9)
+
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Realistic dark frame \n(with bias, read noise)')
+</code></pre></div></div>
+
+<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_19_2.png" alt="png" /></p>
+
+<h2 id="sky-background">Sky background</h2>
+
+<p>The amount of sky background depends on the atmospheric conditions (humidity, presence of light clouds, fires upwind from the observatory), the light sources in the sky (the Moon) and light sources in the surrounding area (cities). It may be uniform across the frame or it may not be, depending on the conditions.</p>
+
+<p>The function below generates some sky background. Each time you run it you’ll get slightly different results (even if you keep the desired amount of sky counts the same) because the counts from a light source follow a Poisson distribution.</p>
+
+<p>The amount of sky background is directly proportional to the exposure time. In the function below however, you input the desired number of sky counts.</p>
+
+<p>It’s not at all unusual to have a gradient in the sky across the image, but that effect is not simulated here.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">sky_background</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">sky_counts</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="s">"""
+    Generate sky background, optionally including a gradient across the image (because
+    some times Moons happen).
+    
+    Parameters
+    ----------
+    
+    image : numpy array
+        Image whose shape the cosmic array should match.
+    sky_counts : float
+        The target value for the number of counts (as opposed to electrons or 
+        photons) from the sky.
+    gain : float, optional
+        Gain of the camera, in units of electrons/ADU.
+    """</span>
+    <span class="n">sky_im</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">sky_counts</span> <span class="o">*</span> <span class="n">gain</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">/</span> <span class="n">gain</span>
+    
+    <span class="k">return</span> <span class="n">sky_im</span>
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sky_level</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">sky_only</span> <span class="o">=</span> <span class="n">sky_background</span><span class="p">(</span><span class="n">synthetic_image</span><span class="p">,</span> <span class="n">sky_level</span><span class="p">)</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">sky_only</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Sky background only, {} counts input'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sky_level</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(9.0, 9)
+
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Sky background only, 20 counts input')
+</code></pre></div></div>
+
+<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_22_2.png" alt="png" /></p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sky_dark_bias_noise_im</span> <span class="o">=</span> <span class="n">dark_bias_noise_im</span> <span class="o">+</span> <span class="n">sky_only</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">sky_dark_bias_noise_im</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Sky, dark, bias and noise</span><span class="se">\n</span><span class="s">(Realistic image of clouds)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(9.0, 9)
+
+</code></pre></div></div>
+
+<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_23_1.png" alt="png" /></p>
+
+<h3 id="summary">Summary</h3>
+
+<p>Note that the central value of the pixels in the “realistic” cloud image above, 1130 or so, is the sum of the:</p>
+
+<ul>
+  <li>bias level (1100 counts)</li>
+  <li>dark current (10 counts, which is 0.1 e/sec/pix $\times$ 100 sec, divided by the gain of 1 e/count)</li>
+  <li>sky counts (20 counts)</li>
+</ul>
+
+<p>The distribution of counts around that is determined by the read noise (5 electrons) and the expected width of a Poisson distribution for the sky counts, which is the square root of the number of those counts, $\sqrt{20} \approx 4.5$. Add those in quadrature and you get about 6.7.</p>
+
+<h3 id="interactive-demo">Interactive demo</h3>
+
+<p>The cell below sets up an interactive demo that lets you change the value of read noise and other parameters to see the effect that changing them has on the resulting image.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">interactive</span><span class="p">,</span> <span class="n">interact</span>
+
+<span class="c"># @interact(bias_level=(1000,1200,10), dark=(0.01,1,0.01), sky_counts=(0, 300, 10),</span>
+<span class="c">#           gain=(0.5, 3.0, 0.1), read=(0, 50, 2.0),</span>
+<span class="c">#           exposure=(0, 300, 10))</span>
+<span class="k">def</span> <span class="nf">complete_image</span><span class="p">(</span><span class="n">bias_level</span><span class="o">=</span><span class="mi">1100</span><span class="p">,</span> <span class="n">read</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dark</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> 
+                   <span class="n">exposure</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">hot_pixels</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sky_counts</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
+    <span class="n">synthetic_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">])</span>
+    <span class="n">show_image</span><span class="p">(</span><span class="n">synthetic_image</span> <span class="o">+</span> 
+               <span class="n">read_noise</span><span class="p">(</span><span class="n">synthetic_image</span><span class="p">,</span> <span class="n">read</span><span class="p">)</span> <span class="o">+</span>
+               <span class="n">bias</span><span class="p">(</span><span class="n">synthetic_image</span><span class="p">,</span> <span class="n">bias_level</span><span class="p">,</span> <span class="n">realistic</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="o">+</span> 
+               <span class="n">dark_current</span><span class="p">(</span><span class="n">synthetic_image</span><span class="p">,</span> <span class="n">dark</span><span class="p">,</span> <span class="n">exposure</span><span class="p">,</span> <span class="n">hot_pixels</span><span class="o">=</span><span class="n">hot_pixels</span><span class="p">)</span> <span class="o">+</span>
+               <span class="n">sky_background</span><span class="p">(</span><span class="n">synthetic_image</span><span class="p">,</span> <span class="n">sky_counts</span><span class="p">),</span>
+               <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span>
+               <span class="n">figsize</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+    
+<span class="n">i</span> <span class="o">=</span> <span class="n">interactive</span><span class="p">(</span><span class="n">complete_image</span><span class="p">,</span> <span class="n">bias_level</span><span class="o">=</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span><span class="mi">1200</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">dark</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">sky_counts</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+          <span class="n">gain</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">),</span> <span class="n">read</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">),</span>
+          <span class="n">exposure</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">kid</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">kid</span><span class="o">.</span><span class="n">continuous_update</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">except</span> <span class="nb">KeyError</span><span class="p">:</span>
+        <span class="k">pass</span>
+<span class="n">i</span>
+</code></pre></div></div>
+
+<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_26_0.png" alt="png" /></p>
+
+<h2 id="add-some-stars">Add some “stars”</h2>
+
+<p>The “stars” we’ll add below are essentially just (round) Gaussian sources. The function that does most of the work is from <a href="https://photutils.readthedocs.io/en/stable/index.html">photutils</a>, which we’ll return to later for doing photometry.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">stars</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">max_counts</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="s">"""
+    Add some stars to the image.
+    """</span>
+    <span class="kn">from</span> <span class="nn">photutils.datasets</span> <span class="kn">import</span> <span class="n">make_random_gaussians_table</span><span class="p">,</span> <span class="n">make_gaussian_sources_image</span>
+    <span class="c"># Most of the code below is a direct copy/paste from</span>
+    <span class="c"># https://photutils.readthedocs.io/en/stable/_modules/photutils/datasets/make.html#make_100gaussians_image</span>
+    
+    <span class="n">flux_range</span> <span class="o">=</span> <span class="p">[</span><span class="n">max_counts</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_counts</span><span class="p">]</span>
+    
+    <span class="n">y_max</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">xmean_range</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">x_max</span><span class="p">,</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">x_max</span><span class="p">]</span>
+    <span class="n">ymean_range</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">y_max</span><span class="p">,</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">y_max</span><span class="p">]</span>
+    <span class="n">xstddev_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+    <span class="n">ystddev_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="s">'amplitude'</span><span class="p">,</span> <span class="n">flux_range</span><span class="p">),</span>
+                  <span class="p">(</span><span class="s">'x_mean'</span><span class="p">,</span> <span class="n">xmean_range</span><span class="p">),</span>
+                  <span class="p">(</span><span class="s">'y_mean'</span><span class="p">,</span> <span class="n">ymean_range</span><span class="p">),</span>
+                  <span class="p">(</span><span class="s">'x_stddev'</span><span class="p">,</span> <span class="n">xstddev_range</span><span class="p">),</span>
+                  <span class="p">(</span><span class="s">'y_stddev'</span><span class="p">,</span> <span class="n">ystddev_range</span><span class="p">),</span>
+                  <span class="p">(</span><span class="s">'theta'</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">])])</span>
+
+    <span class="n">sources</span> <span class="o">=</span> <span class="n">make_random_gaussians_table</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span>
+                                          <span class="n">random_state</span><span class="o">=</span><span class="mi">12345</span><span class="p">)</span>
+    
+    <span class="n">star_im</span> <span class="o">=</span> <span class="n">make_gaussian_sources_image</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">sources</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">star_im</span>
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">stars_only</span> <span class="o">=</span> <span class="n">stars</span><span class="p">(</span><span class="n">synthetic_image</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">max_counts</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">stars_only</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Stars only'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stars_only</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(9.0, 9)
+
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Stars only')
+</code></pre></div></div>
+
+<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_29_2.png" alt="png" /></p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">stars_with_background</span> <span class="o">=</span> <span class="n">sky_dark_bias_noise_im</span> <span class="o">+</span> <span class="n">stars_only</span>
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">show_image</span><span class="p">(</span><span class="n">stars_with_background</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Stars with noise, bias, dark, sky'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stars_with_background</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(9.0, 9)
+
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Stars with noise, bias, dark, sky')
+</code></pre></div></div>
+
+<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_31_2.png" alt="png" /></p>
+
+<h3 id="discussion">Discussion</h3>
+
+<p>In the image above the single-pixel bright dots are hot pixels while the remaining dots that are larger than a pixel are simulated stars.</p>
+
+<h2 id="summary-1">Summary</h2>
+
+<p>Everything we have included so far has been additive. Symbolically, the simulated image above was built like this:</p>
+
+<script type="math/tex; mode=display">\text{image} = \text{bias} + \text{noise} + \text{dark current} + \text{sky} + \text{stars}</script>
+
+<p>Extracting the science (i.e. the stars) is in principle a matter of subtraction:</p>
+
+<script type="math/tex; mode=display">\text{stars} =  \text{image} - \text{bias} - \text{noise} - \text{dark current} - \text{sky}</script>
+
+<p>There are a few complications:</p>
+
+<ol>
+  <li>There are multiplicative effects that will be discussed in the next notebook.</li>
+  <li>The way to measure each of the the things we need to subtract (bias and dark current) is to take images, each of which includes read noise. That can be minimized by combining several calibration images.</li>
+  <li>There is no way to subtract the read noise because it is random.</li>
+</ol>
+
+<h2 id="generate-some-cosmic-rays">Generate some cosmic rays</h2>
+
+<p>Cosmic rays appear in images as small features with sharp edges. The pixels that get hit by the cosmic ray get more counts, but adjacent ones do not. The function below adds simulated cosmic rays.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">make_cosmic_rays</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">strength</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="s">"""
+    Generate an image with a few cosmic rays.
+    
+    Parameters
+    ----------
+    
+    image: numpy array
+        Image whose shape the cosmic array should match.
+    number: float
+        Number of cosmic rays to add to the image.
+    strength : float, optional
+        Pixel count in the cosmic rays.
+    """</span>
+    
+    <span class="n">cr_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    
+    <span class="c"># Yes, the order below is correct. The x axis is the column, which</span>
+    <span class="c"># is the second index.</span>
+    <span class="n">max_y</span><span class="p">,</span> <span class="n">max_x</span> <span class="o">=</span> <span class="n">cr_image</span><span class="o">.</span><span class="n">shape</span>
+    
+    <span class="c"># Get the smallest dimension to ensure the cosmic rays are within the image</span>
+    <span class="n">maximum_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="nb">min</span><span class="p">(</span><span class="n">cr_image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="c"># These will be center points of the cosmic rays, which we place away from the edges</span>
+    <span class="c"># to ensure they are visible.</span>
+    <span class="n">xy_cr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">maximum_pos</span><span class="p">,</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">maximum_pos</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">[</span><span class="n">number</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+    
+    <span class="n">cr_length</span> <span class="o">=</span> <span class="mi">5</span> <span class="c"># pixels, a little big</span>
+    <span class="n">cr_width</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">theta_cr</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+    <span class="n">apertures</span> <span class="o">=</span> <span class="n">EllipticalAperture</span><span class="p">(</span><span class="n">xy_cr</span><span class="p">,</span> <span class="n">cr_length</span><span class="p">,</span> <span class="n">cr_width</span><span class="p">,</span> <span class="n">theta_cr</span><span class="p">)</span>
+    <span class="n">masks</span> <span class="o">=</span> <span class="n">apertures</span><span class="o">.</span><span class="n">to_mask</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s">'center'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">mask</span> <span class="ow">in</span> <span class="n">masks</span><span class="p">:</span>
+        <span class="n">cr_image</span> <span class="o">+=</span> <span class="n">strength</span> <span class="o">*</span> <span class="n">mask</span><span class="o">.</span><span class="n">to_image</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">cr_image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">cr_image</span>
+</code></pre></div></div>
+
+
+              <nav class="c-page__nav">
+  
+    
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/01-00-Understanding-an-astronomical-CCD-image">
+      〈 <span class="u-margin-right-tiny"></span> Understanding astronomical images
+    </a>
+  
+
+  
+    
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/01-04-Nonuniform-sensitivity">
+      Non-uniform sensitivity in astrono... <span class="u-margin-right-tiny"></span> 〉
+    </a>
+  
+</nav>
+
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+  </body>
+</html>
