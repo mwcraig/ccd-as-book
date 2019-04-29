@@ -28,7 +28,7 @@
 
 # External link
 - title: GitHub repository
-  url: https://github.com/jupyter/jupyter-book
+  url: https://github.com/mwcraig/ccd-reduction-and-photometry-guide
   external: true
   not_numbered: true
 
@@ -53,7 +53,19 @@
     not_numbered: false
   - title: Non-uniform sensitivity in astronomical detectors
     url: 01-04-Nonuniform-sensitivity
-    not_numbered: true
+    not_numbered: false
   - title: Calibration overview
     url: 01-05-Calibration-overview
+    not_numbered: false
+  - title: Image combination
+    url: 01-06-Image-combination
+    not_numbered: false
+  - title: Calibration choices to make
+    url: 01-07-Calibration-choices-you-need-to-make
+    not_numbered: false
+  - title: Overscan
+    url: 01-08-Overscan
+    not_numbered: false
+  - title: Reading images
+    url: 01-09-reading-images
     not_numbered: false
