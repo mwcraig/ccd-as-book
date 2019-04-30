@@ -6,8 +6,8 @@ kernel_name: python3
 has_widgets: false
 title: 'Understanding astronomical images'
 prev_page:
-  url: /https://github.com/mwcraig/ccd-reduction-and-photometry-guide
-  title: 'GitHub repository'
+  url: /00-00-Preface
+  title: 'Home'
 next_page:
   url: /01-03-Construction-of-an-artificial-but-realistic-image
   title: 'An artificial, but realistic, image'

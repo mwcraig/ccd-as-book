@@ -9,8 +9,8 @@ prev_page:
   url: 
   title: ''
 next_page:
-  url: /https://github.com/mwcraig/ccd-reduction-and-photometry-guide
-  title: 'GitHub repository'
+  url: /01-00-Understanding-an-astronomical-CCD-image
+  title: 'Understanding astronomical images'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

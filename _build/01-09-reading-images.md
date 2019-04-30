@@ -7,8 +7,8 @@ prev_page:
   url: /01-08-Overscan
   title: 'Overscan'
 next_page:
-  url: 
-  title: ''
+  url: /https://github.com/mwcraig/ccd-reduction-and-photometry-guide
+  title: 'GitHub repository'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
