@@ -29,9 +29,9 @@
   "headline":
     "Non-uniform sensitivity in astronomical detectors",
   "datePublished":
-    "2019-03-26T07:25:28-05:00",
+    "2019-04-29T08:29:11-05:00",
   "dateModified":
-    "2019-03-26T07:25:28-05:00",
+    "2019-04-29T08:29:11-05:00",
   "description":
     "Nonuniform sensitivity",
   "author": {
@@ -533,7 +533,7 @@ initFunction(initQuery);
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="https://github.com/jupyter/jupyter-book"
+          href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide"
         >
           
           GitHub repository
@@ -612,6 +612,8 @@ initFunction(initQuery);
                   href="/01-04-Nonuniform-sensitivity.html"
                 >
                   
+                    1.2
+                  
                   Non-uniform sensitivity in astronomical detectors
                 </a>
 
@@ -629,9 +631,85 @@ initFunction(initQuery);
                   href="/01-05-Calibration-overview.html"
                 >
                   
-                    1.2
+                    1.3
                   
                   Calibration overview
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-06-Image-combination.html"
+                >
+                  
+                    1.4
+                  
+                  Image combination
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-07-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.5
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-08-Overscan.html"
+                >
+                  
+                    1.6
+                  
+                  Overscan
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-09-reading-images.html"
+                >
+                  
+                    1.7
+                  
+                  Reading images
                 </a>
 
                 
@@ -719,7 +797,7 @@ initFunction(initQuery);
 
 <h2 id="a-sample-flat-image">A sample flat image</h2>
 
-<p>The sample below has the same size as the simulated image in the previous images.</p>
+<p>The sample flat image below has the same size as the simulated image in the previous notebook.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
 <span class="n">flat</span> <span class="o">=</span> <span class="n">sensitivity_variations</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
@@ -728,7 +806,13 @@ initFunction(initQuery);
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">show_image</span><span class="p">(</span><span class="n">flat</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p>Note that the size of the variations is small, a few percent at most.</p>
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10.0, 10)
+
+</code></pre></div></div>
+
+<p class="output output_png"><img src="images/01-04-Nonuniform-sensitivity_5_1.png" alt="png" /></p>
+
+<p>The “donuts” in the image are dust on elements like filters in the optical path. Note that the size of the variations is small, a few percent at most.</p>
 
 <h2 id="effect-of-nonuniform-sensitivity-on-images">Effect of nonuniform sensitivity on images</h2>
 
@@ -742,7 +826,7 @@ initFunction(initQuery);
 
 <h2 id="a-realistic-image">A realistic image</h2>
 
-<p>In the cell below we construct the same image from the previous notebook. Recall that there we used a read noise of 5 electrons/pixel, dark current of 0.1 electron/pix/sec, bias level of 1100, and sky background of 20 counts.</p>
+<p>In the cell below we construct the last image from the previous notebook. Recall that there we used a read noise of 5 electrons/pixel, dark current of 0.1 electron/pix/sec, bias level of 1100, and sky background of 20 counts.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gain</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">exposure</span> <span class="o">=</span> <span class="mf">30.0</span>
@@ -758,11 +842,19 @@ initFunction(initQuery);
 <span class="n">stars_only</span> <span class="o">=</span> <span class="n">stars</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">max_counts</span><span class="o">=</span><span class="n">max_star_counts</span><span class="p">)</span>
 </code></pre></div></div>
 
+<p>The individual pieces of the image are assembled below; it is the inclusion of the flat that makes this the closest of the simulated images to a realistic images.</p>
+
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">final_image</span> <span class="o">=</span> <span class="n">bias_only</span> <span class="o">+</span> <span class="n">noise_only</span> <span class="o">+</span> <span class="n">dark_only</span> <span class="o">+</span> <span class="n">flat</span> <span class="o">*</span> <span class="p">(</span><span class="n">sky_only</span> <span class="o">+</span> <span class="n">stars_only</span><span class="p">)</span>
 </code></pre></div></div>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">show_image</span><span class="p">(</span><span class="n">final_image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">)</span>
 </code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10.0, 10)
+
+</code></pre></div></div>
+
+<p class="output output_png"><img src="images/01-04-Nonuniform-sensitivity_13_1.png" alt="png" /></p>
 
 <p>Visually, this does not look any different than the final image in the previous notebook; the effects of sensitivity variations are typically not evident in raw images unless the sky background is large.</p>
 
@@ -771,6 +863,12 @@ initFunction(initQuery);
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">final_image2</span> <span class="o">=</span> <span class="n">bias_only</span> <span class="o">+</span> <span class="n">noise_only</span> <span class="o">+</span> <span class="n">dark_only</span> <span class="o">+</span> <span class="n">flat</span> <span class="o">*</span> <span class="p">(</span><span class="n">sky_background</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">sky_counts</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">)</span> <span class="o">+</span> <span class="n">stars_only</span><span class="p">)</span>
 <span class="n">show_image</span><span class="p">(</span><span class="n">final_image2</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
 </code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10.0, 10)
+
+</code></pre></div></div>
+
+<p class="output output_png"><img src="images/01-04-Nonuniform-sensitivity_15_1.png" alt="png" /></p>
 
 
               <nav class="c-page__nav">

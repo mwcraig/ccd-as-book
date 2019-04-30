@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+
+  <title>Overscan</title>
+  <meta name="description" content="Overscan">
+
+  <link rel="canonical" href="/YOUR%20URL//01-08-Overscan.html">
+  <link rel="alternate" type="application/rss+xml" title="YOUR BOOK NAME" href="/YOUR%20URL//feed.xml">
+
+  <meta property="og:url"         content="/YOUR%20URL//01-08-Overscan.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="Overscan" />
+<meta property="og:description" content="Overscan" />
+<meta property="og:image"       content="" />
+
+
+  <script type="application/ld+json">
+  {
+  "@context": "http://schema.org",
+  "@type": "NewsArticle",
+  "mainEntityOfPage":
+    "YOUR URL//01-08-Overscan.html",
+  "headline":
+    "Overscan",
+  "datePublished":
+    "2019-04-29T08:29:11-05:00",
+  "dateModified":
+    "2019-04-29T08:29:11-05:00",
+  "description":
+    "Overscan",
+  "author": {
+    "@type": "Person",
+    "name": "YOUR AUTHOR NAME"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Data 100 at UC Berkeley",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "YOUR URL/",
+      "width": 60,
+      "height": 60
+    }
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "YOUR URL/",
+    "height": 60,
+    "width": 60
+  }
+}
+
+  </script>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css ">
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+
+  <!-- <link rel="manifest" href="/manifest.json"> -->
+  <!-- <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#efae0a"> -->
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+  <meta name="theme-color" content="#233947">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo/favicon.ico">
+
+  <!-- MathJax Config -->
+  <!-- Allow inline math using $ and automatically break long math lines -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true,
+        processEnvironments: true
+    },
+    CommonHTML: {
+        linebreaks: {
+            automatic: true,
+        },
+    },
+});
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML' async></script>
+
+  <!-- DOM updating function -->
+  <script>
+const runWhenDOMLoaded = cb => {
+  if (document.readyState != 'loading') {
+    cb()
+  } else if (document.addEventListener) {
+    document.addEventListener('DOMContentLoaded', cb)
+  } else {
+    document.attachEvent('onreadystatechange', function() {
+      if (document.readyState == 'complete') cb()
+    })
+  }
+}
+
+// Helper function to init things quickly
+initFunction = function(myfunc) {
+  runWhenDOMLoaded(myfunc);
+  document.addEventListener('turbolinks:load', myfunc);
+};
+</script>
+
+  <!-- Define some javascript variables that will be useful in other javascript -->
+  <script>
+    const site_basename = '/';
+  </script>
+
+  <!-- Add AnchorJS to let headers be linked -->
+  <script src="/assets/js/anchor.min.js"  type="text/javascript"></script>
+  <script>
+
+initFunction(function () {
+    anchors.add("main h1, main h2, main h3, main h4")
+});
+
+</script>
+
+  <!-- Include Turbolinks to make page loads fast -->
+  <!-- https://github.com/turbolinks/turbolinks -->
+  <script src="/assets/js/turbolinks.js" async></script>
+  <meta name="turbolinks-cache-control" content="no-cache">
+
+  <!-- Load nbinteract for widgets -->
+  <script src="https://unpkg.com/nbinteract-core" async></script>
+
+  <!-- Load Thebelab for interactive widgets -->
+  <!-- Include Thebelab for interactive code if it's enabled -->
+
+<script type="text/x-thebe-config">
+    {
+      requestKernel: true,
+      binderOptions: {
+        repo: 'YOUR-ORG/YOUR-REPO',
+        ref: 'master',
+      },
+      kernelOptions: {
+        name: 'python3',
+      }
+    }
+</script>
+<script src="https://unpkg.com/thebelab@0.3.3/lib/index.js"></script>
+<script>
+    /**
+     * Add attributes to Thebelab blocks
+     */
+
+    const initThebelab = () => {
+        const addThebelabToCodeCells = () => {
+            console.log("Adding thebelab to code cells...");
+            // If Thebelab hasn't loaded, wait a bit and try again. This
+            // happens because we load ClipboardJS asynchronously.
+            if (window.thebelab === undefined) {
+                setTimeout(addThebelabToCodeCells, 250)
+            return
+            }
+
+            // If we already detect a Thebelab cell, don't re-run
+            if (document.querySelectorAll('div.thebelab-cell').length > 0) {
+                return;
+            }
+
+            // Find all code cells, replace with Thebelab interactive code cells
+            const codeCells = document.querySelectorAll('.input_area pre')
+            codeCells.forEach((codeCell, index) => {
+                const id = codeCellId(index)
+                codeCell.setAttribute('data-executable', 'true')
+
+                // Figure out the language it uses and add this too
+                var parentDiv = codeCell.parentElement.parentElement;
+                var arrayLength = parentDiv.classList.length;
+                for (var ii = 0; ii < arrayLength; ii++) {
+                    var parts = parentDiv.classList[ii].split('language-');
+                    if (parts.length === 2) {
+                        // If found, assign dataLanguage and break the loop
+                        var dataLanguage = parts[1];
+                        break;
+                    }
+                }
+                codeCell.setAttribute('data-language', dataLanguage)
+
+                // If the code cell is hidden, show it
+                var inputCheckbox = document.querySelector(`input#hidebtn${codeCell.id}`);
+                if (inputCheckbox !== null) {
+                    setCodeCellVisibility(inputCheckbox, 'visible');
+                }
+            });
+
+            // Remove the event listener from the page so keyboard press doesn't
+            // Change page
+            document.removeEventListener('keydown', initPageNav)
+            keyboardListener = false;
+
+            // Init thebelab
+            thebelab.bootstrap();
+
+            // Remove copy buttons since they won't work anymore
+            const copyButtons = document.querySelectorAll('.copybtn')
+            copyButtons.forEach((copyButton, index) => {
+                copyButton.remove();
+            });
+
+            // Remove outputs since they'll be stale
+            const outputs = document.querySelectorAll('.output *, .output')
+            outputs.forEach((output, index) => {
+                output.remove();
+            });
+        }
+
+        // Add event listener for the function to modify code cells
+        const thebelabButton = document.getElementById('interact-button-thebelab');
+        if (thebelabButton === null) {
+            setTimeout(initThebelab, 250)
+        return
+        };
+        thebelabButton.addEventListener('click', addThebelabToCodeCells);
+    }
+
+    // Initialize Thebelab
+    initFunction(initThebelab);
+</script>
+
+
+  <!-- Google analytics -->
+  <script src="/assets/js/ga.js" async></script>
+
+  <!-- Clipboard copy button -->
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" async></script>
+
+  <!-- Load JS that depends on site variables -->
+  <script>
+/**
+ * Set up copy/paste for code blocks
+ */
+const codeCellId = index => `codecell${index}`
+
+const clipboardButton = id =>
+  `<a class="btn copybtn o-tooltip--left" data-tooltip="Copy" data-clipboard-target="#${id}">
+    <img src="/assets/images/copy-button.svg" alt="Copy to clipboard">
+  </a>`
+
+// Clears selected text since ClipboardJS will select the text when copying
+const clearSelection = () => {
+  if (window.getSelection) {
+    window.getSelection().removeAllRanges()
+  } else if (document.selection) {
+    document.selection.empty()
+  }
+}
+
+// Changes tooltip text for two seconds, then changes it back
+const temporarilyChangeTooltip = (el, newText) => {
+  const oldText = el.getAttribute('data-tooltip')
+  el.setAttribute('data-tooltip', newText)
+  setTimeout(() => el.setAttribute('data-tooltip', oldText), 2000)
+}
+
+const addCopyButtonToCodeCells = () => {
+  // If ClipboardJS hasn't loaded, wait a bit and try again. This
+  // happens because we load ClipboardJS asynchronously.
+  if (window.ClipboardJS === undefined) {
+    setTimeout(addCopyButtonToCodeCells, 250)
+    return
+  }
+
+  const codeCells = document.querySelectorAll('div.highlighter-rouge:not(.output) pre')
+  codeCells.forEach((codeCell, index) => {
+    const id = codeCellId(index)
+    codeCell.setAttribute('id', id)
+    if (document.querySelector(`pre#${id} + a`) == null) {
+      codeCell.insertAdjacentHTML('afterend', clipboardButton(id));
+    }
+  })
+
+  const clipboard = new ClipboardJS('.copybtn')
+  clipboard.on('success', event => {
+    clearSelection()
+    temporarilyChangeTooltip(event.trigger, 'Copied!')
+  })
+
+  clipboard.on('error', event => {
+    temporarilyChangeTooltip(event.trigger, 'Failed to copy')
+  })
+
+  // Get rid of clipboard before the next page visit to avoid memory leak
+  document.addEventListener('turbolinks:before-visit', () =>
+    clipboard.destroy()
+  )
+}
+
+initFunction(addCopyButtonToCodeCells);
+</script>
+
+  <!-- Hide cell code -->
+  
+<script>
+/**
+Add buttons to hide code cells
+*/
+
+
+var setCodeCellVisibility = function(inputField, kind) {
+    // Update the image and class for hidden
+    var id = inputField.getAttribute('data-id');
+    var codeCell = document.querySelector(`#${id}`);
+
+    if (kind === "visible") {
+        codeCell.classList.remove('hidden');
+        inputField.checked = true;
+    } else {
+        codeCell.classList.add('hidden');
+        inputField.checked = false;
+    }
+}
+
+var toggleCodeCellVisibility = function (event) {
+    // The label is clicked, and now we decide what to do based on the input field's clicked status
+    if (event.target.tagName === "LABEL") {
+        var inputField = event.target.previousElementSibling;
+    } else {
+        // It is the span inside the target
+        var inputField = event.target.parentElement.previousElementSibling;
+    }
+
+    if (inputField.checked === true) {
+        setCodeCellVisibility(inputField, "visible");
+    } else {
+        setCodeCellVisibility(inputField, "hidden");
+    }
+}
+
+
+// Button constructor
+const hideCodeButton = id => `<input class="hidebtn" type="checkbox" id="hidebtn${id}" data-id="${id}"><label title="Toggle cell" for="hidebtn${id}" class="plusminus"><span class="pm_h"></span><span class="pm_v"></span></label>`
+
+var addHideButton = function () {
+  // If a hide button is already added, don't add another
+  if (document.querySelector('div.hidecode input') !== null) {
+      return;
+  }
+
+  // Find the input cells and add a hide button
+  document.querySelectorAll('div.input_area div.highlight').forEach(function (item, index) {
+    if (!item.parentElement.classList.contains("hidecode")) {
+        // Skip the cell if it doesn't have a hidecode class
+        return;
+    }
+
+    const id = codeCellId(index)
+    item.setAttribute('id', id);
+    item.insertAdjacentHTML('afterend', hideCodeButton(id))
+
+    // Set up the visibility toggle
+    hideLink = document.querySelector(`#${id} + input + label`);
+    hideLink.addEventListener('click', toggleCodeCellVisibility)
+  });
+}
+
+
+// Initialize the hide buttos
+var initHiddenCells = function () {
+    // Add hide buttons to the cells
+    addHideButton();
+
+    // Toggle the code cells that should be hidden
+    document.querySelectorAll('div.hidecode input').forEach(function (item) {
+        setCodeCellVisibility(item, 'hidden');
+        item.checked = true;
+    })
+}
+
+initFunction(initHiddenCells);
+
+</script>
+
+
+  <!-- Load custom website scripts -->
+  <script src="/assets/js/scripts.js" async></script>
+
+  <!-- Load custom user CSS and JS  -->
+  <script src="/assets/custom/custom.js" async></script>
+  <link rel="stylesheet" href="/assets/custom/custom.css">
+
+  <!-- Update interact links w/ REST param, is defined in includes so we can use templates -->
+  
+
+  <!-- Lunr search code - will only be executed on the /search page -->
+  <script src="/assets/js/lunr/lunr.min.js" type="text/javascript"></script>
+  <script>var initQuery = function() {
+  // See if we have a search box
+  var searchInput = document.querySelector('input#lunr_search');
+  if (searchInput === null) {
+    return;
+  }
+
+  // Function to parse our lunr cache
+  var idx = lunr(function () {
+    this.field('title')
+    this.field('excerpt')
+    this.field('categories')
+    this.field('tags')
+    this.ref('id')
+
+    this.pipeline.remove(lunr.trimmer)
+
+    for (var item in store) {
+      this.add({
+        title: store[item].title,
+        excerpt: store[item].excerpt,
+        categories: store[item].categories,
+        tags: store[item].tags,
+        id: item
+      })
+    }
+  });
+
+  // Run search upon keyup
+  searchInput.addEventListener('keyup', function () {
+    var resultdiv = document.querySelector('#results');
+    var query = document.querySelector("input#lunr_search").value.toLowerCase();
+    var result =
+      idx.query(function (q) {
+        query.split(lunr.tokenizer.separator).forEach(function (term) {
+          q.term(term, { boost: 100 })
+          if(query.lastIndexOf(" ") != query.length-1){
+            q.term(term, {  usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 10 })
+          }
+          if (term != ""){
+            q.term(term, {  usePipeline: false, editDistance: 1, boost: 1 })
+          }
+        })
+      });
+
+      // Empty the results div
+      while (resultdiv.firstChild) {
+        resultdiv.removeChild(resultdiv.firstChild);
+      }
+
+    resultdiv.insertAdjacentHTML('afterbegin', '<p class="results__found">'+result.length+' Result(s) found</p>');
+    for (var item in result) {
+      var ref = result[item].ref;
+      if(store[ref].teaser){
+        var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<div class="archive__item-teaser">'+
+                '<img src="'+store[ref].teaser+'" alt="">'+
+              '</div>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      else{
+    	  var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      resultdiv.insertAdjacentHTML('beforeend', searchitem);
+    }
+  });
+};
+
+initFunction(initQuery);
+</script>
+</head>
+
+  <body>
+    <!-- .js-show-sidebar shows sidebar by default -->
+    <div id="js-textbook" class="c-textbook js-show-sidebar">
+      
+
+
+
+<nav id="js-sidebar" class="c-textbook__sidebar">
+  <a href="https://jupyter.org/jupyter-book/"><img src="/images/logo/logo.png" class="textbook_logo" id="sidebar-logo" data-turbolinks-permanent/></a>
+  <h2 class="c-sidebar__title">YOUR BOOK NAME</h2>
+  <ul class="c-sidebar__chapters">
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/00-00-Preface.html"
+        >
+          
+          Home
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide"
+        >
+          
+          GitHub repository
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__chapter"><a class="c-sidebar__entry" href="/search.html">Search</a></li>
+        
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">CCD Guide</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/01-00-Understanding-an-astronomical-CCD-image.html"
+        >
+          
+            1.
+          
+          Understanding astronomical images
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-03-Construction-of-an-artificial-but-realistic-image.html"
+                >
+                  
+                    1.1
+                  
+                  An artificial, but realistic, image
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-04-Nonuniform-sensitivity.html"
+                >
+                  
+                    1.2
+                  
+                  Non-uniform sensitivity in astronomical detectors
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-05-Calibration-overview.html"
+                >
+                  
+                    1.3
+                  
+                  Calibration overview
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-06-Image-combination.html"
+                >
+                  
+                    1.4
+                  
+                  Image combination
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-07-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.5
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry c-sidebar__entry--active"
+                  href="/01-08-Overscan.html"
+                >
+                  
+                    1.6
+                  
+                  Overscan
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-09-reading-images.html"
+                >
+                  
+                    1.7
+                  
+                  Reading images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+  </ul>
+  <p class="sidebar_footer">Powered by <a href="https://github.com/jupyter/jupyter-book">Jupyter Book</a></p>
+</nav>
+
+      
+      <!-- Shamelessly copied from minimal mistakes -->
+
+
+<!-- TOC will only show up if it has at least one item -->
+
+
+  <aside class="sidebar__right">
+    <nav class="onthispage">
+      <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
+      <ul class="toc__menu">
+  <li><a href="#case-1-cryogenically-cooled-large-format-camera-lfc-at-palomar">Case 1: Cryogenically cooled Large Format Camera (LFC) at Palomar</a>
+    <ul>
+      <li><a href="#discussion">Discussion</a></li>
+      <li><a href="#conclusion-for-case-1">Conclusion for case 1</a></li>
+    </ul>
+  </li>
+  <li><a href="#case-2-thermo-electrically-cooled-apogee-aspen-cg16m">Case 2: Thermo-electrically cooled Apogee Aspen CG16M</a>
+    <ul>
+      <li><a href="#discussion-1">Discussion</a></li>
+      <li><a href="#conclusion-for-case-2">Conclusion for case 2</a></li>
+    </ul>
+  </li>
+</ul>
+    </nav>
+  </aside>
+
+
+      
+      <main class="c-textbook__page" tabindex="-1">
+          <div class="o-wrapper">
+            <div class="c-sidebar-toggle">
+  <!-- We show the sidebar by default so we use .is-active -->
+  <button
+    id="js-sidebar-toggle"
+    class="hamburger hamburger--arrowalt is-active"
+  >
+    <span class="hamburger-box">
+      <span class="hamburger-inner"></span>
+    </span>
+    <span class="c-sidebar-toggle__label">Toggle Sidebar</span>
+  </button>
+</div>
+
+            
+<div class="buttons">
+<a href="/content/01-08-Overscan.ipynb" download>
+<button id="interact-button-download" class="interact-button">Download</button>
+</a>
+
+<button id="interact-button-thebelab" class="interact-button">Thebelab</button>
+
+
+
+
+</div>
+
+
+            <div class="c-textbook__content">
+              <h1 id="overscan">Overscan</h1>
+
+<p>The overscan region of a CCD, if present, is a part of the chip that is covered. Depending on the camera, it can be a useful way to remove small variations in the bias level from frame to frame.</p>
+
+<p>However, whether or not the overscan is useful depends on the camera. It’s advisable to examine the overscan part of the camera you’re using before deciding if you should include it in image reduction.</p>
+
+<p>One important note: <em>overscan always includes bias, read noise, and dark current</em>. The overscan pixels are still pixels, and just like any other pixel includes dark current and is subject to read noise. Many sources describe overscan as correcting for bias, but if the dark current for the camera is negligble, as it often is for cryogenically cooled cameras, then the overscan is essentially bias.</p>
+
+<p>The read noise in the overscan is reduced by averaging over the overscan region. That will be covered in a later notebook; this notebook focuses on what the overscan looks like and how to decide whether or not to use it.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">astropy.nddata</span> <span class="kn">import</span> <span class="n">CCDData</span>
+<span class="kn">from</span> <span class="nn">astropy.visualization</span> <span class="kn">import</span> <span class="n">hist</span>
+<span class="kn">from</span> <span class="nn">ccdproc</span> <span class="kn">import</span> <span class="n">subtract_overscan</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="kn">from</span> <span class="nn">convenience_functions</span> <span class="kn">import</span> <span class="n">show_image</span>
+
+<span class="n">download_base_url</span> <span class="o">=</span> <span class="s">'http://physics.mnstate.edu/craig/ccd-guide/'</span>
+</code></pre></div></div>
+
+<h2 id="case-1-cryogenically-cooled-large-format-camera-lfc-at-palomar">Case 1: Cryogenically cooled Large Format Camera (LFC) at Palomar</h2>
+
+<p>The images below are from chip 0 of the LFC at the Palomar 200-inch telescope. Technical information about the camera is <a href="http://www.astro.caltech.edu/palomar/observer/200inchResources/lfcspecs.html">here</a>. It turns out that the images are not actually 2048 × 4096; as you can see below, the images are 2080 × 4128. The “extra” in each direction is overscan.</p>
+
+<p>The FITS header for these files includes the keyword <code class="highlighter-rouge">BIASSEC</code>, which indicates the nominal extent of the overscan region. Its value is <code class="highlighter-rouge">[2049:2080,1:4127]</code>, which indicates the overscan extends from 2048 to 2079 (Python indexing starts at 0, not 1 like in FITS) in the “short” direction and over the entire chip in the other direction. As we’ll see shortly, the useful overscan region is smaller than this.</p>
+
+<p>We’ll focus here on the overscan in the side that is nominally 2048 wide; in Python that’s the second index. The images below are a bias, dark, light, and flat image. The latter are particularly helpful in evaluating how much of the overscan region is useful because the average pixel value in the exposed part of the camera is typically large.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bias_lfc</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">'python_imred_data/ccd.001.0.fits.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'count'</span><span class="p">)</span>
+<span class="n">light_g_lfc</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">'python_imred_data/ccd.037.0.fits.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'count'</span><span class="p">)</span>
+<span class="n">flat_g_lfc</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">'python_imred_data/ccd.014.0.fits.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'count'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bias_lfc</span><span class="o">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(4128, 2080)
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">light_g_lfc</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'Science image'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bias_lfc</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'Bias image'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">flat_g_lfc</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'Flat image'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'black'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">'dashed'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'start of overscan'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">2040</span><span class="p">,</span> <span class="mi">2090</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'pixel number'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Counts'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Overscan region, averaged over all rows'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Overscan region, averaged over all rows')
+</code></pre></div></div>
+
+<p class="output output_png"><img src="images/01-08-Overscan_6_1.png" alt="png" /></p>
+
+<h3 id="discussion">Discussion</h3>
+
+<p>There are a few interesting things here.</p>
+
+<h4 id="the-count-value-is-nearly-uniform-in-the-overscan-region">The count value is nearly uniform in the overscan region.</h4>
+
+<p>This is good; ideally the overscan is nearly uniform since the pixels are not illuminated.</p>
+
+<h4 id="some-light-leaks-from-the-imaging-region-into-the-overscan-region-this-is-clearest-in-the-flat-image-where-the-counts-are-much-higher-than-the-value-to-which-they-asymptote-until-at-least-pixel-number-2055">Some light leaks from the imaging region into the overscan region. This is clearest in the flat image, where the counts are much higher than the value to which they asymptote until at least pixel number 2055.</h4>
+
+<p>Though the FITS header indicates the overscan starts at pixel 2048, the <em>useful</em> part of the overscan (i.e. the part not contaminated by light) extends from pixel 2055 to the end.</p>
+
+<h4 id="there-is-an-offset-between-the-science-image-and-the-other-two-images-and-perhaps-between-the-flat-and-bias-images">There is an offset between the science image and the other two images, and perhaps between the flat and bias images.</h4>
+
+<p>This sort of variation is what overscan is intended to correct. It could be that this one science image has a different overscan value (it was taken several hours after the flat image) or it could be that all science images have a different overscan value than other types of images.</p>
+
+<p>Either way, subtracting overscan from each of the images allows for correction of these offsets.</p>
+
+<h4 id="dark-current-in-this-camera-is-essentially-zero-so-the-overscan-is-measuring-bias">Dark current <em>in this camera</em> is essentially zero so the overscan is measuring bias</h4>
+
+<p>To be clear, this isn’t apparent from the graph above, but cryogenically cooled cameras have negligible dark current.</p>
+
+<h4 id="what-happens-if-you-dont-use-the-overscan">What happens if you don’t use the overscan?</h4>
+
+<p>Nothing particularly bad. In the specific case above, ignoring the overscan will shift the background level in the science image by roughly 20 counts. If, before doing science, the background of those images is subtracted, then this shift should be removed with the background.</p>
+
+<h3 id="conclusion-for-case-1">Conclusion for case 1</h3>
+
+<p>The overscan is useful, but the usable overscan region extends from 2055 to the end of the chip rather than from 2048 to end of the chip as the FITS header claims. Put a little differently, the appropriate <code class="highlighter-rouge">BIASSEC</code> for these images is <code class="highlighter-rouge">[2056:2080,1:4127]</code>. (Note that FITS starts numbering at 1 instead of 0, so 2055 in Python is 2056 in FITS notation.)</p>
+
+<p>If the science you are using requires knowing the counts to a precision of a count or two, and modeling the background in the science image isn’t an option, consider using the overscan.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Time of observation'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Bias   '</span><span class="p">,</span> <span class="n">bias_lfc</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">'date-obs'</span><span class="p">],</span> <span class="n">bias_lfc</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">'ut'</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Flat   '</span><span class="p">,</span> <span class="n">flat_g_lfc</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">'date-obs'</span><span class="p">],</span> <span class="n">flat_g_lfc</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">'ut'</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Science'</span><span class="p">,</span> <span class="n">light_g_lfc</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">'date-obs'</span><span class="p">],</span> <span class="n">light_g_lfc</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">'ut'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Time of observation
+Bias    2016-01-15  23:53:30.00
+Flat    2016-01-16  04:17:28.00
+Science 2016-01-16  09:47:21.00
+
+</code></pre></div></div>
+
+<h2 id="case-2-thermo-electrically-cooled-apogee-aspen-cg16m">Case 2: Thermo-electrically cooled Apogee Aspen CG16M</h2>
+
+<p>This is a low-end, research-grade CCD sold by Andor. Basic information is <a href="https://andor.oxinst.com/assets/uploads/documents/Andor/apogee/Apogee_Aspen_CG16M_Specifications.pdf">here</a>, though you need to track down the description of the sensor chip, <a href="http://www.onsemi.com/pub/Collateral/KAF-16803-D.PDF">KAF-16803 CCD</a> to find out that the overscan region of this 4096 × 4096 pixel camera extends from pixel 4097 to 4109 along one of the directions.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wasp</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">download_base_url</span> <span class="o">+</span> <span class="s">'wasp-10-b-S001-R001-C041-r.fit.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'adu'</span><span class="p">)</span>
+<span class="n">dark1000</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">download_base_url</span> <span class="o">+</span> <span class="s">'dark-test-0002d1000.fit.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'adu'</span><span class="p">)</span>
+<span class="n">flat</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">download_base_url</span> <span class="o">+</span> <span class="s">'AutoFlat-PANoRot-r-Bin1-006.fit.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'adu'</span><span class="p">)</span>
+<span class="n">master</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">download_base_url</span> <span class="o">+</span> <span class="s">'master_bias.fit.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'adu'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Downloading http://physics.mnstate.edu/craig/ccd-guide/wasp-10-b-S001-R001-C041-r.fit.gz [Done]
+INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
+Downloading http://physics.mnstate.edu/craig/ccd-guide/dark-test-0002d1000.fit.gz [Done]
+Downloading http://physics.mnstate.edu/craig/ccd-guide/AutoFlat-PANoRot-r-Bin1-006.fit.gz [Done]
+INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
+Downloading http://physics.mnstate.edu/craig/ccd-guide/master_bias.fit.gz [Done]
+INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
+
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wasp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'night sky average'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">master</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'100 bias combined'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dark1000</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'1000sec dark average'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">flat</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'flat average'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'black'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">'dashed'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'start of overscan'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">4090</span><span class="p">,</span> <span class="mi">4110</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">900</span><span class="p">,</span> <span class="mi">1300</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(900, 1300)
+</code></pre></div></div>
+
+<p class="output output_png"><img src="images/01-08-Overscan_12_1.png" alt="png" /></p>
+
+<h3 id="discussion-1">Discussion</h3>
+
+<p>The camera also has some interesting features.</p>
+
+<h4 id="count-values-change-quite-a-bit-in-the-overscan-region">Count values change quite a bit in the overscan region</h4>
+
+<p>This is clearest in the overscan for the flat. Not only is light leaking into the overscan, the overscan appears to be mostly light leakage. One pixel may be useful at best.</p>
+
+<h4 id="overscan-includes-dark-current">Overscan includes dark current</h4>
+
+<p>The overscan for the dark image in the figure above is roughly 10 counts higher than the counts for the bias. The dark current for this camera is roughly 0.01 counts/pixel/second. For a 1000 second dark exposure, the expected dark counts are about 10, which is the difference seen in the graph.</p>
+
+<h4 id="there-is-an-offset-between-the-biasdark-and-scienceflat-images">There is an offset between the bias/dark and science/flat images</h4>
+
+<p>The offset in this camera is roughly 50 counts. It’s large enough that one ought to be hesitant to use the overscan for this camera.</p>
+
+<h4 id="the-overscan-counts-are-higher-than-the-average-bias-counts">The overscan counts are higher than the average bias counts</h4>
+
+<p>Note that for the bias image, counts increase up to the pixel where overscan starts and then level out. It turns out that overscan counts are <em>higher</em> than the average of the bias counts, so subtracting the overscan would lead to a bias image that is negative. This is another reason to be suspicious of the overscan region on this camera.</p>
+
+<h3 id="conclusion-for-case-2">Conclusion for case 2</h3>
+
+<p>Do not use the overscan in this case. There are serious issues with light leakage and large differences in the overscan counts between the bias and science images.</p>
+
+              <nav class="c-page__nav">
+  
+    
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/01-07-Calibration-choices-you-need-to-make">
+      〈 <span class="u-margin-right-tiny"></span> Calibration choices to make
+    </a>
+  
+
+  
+    
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/01-09-reading-images">
+      Reading images <span class="u-margin-right-tiny"></span> 〉
+    </a>
+  
+</nav>
+
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+  </body>
+</html>

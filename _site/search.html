@@ -29,9 +29,9 @@
   "headline":
     "Search the site",
   "datePublished":
-    "2019-03-26T07:25:28-05:00",
+    "2019-04-29T08:29:11-05:00",
   "dateModified":
-    "2019-03-26T07:25:28-05:00",
+    "2019-04-29T08:29:11-05:00",
   "description":
     "This is an example book built with Jupyter Books.",
   "author": {
@@ -533,7 +533,7 @@ initFunction(initQuery);
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="https://github.com/jupyter/jupyter-book"
+          href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide"
         >
           
           GitHub repository
@@ -612,6 +612,8 @@ initFunction(initQuery);
                   href="/01-04-Nonuniform-sensitivity.html"
                 >
                   
+                    1.2
+                  
                   Non-uniform sensitivity in astronomical detectors
                 </a>
 
@@ -629,9 +631,85 @@ initFunction(initQuery);
                   href="/01-05-Calibration-overview.html"
                 >
                   
-                    1.2
+                    1.3
                   
                   Calibration overview
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-06-Image-combination.html"
+                >
+                  
+                    1.4
+                  
+                  Image combination
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-07-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.5
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-08-Overscan.html"
+                >
+                  
+                    1.6
+                  
+                  Overscan
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-09-reading-images.html"
+                >
+                  
+                    1.7
+                  
+                  Reading images
                 </a>
 
                 
@@ -696,7 +774,7 @@ initFunction(initQuery);
         "title": "An artificial, but realistic, image",
         
         "excerpt":
-            "Construction of an artificial (but realistic) image Before we move on to looking at a real image, let’s spend a few minutes getting comfortable with what each of the sources of counts look like in an artificial image. The advantage is that we can control how much of each source of counts goes into the image. Looking at extreme examples can help build an understanding of what’s going on in your images. Imports Almost all of the notebooks in this tutorial will start with the import of the Python packages needed for that notebook. The lines below set up matplotlib,...",
+            "Construction of an artificial (but realistic) image Before we move on to looking at a real image, let’s spend a few minutes getting comfortable with what each of the different sources of counts look like in an artificial image. The advantage is that we can control how much of each count source goes into the image. Looking at extreme examples can help build an understanding of what’s going on in your images. Imports Almost all of the notebooks in this tutorial will start with the import of the Python packages needed for that notebook. The lines below set up matplotlib,...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/01-03-Construction-of-an-artificial-but-realistic-image.html",
@@ -716,6 +794,38 @@ initFunction(initQuery);
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/01-05-Calibration-overview.html",
+        "teaser":null},{
+        "title": "Image combination",
+        
+        "excerpt":
+            "Image combination Image combination serves several purposes. Combining images: reduces noise in images can remove transient artifacts like cosmic rays and satellite tracks can remove stars in twilight flats from the combined image It’s essential that several of each type of calibration image (bias, dark, flat) be taken. Combining them reduces the noise in the images by roughly a factor of $1/\\sqrt{N}$, where $N$ is the number of images being combined. As shown in the previous notebook, using a single calibration image actually increases the noise in your image. There are a few ways to combine images; if done properly,...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/01-06-Image-combination.html",
+        "teaser":null},{
+        "title": "Calibration choices to make",
+        
+        "excerpt":
+            "Calibration choices you need to make There are a few choices you need to make about how you will calibrate your data. Sometimes the decision will be made for you by the data you have. Subtract bias and dark as separate steps or in one step? Every dark image contains bias when it comes off of the camera, so in principle you can take care of both bias and dark by constructing a master dark image that leaves the bias already present in the dark images in place. This only works if for every image from which you need to...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/01-07-Calibration-choices-you-need-to-make.html",
+        "teaser":null},{
+        "title": "Overscan",
+        
+        "excerpt":
+            "Overscan The overscan region of a CCD, if present, is a part of the chip that is covered. Depending on the camera, it can be a useful way to remove small variations in the bias level from frame to frame. However, whether or not the overscan is useful depends on the camera. It’s advisable to examine the overscan part of the camera you’re using before deciding if you should include it in image reduction. One important note: overscan always includes bias, read noise, and dark current. The overscan pixels are still pixels, and just like any other pixel includes dark...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/01-08-Overscan.html",
+        "teaser":null},{
+        "title": "Reading images",
+        
+        "excerpt":
+            "Reading images Astropy provides a few ways to read in FITS images, some in the core package and others in affiliated packages. Before exploring those, we’ll create a set of (fake) images to work with. from pathlib import Path from astropy.nddata import CCDData from astropy.io import fits Working with directories The cell below contains the path to the images. In this notebook we’ll use it both to store the fake images we generate and to read images. In normal use, you wouldn’t start by writing images there, however. If the images are in the same directory as the notebook you...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/01-09-reading-images.html",
         "teaser":null},]
 </script>
               <nav class="c-page__nav">

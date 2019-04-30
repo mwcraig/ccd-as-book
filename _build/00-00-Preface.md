@@ -3,12 +3,13 @@ redirect_from:
   - "00-00-preface"
 interact_link: content/00-00-Preface.ipynb
 kernel_name: python3
+has_widgets: false
 title: 'Home'
 prev_page:
   url: 
   title: ''
 next_page:
-  url: /https://github.com/jupyter/jupyter-book
+  url: /https://github.com/mwcraig/ccd-reduction-and-photometry-guide
   title: 'GitHub repository'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
@@ -16,7 +17,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 # Preface
 
 
-The purpose of this text is to walk through image reduction and photometry using Python, especially Astropy and its affiliated packages. It assumes some basic familiarity with astronomical images and with Python. The inspiration for this work is a pair of guides written for IRAF, "A User's Guide to CCD Reductions with IRAF" (Massey 1997) and "A User's Guide to Stellar CCD Photometry with IRAF" (Massey and Davis 1992).
+The purpose of this text is to walk through image reduction and photometry using Python, especially Astropy and its affiliated packages. It assumes some basic familiarity with astronomical images and with Python. The inspiration for this work is a pair of guides written for IRAF, ["A User's Guide to CCD Reductions with IRAF" (Massey 1997)](http://www.ifa.hawaii.edu/~meech/a399/handouts/ccduser3.pdf) and ["A User's Guide to Stellar CCD Photometry with IRAF" (Massey and Davis 1992)](https://www.mn.uio.no/astro/english/services/it/help/visualization/iraf/daophot2.pdf).
 
 The focus is on optical/IR images, not spectra.
 

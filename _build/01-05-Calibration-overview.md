@@ -3,13 +3,14 @@ redirect_from:
   - "01-05-calibration-overview"
 interact_link: content/01-05-Calibration-overview.ipynb
 kernel_name: python3
+has_widgets: false
 title: 'Calibration overview'
 prev_page:
   url: /01-04-Nonuniform-sensitivity
   title: 'Non-uniform sensitivity in astronomical detectors'
 next_page:
-  url: 
-  title: ''
+  url: /01-06-Image-combination
+  title: 'Image combination'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
@@ -79,6 +80,28 @@ plt.title('Stars with noise')
 ```
 
 
+{:.output .output_stream}
+```
+(10.0, 10)
+
+```
+
+
+
+
+{:.output .output_data_text}
+```
+Text(0.5,1,'Stars with noise')
+```
+
+
+
+
+{:.output .output_png}
+![png](images/01-05-Calibration-overview_5_2.png)
+
+
+
 ### Now an *incorrect* attempt at reducing noise
 
 Notice that the call to the noise function has exactly the same arguments as above, in much the same way your camera's electronics will have the same noise properties every time you read out an image.
@@ -95,6 +118,18 @@ show_image(incorrect_attempt_to_remove_noise, cmap='gray', percu=99.9)
 ```
 
 
+{:.output .output_stream}
+```
+(10.0, 10)
+
+```
+
+
+{:.output .output_png}
+![png](images/01-05-Calibration-overview_7_1.png)
+
+
+
 ## Every image has noise
 
 Every image, including calibration images like bias and dark frames, has noise. If we tried to calibrate images by taking a single bias image and a single dark image, the final result might well look worse than before the image is reduced.
@@ -105,7 +140,7 @@ Note that here we construct *realistic* bias and dark, but leave read noise out 
 
 ### First, set parameters for the CCD
 
-These are the same as in the previous notebook, except for the read noise, which is 100 times larger.
+These are the same as in the previous notebook, except for the read noise, which is 700$e-$, 100 times larger than in the previous notebook.
 
 
 
@@ -153,14 +188,34 @@ realistic_stars = (imsim.stars(image, 50, max_counts=max_star_counts) +
 
 ### Uncalibrated image
 
-Below we display the uncalibrated image; in a moment we'll compare it to the calibrated version.
+Below we display the uncalibrated image; in a moment we'll compare it to the calibrated version. Even though they don't stand out there really are stars in  it.
 
 
 
 {:.input_area}
 ```python
-show_image(realistic_stars, cmap='gray', percu=99.9)
+plt.figure(figsize=(12, 12))
+show_image(realistic_stars, cmap='gray', percu=99.9, figsize=(9, 9))
 ```
+
+
+{:.output .output_stream}
+```
+(9.0, 9)
+
+```
+
+
+{:.output .output_data_text}
+```
+<Figure size 864x864 with 0 Axes>
+```
+
+
+
+{:.output .output_png}
+![png](images/01-05-Calibration-overview_15_2.png)
+
 
 
 ### Reduce (calibrate) the star image
@@ -193,25 +248,44 @@ show_image(calibrated_stars, cmap='gray', percu=99.9)
 ```
 
 
-### Reducing the image cleans up the image a bit
+{:.output .output_stream}
+```
+(10.0, 10)
 
-This image does not look much better than the uncalibrated image, but remember that the read noise used in this simulated image, 700 $e^-$ per pixel, is unrealistically high.
-
-
-
-{:.input_area}
-```python
-calibrated_hist = histogram(calibrated_stars.flatten(), bins='freedman')
-raw_stars_hist = histogram(stars_with_noise.flatten(), bins='freedman')
 ```
 
 
+{:.output .output_png}
+![png](images/01-05-Calibration-overview_20_1.png)
+
+
+
+### Reducing the image cleans up the image a bit
+
+The stars stand more clearly than in the unreduced image.
+
+This image does not look *much* better than the uncalibrated image, but remember that the read noise used in this simulated image, 700 $e^-$ per pixel, is unrealistically high. 
+
+### Reducing the image increases the noise in the image
+
+The histogram below shows pixel values before and after calibration. The width of the distribution is a measure of the read noise. As expected, reducing the image increases the read noise. One reason one takes several calibration images of each type is to reduce the amount of noise in the calibration image. That will, in turn, keep the noise in the final image as small as possible.
+
 
 
 {:.input_area}
 ```python
+plt.figure(figsize=(9, 9))
 hist(calibrated_stars.flatten(), bins='freedman', label='calibrated star image', alpha=0.5)
 hist(stars_with_noise.flatten(), bins='freedman', label='raw star image', alpha=0.5)
 plt.legend()
+plt.grid()
+plt.xlabel('Count level in image')
+plt.ylabel('Number of pixels with that count');
 ```
+
+
+
+{:.output .output_png}
+![png](images/01-05-Calibration-overview_23_0.png)
+
 

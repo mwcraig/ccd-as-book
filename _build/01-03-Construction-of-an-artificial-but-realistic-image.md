@@ -3,6 +3,7 @@ redirect_from:
   - "01-03-construction-of-an-artificial-but-realistic-image"
 interact_link: content/01-03-Construction-of-an-artificial-but-realistic-image.ipynb
 kernel_name: python3
+has_widgets: false
 title: 'An artificial, but realistic, image'
 prev_page:
   url: /01-00-Understanding-an-astronomical-CCD-image
@@ -15,7 +16,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 # Construction of an artificial (but realistic) image
 
-Before we move on to looking at a real image, let's spend a few minutes getting comfortable with what each of the sources of counts look like in an artificial image. The advantage is that we can control how much of each source of counts goes into the image. Looking at extreme examples can help build an understanding of what's going on in your images.
+Before we move on to looking at a real image, let's spend a few minutes getting comfortable with what each of the different sources of counts look like in an artificial image. The advantage is that we can control how much of each count source goes into the image. Looking at extreme examples can help build an understanding of what's going on in your images.
 
 ## Imports
 
@@ -70,7 +71,7 @@ show_image(synthetic_image, cmap='gray')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_7_1.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_7_1.png)
 
 
 
@@ -123,7 +124,7 @@ show_image(noise_im, cmap='gray')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_10_1.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_10_1.png)
 
 
 
@@ -131,7 +132,7 @@ show_image(noise_im, cmap='gray')
 
 Bias is an offset voltage (which translates into some non-zero number of counts) added to every pixel in the image to ensure that when voltages are converted to counts there is never a negative count. Note that in the noise image above, some counts are positive and some are negative, as you would expect for a Gaussian distribution centered on zero.
 
-The bias value is roughly the same across the CCD chip, though it's not uncommon to have "bad" columns in which the bias level is consistently offset from the rest of the chip.
+The bias value is roughly the same across the CCD chip, though it's not uncommon to have "bad" columns and pixels in which the bias level is consistently offset from the rest of the chip.
 
 To model a bias image, we create a uniform array and, optionally, add in some "bad" columns. The bad columns are exaggeratesd here to ensure they are visible.
 
@@ -211,7 +212,7 @@ Text(0.5,1,'Bias alone, bad columns included')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_13_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_13_2.png)
 
 
 
@@ -243,17 +244,17 @@ Text(0.5,1,'Realistic bias frame (includes read noise)')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_14_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_14_2.png)
 
 
 
 ## Dark current
 
-Dark current depends on the temperature of the sensor. The amount of dark counts in an image also depend on the exposure time. Dark current is typically very small (0.1 electrons/pixel/second or less). Dark counts in this function are calculated by multiplying the input dark current by the input exposure time after converting the dark current unit from electrons to counts using the gain.
+Dark current depends on the temperature of the sensor. The amount of dark counts in an image also depends on the exposure time. Dark current is typically very small (0.1 electrons/pixel/second or less). Dark counts in this function are calculated by multiplying the input dark current by the input exposure time after converting the dark current unit from electrons to counts using the gain.
 
 A small fraction of pixels are "hot": their dark current is much larger than the rest of the pixels. Hot pixels are modeled here by choosing a subset of the pixels to have a dark current 10,000 times larger than the input dark current. This exaggerates the effect to make those pixels more visible.
 
-The location and current of hot pixels is typically stable over long periods of time, which makes it straightforward to remove their effect from science images by subtracting it out.
+The location and current of hot pixels is typically stable over long periods of time, which makes it straightforward to remove their effect from science images by subtracting them out.
 
 A dark frame (or dark image) is an image taken with the camera shutter closed.
 
@@ -334,7 +335,7 @@ plt.title(title_string, fontsize='20');
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_17_1.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_17_1.png)
 
 
 
@@ -368,13 +369,13 @@ Text(0.5,1,'Realistic dark frame \n(with bias, read noise)')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_19_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_19_2.png)
 
 
 
 ## Sky background
 
-The amount of sky background depends on the atmospheric conditions (humidity, presence of light clouds, fires upwind from the observatory), the light sources in the sky (the Moon) and light sources in the surrounding area (cities). It may be uniform across the frame or it may not be, depending on the conditions.
+The amount of sky background depends on the atmospheric conditions (humidity, presence of light clouds, fires upwind from the observatory), the light sources in the sky (the Moon), and light sources in the surrounding area (cities). It may be uniform across the frame or it may not be, depending on the conditions.
 
 The function below generates some sky background. Each time you run it you'll get slightly different results (even if you keep the desired amount of sky counts the same) because the counts from a light source follow a Poisson distribution.
 
@@ -437,7 +438,7 @@ Text(0.5,1,'Sky background only, 20 counts input')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_22_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_22_2.png)
 
 
 
@@ -459,7 +460,7 @@ plt.title('Sky, dark, bias and noise\n(Realistic image of clouds)', fontsize=20)
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_23_1.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_23_1.png)
 
 
 
@@ -512,7 +513,7 @@ i
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_26_0.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_26_0.png)
 
 
 
@@ -585,7 +586,7 @@ Text(0.5,1,'Stars only')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_29_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_29_2.png)
 
 
 
@@ -624,7 +625,7 @@ Text(0.5,1,'Stars with noise, bias, dark, sky')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_31_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_31_2.png)
 
 
 
@@ -651,50 +652,3 @@ There are a few complications:
 1. There are multiplicative effects that will be discussed in the next notebook.
 2. The way to measure each of the the things we need to subtract (bias and dark current) is to take images, each of which includes read noise. That can be minimized by combining several calibration images.
 3. There is no way to subtract the read noise because it is random.
-
-## Generate some cosmic rays
-
-Cosmic rays appear in images as small features with sharp edges. The pixels that get hit by the cosmic ray get more counts, but adjacent ones do not. The function below adds simulated cosmic rays.
-
-
-
-{:.input_area}
-```python
-def make_cosmic_rays(image, number, strength=10000):
-    """
-    Generate an image with a few cosmic rays.
-    
-    Parameters
-    ----------
-    
-    image: numpy array
-        Image whose shape the cosmic array should match.
-    number: float
-        Number of cosmic rays to add to the image.
-    strength : float, optional
-        Pixel count in the cosmic rays.
-    """
-    
-    cr_image = np.zeros_like(image)
-    
-    # Yes, the order below is correct. The x axis is the column, which
-    # is the second index.
-    max_y, max_x = cr_image.shape
-    
-    # Get the smallest dimension to ensure the cosmic rays are within the image
-    maximum_pos = np.min(cr_image.shape)
-    # These will be center points of the cosmic rays, which we place away from the edges
-    # to ensure they are visible.
-    xy_cr = np.random.randint(0.1 * maximum_pos, 0.9 * maximum_pos, size=[number, 2])
-    
-    cr_length = 5 # pixels, a little big
-    cr_width = 2
-    theta_cr = 2 * np.pi * np.random.rand()
-    apertures = EllipticalAperture(xy_cr, cr_length, cr_width, theta_cr)
-    masks = apertures.to_mask(method='center')
-    for mask in masks:
-        cr_image += strength * mask.to_image(shape=cr_image.shape)
-
-    return cr_image
-```
-

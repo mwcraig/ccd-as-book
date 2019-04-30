@@ -3,6 +3,7 @@ redirect_from:
   - "01-04-nonuniform-sensitivity"
 interact_link: content/01-04-Nonuniform-sensitivity.ipynb
 kernel_name: python3
+has_widgets: false
 title: 'Non-uniform sensitivity in astronomical detectors'
 prev_page:
   url: /01-03-Construction-of-an-artificial-but-realistic-image
@@ -36,7 +37,7 @@ from image_sim import *
 
 ## A sample flat image
 
-The sample below has the same size as the simulated image in the previous images. 
+The sample flat image below has the same size as the simulated image in the previous notebook. 
 
 
 
@@ -55,7 +56,19 @@ show_image(flat, cmap='gray')
 ```
 
 
-Note that the size of the variations is small, a few percent at most. 
+{:.output .output_stream}
+```
+(10.0, 10)
+
+```
+
+
+{:.output .output_png}
+![png](images/01-04-Nonuniform-sensitivity_5_1.png)
+
+
+
+The "donuts" in the image are dust on elements like filters in the optical path. Note that the size of the variations is small, a few percent at most. 
 
 ## Effect of nonuniform sensitivity on images
 
@@ -74,7 +87,7 @@ $$
 
 ## A realistic image
 
-In the cell below we construct the same image from the previous notebook. Recall that there we used a read noise of 5 electrons/pixel, dark current of 0.1 electron/pix/sec, bias level of 1100, and sky background of 20 counts.
+In the cell below we construct the last image from the previous notebook. Recall that there we used a read noise of 5 electrons/pixel, dark current of 0.1 electron/pix/sec, bias level of 1100, and sky background of 20 counts.
 
 
 
@@ -95,6 +108,8 @@ stars_only = stars(image, 50, max_counts=max_star_counts)
 ```
 
 
+The individual pieces of the image are assembled below; it is the inclusion of the flat that makes this the closest of the simulated images to a realistic images.
+
 
 
 {:.input_area}
@@ -111,6 +126,18 @@ show_image(final_image, cmap='gray', percu=99.9)
 ```
 
 
+{:.output .output_stream}
+```
+(10.0, 10)
+
+```
+
+
+{:.output .output_png}
+![png](images/01-04-Nonuniform-sensitivity_13_1.png)
+
+
+
 Visually, this does not look any different than the final image in the previous notebook; the effects of sensitivity variations are typically not evident in raw images unless the sky background is large. 
 
 You can see the effect by artificially increasing the sky background.
@@ -122,4 +149,16 @@ You can see the effect by artificially increasing the sky background.
 final_image2 = bias_only + noise_only + dark_only + flat * (sky_background(image, 100 * sky_counts, gain=gain) + stars_only)
 show_image(final_image2, cmap='gray')
 ```
+
+
+{:.output .output_stream}
+```
+(10.0, 10)
+
+```
+
+
+{:.output .output_png}
+![png](images/01-04-Nonuniform-sensitivity_15_1.png)
+
 

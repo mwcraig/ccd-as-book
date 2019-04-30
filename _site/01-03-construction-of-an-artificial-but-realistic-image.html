@@ -29,9 +29,9 @@
   "headline":
     "An artificial, but realistic, image",
   "datePublished":
-    "2019-03-26T07:25:28-05:00",
+    "2019-04-29T08:29:11-05:00",
   "dateModified":
-    "2019-03-26T07:25:28-05:00",
+    "2019-04-29T08:29:11-05:00",
   "description":
     "Construction of an artificial (but realistic) image",
   "author": {
@@ -533,7 +533,7 @@ initFunction(initQuery);
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="https://github.com/jupyter/jupyter-book"
+          href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide"
         >
           
           GitHub repository
@@ -612,6 +612,8 @@ initFunction(initQuery);
                   href="/01-04-Nonuniform-sensitivity.html"
                 >
                   
+                    1.2
+                  
                   Non-uniform sensitivity in astronomical detectors
                 </a>
 
@@ -629,9 +631,85 @@ initFunction(initQuery);
                   href="/01-05-Calibration-overview.html"
                 >
                   
-                    1.2
+                    1.3
                   
                   Calibration overview
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-06-Image-combination.html"
+                >
+                  
+                    1.4
+                  
+                  Image combination
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-07-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.5
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-08-Overscan.html"
+                >
+                  
+                    1.6
+                  
+                  Overscan
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-09-reading-images.html"
+                >
+                  
+                    1.7
+                  
+                  Reading images
                 </a>
 
                 
@@ -678,7 +756,6 @@ initFunction(initQuery);
     </ul>
   </li>
   <li><a href="#summary-1">Summary</a></li>
-  <li><a href="#generate-some-cosmic-rays">Generate some cosmic rays</a></li>
 </ul>
     </nav>
   </aside>
@@ -717,7 +794,7 @@ initFunction(initQuery);
             <div class="c-textbook__content">
               <h1 id="construction-of-an-artificial-but-realistic-image">Construction of an artificial (but realistic) image</h1>
 
-<p>Before we move on to looking at a real image, let’s spend a few minutes getting comfortable with what each of the sources of counts look like in an artificial image. The advantage is that we can control how much of each source of counts goes into the image. Looking at extreme examples can help build an understanding of what’s going on in your images.</p>
+<p>Before we move on to looking at a real image, let’s spend a few minutes getting comfortable with what each of the different sources of counts look like in an artificial image. The advantage is that we can control how much of each count source goes into the image. Looking at extreme examples can help build an understanding of what’s going on in your images.</p>
 
 <h2 id="imports">Imports</h2>
 
@@ -748,7 +825,7 @@ initFunction(initQuery);
 
 </code></pre></div></div>
 
-<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_7_1.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-03-Construction-of-an-artificial-but-realistic-image_7_1.png" alt="png" /></p>
 
 <h2 id="add-some-read-noise">Add some read noise</h2>
 
@@ -785,13 +862,13 @@ initFunction(initQuery);
 
 </code></pre></div></div>
 
-<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_10_1.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-03-Construction-of-an-artificial-but-realistic-image_10_1.png" alt="png" /></p>
 
 <h2 id="bias">Bias</h2>
 
 <p>Bias is an offset voltage (which translates into some non-zero number of counts) added to every pixel in the image to ensure that when voltages are converted to counts there is never a negative count. Note that in the noise image above, some counts are positive and some are negative, as you would expect for a Gaussian distribution centered on zero.</p>
 
-<p>The bias value is roughly the same across the CCD chip, though it’s not uncommon to have “bad” columns in which the bias level is consistently offset from the rest of the chip.</p>
+<p>The bias value is roughly the same across the CCD chip, though it’s not uncommon to have “bad” columns and pixels in which the bias level is consistently offset from the rest of the chip.</p>
 
 <p>To model a bias image, we create a uniform array and, optionally, add in some “bad” columns. The bad columns are exaggeratesd here to ensure they are visible.</p>
 
@@ -850,7 +927,7 @@ initFunction(initQuery);
 <div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Bias alone, bad columns included')
 </code></pre></div></div>
 
-<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_13_2.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-03-Construction-of-an-artificial-but-realistic-image_13_2.png" alt="png" /></p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bias_noise_im</span> <span class="o">=</span> <span class="n">noise_im</span> <span class="o">+</span> <span class="n">bias_only</span>
 <span class="n">show_image</span><span class="p">(</span><span class="n">bias_noise_im</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
@@ -864,15 +941,15 @@ initFunction(initQuery);
 <div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Realistic bias frame (includes read noise)')
 </code></pre></div></div>
 
-<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_14_2.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-03-Construction-of-an-artificial-but-realistic-image_14_2.png" alt="png" /></p>
 
 <h2 id="dark-current">Dark current</h2>
 
-<p>Dark current depends on the temperature of the sensor. The amount of dark counts in an image also depend on the exposure time. Dark current is typically very small (0.1 electrons/pixel/second or less). Dark counts in this function are calculated by multiplying the input dark current by the input exposure time after converting the dark current unit from electrons to counts using the gain.</p>
+<p>Dark current depends on the temperature of the sensor. The amount of dark counts in an image also depends on the exposure time. Dark current is typically very small (0.1 electrons/pixel/second or less). Dark counts in this function are calculated by multiplying the input dark current by the input exposure time after converting the dark current unit from electrons to counts using the gain.</p>
 
 <p>A small fraction of pixels are “hot”: their dark current is much larger than the rest of the pixels. Hot pixels are modeled here by choosing a subset of the pixels to have a dark current 10,000 times larger than the input dark current. This exaggerates the effect to make those pixels more visible.</p>
 
-<p>The location and current of hot pixels is typically stable over long periods of time, which makes it straightforward to remove their effect from science images by subtracting it out.</p>
+<p>The location and current of hot pixels is typically stable over long periods of time, which makes it straightforward to remove their effect from science images by subtracting them out.</p>
 
 <p>A dark frame (or dark image) is an image taken with the camera shutter closed.</p>
 
@@ -939,7 +1016,7 @@ initFunction(initQuery);
 
 </code></pre></div></div>
 
-<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_17_1.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-03-Construction-of-an-artificial-but-realistic-image_17_1.png" alt="png" /></p>
 
 <p>Note that the central value of the image colorbar is 10, the product of the dark current and the exposure time.</p>
 
@@ -955,11 +1032,11 @@ initFunction(initQuery);
 <div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Realistic dark frame \n(with bias, read noise)')
 </code></pre></div></div>
 
-<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_19_2.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-03-Construction-of-an-artificial-but-realistic-image_19_2.png" alt="png" /></p>
 
 <h2 id="sky-background">Sky background</h2>
 
-<p>The amount of sky background depends on the atmospheric conditions (humidity, presence of light clouds, fires upwind from the observatory), the light sources in the sky (the Moon) and light sources in the surrounding area (cities). It may be uniform across the frame or it may not be, depending on the conditions.</p>
+<p>The amount of sky background depends on the atmospheric conditions (humidity, presence of light clouds, fires upwind from the observatory), the light sources in the sky (the Moon), and light sources in the surrounding area (cities). It may be uniform across the frame or it may not be, depending on the conditions.</p>
 
 <p>The function below generates some sky background. Each time you run it you’ll get slightly different results (even if you keep the desired amount of sky counts the same) because the counts from a light source follow a Poisson distribution.</p>
 
@@ -1001,7 +1078,7 @@ initFunction(initQuery);
 <div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Sky background only, 20 counts input')
 </code></pre></div></div>
 
-<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_22_2.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-03-Construction-of-an-artificial-but-realistic-image_22_2.png" alt="png" /></p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sky_dark_bias_noise_im</span> <span class="o">=</span> <span class="n">dark_bias_noise_im</span> <span class="o">+</span> <span class="n">sky_only</span>
 <span class="n">show_image</span><span class="p">(</span><span class="n">sky_dark_bias_noise_im</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
@@ -1012,7 +1089,7 @@ initFunction(initQuery);
 
 </code></pre></div></div>
 
-<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_23_1.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-03-Construction-of-an-artificial-but-realistic-image_23_1.png" alt="png" /></p>
 
 <h3 id="summary">Summary</h3>
 
@@ -1058,7 +1135,7 @@ initFunction(initQuery);
 <span class="n">i</span>
 </code></pre></div></div>
 
-<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_26_0.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-03-Construction-of-an-artificial-but-realistic-image_26_0.png" alt="png" /></p>
 
 <h2 id="add-some-stars">Add some “stars”</h2>
 
@@ -1106,7 +1183,7 @@ initFunction(initQuery);
 <div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Stars only')
 </code></pre></div></div>
 
-<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_29_2.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-03-Construction-of-an-artificial-but-realistic-image_29_2.png" alt="png" /></p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">stars_with_background</span> <span class="o">=</span> <span class="n">sky_dark_bias_noise_im</span> <span class="o">+</span> <span class="n">stars_only</span>
 </code></pre></div></div>
@@ -1122,7 +1199,7 @@ initFunction(initQuery);
 <div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Stars with noise, bias, dark, sky')
 </code></pre></div></div>
 
-<p class="output output_png"><img src="/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_31_2.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-03-Construction-of-an-artificial-but-realistic-image_31_2.png" alt="png" /></p>
 
 <h3 id="discussion">Discussion</h3>
 
@@ -1145,49 +1222,6 @@ initFunction(initQuery);
   <li>The way to measure each of the the things we need to subtract (bias and dark current) is to take images, each of which includes read noise. That can be minimized by combining several calibration images.</li>
   <li>There is no way to subtract the read noise because it is random.</li>
 </ol>
-
-<h2 id="generate-some-cosmic-rays">Generate some cosmic rays</h2>
-
-<p>Cosmic rays appear in images as small features with sharp edges. The pixels that get hit by the cosmic ray get more counts, but adjacent ones do not. The function below adds simulated cosmic rays.</p>
-
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">make_cosmic_rays</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">strength</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
-    <span class="s">"""
-    Generate an image with a few cosmic rays.
-    
-    Parameters
-    ----------
-    
-    image: numpy array
-        Image whose shape the cosmic array should match.
-    number: float
-        Number of cosmic rays to add to the image.
-    strength : float, optional
-        Pixel count in the cosmic rays.
-    """</span>
-    
-    <span class="n">cr_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
-    
-    <span class="c"># Yes, the order below is correct. The x axis is the column, which</span>
-    <span class="c"># is the second index.</span>
-    <span class="n">max_y</span><span class="p">,</span> <span class="n">max_x</span> <span class="o">=</span> <span class="n">cr_image</span><span class="o">.</span><span class="n">shape</span>
-    
-    <span class="c"># Get the smallest dimension to ensure the cosmic rays are within the image</span>
-    <span class="n">maximum_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="nb">min</span><span class="p">(</span><span class="n">cr_image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-    <span class="c"># These will be center points of the cosmic rays, which we place away from the edges</span>
-    <span class="c"># to ensure they are visible.</span>
-    <span class="n">xy_cr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">maximum_pos</span><span class="p">,</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">maximum_pos</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">[</span><span class="n">number</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-    
-    <span class="n">cr_length</span> <span class="o">=</span> <span class="mi">5</span> <span class="c"># pixels, a little big</span>
-    <span class="n">cr_width</span> <span class="o">=</span> <span class="mi">2</span>
-    <span class="n">theta_cr</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
-    <span class="n">apertures</span> <span class="o">=</span> <span class="n">EllipticalAperture</span><span class="p">(</span><span class="n">xy_cr</span><span class="p">,</span> <span class="n">cr_length</span><span class="p">,</span> <span class="n">cr_width</span><span class="p">,</span> <span class="n">theta_cr</span><span class="p">)</span>
-    <span class="n">masks</span> <span class="o">=</span> <span class="n">apertures</span><span class="o">.</span><span class="n">to_mask</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s">'center'</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">mask</span> <span class="ow">in</span> <span class="n">masks</span><span class="p">:</span>
-        <span class="n">cr_image</span> <span class="o">+=</span> <span class="n">strength</span> <span class="o">*</span> <span class="n">mask</span><span class="o">.</span><span class="n">to_image</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">cr_image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">cr_image</span>
-</code></pre></div></div>
-
 
               <nav class="c-page__nav">
   

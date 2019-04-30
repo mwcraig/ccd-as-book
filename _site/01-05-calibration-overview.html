@@ -29,9 +29,9 @@
   "headline":
     "Calibration overview",
   "datePublished":
-    "2019-03-26T07:25:28-05:00",
+    "2019-04-29T08:29:11-05:00",
   "dateModified":
-    "2019-03-26T07:25:28-05:00",
+    "2019-04-29T08:29:11-05:00",
   "description":
     "Calibration overview",
   "author": {
@@ -533,7 +533,7 @@ initFunction(initQuery);
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="https://github.com/jupyter/jupyter-book"
+          href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide"
         >
           
           GitHub repository
@@ -612,6 +612,8 @@ initFunction(initQuery);
                   href="/01-04-Nonuniform-sensitivity.html"
                 >
                   
+                    1.2
+                  
                   Non-uniform sensitivity in astronomical detectors
                 </a>
 
@@ -629,9 +631,85 @@ initFunction(initQuery);
                   href="/01-05-Calibration-overview.html"
                 >
                   
-                    1.2
+                    1.3
                   
                   Calibration overview
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-06-Image-combination.html"
+                >
+                  
+                    1.4
+                  
+                  Image combination
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-07-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.5
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-08-Overscan.html"
+                >
+                  
+                    1.6
+                  
+                  Overscan
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-09-reading-images.html"
+                >
+                  
+                    1.7
+                  
+                  Reading images
                 </a>
 
                 
@@ -674,6 +752,7 @@ initFunction(initQuery);
       <li><a href="#uncalibrated-image">Uncalibrated image</a></li>
       <li><a href="#reduce-calibrate-the-star-image">Reduce (calibrate) the star image</a></li>
       <li><a href="#reducing-the-image-cleans-up-the-image-a-bit">Reducing the image cleans up the image a bit</a></li>
+      <li><a href="#reducing-the-image-increases-the-noise-in-the-image">Reducing the image increases the noise in the image</a></li>
     </ul>
   </li>
 </ul>
@@ -761,6 +840,15 @@ initFunction(initQuery);
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Stars with noise'</span><span class="p">)</span>
 </code></pre></div></div>
 
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10.0, 10)
+
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Stars with noise')
+</code></pre></div></div>
+
+<p class="output output_png"><img src="images/01-05-Calibration-overview_5_2.png" alt="png" /></p>
+
 <h3 id="now-an-incorrect-attempt-at-reducing-noise">Now an <em>incorrect</em> attempt at reducing noise</h3>
 
 <p>Notice that the call to the noise function has exactly the same arguments as above, in much the same way your camera’s electronics will have the same noise properties every time you read out an image.</p>
@@ -772,6 +860,12 @@ initFunction(initQuery);
 <span class="n">show_image</span><span class="p">(</span><span class="n">incorrect_attempt_to_remove_noise</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">)</span>
 </code></pre></div></div>
 
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10.0, 10)
+
+</code></pre></div></div>
+
+<p class="output output_png"><img src="images/01-05-Calibration-overview_7_1.png" alt="png" /></p>
+
 <h2 id="every-image-has-noise">Every image has noise</h2>
 
 <p>Every image, including calibration images like bias and dark frames, has noise. If we tried to calibrate images by taking a single bias image and a single dark image, the final result might well look worse than before the image is reduced.</p>
@@ -782,7 +876,7 @@ initFunction(initQuery);
 
 <h3 id="first-set-parameters-for-the-ccd">First, set parameters for the CCD</h3>
 
-<p>These are the same as in the previous notebook, except for the read noise, which is 100 times larger.</p>
+<p>These are the same as in the previous notebook, except for the read noise, which is 700$e-$, 100 times larger than in the previous notebook.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gain</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">star_exposure</span> <span class="o">=</span> <span class="mf">30.0</span>
@@ -815,10 +909,20 @@ initFunction(initQuery);
 
 <h3 id="uncalibrated-image">Uncalibrated image</h3>
 
-<p>Below we display the uncalibrated image; in a moment we’ll compare it to the calibrated version.</p>
+<p>Below we display the uncalibrated image; in a moment we’ll compare it to the calibrated version. Even though they don’t stand out there really are stars in  it.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">show_image</span><span class="p">(</span><span class="n">realistic_stars</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">)</span>
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">realistic_stars</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
 </code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(9.0, 9)
+
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Figure size 864x864 with 0 Axes&gt;
+</code></pre></div></div>
+
+<p class="output output_png"><img src="images/01-05-Calibration-overview_15_2.png" alt="png" /></p>
 
 <h3 id="reduce-calibrate-the-star-image">Reduce (calibrate) the star image</h3>
 
@@ -835,18 +939,32 @@ initFunction(initQuery);
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">show_image</span><span class="p">(</span><span class="n">calibrated_stars</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">)</span>
 </code></pre></div></div>
 
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10.0, 10)
+
+</code></pre></div></div>
+
+<p class="output output_png"><img src="images/01-05-Calibration-overview_20_1.png" alt="png" /></p>
+
 <h3 id="reducing-the-image-cleans-up-the-image-a-bit">Reducing the image cleans up the image a bit</h3>
 
-<p>This image does not look much better than the uncalibrated image, but remember that the read noise used in this simulated image, 700 $e^-$ per pixel, is unrealistically high.</p>
+<p>The stars stand more clearly than in the unreduced image.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">calibrated_hist</span> <span class="o">=</span> <span class="n">histogram</span><span class="p">(</span><span class="n">calibrated_stars</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="s">'freedman'</span><span class="p">)</span>
-<span class="n">raw_stars_hist</span> <span class="o">=</span> <span class="n">histogram</span><span class="p">(</span><span class="n">stars_with_noise</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="s">'freedman'</span><span class="p">)</span>
-</code></pre></div></div>
+<p>This image does not look <em>much</em> better than the uncalibrated image, but remember that the read noise used in this simulated image, 700 $e^-$ per pixel, is unrealistically high.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">hist</span><span class="p">(</span><span class="n">calibrated_stars</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="s">'freedman'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'calibrated star image'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<h3 id="reducing-the-image-increases-the-noise-in-the-image">Reducing the image increases the noise in the image</h3>
+
+<p>The histogram below shows pixel values before and after calibration. The width of the distribution is a measure of the read noise. As expected, reducing the image increases the read noise. One reason one takes several calibration images of each type is to reduce the amount of noise in the calibration image. That will, in turn, keep the noise in the final image as small as possible.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">hist</span><span class="p">(</span><span class="n">calibrated_stars</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="s">'freedman'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'calibrated star image'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">hist</span><span class="p">(</span><span class="n">stars_with_noise</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="s">'freedman'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'raw star image'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Count level in image'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Number of pixels with that count'</span><span class="p">);</span>
 </code></pre></div></div>
+
+<p class="output output_png"><img src="images/01-05-Calibration-overview_23_0.png" alt="png" /></p>
 
 
               <nav class="c-page__nav">
@@ -859,8 +977,8 @@ initFunction(initQuery);
 
   
     
-    <a id="js-page__nav__next" class="c-page__nav__next" href="">
-       <span class="u-margin-right-tiny"></span> 〉
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/01-06-Image-combination">
+      Image combination <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>

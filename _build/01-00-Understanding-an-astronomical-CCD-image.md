@@ -3,9 +3,10 @@ redirect_from:
   - "01-00-understanding-an-astronomical-ccd-image"
 interact_link: content/01-00-Understanding-an-astronomical-CCD-image.ipynb
 kernel_name: python3
+has_widgets: false
 title: 'Understanding astronomical images'
 prev_page:
-  url: /https://github.com/jupyter/jupyter-book
+  url: /https://github.com/mwcraig/ccd-reduction-and-photometry-guide
   title: 'GitHub repository'
 next_page:
   url: /01-03-Construction-of-an-artificial-but-realistic-image
