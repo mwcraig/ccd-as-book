@@ -3,6 +3,7 @@ redirect_from:
   - "01-03-construction-of-an-artificial-but-realistic-image"
 interact_link: content/01-03-Construction-of-an-artificial-but-realistic-image.ipynb
 kernel_name: python3
+has_widgets: false
 title: 'An artificial, but realistic, image'
 prev_page:
   url: /01-00-Understanding-an-astronomical-CCD-image
@@ -70,7 +71,7 @@ show_image(synthetic_image, cmap='gray')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_7_1.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_7_1.png)
 
 
 
@@ -123,7 +124,7 @@ show_image(noise_im, cmap='gray')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_10_1.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_10_1.png)
 
 
 
@@ -211,7 +212,7 @@ Text(0.5,1,'Bias alone, bad columns included')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_13_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_13_2.png)
 
 
 
@@ -243,7 +244,7 @@ Text(0.5,1,'Realistic bias frame (includes read noise)')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_14_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_14_2.png)
 
 
 
@@ -334,7 +335,7 @@ plt.title(title_string, fontsize='20');
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_17_1.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_17_1.png)
 
 
 
@@ -368,7 +369,7 @@ Text(0.5,1,'Realistic dark frame \n(with bias, read noise)')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_19_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_19_2.png)
 
 
 
@@ -437,7 +438,7 @@ Text(0.5,1,'Sky background only, 20 counts input')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_22_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_22_2.png)
 
 
 
@@ -459,7 +460,7 @@ plt.title('Sky, dark, bias and noise\n(Realistic image of clouds)', fontsize=20)
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_23_1.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_23_1.png)
 
 
 
@@ -512,7 +513,7 @@ i
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_26_0.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_26_0.png)
 
 
 
@@ -585,7 +586,7 @@ Text(0.5,1,'Stars only')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_29_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_29_2.png)
 
 
 
@@ -624,7 +625,7 @@ Text(0.5,1,'Stars with noise, bias, dark, sky')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-03-Construction-of-an-artificial-but-realistic-image_31_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_31_2.png)
 
 
 

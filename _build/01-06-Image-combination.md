@@ -3,6 +3,7 @@ redirect_from:
   - "01-06-image-combination"
 interact_link: content/01-06-Image-combination.ipynb
 kernel_name: python3
+has_widgets: false
 title: 'Image combination'
 prev_page:
   url: /01-05-Calibration-overview
@@ -108,7 +109,7 @@ ax[1].legend()
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-06-Image-combination_6_1.png)
+![png](images/01-06-Image-combination_6_1.png)
 
 
 
@@ -139,7 +140,7 @@ for axis, data, title in zip(axes, data_source, titles):
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-06-Image-combination_9_0.png)
+![png](images/01-06-Image-combination_9_0.png)
 
 
 
@@ -173,7 +174,7 @@ plt.grid(False)
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-06-Image-combination_13_0.png)
+![png](images/01-06-Image-combination_13_0.png)
 
 
 
@@ -206,7 +207,7 @@ plt.semilogy();
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-06-Image-combination_17_0.png)
+![png](images/01-06-Image-combination_17_0.png)
 
 
 
@@ -234,7 +235,7 @@ for axis, data, title in zip(axes, data_source, titles):
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-06-Image-combination_19_0.png)
+![png](images/01-06-Image-combination_19_0.png)
 
 
 
@@ -392,6 +393,6 @@ Text(0,0.5,'Number of pixels')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-06-Image-combination_35_1.png)
+![png](images/01-06-Image-combination_35_1.png)
 
 

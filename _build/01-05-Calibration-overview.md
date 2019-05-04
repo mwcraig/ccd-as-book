@@ -3,6 +3,7 @@ redirect_from:
   - "01-05-calibration-overview"
 interact_link: content/01-05-Calibration-overview.ipynb
 kernel_name: python3
+has_widgets: false
 title: 'Calibration overview'
 prev_page:
   url: /01-04-Nonuniform-sensitivity
@@ -97,7 +98,7 @@ Text(0.5,1,'Stars with noise')
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-05-Calibration-overview_5_2.png)
+![png](images/01-05-Calibration-overview_5_2.png)
 
 
 
@@ -125,7 +126,7 @@ show_image(incorrect_attempt_to_remove_noise, cmap='gray', percu=99.9)
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-05-Calibration-overview_7_1.png)
+![png](images/01-05-Calibration-overview_7_1.png)
 
 
 
@@ -213,7 +214,7 @@ show_image(realistic_stars, cmap='gray', percu=99.9, figsize=(9, 9))
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-05-Calibration-overview_15_2.png)
+![png](images/01-05-Calibration-overview_15_2.png)
 
 
 
@@ -255,7 +256,7 @@ show_image(calibrated_stars, cmap='gray', percu=99.9)
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-05-Calibration-overview_20_1.png)
+![png](images/01-05-Calibration-overview_20_1.png)
 
 
 
@@ -285,6 +286,6 @@ plt.ylabel('Number of pixels with that count');
 
 
 {:.output .output_png}
-![png](/Users/mattcraig/development/ccd-as-book/_build/01-05-Calibration-overview_23_0.png)
+![png](images/01-05-Calibration-overview_23_0.png)
 
 

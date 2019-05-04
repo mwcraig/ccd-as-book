@@ -3,6 +3,7 @@ redirect_from:
   - "01-07-calibration-choices-you-need-to-make"
 interact_link: content/01-07-Calibration-choices-you-need-to-make.ipynb
 kernel_name: python3
+has_widgets: false
 title: 'Calibration choices to make'
 prev_page:
   url: /01-06-Image-combination
