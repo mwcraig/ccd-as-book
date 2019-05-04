@@ -1,7 +1,6 @@
 ---
 interact_link: content/01-09-reading-images.ipynb
 kernel_name: python3
-has_widgets: false
 title: 'Reading images'
 prev_page:
   url: /01-08-Overscan

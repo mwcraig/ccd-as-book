@@ -3,7 +3,6 @@ redirect_from:
   - "00-00-preface"
 interact_link: content/00-00-Preface.ipynb
 kernel_name: python3
-has_widgets: false
 title: 'Home'
 prev_page:
   url: 

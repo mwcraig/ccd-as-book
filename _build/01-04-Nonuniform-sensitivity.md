@@ -3,7 +3,6 @@ redirect_from:
   - "01-04-nonuniform-sensitivity"
 interact_link: content/01-04-Nonuniform-sensitivity.ipynb
 kernel_name: python3
-has_widgets: false
 title: 'Non-uniform sensitivity in astronomical detectors'
 prev_page:
   url: /01-03-Construction-of-an-artificial-but-realistic-image
@@ -64,7 +63,7 @@ show_image(flat, cmap='gray')
 
 
 {:.output .output_png}
-![png](images/01-04-Nonuniform-sensitivity_5_1.png)
+![png](/Users/mattcraig/development/ccd-as-book/_build/01-04-Nonuniform-sensitivity_5_1.png)
 
 
 
@@ -134,7 +133,7 @@ show_image(final_image, cmap='gray', percu=99.9)
 
 
 {:.output .output_png}
-![png](images/01-04-Nonuniform-sensitivity_13_1.png)
+![png](/Users/mattcraig/development/ccd-as-book/_build/01-04-Nonuniform-sensitivity_13_1.png)
 
 
 
@@ -159,6 +158,6 @@ show_image(final_image2, cmap='gray')
 
 
 {:.output .output_png}
-![png](images/01-04-Nonuniform-sensitivity_15_1.png)
+![png](/Users/mattcraig/development/ccd-as-book/_build/01-04-Nonuniform-sensitivity_15_1.png)
 
 

@@ -3,7 +3,6 @@ redirect_from:
   - "01-00-understanding-an-astronomical-ccd-image"
 interact_link: content/01-00-Understanding-an-astronomical-CCD-image.ipynb
 kernel_name: python3
-has_widgets: false
 title: 'Understanding astronomical images'
 prev_page:
   url: /00-00-Preface

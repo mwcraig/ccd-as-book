@@ -3,7 +3,6 @@ redirect_from:
   - "01-08-overscan"
 interact_link: content/01-08-Overscan.ipynb
 kernel_name: python3
-has_widgets: false
 title: 'Overscan'
 prev_page:
   url: /01-07-Calibration-choices-you-need-to-make
@@ -107,7 +106,7 @@ Text(0.5,1,'Overscan region, averaged over all rows')
 
 
 {:.output .output_png}
-![png](images/01-08-Overscan_6_1.png)
+![png](/Users/mattcraig/development/ccd-as-book/_build/01-08-Overscan_6_1.png)
 
 
 
@@ -221,7 +220,7 @@ plt.ylim(900, 1300)
 
 
 {:.output .output_png}
-![png](images/01-08-Overscan_12_1.png)
+![png](/Users/mattcraig/development/ccd-as-book/_build/01-08-Overscan_12_1.png)
 
 
 

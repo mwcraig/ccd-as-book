@@ -11,7 +11,7 @@
   <meta name="description" content="Understanding an astronomical CCD image">
 
   <link rel="canonical" href="/YOUR%20URL//01-00-Understanding-an-astronomical-CCD-image.html">
-  <link rel="alternate" type="application/rss+xml" title="YOUR BOOK NAME" href="/YOUR%20URL//feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="CCD Data Reduction Guide" href="/YOUR%20URL//feed.xml">
 
   <meta property="og:url"         content="/YOUR%20URL//01-00-Understanding-an-astronomical-CCD-image.html" />
 <meta property="og:type"        content="article" />
@@ -29,14 +29,14 @@
   "headline":
     "Understanding astronomical images",
   "datePublished":
-    "2019-04-29T08:29:11-05:00",
+    "2019-05-04T12:58:48-05:00",
   "dateModified":
-    "2019-04-29T08:29:11-05:00",
+    "2019-05-04T12:58:48-05:00",
   "description":
     "Understanding an astronomical CCD image",
   "author": {
     "@type": "Person",
-    "name": "YOUR AUTHOR NAME"
+    "name": "Matthew Craig"
   },
   "publisher": {
     "@type": "Organization",
@@ -143,99 +143,6 @@ initFunction(function () {
 
   <!-- Load Thebelab for interactive widgets -->
   <!-- Include Thebelab for interactive code if it's enabled -->
-
-<script type="text/x-thebe-config">
-    {
-      requestKernel: true,
-      binderOptions: {
-        repo: 'YOUR-ORG/YOUR-REPO',
-        ref: 'master',
-      },
-      kernelOptions: {
-        name: 'python3',
-      }
-    }
-</script>
-<script src="https://unpkg.com/thebelab@0.3.3/lib/index.js"></script>
-<script>
-    /**
-     * Add attributes to Thebelab blocks
-     */
-
-    const initThebelab = () => {
-        const addThebelabToCodeCells = () => {
-            console.log("Adding thebelab to code cells...");
-            // If Thebelab hasn't loaded, wait a bit and try again. This
-            // happens because we load ClipboardJS asynchronously.
-            if (window.thebelab === undefined) {
-                setTimeout(addThebelabToCodeCells, 250)
-            return
-            }
-
-            // If we already detect a Thebelab cell, don't re-run
-            if (document.querySelectorAll('div.thebelab-cell').length > 0) {
-                return;
-            }
-
-            // Find all code cells, replace with Thebelab interactive code cells
-            const codeCells = document.querySelectorAll('.input_area pre')
-            codeCells.forEach((codeCell, index) => {
-                const id = codeCellId(index)
-                codeCell.setAttribute('data-executable', 'true')
-
-                // Figure out the language it uses and add this too
-                var parentDiv = codeCell.parentElement.parentElement;
-                var arrayLength = parentDiv.classList.length;
-                for (var ii = 0; ii < arrayLength; ii++) {
-                    var parts = parentDiv.classList[ii].split('language-');
-                    if (parts.length === 2) {
-                        // If found, assign dataLanguage and break the loop
-                        var dataLanguage = parts[1];
-                        break;
-                    }
-                }
-                codeCell.setAttribute('data-language', dataLanguage)
-
-                // If the code cell is hidden, show it
-                var inputCheckbox = document.querySelector(`input#hidebtn${codeCell.id}`);
-                if (inputCheckbox !== null) {
-                    setCodeCellVisibility(inputCheckbox, 'visible');
-                }
-            });
-
-            // Remove the event listener from the page so keyboard press doesn't
-            // Change page
-            document.removeEventListener('keydown', initPageNav)
-            keyboardListener = false;
-
-            // Init thebelab
-            thebelab.bootstrap();
-
-            // Remove copy buttons since they won't work anymore
-            const copyButtons = document.querySelectorAll('.copybtn')
-            copyButtons.forEach((copyButton, index) => {
-                copyButton.remove();
-            });
-
-            // Remove outputs since they'll be stale
-            const outputs = document.querySelectorAll('.output *, .output')
-            outputs.forEach((output, index) => {
-                output.remove();
-            });
-        }
-
-        // Add event listener for the function to modify code cells
-        const thebelabButton = document.getElementById('interact-button-thebelab');
-        if (thebelabButton === null) {
-            setTimeout(initThebelab, 250)
-        return
-        };
-        thebelabButton.addEventListener('click', addThebelabToCodeCells);
-    }
-
-    // Initialize Thebelab
-    initFunction(initThebelab);
-</script>
 
 
   <!-- Google analytics -->
@@ -499,7 +406,7 @@ initFunction(initQuery);
 
 <nav id="js-sidebar" class="c-textbook__sidebar">
   <a href="https://jupyter.org/jupyter-book/"><img src="/images/logo/logo.png" class="textbook_logo" id="sidebar-logo" data-turbolinks-permanent/></a>
-  <h2 class="c-sidebar__title">YOUR BOOK NAME</h2>
+  <h2 class="c-sidebar__title">CCD Data Reduction Guide</h2>
   <ul class="c-sidebar__chapters">
     
       
@@ -525,27 +432,6 @@ initFunction(initQuery);
     
       
       
-
-      
-      
-
-      
-      
-      <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry "
-          href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide"
-        >
-          
-          GitHub repository
-        </a>
-
-        
-      </li>
-
-      
-    
-      
-      
         <li class="c-sidebar__chapter"><a class="c-sidebar__entry" href="/search.html">Search</a></li>
         
       
@@ -554,7 +440,7 @@ initFunction(initQuery);
         
       
       
-        <li><h2 class="c-sidebar__title">CCD Guide</li>
+        <li><h2 class="c-sidebar__title">CCD Data Reduction Guide</li>
         
       
       
@@ -724,8 +610,33 @@ initFunction(initQuery);
 
       
     
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide"
+        >
+          
+          GitHub repository
+        </a>
+
+        
+      </li>
+
+      
+    
   </ul>
-  <p class="sidebar_footer">Powered by <a href="https://github.com/jupyter/jupyter-book">Jupyter Book</a></p>
+  <p class="sidebar_footer">Powered by <a href="https://github.com/jupyter/jupyter-book">Jupyter Book</a> and <a href="https://astropy.org">Astropy</a></p>
 </nav>
 
       
@@ -770,7 +681,6 @@ initFunction(initQuery);
 <button id="interact-button-download" class="interact-button">Download</button>
 </a>
 
-<button id="interact-button-thebelab" class="interact-button">Thebelab</button>
 
 
 
@@ -829,8 +739,8 @@ initFunction(initQuery);
               <nav class="c-page__nav">
   
     
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/https://github.com/mwcraig/ccd-reduction-and-photometry-guide">
-      〈 <span class="u-margin-right-tiny"></span> GitHub repository
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/00-00-Preface">
+      〈 <span class="u-margin-right-tiny"></span> Home
     </a>
   
 
