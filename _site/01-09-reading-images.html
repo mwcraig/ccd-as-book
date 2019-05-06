@@ -29,9 +29,9 @@
   "headline":
     "Reading images",
   "datePublished":
-    "2019-05-04T13:50:55-05:00",
+    "2019-05-05T21:34:34-05:00",
   "dateModified":
-    "2019-05-04T13:50:55-05:00",
+    "2019-05-05T21:34:34-05:00",
   "description":
     "Reading images",
   "author": {
@@ -612,6 +612,79 @@ initFunction(initQuery);
     
       
       
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/02-00-Handling-overscan-trimming-and-bias-subtraction.html"
+        >
+          
+            2.
+          
+          Overscan and bias images
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/02-01-Calibrating-bias-images.html"
+                >
+                  
+                    2.1
+                  
+                  Calibrating bias images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/02-04-Combine-bias-images-to-make-master.html"
+                >
+                  
+                    2.2
+                  
+                  Combinge bias images to make master bias
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
         <li class="c-sidebar__divider"></li>
         
       
@@ -826,7 +899,7 @@ path/to/my/images/img-0027.fits
 <span class="n">hdu_list</span>
 </code></pre></div></div>
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[&lt;astropy.io.fits.hdu.image.PrimaryHDU object at 0x81963fa58&gt;]
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[&lt;astropy.io.fits.hdu.image.PrimaryHDU object at 0x821006438&gt;]
 </code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">hdu_list</code> is a list of FITS Header-Data Units. In this case there is just one, containing both the image header and data, which can be accessed as shown below.</p>
@@ -848,19 +921,19 @@ BUNIT   = 'adu     '
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">hdu</span><span class="o">.</span><span class="n">data</span>
 </code></pre></div></div>
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[ 0.60959742,  0.94995596,  0.22096455, ..., -1.74529926,
-        -0.29005586, -1.39245364],
-       [ 0.14224626, -0.20093444, -0.2634688 , ...,  0.32361315,
-        -0.95289985, -0.21923592],
-       [ 3.24031249,  2.03179435,  0.92859836, ..., -0.10089695,
-        -0.92792901,  0.92531685],
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[ 1.40681538,  1.21485825,  0.58203361, ...,  2.05846497,
+         2.01841455, -0.08320567],
+       [-1.20997896, -1.6118031 , -0.66081119, ..., -0.86253335,
+        -1.20258606, -0.20025521],
+       [ 0.25188371, -0.1317854 , -1.3605608 , ...,  0.49013659,
+         0.25824718, -0.85209647],
        ...,
-       [ 0.12555651,  0.9638298 ,  0.13552579, ..., -0.78186563,
-         0.70857966,  0.24578852],
-       [ 0.56487783,  1.37206573, -1.26819829, ...,  1.82158116,
-         1.26805608, -0.13897695],
-       [ 0.29668673,  0.91130988,  0.86871311, ..., -1.16494519,
-         2.70563155, -1.29098604]])
+       [-1.44412851, -0.25505099, -0.41099761, ..., -0.66918224,
+        -0.24640291, -1.30810838],
+       [-1.0567436 ,  0.34563845,  0.41963767, ...,  1.33837704,
+        -0.65504702, -0.58744726],
+       [ 2.26466001, -0.35858374,  0.70337786, ..., -1.56865442,
+         0.75968878, -0.2766397 ]])
 </code></pre></div></div>
 
 <p>The <a href="https://astropy.readthedocs.io/en/stable/io/fits/index.html">documentation for io.fits</a> describes more of its capabilities.</p>
@@ -892,19 +965,19 @@ BUNIT   = 'adu     '
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ccd</span><span class="o">.</span><span class="n">data</span>
 </code></pre></div></div>
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[ 0.60959742,  0.94995596,  0.22096455, ..., -1.74529926,
-        -0.29005586, -1.39245364],
-       [ 0.14224626, -0.20093444, -0.2634688 , ...,  0.32361315,
-        -0.95289985, -0.21923592],
-       [ 3.24031249,  2.03179435,  0.92859836, ..., -0.10089695,
-        -0.92792901,  0.92531685],
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[ 1.40681538,  1.21485825,  0.58203361, ...,  2.05846497,
+         2.01841455, -0.08320567],
+       [-1.20997896, -1.6118031 , -0.66081119, ..., -0.86253335,
+        -1.20258606, -0.20025521],
+       [ 0.25188371, -0.1317854 , -1.3605608 , ...,  0.49013659,
+         0.25824718, -0.85209647],
        ...,
-       [ 0.12555651,  0.9638298 ,  0.13552579, ..., -0.78186563,
-         0.70857966,  0.24578852],
-       [ 0.56487783,  1.37206573, -1.26819829, ...,  1.82158116,
-         1.26805608, -0.13897695],
-       [ 0.29668673,  0.91130988,  0.86871311, ..., -1.16494519,
-         2.70563155, -1.29098604]])
+       [-1.44412851, -0.25505099, -0.41099761, ..., -0.66918224,
+        -0.24640291, -1.30810838],
+       [-1.0567436 ,  0.34563845,  0.41963767, ...,  1.33837704,
+        -0.65504702, -0.58744726],
+       [ 2.26466001, -0.35858374,  0.70337786, ..., -1.56865442,
+         0.75968878, -0.2766397 ]])
 </code></pre></div></div>
 
 <p>There are a <a href="https://astropy.readthedocs.io/en/stable/nddata/ccddata.html">number of features of <code class="highlighter-rouge">CCDData</code></a> that make it convenient for working with WCS, slicing, and more. Some of those features will be discussed in more detail in the notebooks that follow.</p>
@@ -928,7 +1001,7 @@ BUNIT   = 'adu     '
 
 <div class="output output_html">
 <i>Table masked=True length=28</i>
-<table id="table47688184720" class="table-striped table-bordered table-condensed">
+<table id="table47815864952" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>simple</th><th>bitpix</th><th>naxis</th><th>naxis1</th><th>naxis2</th><th>imagetyp</th><th>exposure</th><th>bunit</th><th>filter</th><th>object</th></tr></thead>
 <thead><tr><th>str13</th><th>bool</th><th>int64</th><th>int64</th><th>int64</th><th>int64</th><th>str5</th><th>float64</th><th>str3</th><th>object</th><th>object</th></tr></thead>
 <tr><td>img-0000.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>BIAS</td><td>0.0</td><td>adu</td><td>--</td><td>--</td></tr>
@@ -977,11 +1050,11 @@ BUNIT   = 'adu     '
     <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">'In file {fname} the exposure is:'</span><span class="p">,</span> <span class="n">a_flat</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">'EXPOSURE'</span><span class="p">],</span> <span class="s">'with standard deviation '</span><span class="p">,</span> <span class="n">a_flat</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
 </code></pre></div></div>
 
-<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>In file img-0018.fits the exposure is: 30.0 with standard deviation  0.9943401971540783
-In file img-0020.fits the exposure is: 30.0 with standard deviation  0.9976911727768737
-In file img-0022.fits the exposure is: 30.0 with standard deviation  0.9999538898027833
-In file img-0024.fits the exposure is: 30.0 with standard deviation  0.9993566205119795
-In file img-0026.fits the exposure is: 30.0 with standard deviation  0.996962492140411
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>In file img-0018.fits the exposure is: 30.0 with standard deviation  0.9965693117641756
+In file img-0020.fits the exposure is: 30.0 with standard deviation  0.9966905082434526
+In file img-0022.fits the exposure is: 30.0 with standard deviation  0.9969161457344193
+In file img-0024.fits the exposure is: 30.0 with standard deviation  0.9961830977757162
+In file img-0026.fits the exposure is: 30.0 with standard deviation  0.9949013719116523
 
 </code></pre></div></div>
 
@@ -1048,8 +1121,8 @@ BUNIT   = 'adu     '
 
   
     
-    <a id="js-page__nav__next" class="c-page__nav__next" href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide">
-      GitHub repository <span class="u-margin-right-tiny"></span> 〉
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/02-00-Handling-overscan,-trimming,-and-bias-subtraction">
+      Overscan and bias images <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>

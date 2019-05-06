@@ -102,7 +102,7 @@ ax[1].legend()
 
 {:.output .output_data_text}
 ```
-<matplotlib.legend.Legend at 0x8222b6438>
+<matplotlib.legend.Legend at 0x825bf0f28>
 ```
 
 
@@ -283,9 +283,9 @@ for n_to_combine in [10, 20, n_distributions]:
 {:.output .output_stream}
 ```
 Number combined	 Average	 Standard dev σ 	 10σ 
-        10	   1100.30	    299.90	   2999.02
-        20	   1050.06	    217.93	   2179.32
-       100	   1010.06	     99.50	    994.98
+        10	   1100.80	    299.73	   2997.34
+        20	   1050.47	    217.84	   2178.40
+       100	   1009.96	     99.51	    995.08
 
 ```
 
@@ -316,9 +316,9 @@ for n_to_combine in [10, 20, n_distributions]:
 {:.output .output_stream}
 ```
   Number combined          Median              MAD σ                10σ         
-         10               1000.40               0.71                7.06        
-         20               1000.17               0.73                7.25        
-        100               1000.17               1.15               11.50        
+         10               1000.46               0.87                8.73        
+         20               1000.35               1.19               11.92        
+        100                999.92               0.94                9.39        
 
 ```
 

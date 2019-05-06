@@ -29,9 +29,9 @@
   "headline":
     "Search the site",
   "datePublished":
-    "2019-05-04T13:50:55-05:00",
+    "2019-05-05T21:34:34-05:00",
   "dateModified":
-    "2019-05-04T13:50:55-05:00",
+    "2019-05-05T21:34:34-05:00",
   "description":
     "This is an example book built with Jupyter Books.",
   "author": {
@@ -612,6 +612,79 @@ initFunction(initQuery);
     
       
       
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/02-00-Handling-overscan-trimming-and-bias-subtraction.html"
+        >
+          
+            2.
+          
+          Overscan and bias images
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/02-01-Calibrating-bias-images.html"
+                >
+                  
+                    2.1
+                  
+                  Calibrating bias images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/02-04-Combine-bias-images-to-make-master.html"
+                >
+                  
+                    2.2
+                  
+                  Combinge bias images to make master bias
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
         <li class="c-sidebar__divider"></li>
         
       
@@ -737,6 +810,30 @@ initFunction(initQuery);
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/01-09-reading-images.html",
+        "teaser":null},{
+        "title": "Overscan and bias images",
+        
+        "excerpt":
+            "Handling overscan, trimming, and bias subtraction Introduction The bias in a CCD camera is a DC offset applied to all pixels so that when the voltage in each pixel is converted to a number the number will always be positive. In an ideal CCD the bias would be the same for every pixel and not change over time. In practice, the bias is slightly different for each pixel, and can vary by a count or two from night to night or during a night. A bias image is a picture taken with the shutter close and zero exposure time; think...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/02-00-Handling-overscan-trimming-and-bias-subtraction.html",
+        "teaser":null},{
+        "title": "Calibrating bias images",
+        
+        "excerpt":
+            "Calibrating bias images The purpose of calibrating bias images is three-fold: Subtract overscan if you have decided your science will be better if you subtract overscan. See this discussion of overscan for some guidance. Trim the overscan region off of the image if it is present, regardless of whether you have chosen to subtract the overscan. Combine the bias images into a “combined” bias to be used in calibrating the rest of the images. The purpose of combining several images is to reduce as much as possible the read noise in the combined bias. The approach in this notebook will...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/02-01-Calibrating-bias-images.html",
+        "teaser":null},{
+        "title": "Combinge bias images to make master bias",
+        
+        "excerpt":
+            "Combine bias images to make master The final step is to combine the individual calibrated bias images into a single combined image. That combined image will have less noise than the individual images, minimizing the noise added to the remaining images when the bias is subtracted. Regardless of which path you took through the calibration of the biases (with overscan or without) there should be a folder named reduced that contains the calibrated bias images. If there is not, please run the previous notebook before continuing with this one. from pathlib import Path import os from astropy.nddata import CCDData from...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/02-04-Combine-bias-images-to-make-master.html",
         "teaser":null},]
 </script>
               <nav class="c-page__nav">
