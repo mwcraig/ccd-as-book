@@ -29,9 +29,9 @@
   "headline":
     "Image combination",
   "datePublished":
-    "2019-05-05T21:34:34-05:00",
+    "2019-05-29T18:21:05-05:00",
   "dateModified":
-    "2019-05-05T21:34:34-05:00",
+    "2019-05-29T18:21:05-05:00",
   "description":
     "Image combination",
   "author": {
@@ -685,6 +685,136 @@ initFunction(initQuery);
     
       
       
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/03-00-Dark-current-and-hot-pixels.html"
+        >
+          
+            3.
+          
+          Dark current and dark frames
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-01-Dark-current-The-ideal-case.html"
+                >
+                  
+                    3.1
+                  
+                  Dark current: the ideal case
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                >
+                  
+                    3.2
+                  
+                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                >
+                  
+                    3.3
+                  
+                  Make a choice about next steps for darks
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-05-Calibrate-dark-images.html"
+                >
+                  
+                    3.4
+                  
+                  Calibrate dark images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-06-Combine-darks-for-use-in-later-calibration-steps.html"
+                >
+                  
+                    3.5
+                  
+                  Combine calibrated dark images for use in later reduction steps
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
         <li class="c-sidebar__divider"></li>
         
       
@@ -826,7 +956,7 @@ initFunction(initQuery);
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x825bf0f28&gt;
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.legend.Legend at 0x1295854e0&gt;
 </code></pre></div></div>
 
 <p class="output output_png"><img src="images/01-06-Image-combination_6_1.png" alt="png" /></p>
@@ -948,8 +1078,8 @@ initFunction(initQuery);
 </code></pre></div></div>
 
 <div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Number combined	 Average	 Standard dev σ 	 10σ 
-        10	   1100.80	    299.73	   2997.34
-        20	   1050.47	    217.84	   2178.40
+        10	   1100.08	    299.98	   2999.75
+        20	   1050.13	    217.92	   2179.16
        100	   1009.96	     99.51	    995.08
 
 </code></pre></div></div>
@@ -971,9 +1101,9 @@ This is a measure of the typical absolute distance from the median of the set of
 </code></pre></div></div>
 
 <div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Number combined          Median              MAD σ                10σ         
-         10               1000.46               0.87                8.73        
-         20               1000.35               1.19               11.92        
-        100                999.92               0.94                9.39        
+         10               1000.00               0.88                8.77        
+         20               1000.05               1.06               10.58        
+        100               1000.10               1.03               10.32        
 
 </code></pre></div></div>
 
@@ -1016,7 +1146,7 @@ This is a measure of the typical absolute distance from the median of the set of
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Number of pixels'</span><span class="p">)</span>
 </code></pre></div></div>
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0,0.5,'Number of pixels')
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0, 0.5, 'Number of pixels')
 </code></pre></div></div>
 
 <p class="output output_png"><img src="images/01-06-Image-combination_35_1.png" alt="png" /></p>

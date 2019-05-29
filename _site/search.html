@@ -29,9 +29,9 @@
   "headline":
     "Search the site",
   "datePublished":
-    "2019-05-05T21:34:34-05:00",
+    "2019-05-29T18:21:05-05:00",
   "dateModified":
-    "2019-05-05T21:34:34-05:00",
+    "2019-05-29T18:21:05-05:00",
   "description":
     "This is an example book built with Jupyter Books.",
   "author": {
@@ -685,6 +685,136 @@ initFunction(initQuery);
     
       
       
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/03-00-Dark-current-and-hot-pixels.html"
+        >
+          
+            3.
+          
+          Dark current and dark frames
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-01-Dark-current-The-ideal-case.html"
+                >
+                  
+                    3.1
+                  
+                  Dark current: the ideal case
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                >
+                  
+                    3.2
+                  
+                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                >
+                  
+                    3.3
+                  
+                  Make a choice about next steps for darks
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-05-Calibrate-dark-images.html"
+                >
+                  
+                    3.4
+                  
+                  Calibrate dark images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-06-Combine-darks-for-use-in-later-calibration-steps.html"
+                >
+                  
+                    3.5
+                  
+                  Combine calibrated dark images for use in later reduction steps
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
         <li class="c-sidebar__divider"></li>
         
       
@@ -834,6 +964,54 @@ initFunction(initQuery);
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/02-04-Combine-bias-images-to-make-master.html",
+        "teaser":null},{
+        "title": "Dark current and dark frames",
+        
+        "excerpt":
+            "Dark current and hot pixels Every image from a CCD contains dark current, which are counts in a raw image caused by thermal effects in the CCD. the dark current is modern CCDs is extremely small if the camera is cooled in some way. Cameras cooled with liquid nitrogen have nearly zero dark current while thermo-electrically cooled CCDs have a somewhat larger dark current. The dark current in a CCD operating at room temperature will typically be very large. Even a camera in which the dark current is typically very small will have a small fraction of pixels, called hot...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/03-00-Dark-current-and-hot-pixels.html",
+        "teaser":null},{
+        "title": "Dark current: the ideal case",
+        
+        "excerpt":
+            "Dark current: the ideal case import numpy as np from scipy import stats %matplotlib inline from matplotlib import pyplot as plt from image_sim import dark_current, read_noise A dark frame measures dark current Recall that dark current refers to counts (electrons) generated in a pixel because an electron in the pixel happens to have enough energy to “break free” and register as a count. The distribution of electron thermal energies in pixel follows a Maxwell-Boltzmann distribution in which most electrons have energy around $kT$, where $T$ is the temperature of the sensor and $k$ is the Boltzmann constant. There is a...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/03-01-Dark-current-The-ideal-case.html",
+        "teaser":null},{
+        "title": "Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current",
+        
+        "excerpt":
+            "Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current The dark current on modern CCDs, even relatively inexpensive ones, is very small. In a typical exposure the dark current is likely smaller, maybe much smaller, than the read noise. Despite that, it is worth examining some dark frames from your camera. because not all pixels have the same dark current. Some, called hot pixels, have much higher dark current than the rest of the sensor. Some sensors have non-astronomical sources of counts whose value are proportional to exposure time, like...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html",
+        "teaser":null},{
+        "title": "Make a choice about next steps for darks",
+        
+        "excerpt":
+            "Make a choice about next steps for darks The options for reducing dark frames The next steps to take depend on two things: Are you subtracting overscan? If so, you should subtract overscan for the dark frames. Will you need to scale these darks to a different exposure time? If so, you need to subtract bias from the darks. If not, leave the bias in. 1. Do you need to subtract overscan? If you decide to subtract from any of the images used in your data reduction then you must subtract overscan from all of the images. This includes the...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/03-04-Make-a-choice-about-next-steps-for-darks.html",
+        "teaser":null},{
+        "title": "Calibrate dark images",
+        
+        "excerpt":
+            "Calibrate dark images Dark images, like any other images, need to be calibrated. Depending on the data you have and the choices you have made in reducing your data the steps to reducing your images may include: Subtracting overscan (only if you decide to subtract ocverscan from all images) Trim the image (if it has overscan, whether you are using the overscan or not) Subtract bias (if you need to scale the calibrated dark frames to a different exposure time). from pathlib import Path from astropy.nddata import CCDData from ccdproc import ImageFileCollection import ccdproc as ccdp Example 1: Overscan subtracted,...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/03-05-Calibrate-dark-images.html",
+        "teaser":null},{
+        "title": "Combine calibrated dark images for use in later reduction steps",
+        
+        "excerpt":
+            "Combine calibrated dark images for use in later reduction steps The final step is to combine the individual calibrated dark images into a single combined image. That combined image will have less noise than the individual images, minimizing the noise added to the remaining images when the dark is subtracted. Regardless of which path you took through the calibration of the biases (with overscan or without) there should be a folder named either example1-reduced or example2-reduced that contains the calibrated bias and dark images. If there is not, please run the previous notebook before continuing with this one. from pathlib...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/03-06-Combine-darks-for-use-in-later-calibration-steps.html",
         "teaser":null},]
 </script>
               <nav class="c-page__nav">

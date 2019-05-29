@@ -29,9 +29,9 @@
   "headline":
     "Overscan",
   "datePublished":
-    "2019-05-05T21:34:34-05:00",
+    "2019-05-29T18:21:05-05:00",
   "dateModified":
-    "2019-05-05T21:34:34-05:00",
+    "2019-05-29T18:21:05-05:00",
   "description":
     "Overscan",
   "author": {
@@ -685,6 +685,136 @@ initFunction(initQuery);
     
       
       
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/03-00-Dark-current-and-hot-pixels.html"
+        >
+          
+            3.
+          
+          Dark current and dark frames
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-01-Dark-current-The-ideal-case.html"
+                >
+                  
+                    3.1
+                  
+                  Dark current: the ideal case
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                >
+                  
+                    3.2
+                  
+                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                >
+                  
+                    3.3
+                  
+                  Make a choice about next steps for darks
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-05-Calibrate-dark-images.html"
+                >
+                  
+                    3.4
+                  
+                  Calibrate dark images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-06-Combine-darks-for-use-in-later-calibration-steps.html"
+                >
+                  
+                    3.5
+                  
+                  Combine calibrated dark images for use in later reduction steps
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
         <li class="c-sidebar__divider"></li>
         
       
@@ -823,7 +953,7 @@ initFunction(initQuery);
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Overscan region, averaged over all rows'</span><span class="p">)</span>
 </code></pre></div></div>
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Overscan region, averaged over all rows')
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5, 1.0, 'Overscan region, averaged over all rows')
 </code></pre></div></div>
 
 <p class="output output_png"><img src="images/01-08-Overscan_6_1.png" alt="png" /></p>
@@ -883,12 +1013,8 @@ Science 2016-01-16  09:47:21.00
 <span class="n">master</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">download_base_url</span> <span class="o">+</span> <span class="s">'master_bias.fit.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'adu'</span><span class="p">)</span>
 </code></pre></div></div>
 
-<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Downloading http://physics.mnstate.edu/craig/ccd-guide/wasp-10-b-S001-R001-C041-r.fit.gz [Done]
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
 INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
-Downloading http://physics.mnstate.edu/craig/ccd-guide/dark-test-0002d1000.fit.gz [Done]
-Downloading http://physics.mnstate.edu/craig/ccd-guide/AutoFlat-PANoRot-r-Bin1-006.fit.gz [Done]
-INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
-Downloading http://physics.mnstate.edu/craig/ccd-guide/master_bias.fit.gz [Done]
 INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
 
 </code></pre></div></div>

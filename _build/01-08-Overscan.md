@@ -100,7 +100,7 @@ plt.title('Overscan region, averaged over all rows')
 
 {:.output .output_data_text}
 ```
-Text(0.5,1,'Overscan region, averaged over all rows')
+Text(0.5, 1.0, 'Overscan region, averaged over all rows')
 ```
 
 
@@ -180,12 +180,8 @@ master = CCDData.read(download_base_url + 'master_bias.fit.gz', unit='adu')
 
 {:.output .output_stream}
 ```
-Downloading http://physics.mnstate.edu/craig/ccd-guide/wasp-10-b-S001-R001-C041-r.fit.gz [Done]
 INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
-Downloading http://physics.mnstate.edu/craig/ccd-guide/dark-test-0002d1000.fit.gz [Done]
-Downloading http://physics.mnstate.edu/craig/ccd-guide/AutoFlat-PANoRot-r-Bin1-006.fit.gz [Done]
 INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
-Downloading http://physics.mnstate.edu/craig/ccd-guide/master_bias.fit.gz [Done]
 INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
 
 ```

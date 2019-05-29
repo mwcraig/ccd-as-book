@@ -71,8 +71,6 @@ one_hundred_bias = CCDData.read(download_base_url + 'master_bias.fit.gz', unit='
 
 {:.output .output_stream}
 ```
-Downloading http://physics.mnstate.edu/craig/ccd-guide/dark-test-0100bias.fit.gz [Done]
-Downloading http://physics.mnstate.edu/craig/ccd-guide/master_bias.fit.gz [Done]
 INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
 
 ```

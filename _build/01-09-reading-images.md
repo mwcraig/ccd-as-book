@@ -7,7 +7,7 @@ prev_page:
   url: /01-08-Overscan
   title: 'Overscan'
 next_page:
-  url: /02-00-Handling-overscan,-trimming,-and-bias-subtraction
+  url: /02-00-Handling-overscan-trimming-and-bias-subtraction
   title: 'Overscan and bias images'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
@@ -170,7 +170,7 @@ hdu_list
 
 {:.output .output_data_text}
 ```
-[<astropy.io.fits.hdu.image.PrimaryHDU object at 0x821006438>]
+[<astropy.io.fits.hdu.image.PrimaryHDU object at 0x1143d24e0>]
 ```
 
 
@@ -216,19 +216,19 @@ hdu.data
 
 {:.output .output_data_text}
 ```
-array([[ 1.40681538,  1.21485825,  0.58203361, ...,  2.05846497,
-         2.01841455, -0.08320567],
-       [-1.20997896, -1.6118031 , -0.66081119, ..., -0.86253335,
-        -1.20258606, -0.20025521],
-       [ 0.25188371, -0.1317854 , -1.3605608 , ...,  0.49013659,
-         0.25824718, -0.85209647],
+array([[-1.12570767,  0.54076278,  2.23107807, ..., -1.53992489,
+        -2.49444674, -0.16752201],
+       [ 1.62168502,  0.37126556,  1.1663372 , ...,  0.14790602,
+         0.66979128,  0.08638055],
+       [ 0.71684382,  0.68471199, -0.8792814 , ...,  0.65920594,
+        -0.20866833,  0.41546901],
        ...,
-       [-1.44412851, -0.25505099, -0.41099761, ..., -0.66918224,
-        -0.24640291, -1.30810838],
-       [-1.0567436 ,  0.34563845,  0.41963767, ...,  1.33837704,
-        -0.65504702, -0.58744726],
-       [ 2.26466001, -0.35858374,  0.70337786, ..., -1.56865442,
-         0.75968878, -0.2766397 ]])
+       [ 0.96784   ,  0.56345797,  1.04352749, ..., -1.47385381,
+         0.3924519 ,  1.26399021],
+       [-0.042637  , -1.21850614,  0.38485001, ...,  0.95423618,
+         0.27638212,  0.0713511 ],
+       [-0.3263315 ,  1.36429723, -0.2969532 , ...,  0.1238056 ,
+        -1.76651732, -0.96451534]])
 ```
 
 
@@ -289,19 +289,19 @@ ccd.data
 
 {:.output .output_data_text}
 ```
-array([[ 1.40681538,  1.21485825,  0.58203361, ...,  2.05846497,
-         2.01841455, -0.08320567],
-       [-1.20997896, -1.6118031 , -0.66081119, ..., -0.86253335,
-        -1.20258606, -0.20025521],
-       [ 0.25188371, -0.1317854 , -1.3605608 , ...,  0.49013659,
-         0.25824718, -0.85209647],
+array([[-1.12570767,  0.54076278,  2.23107807, ..., -1.53992489,
+        -2.49444674, -0.16752201],
+       [ 1.62168502,  0.37126556,  1.1663372 , ...,  0.14790602,
+         0.66979128,  0.08638055],
+       [ 0.71684382,  0.68471199, -0.8792814 , ...,  0.65920594,
+        -0.20866833,  0.41546901],
        ...,
-       [-1.44412851, -0.25505099, -0.41099761, ..., -0.66918224,
-        -0.24640291, -1.30810838],
-       [-1.0567436 ,  0.34563845,  0.41963767, ...,  1.33837704,
-        -0.65504702, -0.58744726],
-       [ 2.26466001, -0.35858374,  0.70337786, ..., -1.56865442,
-         0.75968878, -0.2766397 ]])
+       [ 0.96784   ,  0.56345797,  1.04352749, ..., -1.47385381,
+         0.3924519 ,  1.26399021],
+       [-0.042637  , -1.21850614,  0.38485001, ...,  0.95423618,
+         0.27638212,  0.0713511 ],
+       [-0.3263315 ,  1.36429723, -0.2969532 , ...,  0.1238056 ,
+        -1.76651732, -0.96451534]])
 ```
 
 
@@ -340,7 +340,7 @@ im_collection.summary
 
 <div markdown="0" class="output output_html">
 <i>Table masked=True length=28</i>
-<table id="table47815864952" class="table-striped table-bordered table-condensed">
+<table id="table47613197448" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>simple</th><th>bitpix</th><th>naxis</th><th>naxis1</th><th>naxis2</th><th>imagetyp</th><th>exposure</th><th>bunit</th><th>filter</th><th>object</th></tr></thead>
 <thead><tr><th>str13</th><th>bool</th><th>int64</th><th>int64</th><th>int64</th><th>int64</th><th>str5</th><th>float64</th><th>str3</th><th>object</th><th>object</th></tr></thead>
 <tr><td>img-0000.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>BIAS</td><td>0.0</td><td>adu</td><td>--</td><td>--</td></tr>
@@ -405,11 +405,11 @@ for a_flat, fname in im_collection.hdus(imagetyp='LIGHT', object='m82', return_f
 
 {:.output .output_stream}
 ```
-In file img-0018.fits the exposure is: 30.0 with standard deviation  0.9965693117641756
-In file img-0020.fits the exposure is: 30.0 with standard deviation  0.9966905082434526
-In file img-0022.fits the exposure is: 30.0 with standard deviation  0.9969161457344193
-In file img-0024.fits the exposure is: 30.0 with standard deviation  0.9961830977757162
-In file img-0026.fits the exposure is: 30.0 with standard deviation  0.9949013719116523
+In file img-0018.fits the exposure is: 30.0 with standard deviation  1.002718545695149
+In file img-0020.fits the exposure is: 30.0 with standard deviation  1.0002906457414735
+In file img-0022.fits the exposure is: 30.0 with standard deviation  0.9991784700879347
+In file img-0024.fits the exposure is: 30.0 with standard deviation  0.9985687387452966
+In file img-0026.fits the exposure is: 30.0 with standard deviation  0.9992128351096516
 
 ```
 

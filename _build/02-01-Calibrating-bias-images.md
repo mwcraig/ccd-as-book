@@ -41,24 +41,28 @@ from convenience_functions import show_image
 ```
 
 
- ## Decide where to put your calibrated images
+## Example 1: With overscan subtraction
+
+ ### Decide where to put your calibrated images
  
-Though it is possible to overwrite your raw data with calibrated images that is a bad idea. Here we create a folder called `reduced` that will contain the calibrated data and create it if it doesn't exist.
+Though it is possible to overwrite your raw data with calibrated images that is a bad idea. Here we create a folder called `example1-reduced` that will contain the calibrated data and create it if it doesn't exist.
 
 
 
 {:.input_area}
 ```python
-calibrated_data = Path('.', 'reduced')
+calibrated_data = Path('.', 'example1-reduced')
 calibrated_data.mkdir(exist_ok=True)
 ```
 
 
-## Example with overscan subtraction
-
 ### Data for this example
 
-The data for this example can be downloaded from http://www.stsci.edu/~etollerud/python_imred_data.tar
+The data for this example can be downloaded from [http://www.stsci.edu/~etollerud/python_imred_data.tar](http://www.stsci.edu/~etollerud/python_imred_data.tar)
+
+In what follows, the unpacked data is presumed to be available in the same direction as this notebook.
+
+### Make an image file collection for the raw data
 
 
 
@@ -81,7 +85,7 @@ files.summary['file', 'imagetyp', 'filter', 'exptime', 'naxis1', 'naxis2']
 
 <div markdown="0" class="output output_html">
 <i>Table masked=True length=14</i>
-<table id="table47631692520" class="table-striped table-bordered table-condensed">
+<table id="table47838183552" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>filter</th><th>exptime</th><th>naxis1</th><th>naxis2</th></tr></thead>
 <thead><tr><th>str17</th><th>str9</th><th>str2</th><th>float64</th><th>int64</th><th>int64</th></tr></thead>
 <tr><td>ccd.001.0.fits.gz</td><td>BIAS</td><td>i&apos;</td><td>0.0</td><td>2080</td><td>4128</td></tr>
@@ -107,59 +111,6 @@ files.summary['file', 'imagetyp', 'filter', 'exptime', 'naxis1', 'naxis2']
 
 {:.input_area}
 ```python
-p = Path('.')
-p
-```
-
-
-
-
-
-{:.output .output_data_text}
-```
-PosixPath('.')
-```
-
-
-
-
-
-{:.input_area}
-```python
-os.listdir(files.location)
-```
-
-
-
-
-
-{:.output .output_data_text}
-```
-['ccd.003.0.fits.gz',
- 'ccd.017.0.fits.gz',
- 'ccd.005.0.fits.gz',
- '.DS_Store',
- 'ccd.037.0.fits.gz',
- 'ccd.016.0.fits.gz',
- 'ccd.002.0.fits.gz',
- 'observing_log.csv',
- 'ccd.004.0.fits.gz',
- 'ccd.001.0.fits.gz',
- 'ccd.015.0.fits.gz',
- 'ccd.018.0.fits.gz',
- 'ccd.043.0.fits.gz',
- 'ccd.014.0.fits.gz',
- 'ccd.019.0.fits.gz',
- 'ccd.006.0.fits.gz',
- 'darks']
-```
-
-
-
-
-
-{:.input_area}
-```python
 darks_only = ccdp.ImageFileCollection('python_imred_data/darks/')
 darks_only.summary['file', 'imagetyp', 'exptime']
 ```
@@ -170,7 +121,7 @@ darks_only.summary['file', 'imagetyp', 'exptime']
 
 <div markdown="0" class="output output_html">
 <i>Table masked=True length=10</i>
-<table id="table47631900008" class="table-striped table-bordered table-condensed">
+<table id="table47838186576" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>exptime</th></tr></thead>
 <thead><tr><th>str17</th><th>str4</th><th>float64</th></tr></thead>
 <tr><td>ccd.002.0.fits.gz</td><td>BIAS</td><td>0.0</td></tr>
@@ -214,7 +165,7 @@ files.summary['file', 'imagetyp', 'biassec', 'ccdsec', 'datasec'][0]
 
 <div markdown="0" class="output output_html">
 <i>Row index=0 masked=True</i>
-<table id="table47631897824">
+<table id="table47838355352">
 <thead><tr><th>file</th><th>imagetyp</th><th>biassec</th><th>ccdsec</th><th>datasec</th></tr></thead>
 <thead><tr><th>str17</th><th>str9</th><th>str18</th><th>str15</th><th>str15</th></tr></thead>
 <tr><td>ccd.001.0.fits.gz</td><td>BIAS</td><td>[2049:2080,1:4127]</td><td>[1:2048,1:4128]</td><td>[1:2048,1:4128]</td></tr>
@@ -224,6 +175,8 @@ files.summary['file', 'imagetyp', 'biassec', 'ccdsec', 'datasec'][0]
 
 
 The fits header claims the overscan extends from the 2049th column to the end of the image (this is one-based indexing) and that the part of the image exposed to light extends over all rows and from the first column to the 2048$^{th}$ column (again, this is one-indexed).
+
+### FITS *vs* Python indexing
 
 There are two differences between FITS and Python in terms of indexing:
 
@@ -294,7 +247,7 @@ ax2.set_title('Bias, overscan subtracted and trimmed')
 
 {:.output .output_data_text}
 ```
-Text(0.5,1,'Bias, overscan subtracted and trimmed')
+Text(0.5, 1.0, 'Bias, overscan subtracted and trimmed')
 ```
 
 
@@ -345,7 +298,7 @@ Let's check that we really did get the images we expect by creating an [`ImageFi
 
 {:.input_area}
 ```python
-reduced_images = ccdp.ImageFileCollection('reduced')
+reduced_images = ccdp.ImageFileCollection(calibrated_data)
 reduced_images.summary['file', 'imagetyp', 'naxis1', 'naxis2']
 ```
 
@@ -355,7 +308,7 @@ reduced_images.summary['file', 'imagetyp', 'naxis1', 'naxis2']
 
 <div markdown="0" class="output output_html">
 <i>Table masked=True length=6</i>
-<table id="table120849627064" class="table-striped table-bordered table-condensed">
+<table id="table121090192496" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>naxis1</th><th>naxis2</th></tr></thead>
 <thead><tr><th>str14</th><th>str4</th><th>int64</th><th>int64</th></tr></thead>
 <tr><td>ccd.001.0.fits</td><td>BIAS</td><td>2048</td><td>4128</td></tr>
@@ -369,6 +322,189 @@ reduced_images.summary['file', 'imagetyp', 'naxis1', 'naxis2']
 
 
 
-## Without overscan subtraction
+## Example 2: No overscan subtraction, but trim the images
 
 If you are not subtracting overscan then the only manipulation you may need to do is trimming the overscan from the images. If there is no overscan region in your images then even that is unnecessary.
+
+ ### Decide where to put your calibrated images
+ 
+Though it is possible to overwrite your raw data with calibrated images that is a bad idea. Here we create a folder called `example2-reduced` that will contain the calibrated data and create it if it doesn't exist.
+
+
+
+{:.input_area}
+```python
+calibrated_data = Path('.', 'example2-reduced')
+calibrated_data.mkdir(exist_ok=True)
+```
+
+
+### Data for this example
+
+The data for this example can be downloaded from XXXX
+
+
+
+{:.input_area}
+```python
+files = ccdp.ImageFileCollection('example-thermo-electric')
+files.summary['file', 'imagetyp', 'filter', 'exptime', 'naxis1', 'naxis2']
+```
+
+
+
+
+
+<div markdown="0" class="output output_html">
+<i>Table masked=True length=32</i>
+<table id="table47865841312" class="table-striped table-bordered table-condensed">
+<thead><tr><th>file</th><th>imagetyp</th><th>filter</th><th>exptime</th><th>naxis1</th><th>naxis2</th></tr></thead>
+<thead><tr><th>str34</th><th>str5</th><th>object</th><th>float64</th><th>int64</th><th>int64</th></tr></thead>
+<tr><td>AutoFlat-PANoRot-r-Bin1-001.fit.gz</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-002.fit.gz</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-003.fit.gz</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-004.fit.gz</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-005.fit.gz</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-006.fit.gz</td><td>FLAT</td><td>r</td><td>1.02</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-007.fit.gz</td><td>FLAT</td><td>r</td><td>1.06</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-008.fit.gz</td><td>FLAT</td><td>r</td><td>1.11</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-009.fit.gz</td><td>FLAT</td><td>r</td><td>1.16</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-010.fit.gz</td><td>FLAT</td><td>r</td><td>1.21</td><td>4109</td><td>4096</td></tr>
+<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+<tr><td>Dark-S001-R001-C003-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C004-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C005-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C006-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C007-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C008-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C009-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C020-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>kelt-16-b-S001-R001-C084-r.fit.gz</td><td>LIGHT</td><td>r</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>kelt-16-b-S001-R001-C125-r.fit.gz</td><td>LIGHT</td><td>r</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+</table>
+</div>
+
+
+
+### Determine overscan region
+
+Please see the discussion of this camera in [the overscan notebook](01.08-Overscan.ipynb#Case-2:-Thermo-electrically-cooled-Apogee-Aspen-CG16M) for a discussion of the overscan region of this camera. The overscan for this camera is not useful but should be trimmed out at this stage.
+
+These headers have some information in the keywords `BIASSEC` and `TRIMSEC` indicating, in the FITS numbering convention, the overscan region and the science region of the chip.
+
+
+
+{:.input_area}
+```python
+files.summary['file', 'imagetyp', 'biassec', 'trimsec'][0]
+```
+
+
+
+
+
+<div markdown="0" class="output output_html">
+<i>Row index=0 masked=True</i>
+<table id="table47867060464">
+<thead><tr><th>file</th><th>imagetyp</th><th>biassec</th><th>trimsec</th></tr></thead>
+<thead><tr><th>str34</th><th>str5</th><th>str11</th><th>str11</th></tr></thead>
+<tr><td>AutoFlat-PANoRot-r-Bin1-001.fit.gz</td><td>FLAT</td><td>[4096:4109]</td><td>[1:4096, :]</td></tr>
+</table>
+</div>
+
+
+
+Based on this, and the decision not to subtract overscan for this camera, we will only need to trim the overscan region off of the images. See the discussion at [FITS *vs* Python indexing](#FITS-vs-Python-indexing), above, for some details about the difference between FITS and Python indexing. Essentially, to get Python indexes from FITS, reverse the order and subtract one.
+
+### Trim the overscan (one sample image)
+
+The function `trim_image` from [ccdproc](ccdproc.rtfd.io) removes a portion of the image and updates the image metadata as needed.
+
+Below we get the first bias image.
+
+
+
+{:.input_area}
+```python
+raw_biases = files.files_filtered(include_path=True, imagetyp='BIAS')
+
+first_bias = CCDData.read(raw_biases[0], unit='adu')
+```
+
+
+{:.output .output_stream}
+```
+INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
+
+```
+
+There two ways of specifying the region to trim. One is to slice the image in Python; the other is to use the `fits_section` argument to `trim_image`.
+
+The cell below uses a FITS-style section.
+
+
+
+{:.input_area}
+```python
+trimmed_bias_fits = ccdp.trim_image(first_bias, fits_section='[1:4096, :]')
+```
+
+
+The cell below does the same trimming as the one above, but with Python-style slicing.
+
+
+
+{:.input_area}
+```python
+trimmed_bias_python = ccdp.trim_image(first_bias[:, :4096])
+```
+
+
+
+
+{:.input_area}
+```python
+np.testing.assert_allclose(trimmed_bias_python, trimmed_bias_fits)
+```
+
+
+### Processing a folder of bias images
+
+As in [Example 1](#Example-1:-With-overscan-subtraction), above, we can use the [`ImageFileCollection`](https://ccdproc.readthedocs.io/en/latest/ccdproc/image_management.html) we created  to loop over only the bias images, saving each in the folder `calibrated_data`. 
+
+
+
+{:.input_area}
+```python
+for ccd, file_name in files.ccds(imagetyp='BIAS',            # Just get the bias frames
+                                 return_fname=True           # Provide the file name too.
+                                ):
+    save_name, _ = file_name.split('.gz')
+    
+    # Trim the overscan
+    ccd = ccdp.trim_image(ccd[:, :4096])
+    
+    # Save the result
+    ccd.write(calibrated_data / save_name)
+```
+
+
+## Example 3: No overscan at all
+
+If there is no overscan then there is, in principle, nothing to be done with the bias frames. It may be convient to copy them to the directory with the rest of your reduced images. The code below does that.
+
+
+
+{:.input_area}
+```python
+calibrated_data = Path('.', 'example3-reduced')
+calibrated_data.mkdir(exist_ok=True)
+
+biases = files.files_filtered(imagetyp='BIAS', include_path=True)
+
+import shutil
+
+for bias in biases:
+    shutil.copy(bias, calibrated_data)
+```
+

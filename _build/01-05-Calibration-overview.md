@@ -91,7 +91,7 @@ plt.title('Stars with noise')
 
 {:.output .output_data_text}
 ```
-Text(0.5,1,'Stars with noise')
+Text(0.5, 1.0, 'Stars with noise')
 ```
 
 

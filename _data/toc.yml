@@ -77,6 +77,27 @@
     url: 02-04-Combine-bias-images-to-make-master
     not_numbered: false
 
+# A chapter w/ a collection of sections beneath it
+- title: Dark current and dark frames
+  url: 03-00-Dark-current-and-hot-pixels
+  not_numbered: false
+  expand_sections: true
+  sections:
+  - title: 'Dark current: the ideal case'
+    url: 03-01-Dark-current-The-ideal-case
+    not_numbered: false
+  - title: 'Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current'
+    url: 03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current
+    not_numbered: false
+  - title: Make a choice about next steps for darks
+    url: 03-04-Make-a-choice-about-next-steps-for-darks
+    not_numbered: false
+  - title: Calibrate dark images
+    url: 03-05-Calibrate-dark-images
+    not_numbered: false
+  - title: Combine calibrated dark images for use in later reduction steps
+    url: 03-06-Combine-darks-for-use-in-later-calibration-steps
+    not_numbered: false
 # Divider for meta-pages and content page
 - divider: true
 

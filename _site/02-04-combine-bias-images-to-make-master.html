@@ -29,9 +29,9 @@
   "headline":
     "Combinge bias images to make master bias",
   "datePublished":
-    "2019-05-05T21:34:34-05:00",
+    "2019-05-29T18:21:05-05:00",
   "dateModified":
-    "2019-05-05T21:34:34-05:00",
+    "2019-05-29T18:21:05-05:00",
   "description":
     "Combine bias images to make master",
   "author": {
@@ -685,6 +685,136 @@ initFunction(initQuery);
     
       
       
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/03-00-Dark-current-and-hot-pixels.html"
+        >
+          
+            3.
+          
+          Dark current and dark frames
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-01-Dark-current-The-ideal-case.html"
+                >
+                  
+                    3.1
+                  
+                  Dark current: the ideal case
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                >
+                  
+                    3.2
+                  
+                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                >
+                  
+                    3.3
+                  
+                  Make a choice about next steps for darks
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-05-Calibrate-dark-images.html"
+                >
+                  
+                    3.4
+                  
+                  Calibrate dark images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-06-Combine-darks-for-use-in-later-calibration-steps.html"
+                >
+                  
+                    3.5
+                  
+                  Combine calibrated dark images for use in later reduction steps
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
         <li class="c-sidebar__divider"></li>
         
       
@@ -724,7 +854,16 @@ initFunction(initQuery);
       <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
       <ul class="toc__menu">
   <li><a href="#recommended-settings-for-image-combination">Recommended settings for image combination</a></li>
-  <li><a href="#result">Result</a></li>
+  <li><a href="#example-1-cryogenically-cooled-camera">Example 1: cryogenically-cooled camera</a>
+    <ul>
+      <li><a href="#result">Result</a></li>
+    </ul>
+  </li>
+  <li><a href="#example-2-thermo-electrically-cooled-camera">Example 2: Thermo-electrically cooled camera</a>
+    <ul>
+      <li><a href="#result-1">Result</a></li>
+    </ul>
+  </li>
 </ul>
     </nav>
   </aside>
@@ -778,15 +917,7 @@ initFunction(initQuery);
 
 <span class="kn">from</span> <span class="nn">convenience_functions</span> <span class="kn">import</span> <span class="n">show_image</span>
 
-<span class="n">download_base_url</span> <span class="o">=</span> <span class="s">'http://physics.mnstate.edu/craig/ccd-guide/'</span>
-</code></pre></div></div>
-
-<p>The remained of this notebook assumes the calibrated bias images are in the folder in the cell below.</p>
-
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">calibrated_images</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'reduced'</span><span class="p">)</span>
-</code></pre></div></div>
-
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">reduced_images</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="n">calibrated_images</span><span class="p">)</span>
+<span class="c">#download_base_url = 'http://physics.mnstate.edu/craig/ccd-guide/'</span>
 </code></pre></div></div>
 
 <h2 id="recommended-settings-for-image-combination">Recommended settings for image combination</h2>
@@ -802,36 +933,109 @@ initFunction(initQuery);
 
 <p><em>NOTE: If using a version of ccdproc lower than 2.0 set the memory limit a factor of 2-3 lower than you want the maximum memory consumption to be.</em></p>
 
+<h2 id="example-1-cryogenically-cooled-camera">Example 1: cryogenically-cooled camera</h2>
+
+<p>The remained of this section assumes the calibrated bias images are in the folder <code class="highlighter-rouge">example1-reduced</code> which is created in the previous notebook.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">calibrated_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'example1-reduced'</span><span class="p">)</span>
+<span class="n">reduced_images</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="n">calibrated_path</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The code below:</p>
+
+<ul>
+  <li>selects the calibrated bias images,</li>
+  <li>combines them using the <code class="highlighter-rouge">combine</code> function,</li>
+  <li>adds the keyword <code class="highlighter-rouge">COMBINED</code> to the header so that later calibration steps can easily identify which bias to use, and</li>
+  <li>writes the file.</li>
+</ul>
+
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">calibrated_biases</span> <span class="o">=</span> <span class="n">reduced_images</span><span class="o">.</span><span class="n">files_filtered</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s">'bias'</span><span class="p">,</span> <span class="n">include_path</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="n">combined_bias</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">calibrated_biases</span><span class="p">,</span> <span class="n">output_file</span><span class="o">=</span><span class="n">calibrated_images</span> <span class="o">/</span> <span class="s">'combined_bias.fit'</span><span class="p">,</span>
+<span class="n">combined_bias</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">calibrated_biases</span><span class="p">,</span>
                              <span class="n">method</span><span class="o">=</span><span class="s">'average'</span><span class="p">,</span>
                              <span class="n">sigma_clip</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sigma_clip_low_thresh</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sigma_clip_high_thresh</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                              <span class="n">sigma_clip_func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">median</span><span class="p">,</span> <span class="n">signma_clip_dev_func</span><span class="o">=</span><span class="n">mad_std</span><span class="p">,</span>
                              <span class="n">mem_limit</span><span class="o">=</span><span class="mf">350e6</span>
                             <span class="p">)</span>
+
+<span class="n">combined_bias</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">'combined'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="n">combined_bias</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">calibrated_path</span> <span class="o">/</span> <span class="s">'combined_bias.fit'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INFO: splitting each image into 2 chunks to limit memory usage to 350000000.0 bytes. [ccdproc.combiner]
 
 </code></pre></div></div>
 
-<h2 id="result">Result</h2>
+<h3 id="result">Result</h3>
 
 <p>A single calibrated image and the combined image are shown below. There is significant two-dimensional structure in the bias that cannot easily be removed by subtracting only the overscan in the next image reduction steps. It takes little time to acquire bias images and doing so will result in higher quality science images.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 
-<span class="n">show_image</span><span class="p">(</span><span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">calibrated_biases</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">500</span><span class="p">:</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">500</span><span class="p">:</span><span class="mi">1000</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">calibrated_biases</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Single calibrated bias'</span><span class="p">)</span>
-<span class="n">show_image</span><span class="p">(</span><span class="n">combined_bias</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">500</span><span class="p">:</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">500</span><span class="p">:</span><span class="mi">1000</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">combined_bias</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'{} bias images combined'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">calibrated_biases</span><span class="p">)))</span>
 </code></pre></div></div>
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'6 bias images combined')
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5, 1.0, '6 bias images combined')
 </code></pre></div></div>
 
-<p class="output output_png"><img src="images/02-04-Combine-bias-images-to-make-master_9_1.png" alt="png" /></p>
+<p class="output output_png"><img src="images/02-04-Combine-bias-images-to-make-master_10_1.png" alt="png" /></p>
+
+<h2 id="example-2-thermo-electrically-cooled-camera">Example 2: Thermo-electrically cooled camera</h2>
+
+<p>The process for combining the images is exactly the same as in example 1. The only difference is the directory that contains the calibrated bias frames.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">calibrated_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'example2-reduced'</span><span class="p">)</span>
+<span class="n">reduced_images</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="n">calibrated_path</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The code below:</p>
+
+<ul>
+  <li>selects the calibrated bias images,</li>
+  <li>combines them using the <code class="highlighter-rouge">combine</code> function,</li>
+  <li>adds the keyword <code class="highlighter-rouge">COMBINED</code> to the header so that later calibration steps can easily identify which bias to use, and</li>
+  <li>writes the file.</li>
+</ul>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">calibrated_biases</span> <span class="o">=</span> <span class="n">reduced_images</span><span class="o">.</span><span class="n">files_filtered</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s">'bias'</span><span class="p">,</span> <span class="n">include_path</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">combined_bias</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">calibrated_biases</span><span class="p">,</span>
+                             <span class="n">method</span><span class="o">=</span><span class="s">'average'</span><span class="p">,</span>
+                             <span class="n">sigma_clip</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sigma_clip_low_thresh</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sigma_clip_high_thresh</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                             <span class="n">sigma_clip_func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">median</span><span class="p">,</span> <span class="n">signma_clip_dev_func</span><span class="o">=</span><span class="n">mad_std</span><span class="p">,</span>
+                             <span class="n">mem_limit</span><span class="o">=</span><span class="mf">350e6</span>
+                            <span class="p">)</span>
+
+<span class="n">combined_bias</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">'combined'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="n">combined_bias</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">calibrated_path</span> <span class="o">/</span> <span class="s">'combined_bias.fit'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INFO: splitting each image into 4 chunks to limit memory usage to 350000000.0 bytes. [ccdproc.combiner]
+
+</code></pre></div></div>
+
+<h3 id="result-1">Result</h3>
+
+<p>The difference between a single calibrated bias image and the combined bias image is miuch clearer in this case.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="n">show_image</span><span class="p">(</span><span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">calibrated_biases</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Single calibrated bias'</span><span class="p">)</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">combined_bias</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'{} bias images combined'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">calibrated_biases</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5, 1.0, '10 bias images combined')
+</code></pre></div></div>
+
+<p class="output output_png"><img src="images/02-04-Combine-bias-images-to-make-master_16_1.png" alt="png" /></p>
 
 
               <nav class="c-page__nav">
@@ -844,8 +1048,8 @@ initFunction(initQuery);
 
   
     
-    <a id="js-page__nav__next" class="c-page__nav__next" href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide">
-      GitHub repository <span class="u-margin-right-tiny"></span> 〉
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/03-00-Dark-current-and-hot-pixels">
+      Dark current and dark frames <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>

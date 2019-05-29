@@ -29,9 +29,9 @@
   "headline":
     "Calibrating bias images",
   "datePublished":
-    "2019-05-05T21:34:34-05:00",
+    "2019-05-29T18:21:05-05:00",
   "dateModified":
-    "2019-05-05T21:34:34-05:00",
+    "2019-05-29T18:21:05-05:00",
   "description":
     "Calibrating bias images",
   "author": {
@@ -685,6 +685,136 @@ initFunction(initQuery);
     
       
       
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/03-00-Dark-current-and-hot-pixels.html"
+        >
+          
+            3.
+          
+          Dark current and dark frames
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-01-Dark-current-The-ideal-case.html"
+                >
+                  
+                    3.1
+                  
+                  Dark current: the ideal case
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                >
+                  
+                    3.2
+                  
+                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                >
+                  
+                    3.3
+                  
+                  Make a choice about next steps for darks
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-05-Calibrate-dark-images.html"
+                >
+                  
+                    3.4
+                  
+                  Calibrate dark images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-06-Combine-darks-for-use-in-later-calibration-steps.html"
+                >
+                  
+                    3.5
+                  
+                  Combine calibrated dark images for use in later reduction steps
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
         <li class="c-sidebar__divider"></li>
         
       
@@ -723,16 +853,26 @@ initFunction(initQuery);
     <nav class="onthispage">
       <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
       <ul class="toc__menu">
-  <li><a href="#example-with-overscan-subtraction">Example with overscan subtraction</a>
+  <li><a href="#example-1-with-overscan-subtraction">Example 1: With overscan subtraction</a>
     <ul>
       <li><a href="#data-for-this-example">Data for this example</a></li>
+      <li><a href="#make-an-image-file-collection-for-the-raw-data">Make an image file collection for the raw data</a></li>
       <li><a href="#determine-overscan-region">Determine overscan region</a></li>
+      <li><a href="#fits-vs-python-indexing">FITS vs Python indexing</a></li>
       <li><a href="#subtract-and-then-trim-the-overscan-one-sample-image">Subtract and then trim the overscan (one sample image)</a></li>
       <li><a href="#discussion">Discussion</a></li>
       <li><a href="#processing-a-folder-of-bias-images">Processing a folder of bias images</a></li>
     </ul>
   </li>
-  <li><a href="#without-overscan-subtraction">Without overscan subtraction</a></li>
+  <li><a href="#example-2-no-overscan-subtraction-but-trim-the-images">Example 2: No overscan subtraction, but trim the images</a>
+    <ul>
+      <li><a href="#data-for-this-example-1">Data for this example</a></li>
+      <li><a href="#determine-overscan-region-1">Determine overscan region</a></li>
+      <li><a href="#trim-the-overscan-one-sample-image">Trim the overscan (one sample image)</a></li>
+      <li><a href="#processing-a-folder-of-bias-images-1">Processing a folder of bias images</a></li>
+    </ul>
+  </li>
+  <li><a href="#example-3-no-overscan-at-all">Example 3: No overscan at all</a></li>
 </ul>
     </nav>
   </aside>
@@ -792,19 +932,23 @@ initFunction(initQuery);
 <span class="kn">from</span> <span class="nn">convenience_functions</span> <span class="kn">import</span> <span class="n">show_image</span>
 </code></pre></div></div>
 
-<p>## Decide where to put your calibrated images</p>
+<h2 id="example-1-with-overscan-subtraction">Example 1: With overscan subtraction</h2>
 
-<p>Though it is possible to overwrite your raw data with calibrated images that is a bad idea. Here we create a folder called <code class="highlighter-rouge">reduced</code> that will contain the calibrated data and create it if it doesn’t exist.</p>
+<p>### Decide where to put your calibrated images</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">calibrated_data</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'.'</span><span class="p">,</span> <span class="s">'reduced'</span><span class="p">)</span>
+<p>Though it is possible to overwrite your raw data with calibrated images that is a bad idea. Here we create a folder called <code class="highlighter-rouge">example1-reduced</code> that will contain the calibrated data and create it if it doesn’t exist.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">calibrated_data</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'.'</span><span class="p">,</span> <span class="s">'example1-reduced'</span><span class="p">)</span>
 <span class="n">calibrated_data</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </code></pre></div></div>
 
-<h2 id="example-with-overscan-subtraction">Example with overscan subtraction</h2>
-
 <h3 id="data-for-this-example">Data for this example</h3>
 
-<p>The data for this example can be downloaded from http://www.stsci.edu/~etollerud/python_imred_data.tar</p>
+<p>The data for this example can be downloaded from <a href="http://www.stsci.edu/~etollerud/python_imred_data.tar">http://www.stsci.edu/~etollerud/python_imred_data.tar</a></p>
+
+<p>In what follows, the unpacked data is presumed to be available in the same direction as this notebook.</p>
+
+<h3 id="make-an-image-file-collection-for-the-raw-data">Make an image file collection for the raw data</h3>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">files</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="s">'python_imred_data'</span><span class="p">)</span>
 </code></pre></div></div>
@@ -814,7 +958,7 @@ initFunction(initQuery);
 
 <div class="output output_html">
 <i>Table masked=True length=14</i>
-<table id="table47631692520" class="table-striped table-bordered table-condensed">
+<table id="table47838183552" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>filter</th><th>exptime</th><th>naxis1</th><th>naxis2</th></tr></thead>
 <thead><tr><th>str17</th><th>str9</th><th>str2</th><th>float64</th><th>int64</th><th>int64</th></tr></thead>
 <tr><td>ccd.001.0.fits.gz</td><td>BIAS</td><td>i&apos;</td><td>0.0</td><td>2080</td><td>4128</td></tr>
@@ -834,42 +978,13 @@ initFunction(initQuery);
 </table>
 </div>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'.'</span><span class="p">)</span>
-<span class="n">p</span>
-</code></pre></div></div>
-
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PosixPath('.')
-</code></pre></div></div>
-
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">files</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
-</code></pre></div></div>
-
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>['ccd.003.0.fits.gz',
- 'ccd.017.0.fits.gz',
- 'ccd.005.0.fits.gz',
- '.DS_Store',
- 'ccd.037.0.fits.gz',
- 'ccd.016.0.fits.gz',
- 'ccd.002.0.fits.gz',
- 'observing_log.csv',
- 'ccd.004.0.fits.gz',
- 'ccd.001.0.fits.gz',
- 'ccd.015.0.fits.gz',
- 'ccd.018.0.fits.gz',
- 'ccd.043.0.fits.gz',
- 'ccd.014.0.fits.gz',
- 'ccd.019.0.fits.gz',
- 'ccd.006.0.fits.gz',
- 'darks']
-</code></pre></div></div>
-
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">darks_only</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="s">'python_imred_data/darks/'</span><span class="p">)</span>
 <span class="n">darks_only</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s">'file'</span><span class="p">,</span> <span class="s">'imagetyp'</span><span class="p">,</span> <span class="s">'exptime'</span><span class="p">]</span>
 </code></pre></div></div>
 
 <div class="output output_html">
 <i>Table masked=True length=10</i>
-<table id="table47631900008" class="table-striped table-bordered table-condensed">
+<table id="table47838186576" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>exptime</th></tr></thead>
 <thead><tr><th>str17</th><th>str4</th><th>float64</th></tr></thead>
 <tr><td>ccd.002.0.fits.gz</td><td>BIAS</td><td>0.0</td></tr>
@@ -905,7 +1020,7 @@ initFunction(initQuery);
 
 <div class="output output_html">
 <i>Row index=0 masked=True</i>
-<table id="table47631897824">
+<table id="table47838355352">
 <thead><tr><th>file</th><th>imagetyp</th><th>biassec</th><th>ccdsec</th><th>datasec</th></tr></thead>
 <thead><tr><th>str17</th><th>str9</th><th>str18</th><th>str15</th><th>str15</th></tr></thead>
 <tr><td>ccd.001.0.fits.gz</td><td>BIAS</td><td>[2049:2080,1:4127]</td><td>[1:2048,1:4128]</td><td>[1:2048,1:4128]</td></tr>
@@ -913,6 +1028,8 @@ initFunction(initQuery);
 </div>
 
 <p>The fits header claims the overscan extends from the 2049th column to the end of the image (this is one-based indexing) and that the part of the image exposed to light extends over all rows and from the first column to the 2048$^{th}$ column (again, this is one-indexed).</p>
+
+<h3 id="fits-vs-python-indexing">FITS <em>vs</em> Python indexing</h3>
 
 <p>There are two differences between FITS and Python in terms of indexing:</p>
 
@@ -955,7 +1072,7 @@ initFunction(initQuery);
 <span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Bias, overscan subtracted and trimmed'</span><span class="p">)</span>
 </code></pre></div></div>
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5,1,'Bias, overscan subtracted and trimmed')
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5, 1.0, 'Bias, overscan subtracted and trimmed')
 </code></pre></div></div>
 
 <p class="output output_png"><img src="images/02-01-Calibrating-bias-images_24_1.png" alt="png" /></p>
@@ -989,13 +1106,13 @@ initFunction(initQuery);
 
 <p>Let’s check that we really did get the images we expect by creating an <a href="https://ccdproc.readthedocs.io/en/latest/ccdproc/image_management.html"><code class="highlighter-rouge">ImageFileCollection</code></a> for the reduced folder and displaying the size of each image. We are expecting the images to be 2048 × 4128, and that there will be the same number of reduced bias images as input bias images (six).</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">reduced_images</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="s">'reduced'</span><span class="p">)</span>
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">reduced_images</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="n">calibrated_data</span><span class="p">)</span>
 <span class="n">reduced_images</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s">'file'</span><span class="p">,</span> <span class="s">'imagetyp'</span><span class="p">,</span> <span class="s">'naxis1'</span><span class="p">,</span> <span class="s">'naxis2'</span><span class="p">]</span>
 </code></pre></div></div>
 
 <div class="output output_html">
 <i>Table masked=True length=6</i>
-<table id="table120849627064" class="table-striped table-bordered table-condensed">
+<table id="table121090192496" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>naxis1</th><th>naxis2</th></tr></thead>
 <thead><tr><th>str14</th><th>str4</th><th>int64</th><th>int64</th></tr></thead>
 <tr><td>ccd.001.0.fits</td><td>BIAS</td><td>2048</td><td>4128</td></tr>
@@ -1007,9 +1124,136 @@ initFunction(initQuery);
 </table>
 </div>
 
-<h2 id="without-overscan-subtraction">Without overscan subtraction</h2>
+<h2 id="example-2-no-overscan-subtraction-but-trim-the-images">Example 2: No overscan subtraction, but trim the images</h2>
 
 <p>If you are not subtracting overscan then the only manipulation you may need to do is trimming the overscan from the images. If there is no overscan region in your images then even that is unnecessary.</p>
+
+<p>### Decide where to put your calibrated images</p>
+
+<p>Though it is possible to overwrite your raw data with calibrated images that is a bad idea. Here we create a folder called <code class="highlighter-rouge">example2-reduced</code> that will contain the calibrated data and create it if it doesn’t exist.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">calibrated_data</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'.'</span><span class="p">,</span> <span class="s">'example2-reduced'</span><span class="p">)</span>
+<span class="n">calibrated_data</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="data-for-this-example-1">Data for this example</h3>
+
+<p>The data for this example can be downloaded from XXXX</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">files</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="s">'example-thermo-electric'</span><span class="p">)</span>
+<span class="n">files</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s">'file'</span><span class="p">,</span> <span class="s">'imagetyp'</span><span class="p">,</span> <span class="s">'filter'</span><span class="p">,</span> <span class="s">'exptime'</span><span class="p">,</span> <span class="s">'naxis1'</span><span class="p">,</span> <span class="s">'naxis2'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="output output_html">
+<i>Table masked=True length=32</i>
+<table id="table47865841312" class="table-striped table-bordered table-condensed">
+<thead><tr><th>file</th><th>imagetyp</th><th>filter</th><th>exptime</th><th>naxis1</th><th>naxis2</th></tr></thead>
+<thead><tr><th>str34</th><th>str5</th><th>object</th><th>float64</th><th>int64</th><th>int64</th></tr></thead>
+<tr><td>AutoFlat-PANoRot-r-Bin1-001.fit.gz</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-002.fit.gz</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-003.fit.gz</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-004.fit.gz</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-005.fit.gz</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-006.fit.gz</td><td>FLAT</td><td>r</td><td>1.02</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-007.fit.gz</td><td>FLAT</td><td>r</td><td>1.06</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-008.fit.gz</td><td>FLAT</td><td>r</td><td>1.11</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-009.fit.gz</td><td>FLAT</td><td>r</td><td>1.16</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-010.fit.gz</td><td>FLAT</td><td>r</td><td>1.21</td><td>4109</td><td>4096</td></tr>
+<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+<tr><td>Dark-S001-R001-C003-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C004-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C005-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C006-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C007-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C008-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C009-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C020-NoFilt.fit.gz</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>kelt-16-b-S001-R001-C084-r.fit.gz</td><td>LIGHT</td><td>r</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>kelt-16-b-S001-R001-C125-r.fit.gz</td><td>LIGHT</td><td>r</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+</table>
+</div>
+
+<h3 id="determine-overscan-region-1">Determine overscan region</h3>
+
+<p>Please see the discussion of this camera in <a href="01.08-Overscan.ipynb#Case-2:-Thermo-electrically-cooled-Apogee-Aspen-CG16M">the overscan notebook</a> for a discussion of the overscan region of this camera. The overscan for this camera is not useful but should be trimmed out at this stage.</p>
+
+<p>These headers have some information in the keywords <code class="highlighter-rouge">BIASSEC</code> and <code class="highlighter-rouge">TRIMSEC</code> indicating, in the FITS numbering convention, the overscan region and the science region of the chip.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">files</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s">'file'</span><span class="p">,</span> <span class="s">'imagetyp'</span><span class="p">,</span> <span class="s">'biassec'</span><span class="p">,</span> <span class="s">'trimsec'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="output output_html">
+<i>Row index=0 masked=True</i>
+<table id="table47867060464">
+<thead><tr><th>file</th><th>imagetyp</th><th>biassec</th><th>trimsec</th></tr></thead>
+<thead><tr><th>str34</th><th>str5</th><th>str11</th><th>str11</th></tr></thead>
+<tr><td>AutoFlat-PANoRot-r-Bin1-001.fit.gz</td><td>FLAT</td><td>[4096:4109]</td><td>[1:4096, :]</td></tr>
+</table>
+</div>
+
+<p>Based on this, and the decision not to subtract overscan for this camera, we will only need to trim the overscan region off of the images. See the discussion at <a href="#FITS-vs-Python-indexing">FITS <em>vs</em> Python indexing</a>, above, for some details about the difference between FITS and Python indexing. Essentially, to get Python indexes from FITS, reverse the order and subtract one.</p>
+
+<h3 id="trim-the-overscan-one-sample-image">Trim the overscan (one sample image)</h3>
+
+<p>The function <code class="highlighter-rouge">trim_image</code> from <a href="ccdproc.rtfd.io">ccdproc</a> removes a portion of the image and updates the image metadata as needed.</p>
+
+<p>Below we get the first bias image.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">raw_biases</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">files_filtered</span><span class="p">(</span><span class="n">include_path</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">imagetyp</span><span class="o">=</span><span class="s">'BIAS'</span><span class="p">)</span>
+
+<span class="n">first_bias</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">raw_biases</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s">'adu'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
+
+</code></pre></div></div>
+
+<p>There two ways of specifying the region to trim. One is to slice the image in Python; the other is to use the <code class="highlighter-rouge">fits_section</code> argument to <code class="highlighter-rouge">trim_image</code>.</p>
+
+<p>The cell below uses a FITS-style section.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">trimmed_bias_fits</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">trim_image</span><span class="p">(</span><span class="n">first_bias</span><span class="p">,</span> <span class="n">fits_section</span><span class="o">=</span><span class="s">'[1:4096, :]'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The cell below does the same trimming as the one above, but with Python-style slicing.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">trimmed_bias_python</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">trim_image</span><span class="p">(</span><span class="n">first_bias</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">4096</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_allclose</span><span class="p">(</span><span class="n">trimmed_bias_python</span><span class="p">,</span> <span class="n">trimmed_bias_fits</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="processing-a-folder-of-bias-images-1">Processing a folder of bias images</h3>
+
+<p>As in <a href="#Example-1:-With-overscan-subtraction">Example 1</a>, above, we can use the <a href="https://ccdproc.readthedocs.io/en/latest/ccdproc/image_management.html"><code class="highlighter-rouge">ImageFileCollection</code></a> we created  to loop over only the bias images, saving each in the folder <code class="highlighter-rouge">calibrated_data</code>.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">ccd</span><span class="p">,</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">ccds</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s">'BIAS'</span><span class="p">,</span>            <span class="c"># Just get the bias frames</span>
+                                 <span class="n">return_fname</span><span class="o">=</span><span class="bp">True</span>           <span class="c"># Provide the file name too.</span>
+                                <span class="p">):</span>
+    <span class="n">save_name</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">file_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">'.gz'</span><span class="p">)</span>
+    
+    <span class="c"># Trim the overscan</span>
+    <span class="n">ccd</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">trim_image</span><span class="p">(</span><span class="n">ccd</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">4096</span><span class="p">])</span>
+    
+    <span class="c"># Save the result</span>
+    <span class="n">ccd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">calibrated_data</span> <span class="o">/</span> <span class="n">save_name</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="example-3-no-overscan-at-all">Example 3: No overscan at all</h2>
+
+<p>If there is no overscan then there is, in principle, nothing to be done with the bias frames. It may be convient to copy them to the directory with the rest of your reduced images. The code below does that.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">calibrated_data</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'.'</span><span class="p">,</span> <span class="s">'example3-reduced'</span><span class="p">)</span>
+<span class="n">calibrated_data</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">biases</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">files_filtered</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s">'BIAS'</span><span class="p">,</span> <span class="n">include_path</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+<span class="k">for</span> <span class="n">bias</span> <span class="ow">in</span> <span class="n">biases</span><span class="p">:</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">bias</span><span class="p">,</span> <span class="n">calibrated_data</span><span class="p">)</span>
+</code></pre></div></div>
+
 
               <nav class="c-page__nav">
   

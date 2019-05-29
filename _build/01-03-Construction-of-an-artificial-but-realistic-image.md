@@ -205,7 +205,7 @@ plt.title('Bias alone, bad columns included', fontsize='20')
 
 {:.output .output_data_text}
 ```
-Text(0.5,1,'Bias alone, bad columns included')
+Text(0.5, 1.0, 'Bias alone, bad columns included')
 ```
 
 
@@ -237,7 +237,7 @@ plt.title('Realistic bias frame (includes read noise)', fontsize='20')
 
 {:.output .output_data_text}
 ```
-Text(0.5,1,'Realistic bias frame (includes read noise)')
+Text(0.5, 1.0, 'Realistic bias frame (includes read noise)')
 ```
 
 
@@ -362,7 +362,7 @@ plt.title('Realistic dark frame \n(with bias, read noise)', fontsize='20')
 
 {:.output .output_data_text}
 ```
-Text(0.5,1,'Realistic dark frame \n(with bias, read noise)')
+Text(0.5, 1.0, 'Realistic dark frame \n(with bias, read noise)')
 ```
 
 
@@ -431,7 +431,7 @@ plt.title('Sky background only, {} counts input'.format(sky_level), fontsize=20)
 
 {:.output .output_data_text}
 ```
-Text(0.5,1,'Sky background only, 20 counts input')
+Text(0.5, 1.0, 'Sky background only, 20 counts input')
 ```
 
 
@@ -579,7 +579,7 @@ plt.title('Stars only'.format(stars_only), fontsize=20)
 
 {:.output .output_data_text}
 ```
-Text(0.5,1,'Stars only')
+Text(0.5, 1.0, 'Stars only')
 ```
 
 
@@ -618,7 +618,7 @@ plt.title('Stars with noise, bias, dark, sky'.format(stars_with_background), fon
 
 {:.output .output_data_text}
 ```
-Text(0.5,1,'Stars with noise, bias, dark, sky')
+Text(0.5, 1.0, 'Stars with noise, bias, dark, sky')
 ```
 
 
