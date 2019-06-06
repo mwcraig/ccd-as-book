@@ -29,9 +29,9 @@
   "headline":
     "Calibration overview",
   "datePublished":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "dateModified":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "description":
     "Calibration overview",
   "author": {
@@ -552,29 +552,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-07-Calibration-choices-you-need-to-make.html"
-                >
-                  
-                    1.5
-                  
-                  Calibration choices to make
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
                   href="/01-08-Overscan.html"
                 >
                   
-                    1.6
+                    1.5
                   
                   Overscan
                 </a>
@@ -590,7 +571,26 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-09-reading-images.html"
+                  href="/01-09-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.6
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-11-reading-images.html"
                 >
                   
                     1.7
@@ -668,7 +668,7 @@ initFunction(initQuery);
                   
                     2.2
                   
-                  Combinge bias images to make master bias
+                  Combine bias images to make master bias
                 </a>
 
                 
@@ -736,12 +736,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                  href="/03-02-Real-dark-current-noise-and-other-artifacts.html"
                 >
                   
                     3.2
                   
-                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                  Real dark current: noise and other artifacts
                 </a>
 
                 
@@ -755,12 +755,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                  href="/03-04-Handling-overscan-and-bias-for-dark-frames.html"
                 >
                   
                     3.3
                   
-                  Make a choice about next steps for darks
+                  Handling overscan and bias for dark frames
                 </a>
 
                 
@@ -855,7 +855,7 @@ initFunction(initQuery);
       <ul class="toc__menu">
   <li><a href="#this-noise-cannot-be-removed-from-ccd-images">This noise cannot be removed from CCD images</a>
     <ul>
-      <li><a href="#first-some-stars-with-noise">FIrst, some stars with noise</a></li>
+      <li><a href="#first-some-stars-with-noise">First, some stars with noise</a></li>
       <li><a href="#now-an-incorrect-attempt-at-reducing-noise">Now an incorrect attempt at reducing noise</a></li>
     </ul>
   </li>
@@ -916,7 +916,7 @@ initFunction(initQuery);
 
 <script type="math/tex; mode=display">\text{stars} + \text{noise} = \frac{\text{raw image} - \text{bias} - \text{dark current}}{\text{flat}} - \text{sky}</script>
 
-<h4 id="it-is-impossible-to-remove-the-noise-from-the-raw-image-because-the-noise-is-random">It is <em>impossible</em> to remove the noise from the raw image because the noise is random.</h4>
+<p><strong>It is <em>impossible</em> to remove the noise from the raw image because the noise is random.</strong></p>
 
 <p>The dark current is typically calculated from a <em>dark frame</em> (aka dark image). Such an image has bias and read noise in it as well, so:</p>
 
@@ -939,15 +939,15 @@ initFunction(initQuery);
 <span class="kn">from</span> <span class="nn">convenience_functions</span> <span class="kn">import</span> <span class="n">show_image</span>
 </code></pre></div></div>
 
-<h3 id="first-some-stars-with-noise">FIrst, some stars with noise</h3>
+<h3 id="first-some-stars-with-noise">First, some stars with noise</h3>
 
-<p>The image below shows stars but shows quite a bit of noise as well.</p>
+<p>The image below shows stars (the larger “blobs” in the image) but shows quite a bit of noise as well (the much smaller “dots”).</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
 <span class="n">gain</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="n">noise_amount</span> <span class="o">=</span> <span class="mi">500</span> 
+<span class="n">noise_amount</span> <span class="o">=</span> <span class="mi">1500</span> 
 
-<span class="n">stars_with_noise</span> <span class="o">=</span> <span class="n">imsim</span><span class="o">.</span><span class="n">stars</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">max_counts</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span> <span class="o">+</span> <span class="n">imsim</span><span class="o">.</span><span class="n">read_noise</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">noise_amount</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">)</span>
+<span class="n">stars_with_noise</span> <span class="o">=</span> <span class="n">imsim</span><span class="o">.</span><span class="n">stars</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">max_counts</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">fwhm</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="n">imsim</span><span class="o">.</span><span class="n">read_noise</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">noise_amount</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">)</span>
 
 <span class="n">show_image</span><span class="p">(</span><span class="n">stars_with_noise</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Stars with noise'</span><span class="p">)</span>

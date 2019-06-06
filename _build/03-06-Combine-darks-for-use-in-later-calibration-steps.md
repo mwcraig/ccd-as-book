@@ -101,7 +101,7 @@ for exp_time in sorted(dark_times):
     combined_dark = ccdp.combine(calibrated_darks,
                                  method='average',
                                  sigma_clip=True, sigma_clip_low_thresh=5, sigma_clip_high_thresh=5,
-                                 sigma_clip_func=np.ma.median, signma_clip_dev_func=mad_std,
+                                 sigma_clip_func=np.ma.median, sigma_clip_dev_func=mad_std,
                                  mem_limit=350e6
                                 )
 

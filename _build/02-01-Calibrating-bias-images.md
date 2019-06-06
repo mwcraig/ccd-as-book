@@ -10,7 +10,7 @@ prev_page:
   title: 'Overscan and bias images'
 next_page:
   url: /02-04-Combine-bias-images-to-make-master
-  title: 'Combinge bias images to make master bias'
+  title: 'Combine bias images to make master bias'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
@@ -43,7 +43,7 @@ from convenience_functions import show_image
 
 ## Example 1: With overscan subtraction
 
- ### Decide where to put your calibrated images
+### Decide where to put your calibrated images
  
 Though it is possible to overwrite your raw data with calibrated images that is a bad idea. Here we create a folder called `example1-reduced` that will contain the calibrated data and create it if it doesn't exist.
 
@@ -60,7 +60,7 @@ calibrated_data.mkdir(exist_ok=True)
 
 The data for this example can be downloaded from [http://www.stsci.edu/~etollerud/python_imred_data.tar](http://www.stsci.edu/~etollerud/python_imred_data.tar)
 
-In what follows, the unpacked data is presumed to be available in the same direction as this notebook.
+In what follows, the unpacked data is presumed to be available in the same directory as this notebook.
 
 ### Make an image file collection for the raw data
 
@@ -85,7 +85,7 @@ files.summary['file', 'imagetyp', 'filter', 'exptime', 'naxis1', 'naxis2']
 
 <div markdown="0" class="output output_html">
 <i>Table masked=True length=14</i>
-<table id="table47838183552" class="table-striped table-bordered table-condensed">
+<table id="table47843681672" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>filter</th><th>exptime</th><th>naxis1</th><th>naxis2</th></tr></thead>
 <thead><tr><th>str17</th><th>str9</th><th>str2</th><th>float64</th><th>int64</th><th>int64</th></tr></thead>
 <tr><td>ccd.001.0.fits.gz</td><td>BIAS</td><td>i&apos;</td><td>0.0</td><td>2080</td><td>4128</td></tr>
@@ -121,7 +121,7 @@ darks_only.summary['file', 'imagetyp', 'exptime']
 
 <div markdown="0" class="output output_html">
 <i>Table masked=True length=10</i>
-<table id="table47838186576" class="table-striped table-bordered table-condensed">
+<table id="table47843681504" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>exptime</th></tr></thead>
 <thead><tr><th>str17</th><th>str4</th><th>float64</th></tr></thead>
 <tr><td>ccd.002.0.fits.gz</td><td>BIAS</td><td>0.0</td></tr>
@@ -141,7 +141,7 @@ darks_only.summary['file', 'imagetyp', 'exptime']
 
 ### Determine overscan region
 
-Please see the discussion of this camera in [the overscan notebook](01.08-Overscan.ipynb#Case-1:-Cryogenically-cooled-Large-Format-Camera-(LFC)-at-Palomar) for the appropriate overscan regioin to use for this camera. Note, in particular, that it differs from the the value given in the `BIASSEC` keyword in the header of the images.
+Please see the discussion of this camera in [the overscan notebook](01.08-Overscan.ipynb#Case-1:-Cryogenically-cooled-Large-Format-Camera-(LFC)-at-Palomar) for the appropriate overscan region to use for this camera. Note, in particular, that it differs from the the value given in the `BIASSEC` keyword in the header of the images.
 
 The astropy affiliated package [ccdproc](https://ccdproc.readthedocs.io) provides two useful functions here:
 
@@ -150,7 +150,7 @@ The astropy affiliated package [ccdproc](https://ccdproc.readthedocs.io) provide
 
 First, let's see what the values of `BIASSEC` which sometimes (but not always) indicates that there is is overscan and which part of the chip is the overscan, and `CCDSEC`, which is sometimes, but not always present, and indicates which part of the chip light hit.
 
-Note that neither of these are standard; sometimes, for example, `trimsec` is used instead of `ccdsec`, and there are likely other variants. Some images may have neither keyword in the header. That does not necessary indicate that ovserscan isn't present. The best advice is to carefully check the documentation for the camer you are using. 
+Note that neither of these are standard; sometimes, for example, `trimsec` is used instead of `ccdsec`, and there are likely other variants. Some images may have neither keyword in the header. That does not necessary indicate that ovserscan isn't present. The best advice is to carefully check the documentation for the camera you are using. 
 
 
 
@@ -165,7 +165,7 @@ files.summary['file', 'imagetyp', 'biassec', 'ccdsec', 'datasec'][0]
 
 <div markdown="0" class="output output_html">
 <i>Row index=0 masked=True</i>
-<table id="table47838355352">
+<table id="table47843502960">
 <thead><tr><th>file</th><th>imagetyp</th><th>biassec</th><th>ccdsec</th><th>datasec</th></tr></thead>
 <thead><tr><th>str17</th><th>str9</th><th>str18</th><th>str15</th><th>str15</th></tr></thead>
 <tr><td>ccd.001.0.fits.gz</td><td>BIAS</td><td>[2049:2080,1:4127]</td><td>[1:2048,1:4128]</td><td>[1:2048,1:4128]</td></tr>
@@ -174,7 +174,7 @@ files.summary['file', 'imagetyp', 'biassec', 'ccdsec', 'datasec'][0]
 
 
 
-The fits header claims the overscan extends from the 2049th column to the end of the image (this is one-based indexing) and that the part of the image exposed to light extends over all rows and from the first column to the 2048$^{th}$ column (again, this is one-indexed).
+The fits header claims the overscan extends from the 2049$^{th}$ column to the end of the image (this is one-based indexing) and that the part of the image exposed to light extends over all rows and from the first column to the 2048$^{th}$ column (again, this is one-indexed).
 
 ### FITS *vs* Python indexing
 
@@ -187,9 +187,9 @@ For example, the **FITS** representation of the part of the chip exposed to ligh
 
 As discussed in [the overscan notebook](01.08-Overscan.ipynb#Case-1:-Cryogenically-cooled-Large-Format-Camera-(LFC)-at-Palomar), the useful overscan region for this camera starts at the 2055$^{th}$ column, not column 2049 as indicated by the `BIASSEC` keyword in the header. This situation is not unusual; column 2049 is the first of the columns masked by the manufacturer from light but there is some leakage into this region from the rest of the CCD.
 
-If you are going to overscan you need to carefully emaine the overscan in a few representative images to understand which part of the overscan to use.
+If you are going to overscan you need to carefully examine the overscan in a few representative images to understand which part of the overscan to use.
 
-In what follow, we will use for the overscan the region (Python/numpy indexing) `[:, 2055:]`.
+In what follows, we will use for the overscan the region (Python/numpy indexing) `[:, 2055:]`.
 
 ### Subtract and then trim the overscan (one sample image)
 
@@ -308,7 +308,7 @@ reduced_images.summary['file', 'imagetyp', 'naxis1', 'naxis2']
 
 <div markdown="0" class="output output_html">
 <i>Table masked=True length=6</i>
-<table id="table121090192496" class="table-striped table-bordered table-condensed">
+<table id="table121104347936" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>naxis1</th><th>naxis2</th></tr></thead>
 <thead><tr><th>str14</th><th>str4</th><th>int64</th><th>int64</th></tr></thead>
 <tr><td>ccd.001.0.fits</td><td>BIAS</td><td>2048</td><td>4128</td></tr>
@@ -326,7 +326,7 @@ reduced_images.summary['file', 'imagetyp', 'naxis1', 'naxis2']
 
 If you are not subtracting overscan then the only manipulation you may need to do is trimming the overscan from the images. If there is no overscan region in your images then even that is unnecessary.
 
- ### Decide where to put your calibrated images
+### Decide where to put your calibrated images
  
 Though it is possible to overwrite your raw data with calibrated images that is a bad idea. Here we create a folder called `example2-reduced` that will contain the calibrated data and create it if it doesn't exist.
 
@@ -357,7 +357,7 @@ files.summary['file', 'imagetyp', 'filter', 'exptime', 'naxis1', 'naxis2']
 
 <div markdown="0" class="output output_html">
 <i>Table masked=True length=32</i>
-<table id="table47865841312" class="table-striped table-bordered table-condensed">
+<table id="table47878381464" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>filter</th><th>exptime</th><th>naxis1</th><th>naxis2</th></tr></thead>
 <thead><tr><th>str34</th><th>str5</th><th>object</th><th>float64</th><th>int64</th><th>int64</th></tr></thead>
 <tr><td>AutoFlat-PANoRot-r-Bin1-001.fit.gz</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
@@ -405,7 +405,7 @@ files.summary['file', 'imagetyp', 'biassec', 'trimsec'][0]
 
 <div markdown="0" class="output output_html">
 <i>Row index=0 masked=True</i>
-<table id="table47867060464">
+<table id="table47874149512">
 <thead><tr><th>file</th><th>imagetyp</th><th>biassec</th><th>trimsec</th></tr></thead>
 <thead><tr><th>str34</th><th>str5</th><th>str11</th><th>str11</th></tr></thead>
 <tr><td>AutoFlat-PANoRot-r-Bin1-001.fit.gz</td><td>FLAT</td><td>[4096:4109]</td><td>[1:4096, :]</td></tr>
@@ -491,7 +491,7 @@ for ccd, file_name in files.ccds(imagetyp='BIAS',            # Just get the bias
 
 ## Example 3: No overscan at all
 
-If there is no overscan then there is, in principle, nothing to be done with the bias frames. It may be convient to copy them to the directory with the rest of your reduced images. The code below does that.
+If there is no overscan then there is, in principle, nothing to be done with the bias frames. It may be convenient to copy them to the directory with the rest of your reduced images. The code below does that.
 
 
 

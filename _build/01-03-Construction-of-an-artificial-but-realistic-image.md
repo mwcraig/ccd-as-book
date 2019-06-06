@@ -130,7 +130,7 @@ show_image(noise_im, cmap='gray')
 
 ##  Bias
 
-Bias is an offset voltage (which translates into some non-zero number of counts) added to every pixel in the image to ensure that when voltages are converted to counts there is never a negative count. Note that in the noise image above, some counts are positive and some are negative, as you would expect for a Gaussian distribution centered on zero.
+Bias is an offset voltage (which translates into some non-zero number of counts) added to every pixel in the image to ensure that when voltages are converted to counts there is never a negative count. Note that in the noise image above, some counts are positive and some are negative, as you would expect for a Gaussian distribution centered on zero. Pixel values are typically read out from the electronics as *positive* numbers, though. Adding a constant voltage, which corresponds to a constant, positive number, ensures that even an image which consists entirely of noise has no negative values.
 
 The bias value is roughly the same across the CCD chip, though it's not uncommon to have "bad" columns and pixels in which the bias level is consistently offset from the rest of the chip.
 
@@ -158,7 +158,7 @@ def bias(image, value, realistic=False):
     value: float
         Bias level to add.
     realistic : bool, optional
-        If ``True``, add some clomuns with somewhat higher bias value (a not uncommon thing)
+        If ``True``, add some columns with somewhat higher bias value (a not uncommon thing)
     """
     # This is the whole thing: the bias is really suppose to be a constant offset!
     bias_im = np.zeros_like(image) + value
@@ -258,7 +258,7 @@ The location and current of hot pixels is typically stable over long periods of 
 
 A dark frame (or dark image) is an image taken with the camera shutter closed.
 
-The function below simulates dark currrent only, i.e. it does *not* simulate the read noise that is a part of any actual dark frame from a CCD.
+The function below simulates dark current only, i.e. it does *not* simulate the read noise that is a part of any actual dark frame from a CCD.
 
 Note that the simulation dark image looks noisy even though it doesn't include read noise. This is because the number of electrons generated obey a Poisson distribution.
 

@@ -26,7 +26,7 @@ The next steps to take depend on two things:
 
 ### 1. Do you need to subtract overscan?
 
-If you decide to subtract from *any* of the images used in your data reduction then you must subtract overscan from *all* of the images. This includes the darks, and is independent of whether you intend to scale the dark frames to other exposure times.
+If you decide to subtract the overscan from *any* of the images used in your data reduction then you must subtract overscan from *all* of the images. This includes the darks, and is independent of whether you intend to scale the dark frames to other exposure times.
 
 Use [`ccdproc.subtract_overscan`](https://ccdproc.readthedocs.io/en/latest/ccdproc/reduction_toolbox.html#overscan-subtraction) to remove the overscan. See the notebook XX for a discussion of overscan, and see YY for a worked example in which overscan is subtracted.
 

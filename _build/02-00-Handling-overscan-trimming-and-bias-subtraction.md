@@ -6,7 +6,7 @@ kernel_name: python3
 has_widgets: false
 title: 'Overscan and bias images'
 prev_page:
-  url: /01-09-reading-images
+  url: /01-11-reading-images
   title: 'Reading images'
 next_page:
   url: /02-01-Calibrating-bias-images
@@ -21,7 +21,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 The bias in a CCD camera is a DC offset applied to all pixels so that when the voltage in each pixel is converted to a number the number will always be positive. In an ideal CCD the bias would be the same for every pixel and not change over time. In practice, the bias is slightly different for each pixel, and can vary by a count or two from night to night or during a night.
 
-A bias *image* is a picture taken with the shutter close and zero exposure time; think about it as a command to the camera to do whatever it usually does to prepare the camera's electronics to take an image and then immediately read out the CCD as though you had taken a picture.
+A bias *image* is a picture taken with the shutter closed and zero exposure time; think about it as a command to the camera to do whatever it usually does to prepare the camera's electronics to take an image and then immediately read out the CCD as though you had taken a picture.
 
 ## Sample bias images
 
@@ -105,7 +105,7 @@ ax_avg_bias.set_title('100 bias images combined');
 
 ## Impact of combining images on noise
 
-The reason for taking and combining several calibration images is to reduce the noise if the images used for calibration. The difference between a single image and a combination of images is apparent in the images above. Another way to see the impact of combining images in the histogram of pixel values. Notice that the distribution of values is much narrower for the combined image than for a single bias. Pixels near the edges, where the amplifier glow is large, are binned separately from the rest of the pixels to emphasize the uniformity of the chip away from the glow.
+As discussed at length in the [notebook on combination](01.06-Image-combination.ipynb), the reason for taking and combining several calibration images is to reduce the noise if the images used for calibration. The difference between a single image and a combination of images is apparent in the images above. Another way to see the impact of combining images in the histogram of pixel values. Notice that the distribution of values is much narrower for the combined image than for a single bias. Pixels near the edges, where the amplifier glow is large, are binned separately from the rest of the pixels to emphasize the uniformity of the chip away from the glow.
 
 
 

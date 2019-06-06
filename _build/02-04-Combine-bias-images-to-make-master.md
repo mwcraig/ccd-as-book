@@ -4,7 +4,7 @@ redirect_from:
 interact_link: content/02-04-Combine-bias-images-to-make-master.ipynb
 kernel_name: python3
 has_widgets: false
-title: 'Combinge bias images to make master bias'
+title: 'Combine bias images to make master bias'
 prev_page:
   url: /02-01-Calibrating-bias-images
   title: 'Calibrating bias images'
@@ -54,7 +54,7 @@ As discussed in the [notebook about combining images](), the recommendation is t
 
 ## Example 1: cryogenically-cooled camera
 
-The remained of this section assumes the calibrated bias images are in the folder `example1-reduced` which is created in the previous notebook.
+The remainder of this section assumes the calibrated bias images are in the folder `example1-reduced` which is created in the previous notebook.
 
 
 
@@ -81,7 +81,7 @@ calibrated_biases = reduced_images.files_filtered(imagetyp='bias', include_path=
 combined_bias = ccdp.combine(calibrated_biases,
                              method='average',
                              sigma_clip=True, sigma_clip_low_thresh=5, sigma_clip_high_thresh=5,
-                             sigma_clip_func=np.ma.median, signma_clip_dev_func=mad_std,
+                             sigma_clip_func=np.ma.median, sigma_clip_dev_func=mad_std,
                              mem_limit=350e6
                             )
 
@@ -107,9 +107,9 @@ A single calibrated image and the combined image are shown below. There is signi
 ```python
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 10))
 
-show_image(CCDData.read(calibrated_biases[0]).data, cmap='gray', ax=ax1, fig=fig)
+show_image(CCDData.read(calibrated_biases[0]).data, cmap='gray', ax=ax1, fig=fig, percl=90)
 ax1.set_title('Single calibrated bias')
-show_image(combined_bias.data, cmap='gray', ax=ax2, fig=fig)
+show_image(combined_bias.data, cmap='gray', ax=ax2, fig=fig, percl=90)
 ax2.set_title('{} bias images combined'.format(len(calibrated_biases)))
 ```
 

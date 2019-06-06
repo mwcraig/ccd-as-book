@@ -6,8 +6,8 @@ kernel_name: python3
 has_widgets: false
 title: 'Calibrate dark images'
 prev_page:
-  url: /03-04-Make-a-choice-about-next-steps-for-darks
-  title: 'Make a choice about next steps for darks'
+  url: /03-04-Handling-overscan-and-bias-for-dark-frames
+  title: 'Handling overscan and bias for dark frames'
 next_page:
   url: /03-06-Combine-darks-for-use-in-later-calibration-steps
   title: 'Combine calibrated dark images for use in later reduction steps'
@@ -18,7 +18,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 Dark images, like any other images, need to be calibrated. Depending on the data you have and the choices you have made in reducing your data the steps to reducing your images may include:
 
-1. Subtracting overscan (only if you decide to subtract ocverscan from all images)
+1. Subtracting overscan (only if you decide to subtract overscan from all images)
 2. Trim the image (if it has overscan, whether you are using the overscan or not)
 3. Subtract bias (if you need to scale the calibrated dark frames to a different exposure time).
 
@@ -69,7 +69,7 @@ ex1_images_raw.summary['file', 'imagetyp', 'exptime', 'filter']
 
 <div markdown="0" class="output output_html">
 <i>Table masked=True length=14</i>
-<table id="table47829768232" class="table-striped table-bordered table-condensed">
+<table id="table4735898176" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>exptime</th><th>filter</th></tr></thead>
 <thead><tr><th>str17</th><th>str9</th><th>float64</th><th>str2</th></tr></thead>
 <tr><td>ccd.001.0.fits.gz</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
@@ -106,7 +106,7 @@ ex1_darks_raw.summary['file', 'imagetyp', 'exptime', 'filter']
 
 <div markdown="0" class="output output_html">
 <i>Table masked=True length=10</i>
-<table id="table47829769128" class="table-striped table-bordered table-condensed">
+<table id="table47813671120" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>exptime</th><th>filter</th></tr></thead>
 <thead><tr><th>str17</th><th>str4</th><th>float64</th><th>str2</th></tr></thead>
 <tr><td>ccd.002.0.fits.gz</td><td>BIAS</td><td>0.0</td><td>r&apos;</td></tr>
@@ -170,7 +170,8 @@ for ccd, file_name in ex1_darks_raw.ccds(imagetyp='DARK',            # Just get 
 
 {:.input_area}
 ```python
-ex1_images_reduced.summary['file', 'imagetyp', 'exptime', 'filter']
+ex1_images_reduced.refresh()
+ex1_images_reduced.summary['file', 'imagetyp', 'exptime', 'filter', 'combined']
 ```
 
 
@@ -178,17 +179,26 @@ ex1_images_reduced.summary['file', 'imagetyp', 'exptime', 'filter']
 
 
 <div markdown="0" class="output output_html">
-<i>Table masked=True length=7</i>
-<table id="table47829696408" class="table-striped table-bordered table-condensed">
-<thead><tr><th>file</th><th>imagetyp</th><th>exptime</th><th>filter</th></tr></thead>
-<thead><tr><th>str17</th><th>str4</th><th>float64</th><th>str2</th></tr></thead>
-<tr><td>ccd.001.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
-<tr><td>ccd.002.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
-<tr><td>ccd.003.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
-<tr><td>ccd.004.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
-<tr><td>ccd.005.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
-<tr><td>ccd.006.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
-<tr><td>combined_bias.fit</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
+<i>Table masked=True length=16</i>
+<table id="table47813712528" class="table-striped table-bordered table-condensed">
+<thead><tr><th>file</th><th>imagetyp</th><th>exptime</th><th>filter</th><th>combined</th></tr></thead>
+<thead><tr><th>str17</th><th>str4</th><th>float64</th><th>str2</th><th>object</th></tr></thead>
+<tr><td>ccd.001.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td><td>--</td></tr>
+<tr><td>ccd.002.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td><td>--</td></tr>
+<tr><td>ccd.003.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td><td>--</td></tr>
+<tr><td>ccd.004.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td><td>--</td></tr>
+<tr><td>ccd.005.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td><td>--</td></tr>
+<tr><td>ccd.006.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td><td>--</td></tr>
+<tr><td>ccd.013.0.fits</td><td>DARK</td><td>300.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.014.0.fits</td><td>DARK</td><td>300.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.015.0.fits</td><td>DARK</td><td>300.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.017.0.fits</td><td>DARK</td><td>70.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.018.0.fits</td><td>DARK</td><td>70.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.019.0.fits</td><td>DARK</td><td>70.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.023.0.fits</td><td>DARK</td><td>7.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.024.0.fits</td><td>DARK</td><td>7.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.025.0.fits</td><td>DARK</td><td>7.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>combined_bias.fit</td><td>BIAS</td><td>0.0</td><td>i&apos;</td><td>True</td></tr>
 </table>
 </div>
 
@@ -224,7 +234,7 @@ ex2_images_raw.summary['file', 'imagetyp', 'exposure'].show_in_notebook()
 
 <div markdown="0" class="output output_html">
 <i>Table masked=True length=32</i>
-<table id="table47829695344-257768" class="table-striped table-bordered table-condensed">
+<table id="table47813617536-93729" class="table-striped table-bordered table-condensed">
 <thead><tr><th>idx</th><th>file</th><th>imagetyp</th><th>exposure</th></tr></thead>
 <tr><td>0</td><td>AutoFlat-PANoRot-r-Bin1-001.fit.gz</td><td>FLAT</td><td>1.0</td></tr>
 <tr><td>1</td><td>AutoFlat-PANoRot-r-Bin1-002.fit.gz</td><td>FLAT</td><td>1.0</td></tr>
@@ -281,14 +291,14 @@ require.config({paths: {
     datatables: 'https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min'
 }});
 require(["datatables"], function(){
-    console.log("$('#table47829695344-257768').dataTable()");
+    console.log("$('#table47813617536-93729').dataTable()");
     
 jQuery.extend( jQuery.fn.dataTableExt.oSort, {
     "optionalnum-asc": astropy_sort_num,
     "optionalnum-desc": function (a,b) { return -astropy_sort_num(a, b); }
 });
 
-    $('#table47829695344-257768').dataTable({
+    $('#table47813617536-93729').dataTable({
         order: [],
         pageLength: 50,
         lengthMenu: [[10, 25, 50, 100, 500, 1000, -1], [10, 25, 50, 100, 500, 1000, 'All']],
@@ -306,7 +316,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 
 In this case the only dark frames have exposure time 90 sec. Though that matches the exposure time of the science images, the flat field images are much shorter exposure time, ranging from 1 sec to 1.21 sec. That type range of exposure is typical when twilights flats are taken. Since these are a much different exposure time than the darks, the dark frames will need to be scaled.
 
-Recall that for this camera the overcan is not useful and should simply be trimmed off.
+Recall that for this camera the overscan is not useful and should simply be trimmed off.
 
 Given this, we will:
 

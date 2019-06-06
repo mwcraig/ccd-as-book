@@ -29,9 +29,9 @@
   "headline":
     "Overscan",
   "datePublished":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "dateModified":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "description":
     "Overscan",
   "author": {
@@ -551,30 +551,11 @@ initFunction(initQuery);
               
 
               <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/01-07-Calibration-choices-you-need-to-make.html"
-                >
-                  
-                    1.5
-                  
-                  Calibration choices to make
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
                 <a class="c-sidebar__entry c-sidebar__entry--active"
                   href="/01-08-Overscan.html"
                 >
                   
-                    1.6
+                    1.5
                   
                   Overscan
                 </a>
@@ -590,7 +571,26 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-09-reading-images.html"
+                  href="/01-09-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.6
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-11-reading-images.html"
                 >
                   
                     1.7
@@ -668,7 +668,7 @@ initFunction(initQuery);
                   
                     2.2
                   
-                  Combinge bias images to make master bias
+                  Combine bias images to make master bias
                 </a>
 
                 
@@ -736,12 +736,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                  href="/03-02-Real-dark-current-noise-and-other-artifacts.html"
                 >
                   
                     3.2
                   
-                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                  Real dark current: noise and other artifacts
                 </a>
 
                 
@@ -755,12 +755,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                  href="/03-04-Handling-overscan-and-bias-for-dark-frames.html"
                 >
                   
                     3.3
                   
-                  Make a choice about next steps for darks
+                  Handling overscan and bias for dark frames
                 </a>
 
                 
@@ -906,9 +906,11 @@ initFunction(initQuery);
 
 <p>However, whether or not the overscan is useful depends on the camera. It’s advisable to examine the overscan part of the camera you’re using before deciding if you should include it in image reduction.</p>
 
-<p>One important note: <em>overscan always includes bias, read noise, and dark current</em>. The overscan pixels are still pixels, and just like any other pixel includes dark current and is subject to read noise. Many sources describe overscan as correcting for bias, but if the dark current for the camera is negligble, as it often is for cryogenically cooled cameras, then the overscan is essentially bias.</p>
+<p>One important note: <em>overscan always includes bias, read noise, and dark current</em>. The overscan pixels are still pixels, and just like any other pixel includes dark current and is subject to read noise. Many sources describe overscan as correcting for bias, but if the dark current for the camera is negligible, as it often is for cryogenically cooled cameras, then the overscan is essentially bias.</p>
 
 <p>The read noise in the overscan is reduced by averaging over the overscan region. That will be covered in a later notebook; this notebook focuses on what the overscan looks like and how to decide whether or not to use it.</p>
+
+<p>In this notebook we will look at the overscan region for two different cameras, a cryogenically cooled camera in which the overscan provides useful information and a thermo-electrically cooled camera in which the overscan does not provide useful information.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">astropy.nddata</span> <span class="kn">import</span> <span class="n">CCDData</span>
 <span class="kn">from</span> <span class="nn">astropy.visualization</span> <span class="kn">import</span> <span class="n">hist</span>
@@ -926,10 +928,10 @@ initFunction(initQuery);
 
 <p>The FITS header for these files includes the keyword <code class="highlighter-rouge">BIASSEC</code>, which indicates the nominal extent of the overscan region. Its value is <code class="highlighter-rouge">[2049:2080,1:4127]</code>, which indicates the overscan extends from 2048 to 2079 (Python indexing starts at 0, not 1 like in FITS) in the “short” direction and over the entire chip in the other direction. As we’ll see shortly, the useful overscan region is smaller than this.</p>
 
-<p>We’ll focus here on the overscan in the side that is nominally 2048 wide; in Python that’s the second index. The images below are a bias, dark, light, and flat image. The latter are particularly helpful in evaluating how much of the overscan region is useful because the average pixel value in the exposed part of the camera is typically large.</p>
+<p>We’ll focus here on the overscan in the side that is nominally 2048 wide; in Python that’s the second index. The pixel count cross-sections plotted below are from a bias, science, and flat image. Flat images are particularly helpful in evaluating how much of the overscan region is useful because the average pixel value in the exposed part of the camera is typically large.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bias_lfc</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">'python_imred_data/ccd.001.0.fits.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'count'</span><span class="p">)</span>
-<span class="n">light_g_lfc</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">'python_imred_data/ccd.037.0.fits.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'count'</span><span class="p">)</span>
+<span class="n">science_g_lfc</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">'python_imred_data/ccd.037.0.fits.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'count'</span><span class="p">)</span>
 <span class="n">flat_g_lfc</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">'python_imred_data/ccd.014.0.fits.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'count'</span><span class="p">)</span>
 </code></pre></div></div>
 
@@ -940,7 +942,7 @@ initFunction(initQuery);
 </code></pre></div></div>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">light_g_lfc</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'Science image'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">science_g_lfc</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'Science image'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bias_lfc</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'Bias image'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">flat_g_lfc</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'Flat image'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
@@ -982,26 +984,13 @@ initFunction(initQuery);
 
 <h4 id="what-happens-if-you-dont-use-the-overscan">What happens if you don’t use the overscan?</h4>
 
-<p>Nothing particularly bad. In the specific case above, ignoring the overscan will shift the background level in the science image by roughly 20 counts. If, before doing science, the background of those images is subtracted, then this shift should be removed with the background.</p>
+<p>Nothing particularly bad. In the specific case above, ignoring the overscan will shift the background level in the science image by roughly 20 counts, since the difference between the overscan region of the science image is lower than the overscan in the other images by roughly 20 counts. If, before doing science, the background of those images is subtracted, then this shift should be removed with the background.</p>
 
 <h3 id="conclusion-for-case-1">Conclusion for case 1</h3>
 
 <p>The overscan is useful, but the usable overscan region extends from 2055 to the end of the chip rather than from 2048 to end of the chip as the FITS header claims. Put a little differently, the appropriate <code class="highlighter-rouge">BIASSEC</code> for these images is <code class="highlighter-rouge">[2056:2080,1:4127]</code>. (Note that FITS starts numbering at 1 instead of 0, so 2055 in Python is 2056 in FITS notation.)</p>
 
 <p>If the science you are using requires knowing the counts to a precision of a count or two, and modeling the background in the science image isn’t an option, consider using the overscan.</p>
-
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'Time of observation'</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">'Bias   '</span><span class="p">,</span> <span class="n">bias_lfc</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">'date-obs'</span><span class="p">],</span> <span class="n">bias_lfc</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">'ut'</span><span class="p">])</span>
-<span class="k">print</span><span class="p">(</span><span class="s">'Flat   '</span><span class="p">,</span> <span class="n">flat_g_lfc</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">'date-obs'</span><span class="p">],</span> <span class="n">flat_g_lfc</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">'ut'</span><span class="p">])</span>
-<span class="k">print</span><span class="p">(</span><span class="s">'Science'</span><span class="p">,</span> <span class="n">light_g_lfc</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">'date-obs'</span><span class="p">],</span> <span class="n">light_g_lfc</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">'ut'</span><span class="p">])</span>
-</code></pre></div></div>
-
-<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Time of observation
-Bias    2016-01-15  23:53:30.00
-Flat    2016-01-16  04:17:28.00
-Science 2016-01-16  09:47:21.00
-
-</code></pre></div></div>
 
 <h2 id="case-2-thermo-electrically-cooled-apogee-aspen-cg16m">Case 2: Thermo-electrically cooled Apogee Aspen CG16M</h2>
 
@@ -1036,7 +1025,7 @@ INFO: using the unit adu passed to the FITS reader instead of the unit adu in th
 <div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(900, 1300)
 </code></pre></div></div>
 
-<p class="output output_png"><img src="images/01-08-Overscan_12_1.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-08-Overscan_11_1.png" alt="png" /></p>
 
 <h3 id="discussion-1">Discussion</h3>
 
@@ -1065,15 +1054,15 @@ INFO: using the unit adu passed to the FITS reader instead of the unit adu in th
               <nav class="c-page__nav">
   
     
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/01-07-Calibration-choices-you-need-to-make">
-      〈 <span class="u-margin-right-tiny"></span> Calibration choices to make
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/01-06-Image-combination">
+      〈 <span class="u-margin-right-tiny"></span> Image combination
     </a>
   
 
   
     
-    <a id="js-page__nav__next" class="c-page__nav__next" href="/01-09-reading-images">
-      Reading images <span class="u-margin-right-tiny"></span> 〉
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/01-09-Calibration-choices-you-need-to-make">
+      Calibration choices to make <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>

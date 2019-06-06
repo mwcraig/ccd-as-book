@@ -6,11 +6,11 @@ kernel_name: python3
 has_widgets: false
 title: 'Overscan'
 prev_page:
-  url: /01-07-Calibration-choices-you-need-to-make
-  title: 'Calibration choices to make'
+  url: /01-06-Image-combination
+  title: 'Image combination'
 next_page:
-  url: /01-09-reading-images
-  title: 'Reading images'
+  url: /01-09-Calibration-choices-you-need-to-make
+  title: 'Calibration choices to make'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
@@ -20,9 +20,11 @@ The overscan region of a CCD, if present, is a part of the chip that is covered.
 
 However, whether or not the overscan is useful depends on the camera. It's advisable to examine the overscan part of the camera you're using before deciding if you should include it in image reduction.
 
-One important note: *overscan always includes bias, read noise, and dark current*. The overscan pixels are still pixels, and just like any other pixel includes dark current and is subject to read noise. Many sources describe overscan as correcting for bias, but if the dark current for the camera is negligble, as it often is for cryogenically cooled cameras, then the overscan is essentially bias.
+One important note: *overscan always includes bias, read noise, and dark current*. The overscan pixels are still pixels, and just like any other pixel includes dark current and is subject to read noise. Many sources describe overscan as correcting for bias, but if the dark current for the camera is negligible, as it often is for cryogenically cooled cameras, then the overscan is essentially bias.
 
 The read noise in the overscan is reduced by averaging over the overscan region. That will be covered in a later notebook; this notebook focuses on what the overscan looks like and how to decide whether or not to use it.
+
+In this notebook we will look at the overscan region for two different cameras, a cryogenically cooled camera in which the overscan provides useful information and a thermo-electrically cooled camera in which the overscan does not provide useful information.
 
 
 
@@ -45,15 +47,14 @@ The images below are from chip 0 of the LFC at the Palomar 200-inch telescope. T
 
 The FITS header for these files includes the keyword `BIASSEC`, which indicates the nominal extent of the overscan region. Its value is `[2049:2080,1:4127]`, which indicates the overscan extends from 2048 to 2079 (Python indexing starts at 0, not 1 like in FITS) in the "short" direction and over the entire chip in the other direction. As we'll see shortly, the useful overscan region is smaller than this.
 
-We'll focus here on the overscan in the side that is nominally 2048 wide; in Python that's the second index. The images below are a bias, dark, light, and flat image. The latter are particularly helpful in evaluating how much of the overscan region is useful because the average pixel value in the exposed part of the camera is typically large.
-
+We'll focus here on the overscan in the side that is nominally 2048 wide; in Python that's the second index. The pixel count cross-sections plotted below are from a bias, science, and flat image. Flat images are particularly helpful in evaluating how much of the overscan region is useful because the average pixel value in the exposed part of the camera is typically large.
 
 
 
 {:.input_area}
 ```python
 bias_lfc = CCDData.read('python_imred_data/ccd.001.0.fits.gz', unit='count')
-light_g_lfc = CCDData.read('python_imred_data/ccd.037.0.fits.gz', unit='count')
+science_g_lfc = CCDData.read('python_imred_data/ccd.037.0.fits.gz', unit='count')
 flat_g_lfc = CCDData.read('python_imred_data/ccd.014.0.fits.gz', unit='count')
 ```
 
@@ -81,7 +82,7 @@ bias_lfc.shape
 {:.input_area}
 ```python
 plt.figure(figsize=(20,10))
-plt.plot(light_g_lfc.data.mean(axis=0), label='Science image')
+plt.plot(science_g_lfc.data.mean(axis=0), label='Science image')
 plt.plot(bias_lfc.data.mean(axis=0), label='Bias image')
 plt.plot(flat_g_lfc.data.mean(axis=0), label='Flat image')
 plt.grid()
@@ -135,33 +136,13 @@ To be clear, this isn't apparent from the graph above, but cryogenically cooled 
 
 #### What happens if you don't use the overscan?
 
-Nothing particularly bad. In the specific case above, ignoring the overscan will shift the background level in the science image by roughly 20 counts. If, before doing science, the background of those images is subtracted, then this shift should be removed with the background.
+Nothing particularly bad. In the specific case above, ignoring the overscan will shift the background level in the science image by roughly 20 counts, since the difference between the overscan region of the science image is lower than the overscan in the other images by roughly 20 counts. If, before doing science, the background of those images is subtracted, then this shift should be removed with the background.
 
 ### Conclusion for case 1
 
 The overscan is useful, but the usable overscan region extends from 2055 to the end of the chip rather than from 2048 to end of the chip as the FITS header claims. Put a little differently, the appropriate `BIASSEC` for these images is `[2056:2080,1:4127]`. (Note that FITS starts numbering at 1 instead of 0, so 2055 in Python is 2056 in FITS notation.)
 
 If the science you are using requires knowing the counts to a precision of a count or two, and modeling the background in the science image isn't an option, consider using the overscan.
-
-
-
-{:.input_area}
-```python
-print('Time of observation')
-print('Bias   ', bias_lfc.header['date-obs'], bias_lfc.header['ut'])
-print('Flat   ', flat_g_lfc.header['date-obs'], flat_g_lfc.header['ut'])
-print('Science', light_g_lfc.header['date-obs'], light_g_lfc.header['ut'])
-```
-
-
-{:.output .output_stream}
-```
-Time of observation
-Bias    2016-01-15  23:53:30.00
-Flat    2016-01-16  04:17:28.00
-Science 2016-01-16  09:47:21.00
-
-```
 
 ## Case 2: Thermo-electrically cooled Apogee Aspen CG16M
 
@@ -217,7 +198,7 @@ plt.ylim(900, 1300)
 
 
 {:.output .output_png}
-![png](images/01-08-Overscan_12_1.png)
+![png](images/01-08-Overscan_11_1.png)
 
 
 

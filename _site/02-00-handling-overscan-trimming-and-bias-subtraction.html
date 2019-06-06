@@ -29,9 +29,9 @@
   "headline":
     "Overscan and bias images",
   "datePublished":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "dateModified":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "description":
     "Handling overscan, trimming, and bias subtraction",
   "author": {
@@ -552,29 +552,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-07-Calibration-choices-you-need-to-make.html"
-                >
-                  
-                    1.5
-                  
-                  Calibration choices to make
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
                   href="/01-08-Overscan.html"
                 >
                   
-                    1.6
+                    1.5
                   
                   Overscan
                 </a>
@@ -590,7 +571,26 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-09-reading-images.html"
+                  href="/01-09-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.6
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-11-reading-images.html"
                 >
                   
                     1.7
@@ -668,7 +668,7 @@ initFunction(initQuery);
                   
                     2.2
                   
-                  Combinge bias images to make master bias
+                  Combine bias images to make master bias
                 </a>
 
                 
@@ -736,12 +736,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                  href="/03-02-Real-dark-current-noise-and-other-artifacts.html"
                 >
                   
                     3.2
                   
-                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                  Real dark current: noise and other artifacts
                 </a>
 
                 
@@ -755,12 +755,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                  href="/03-04-Handling-overscan-and-bias-for-dark-frames.html"
                 >
                   
                     3.3
                   
-                  Make a choice about next steps for darks
+                  Handling overscan and bias for dark frames
                 </a>
 
                 
@@ -902,7 +902,7 @@ initFunction(initQuery);
 
 <p>The bias in a CCD camera is a DC offset applied to all pixels so that when the voltage in each pixel is converted to a number the number will always be positive. In an ideal CCD the bias would be the same for every pixel and not change over time. In practice, the bias is slightly different for each pixel, and can vary by a count or two from night to night or during a night.</p>
 
-<p>A bias <em>image</em> is a picture taken with the shutter close and zero exposure time; think about it as a command to the camera to do whatever it usually does to prepare the camera’s electronics to take an image and then immediately read out the CCD as though you had taken a picture.</p>
+<p>A bias <em>image</em> is a picture taken with the shutter closed and zero exposure time; think about it as a command to the camera to do whatever it usually does to prepare the camera’s electronics to take an image and then immediately read out the CCD as though you had taken a picture.</p>
 
 <h2 id="sample-bias-images">Sample bias images</h2>
 
@@ -957,7 +957,7 @@ initFunction(initQuery);
 
 <h2 id="impact-of-combining-images-on-noise">Impact of combining images on noise</h2>
 
-<p>The reason for taking and combining several calibration images is to reduce the noise if the images used for calibration. The difference between a single image and a combination of images is apparent in the images above. Another way to see the impact of combining images in the histogram of pixel values. Notice that the distribution of values is much narrower for the combined image than for a single bias. Pixels near the edges, where the amplifier glow is large, are binned separately from the rest of the pixels to emphasize the uniformity of the chip away from the glow.</p>
+<p>As discussed at length in the <a href="01.06-Image-combination.ipynb">notebook on combination</a>, the reason for taking and combining several calibration images is to reduce the noise if the images used for calibration. The difference between a single image and a combination of images is apparent in the images above. Another way to see the impact of combining images in the histogram of pixel values. Notice that the distribution of values is much narrower for the combined image than for a single bias. Pixels near the edges, where the amplifier glow is large, are binned separately from the rest of the pixels to emphasize the uniformity of the chip away from the glow.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 <span class="n">hist</span><span class="p">(</span><span class="n">one_bias</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">15</span><span class="p">:</span><span class="o">-</span><span class="mi">30</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'One bias'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'deepskyblue'</span><span class="p">)</span>
@@ -985,7 +985,7 @@ initFunction(initQuery);
               <nav class="c-page__nav">
   
     
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/01-09-reading-images">
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/01-11-reading-images">
       〈 <span class="u-margin-right-tiny"></span> Reading images
     </a>
   

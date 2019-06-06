@@ -54,14 +54,14 @@
   - title: Image combination
     url: 01-06-Image-combination
     not_numbered: false
-  - title: Calibration choices to make
-    url: 01-07-Calibration-choices-you-need-to-make
-    not_numbered: false
   - title: Overscan
     url: 01-08-Overscan
     not_numbered: false
+  - title: Calibration choices to make
+    url: 01-09-Calibration-choices-you-need-to-make
+    not_numbered: false
   - title: Reading images
-    url: 01-09-reading-images
+    url: 01-11-reading-images
     not_numbered: false
 
 # A chapter w/ a collection of sections beneath it
@@ -86,11 +86,11 @@
   - title: 'Dark current: the ideal case'
     url: 03-01-Dark-current-The-ideal-case
     not_numbered: false
-  - title: 'Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current'
-    url: 03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current
+  - title: 'Real dark current: noise and other artifacts'
+    url: 03-02-Real-dark-current-noise-and-other-artifacts
     not_numbered: false
-  - title: Make a choice about next steps for darks
-    url: 03-04-Make-a-choice-about-next-steps-for-darks
+  - title: Handling overscan and bias for dark frames
+    url: 03-04-Handling-overscan-and-bias-for-dark-frames
     not_numbered: false
   - title: Calibrate dark images
     url: 03-05-Calibrate-dark-images

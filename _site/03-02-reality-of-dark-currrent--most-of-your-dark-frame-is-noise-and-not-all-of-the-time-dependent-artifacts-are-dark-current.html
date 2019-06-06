@@ -29,9 +29,9 @@
   "headline":
     "Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current",
   "datePublished":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "dateModified":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "description":
     "Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current",
   "author": {
@@ -552,29 +552,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-07-Calibration-choices-you-need-to-make.html"
-                >
-                  
-                    1.5
-                  
-                  Calibration choices to make
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
                   href="/01-08-Overscan.html"
                 >
                   
-                    1.6
+                    1.5
                   
                   Overscan
                 </a>
@@ -590,7 +571,26 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-09-reading-images.html"
+                  href="/01-09-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.6
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-11-reading-images.html"
                 >
                   
                     1.7
@@ -668,7 +668,7 @@ initFunction(initQuery);
                   
                     2.2
                   
-                  Combinge bias images to make master bias
+                  Combine bias images to make master bias
                 </a>
 
                 
@@ -735,13 +735,13 @@ initFunction(initQuery);
               
 
               <li class="c-sidebar__section">
-                <a class="c-sidebar__entry c-sidebar__entry--active"
-                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                <a class="c-sidebar__entry "
+                  href="/03-02-Real-dark-current-noise-and-other-artifacts.html"
                 >
                   
                     3.2
                   
-                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                  Real dark current: noise and other artifacts
                 </a>
 
                 
@@ -755,12 +755,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                  href="/03-04-Handling-overscan-and-bias-for-dark-frames.html"
                 >
                   
                     3.3
                   
-                  Make a choice about next steps for darks
+                  Handling overscan and bias for dark frames
                 </a>
 
                 
@@ -912,7 +912,7 @@ initFunction(initQuery);
             <div class="c-textbook__content">
               <h1 id="reality-most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current">Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current</h1>
 
-<p>The dark current on modern CCDs, even relatively inexpensive ones, is very small. In a typical exposure the dark current is likely smaller, maybe much smaller, than the read noise. Despite that, it is worth examining some dark frames from your camera. because not all pixels have the same dark current. Some, called hot pixels, have much higher dark current than the rest of the sensor. Some sensors have non-astronomical sources of counts whose value are proportional to exposure time, like dark current, but whose origin is notthermal effects.</p>
+<p>The dark current on modern CCDs, even relatively inexpensive ones, is very small. In a typical exposure the dark current is likely smaller, maybe much smaller, than the read noise. Despite that, it is worth examining some dark frames from your camera. because not all pixels have the same dark current. Some, called hot pixels, have much higher dark current than the rest of the sensor. Some sensors have non-astronomical sources of counts whose value are proportional to exposure time, like dark current, but whose origin is nonthermal effects.</p>
 
 <p>As we did in the <a href="01.08-Overscan.ipynb">notebook about overscan</a>, we will focus on a pair of cameras to illustrate this point and demonstrate how to take similar images with your camera and analyze them.</p>
 
@@ -978,7 +978,7 @@ initFunction(initQuery);
 
 <h3 id="examine-the-image">Examine the image</h3>
 
-<p>The full image is on the left, and the lower left corner is shown on the right. The light area in the lower left corner is due to senor glow, which is light emitted by the electronics of the CCD. The counts in the image due to sensor glow should grow linearly with exposure time, like dark counts do, but the pixel values are much higher than for pixels whose counts are due to dark current.</p>
+<p>The full image is on the left, and the lower left corner is shown on the right. The light area in the lower left corner is due to sensor glow, which is light emitted by the electronics of the CCD. The counts in the image due to sensor glow should grow linearly with exposure time, like dark counts do, but the pixel values are much higher than for pixels whose counts are due to dark current.</p>
 
 <p>The top right panel in the figure below shows the part of the CCD near the sensor glow; pixel values are several thousand counts. The bottom right panel shows a portion of the CCD in the upper right part of the chip; pixel values are <em>much</em> lower, typically under 10.</p>
 

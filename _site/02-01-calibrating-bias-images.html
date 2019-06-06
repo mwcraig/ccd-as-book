@@ -29,9 +29,9 @@
   "headline":
     "Calibrating bias images",
   "datePublished":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "dateModified":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "description":
     "Calibrating bias images",
   "author": {
@@ -552,29 +552,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-07-Calibration-choices-you-need-to-make.html"
-                >
-                  
-                    1.5
-                  
-                  Calibration choices to make
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
                   href="/01-08-Overscan.html"
                 >
                   
-                    1.6
+                    1.5
                   
                   Overscan
                 </a>
@@ -590,7 +571,26 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-09-reading-images.html"
+                  href="/01-09-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.6
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-11-reading-images.html"
                 >
                   
                     1.7
@@ -668,7 +668,7 @@ initFunction(initQuery);
                   
                     2.2
                   
-                  Combinge bias images to make master bias
+                  Combine bias images to make master bias
                 </a>
 
                 
@@ -736,12 +736,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                  href="/03-02-Real-dark-current-noise-and-other-artifacts.html"
                 >
                   
                     3.2
                   
-                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                  Real dark current: noise and other artifacts
                 </a>
 
                 
@@ -755,12 +755,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                  href="/03-04-Handling-overscan-and-bias-for-dark-frames.html"
                 >
                   
                     3.3
                   
-                  Make a choice about next steps for darks
+                  Handling overscan and bias for dark frames
                 </a>
 
                 
@@ -855,6 +855,7 @@ initFunction(initQuery);
       <ul class="toc__menu">
   <li><a href="#example-1-with-overscan-subtraction">Example 1: With overscan subtraction</a>
     <ul>
+      <li><a href="#decide-where-to-put-your-calibrated-images">Decide where to put your calibrated images</a></li>
       <li><a href="#data-for-this-example">Data for this example</a></li>
       <li><a href="#make-an-image-file-collection-for-the-raw-data">Make an image file collection for the raw data</a></li>
       <li><a href="#determine-overscan-region">Determine overscan region</a></li>
@@ -866,6 +867,7 @@ initFunction(initQuery);
   </li>
   <li><a href="#example-2-no-overscan-subtraction-but-trim-the-images">Example 2: No overscan subtraction, but trim the images</a>
     <ul>
+      <li><a href="#decide-where-to-put-your-calibrated-images-1">Decide where to put your calibrated images</a></li>
       <li><a href="#data-for-this-example-1">Data for this example</a></li>
       <li><a href="#determine-overscan-region-1">Determine overscan region</a></li>
       <li><a href="#trim-the-overscan-one-sample-image">Trim the overscan (one sample image)</a></li>
@@ -934,7 +936,7 @@ initFunction(initQuery);
 
 <h2 id="example-1-with-overscan-subtraction">Example 1: With overscan subtraction</h2>
 
-<p>### Decide where to put your calibrated images</p>
+<h3 id="decide-where-to-put-your-calibrated-images">Decide where to put your calibrated images</h3>
 
 <p>Though it is possible to overwrite your raw data with calibrated images that is a bad idea. Here we create a folder called <code class="highlighter-rouge">example1-reduced</code> that will contain the calibrated data and create it if it doesn’t exist.</p>
 
@@ -946,7 +948,7 @@ initFunction(initQuery);
 
 <p>The data for this example can be downloaded from <a href="http://www.stsci.edu/~etollerud/python_imred_data.tar">http://www.stsci.edu/~etollerud/python_imred_data.tar</a></p>
 
-<p>In what follows, the unpacked data is presumed to be available in the same direction as this notebook.</p>
+<p>In what follows, the unpacked data is presumed to be available in the same directory as this notebook.</p>
 
 <h3 id="make-an-image-file-collection-for-the-raw-data">Make an image file collection for the raw data</h3>
 
@@ -958,7 +960,7 @@ initFunction(initQuery);
 
 <div class="output output_html">
 <i>Table masked=True length=14</i>
-<table id="table47838183552" class="table-striped table-bordered table-condensed">
+<table id="table47843681672" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>filter</th><th>exptime</th><th>naxis1</th><th>naxis2</th></tr></thead>
 <thead><tr><th>str17</th><th>str9</th><th>str2</th><th>float64</th><th>int64</th><th>int64</th></tr></thead>
 <tr><td>ccd.001.0.fits.gz</td><td>BIAS</td><td>i&apos;</td><td>0.0</td><td>2080</td><td>4128</td></tr>
@@ -984,7 +986,7 @@ initFunction(initQuery);
 
 <div class="output output_html">
 <i>Table masked=True length=10</i>
-<table id="table47838186576" class="table-striped table-bordered table-condensed">
+<table id="table47843681504" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>exptime</th></tr></thead>
 <thead><tr><th>str17</th><th>str4</th><th>float64</th></tr></thead>
 <tr><td>ccd.002.0.fits.gz</td><td>BIAS</td><td>0.0</td></tr>
@@ -1002,7 +1004,7 @@ initFunction(initQuery);
 
 <h3 id="determine-overscan-region">Determine overscan region</h3>
 
-<p>Please see the discussion of this camera in <a href="01.08-Overscan.ipynb#Case-1:-Cryogenically-cooled-Large-Format-Camera-(LFC)-at-Palomar">the overscan notebook</a> for the appropriate overscan regioin to use for this camera. Note, in particular, that it differs from the the value given in the <code class="highlighter-rouge">BIASSEC</code> keyword in the header of the images.</p>
+<p>Please see the discussion of this camera in <a href="01.08-Overscan.ipynb#Case-1:-Cryogenically-cooled-Large-Format-Camera-(LFC)-at-Palomar">the overscan notebook</a> for the appropriate overscan region to use for this camera. Note, in particular, that it differs from the the value given in the <code class="highlighter-rouge">BIASSEC</code> keyword in the header of the images.</p>
 
 <p>The astropy affiliated package <a href="https://ccdproc.readthedocs.io">ccdproc</a> provides two useful functions here:</p>
 
@@ -1013,21 +1015,21 @@ initFunction(initQuery);
 
 <p>First, let’s see what the values of <code class="highlighter-rouge">BIASSEC</code> which sometimes (but not always) indicates that there is is overscan and which part of the chip is the overscan, and <code class="highlighter-rouge">CCDSEC</code>, which is sometimes, but not always present, and indicates which part of the chip light hit.</p>
 
-<p>Note that neither of these are standard; sometimes, for example, <code class="highlighter-rouge">trimsec</code> is used instead of <code class="highlighter-rouge">ccdsec</code>, and there are likely other variants. Some images may have neither keyword in the header. That does not necessary indicate that ovserscan isn’t present. The best advice is to carefully check the documentation for the camer you are using.</p>
+<p>Note that neither of these are standard; sometimes, for example, <code class="highlighter-rouge">trimsec</code> is used instead of <code class="highlighter-rouge">ccdsec</code>, and there are likely other variants. Some images may have neither keyword in the header. That does not necessary indicate that ovserscan isn’t present. The best advice is to carefully check the documentation for the camera you are using.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">files</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s">'file'</span><span class="p">,</span> <span class="s">'imagetyp'</span><span class="p">,</span> <span class="s">'biassec'</span><span class="p">,</span> <span class="s">'ccdsec'</span><span class="p">,</span> <span class="s">'datasec'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 </code></pre></div></div>
 
 <div class="output output_html">
 <i>Row index=0 masked=True</i>
-<table id="table47838355352">
+<table id="table47843502960">
 <thead><tr><th>file</th><th>imagetyp</th><th>biassec</th><th>ccdsec</th><th>datasec</th></tr></thead>
 <thead><tr><th>str17</th><th>str9</th><th>str18</th><th>str15</th><th>str15</th></tr></thead>
 <tr><td>ccd.001.0.fits.gz</td><td>BIAS</td><td>[2049:2080,1:4127]</td><td>[1:2048,1:4128]</td><td>[1:2048,1:4128]</td></tr>
 </table>
 </div>
 
-<p>The fits header claims the overscan extends from the 2049th column to the end of the image (this is one-based indexing) and that the part of the image exposed to light extends over all rows and from the first column to the 2048$^{th}$ column (again, this is one-indexed).</p>
+<p>The fits header claims the overscan extends from the 2049$^{th}$ column to the end of the image (this is one-based indexing) and that the part of the image exposed to light extends over all rows and from the first column to the 2048$^{th}$ column (again, this is one-indexed).</p>
 
 <h3 id="fits-vs-python-indexing">FITS <em>vs</em> Python indexing</h3>
 
@@ -1042,9 +1044,9 @@ initFunction(initQuery);
 
 <p>As discussed in <a href="01.08-Overscan.ipynb#Case-1:-Cryogenically-cooled-Large-Format-Camera-(LFC)-at-Palomar">the overscan notebook</a>, the useful overscan region for this camera starts at the 2055$^{th}$ column, not column 2049 as indicated by the <code class="highlighter-rouge">BIASSEC</code> keyword in the header. This situation is not unusual; column 2049 is the first of the columns masked by the manufacturer from light but there is some leakage into this region from the rest of the CCD.</p>
 
-<p>If you are going to overscan you need to carefully emaine the overscan in a few representative images to understand which part of the overscan to use.</p>
+<p>If you are going to overscan you need to carefully examine the overscan in a few representative images to understand which part of the overscan to use.</p>
 
-<p>In what follow, we will use for the overscan the region (Python/numpy indexing) <code class="highlighter-rouge">[:, 2055:]</code>.</p>
+<p>In what follows, we will use for the overscan the region (Python/numpy indexing) <code class="highlighter-rouge">[:, 2055:]</code>.</p>
 
 <h3 id="subtract-and-then-trim-the-overscan-one-sample-image">Subtract and then trim the overscan (one sample image)</h3>
 
@@ -1112,7 +1114,7 @@ initFunction(initQuery);
 
 <div class="output output_html">
 <i>Table masked=True length=6</i>
-<table id="table121090192496" class="table-striped table-bordered table-condensed">
+<table id="table121104347936" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>naxis1</th><th>naxis2</th></tr></thead>
 <thead><tr><th>str14</th><th>str4</th><th>int64</th><th>int64</th></tr></thead>
 <tr><td>ccd.001.0.fits</td><td>BIAS</td><td>2048</td><td>4128</td></tr>
@@ -1128,7 +1130,7 @@ initFunction(initQuery);
 
 <p>If you are not subtracting overscan then the only manipulation you may need to do is trimming the overscan from the images. If there is no overscan region in your images then even that is unnecessary.</p>
 
-<p>### Decide where to put your calibrated images</p>
+<h3 id="decide-where-to-put-your-calibrated-images-1">Decide where to put your calibrated images</h3>
 
 <p>Though it is possible to overwrite your raw data with calibrated images that is a bad idea. Here we create a folder called <code class="highlighter-rouge">example2-reduced</code> that will contain the calibrated data and create it if it doesn’t exist.</p>
 
@@ -1146,7 +1148,7 @@ initFunction(initQuery);
 
 <div class="output output_html">
 <i>Table masked=True length=32</i>
-<table id="table47865841312" class="table-striped table-bordered table-condensed">
+<table id="table47878381464" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>filter</th><th>exptime</th><th>naxis1</th><th>naxis2</th></tr></thead>
 <thead><tr><th>str34</th><th>str5</th><th>object</th><th>float64</th><th>int64</th><th>int64</th></tr></thead>
 <tr><td>AutoFlat-PANoRot-r-Bin1-001.fit.gz</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
@@ -1184,7 +1186,7 @@ initFunction(initQuery);
 
 <div class="output output_html">
 <i>Row index=0 masked=True</i>
-<table id="table47867060464">
+<table id="table47874149512">
 <thead><tr><th>file</th><th>imagetyp</th><th>biassec</th><th>trimsec</th></tr></thead>
 <thead><tr><th>str34</th><th>str5</th><th>str11</th><th>str11</th></tr></thead>
 <tr><td>AutoFlat-PANoRot-r-Bin1-001.fit.gz</td><td>FLAT</td><td>[4096:4109]</td><td>[1:4096, :]</td></tr>
@@ -1241,7 +1243,7 @@ initFunction(initQuery);
 
 <h2 id="example-3-no-overscan-at-all">Example 3: No overscan at all</h2>
 
-<p>If there is no overscan then there is, in principle, nothing to be done with the bias frames. It may be convient to copy them to the directory with the rest of your reduced images. The code below does that.</p>
+<p>If there is no overscan then there is, in principle, nothing to be done with the bias frames. It may be convenient to copy them to the directory with the rest of your reduced images. The code below does that.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">calibrated_data</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'.'</span><span class="p">,</span> <span class="s">'example3-reduced'</span><span class="p">)</span>
 <span class="n">calibrated_data</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -1266,7 +1268,7 @@ initFunction(initQuery);
   
     
     <a id="js-page__nav__next" class="c-page__nav__next" href="/02-04-Combine-bias-images-to-make-master">
-      Combinge bias images to make maste... <span class="u-margin-right-tiny"></span> 〉
+      Combine bias images to make master... <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>

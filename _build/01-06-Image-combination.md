@@ -9,8 +9,8 @@ prev_page:
   url: /01-05-Calibration-overview
   title: 'Calibration overview'
 next_page:
-  url: /01-07-Calibration-choices-you-need-to-make
-  title: 'Calibration choices to make'
+  url: /01-08-Overscan
+  title: 'Overscan'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
@@ -20,7 +20,7 @@ Image combination serves several purposes. Combining images:
 
 + reduces noise in images
 + can remove transient artifacts like cosmic rays and satellite tracks
-+ can remove stars in twilight flats from the combined image
++ can remove stars in [flat images taken at twilight](FIX_LINK)
 
 It's essential that several of each type of calibration image (bias, dark, flat) be taken. Combining them reduces the noise in the images by roughly a factor of $1/\sqrt{N}$, where $N$ is the number of images being combined. As shown in the previous notebook, using a single calibration image actually *increases* the noise in your image.
 
@@ -57,7 +57,9 @@ rc('axes', grid=True)
 
 ## Combination method: average or median?
 
-In this section we'll look at a simplified version of the challenges of combining images to reduce noise. It's fair to think of astronomical images (especially bias and dark images) as being a Gaussian distribution of pixel values around the bias level, and a width related to the read noise of the detector. In properly done flat images the noise is technically a Poisson distribution, but with a large enough number of counts, the distribution is indistinguishable from a Gaussian distribution whose width is related to the square root of the number of counts. While some regions of a science image are dominated by Poisson noise from sources in the image, most of the image will be dominated by Gaussian read noise from the detector or Poisson noise from the sky background.
+In this section we'll look at a simplified version of the challenges of combining images to reduce noise. It's fair to think of astronomical images (especially bias and dark images) as being a Gaussian distribution of pixel values around the bias level, and a width related to the read noise of the detector. To simplify what follows, we will work arrays of random numbers drawn from a Gaussian distribution instead of with astronomical images.
+
+In properly done flat images the noise is technically a Poisson distribution, but with a large enough number of counts, the distribution is indistinguishable from a Gaussian distribution whose width is related to the square root of the number of counts. While some regions of a science image are dominated by Poisson noise from sources in the image, most of the image will be dominated by Gaussian read noise from the detector or Poisson noise from the sky background.
 
 Instead of working with a combination of images, we'll create 100 Gaussian distributions with a mean of zero, and a standard deviation of one, and combine those two different ways: by finding the average and by finding the median. Each distribution has size $320^2$ so that we can view it as either a distribution of 102,400 values or as an image that is $320 \times 320$.
 
@@ -76,7 +78,9 @@ median = np.median(bits, axis=0)
 ```
 
 
-Now that we've created the distributions and combined them in two different ways, let's take a look at them. The [`hist` function from astropy.visualization](https://astropy.readthedocs.io/en/stable/visualization/histogram.html) is used below because it can figure out what bin size to use for your data. *Note: but beware https://github.com/astropy/astropy/issues/7758*
+Now that we've created the distributions and combined them in two different ways, let's take a look at them. The [`hist` function from astropy.visualization](https://astropy.readthedocs.io/en/stable/visualization/histogram.html) is used below because it can figure out what bin size to use for your data. 
+
+<!-- *Note: but beware https://github.com/astropy/astropy/issues/7758* -->
 
 
 
@@ -102,7 +106,7 @@ ax[1].legend()
 
 {:.output .output_data_text}
 ```
-<matplotlib.legend.Legend at 0x1295854e0>
+<matplotlib.legend.Legend at 0x11d56e5c0>
 ```
 
 
@@ -115,7 +119,7 @@ ax[1].legend()
 
 Combining by averaging gives a narrower (i.e. less noisy) distribution than combining by median, though both substantially reduced the width of the distribution. The conclusion so far is that combining by averaging is mildly preferable to combining by median. Computationally, the mean is also faster to compute than the median.
 
-#### Image view of these distributions
+### Image view of these distributions
 
 As suggested above, we could view each of these distributions as an image instead of a histogram. One take away from the diagram below is that in this case, the difference between mean and median is not apparent.
 
@@ -247,7 +251,7 @@ Astronomical images will almost always have those transient features. Even at an
 
 The answer here is to first clip extreme values from the distributions and then combine using the average. That rejects outlying values like the median but with the modestly better statistical properties of the average. A method called "sigma clipping" is used to remove the extreme values.
 
-#### Please do not use the code below for reducing your data...
+**Please do not use the code below for reducing your data...**
 
 ...in the next set of notebooks we'll walk through the package [ccdproc](https://ccdproc.readthedocs.io), which automates much of what you see below. The section below demonstrates and explains some of what's happening behind the scenes in [ccdproc](https://ccdproc.readthedocs.io).
 
@@ -283,9 +287,9 @@ for n_to_combine in [10, 20, n_distributions]:
 {:.output .output_stream}
 ```
 Number combined	 Average	 Standard dev σ 	 10σ 
-        10	   1100.08	    299.98	   2999.75
-        20	   1050.13	    217.92	   2179.16
-       100	   1009.96	     99.51	    995.08
+        10	   1099.51	    300.16	   3001.64
+        20	   1049.76	    218.00	   2180.03
+       100	   1009.95	     99.51	    995.08
 
 ```
 
@@ -316,9 +320,9 @@ for n_to_combine in [10, 20, n_distributions]:
 {:.output .output_stream}
 ```
   Number combined          Median              MAD σ                10σ         
-         10               1000.00               0.88                8.77        
-         20               1000.05               1.06               10.58        
-        100               1000.10               1.03               10.32        
+         10                999.37               0.44                4.41        
+         20                999.73               1.04               10.37        
+        100                999.84               0.93                9.33        
 
 ```
 
@@ -364,7 +368,7 @@ bits[exclude] = original_values
 
 ## Summary
 
-Combine images by first excluding extreme values using sgima clipping with median as the typical value and the median absolute deviation estimator of the standard deviation and then average the remaining pixels across all of the images.
+Combine images by (1) excluding extreme values using sigma clipping, with the median as the typical value and the MAD estimator of the standard deviation, and then (2) averaging the remaining pixels across all of the images.
 
 Note that in the distribution below the clipped average is a narrower distribution (less noise) than the median but that it still excludes the extreme value that appeared in one image.
 

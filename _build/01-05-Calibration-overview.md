@@ -31,7 +31,7 @@ $$
 \text{stars} + \text{noise} = \frac{\text{raw image} - \text{bias} - \text{dark current}}{\text{flat}} - \text{sky}
 $$
 
-#### It is *impossible* to remove the noise from the raw image because the noise is random.
+**It is *impossible* to remove the noise from the raw image because the noise is random.**
 
 The dark current is typically calculated from a *dark frame* (aka dark image). Such an image has bias and read noise in it as well, so:
 
@@ -61,9 +61,9 @@ from convenience_functions import show_image
 ```
 
 
-### FIrst, some stars with noise
+### First, some stars with noise
 
-The image below shows stars but shows quite a bit of noise as well.
+The image below shows stars (the larger "blobs" in the image) but shows quite a bit of noise as well (the much smaller "dots").
 
 
 
@@ -71,9 +71,9 @@ The image below shows stars but shows quite a bit of noise as well.
 ```python
 image = np.zeros([2000, 2000])
 gain = 1.0
-noise_amount = 500 
+noise_amount = 1500 
 
-stars_with_noise = imsim.stars(image, 50, max_counts=2000) + imsim.read_noise(image, noise_amount, gain=gain)
+stars_with_noise = imsim.stars(image, 50, max_counts=2000, fwhm=10) + imsim.read_noise(image, noise_amount, gain=gain)
 
 show_image(stars_with_noise, cmap='gray', percu=99.9)
 plt.title('Stars with noise')

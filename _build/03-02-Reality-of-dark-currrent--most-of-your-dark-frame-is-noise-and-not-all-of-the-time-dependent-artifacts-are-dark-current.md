@@ -16,7 +16,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 # Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
 
-The dark current on modern CCDs, even relatively inexpensive ones, is very small. In a typical exposure the dark current is likely smaller, maybe much smaller, than the read noise. Despite that, it is worth examining some dark frames from your camera. because not all pixels have the same dark current. Some, called hot pixels, have much higher dark current than the rest of the sensor. Some sensors have non-astronomical sources of counts whose value are proportional to exposure time, like dark current, but whose origin is notthermal effects.
+The dark current on modern CCDs, even relatively inexpensive ones, is very small. In a typical exposure the dark current is likely smaller, maybe much smaller, than the read noise. Despite that, it is worth examining some dark frames from your camera. because not all pixels have the same dark current. Some, called hot pixels, have much higher dark current than the rest of the sensor. Some sensors have non-astronomical sources of counts whose value are proportional to exposure time, like dark current, but whose origin is nonthermal effects.
 
 As we did in the [notebook about overscan](01.08-Overscan.ipynb), we will focus on a pair of cameras to illustrate this point and demonstrate how to take similar images with your camera and analyze them.
 
@@ -93,7 +93,7 @@ combined_dark_lfc = CCDData.read(calibrated_images / 'combined_dark_300.000.fits
 
 ### Examine the image
 
-The full image is on the left, and the lower left corner is shown on the right. The light area in the lower left corner is due to senor glow, which is light emitted by the electronics of the CCD. The counts in the image due to sensor glow should grow linearly with exposure time, like dark counts do, but the pixel values are much higher than for pixels whose counts are due to dark current.
+The full image is on the left, and the lower left corner is shown on the right. The light area in the lower left corner is due to sensor glow, which is light emitted by the electronics of the CCD. The counts in the image due to sensor glow should grow linearly with exposure time, like dark counts do, but the pixel values are much higher than for pixels whose counts are due to dark current.
 
 The top right panel in the figure below shows the part of the CCD near the sensor glow; pixel values are several thousand counts. The bottom right panel shows a portion of the CCD in the upper right part of the chip; pixel values are *much* lower, typically under 10. 
 

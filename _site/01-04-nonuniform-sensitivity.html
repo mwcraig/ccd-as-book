@@ -29,9 +29,9 @@
   "headline":
     "Non-uniform sensitivity in astronomical detectors",
   "datePublished":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "dateModified":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "description":
     "Nonuniform sensitivity",
   "author": {
@@ -552,29 +552,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-07-Calibration-choices-you-need-to-make.html"
-                >
-                  
-                    1.5
-                  
-                  Calibration choices to make
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
                   href="/01-08-Overscan.html"
                 >
                   
-                    1.6
+                    1.5
                   
                   Overscan
                 </a>
@@ -590,7 +571,26 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-09-reading-images.html"
+                  href="/01-09-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.6
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-11-reading-images.html"
                 >
                   
                     1.7
@@ -668,7 +668,7 @@ initFunction(initQuery);
                   
                     2.2
                   
-                  Combinge bias images to make master bias
+                  Combine bias images to make master bias
                 </a>
 
                 
@@ -736,12 +736,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                  href="/03-02-Real-dark-current-noise-and-other-artifacts.html"
                 >
                   
                     3.2
                   
-                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                  Real dark current: noise and other artifacts
                 </a>
 
                 
@@ -755,12 +755,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                  href="/03-04-Handling-overscan-and-bias-for-dark-frames.html"
                 >
                   
                     3.3
                   
-                  Make a choice about next steps for darks
+                  Handling overscan and bias for dark frames
                 </a>
 
                 
@@ -900,12 +900,12 @@ initFunction(initQuery);
 
 <p>Vingetting and dust can reduce the amount of light reaching the CCD chip while pixel-to-pixel sensitivity variations affects the counts read from the chip.</p>
 
-<p>The code to produce the simulated sensitivty map (aka flat image) is long enough that is not included in this notebook. We load it instead from <a href="image_sim.py">image_sim.py</a>.</p>
+<p>The code to produce the simulated sensitivity map (aka flat image) is long enough that is not included in this notebook. We load it instead from <a href="image_sim.py">image_sim.py</a>.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
 
 <span class="kn">from</span> <span class="nn">convenience_functions</span> <span class="kn">import</span> <span class="n">show_image</span>
-<span class="kn">from</span> <span class="nn">image_sim</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">image_sim</span> <span class="k">as</span> <span class="n">isim</span>
 </code></pre></div></div>
 
 <h2 id="a-sample-flat-image">A sample flat image</h2>
@@ -913,7 +913,7 @@ initFunction(initQuery);
 <p>The sample flat image below has the same size as the simulated image in the previous notebook.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
-<span class="n">flat</span> <span class="o">=</span> <span class="n">sensitivity_variations</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">flat</span> <span class="o">=</span> <span class="n">isim</span><span class="o">.</span><span class="n">sensitivity_variations</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 </code></pre></div></div>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">show_image</span><span class="p">(</span><span class="n">flat</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
@@ -948,11 +948,11 @@ initFunction(initQuery);
 <span class="n">bias_level</span> <span class="o">=</span> <span class="mi">1100</span>
 <span class="n">read_noise_electrons</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">max_star_counts</span> <span class="o">=</span> <span class="mi">2000</span>
-<span class="n">bias_only</span> <span class="o">=</span> <span class="n">bias</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">bias_level</span><span class="p">,</span> <span class="n">realistic</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">noise_only</span> <span class="o">=</span> <span class="n">read_noise</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">read_noise_electrons</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">)</span>
-<span class="n">dark_only</span> <span class="o">=</span> <span class="n">dark_current</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dark</span><span class="p">,</span> <span class="n">exposure</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">,</span> <span class="n">hot_pixels</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">sky_only</span> <span class="o">=</span> <span class="n">sky_background</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">sky_counts</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">)</span>
-<span class="n">stars_only</span> <span class="o">=</span> <span class="n">stars</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">max_counts</span><span class="o">=</span><span class="n">max_star_counts</span><span class="p">)</span>
+<span class="n">bias_only</span> <span class="o">=</span> <span class="n">isim</span><span class="o">.</span><span class="n">bias</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">bias_level</span><span class="p">,</span> <span class="n">realistic</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">noise_only</span> <span class="o">=</span> <span class="n">isim</span><span class="o">.</span><span class="n">read_noise</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">read_noise_electrons</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">)</span>
+<span class="n">dark_only</span> <span class="o">=</span> <span class="n">isim</span><span class="o">.</span><span class="n">dark_current</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dark</span><span class="p">,</span> <span class="n">exposure</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">,</span> <span class="n">hot_pixels</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">sky_only</span> <span class="o">=</span> <span class="n">isim</span><span class="o">.</span><span class="n">sky_background</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">sky_counts</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">)</span>
+<span class="n">stars_only</span> <span class="o">=</span> <span class="n">isim</span><span class="o">.</span><span class="n">stars</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">max_counts</span><span class="o">=</span><span class="n">max_star_counts</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>The individual pieces of the image are assembled below; it is the inclusion of the flat that makes this the closest of the simulated images to a realistic images.</p>
@@ -973,7 +973,7 @@ initFunction(initQuery);
 
 <p>You can see the effect by artificially increasing the sky background.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">final_image2</span> <span class="o">=</span> <span class="n">bias_only</span> <span class="o">+</span> <span class="n">noise_only</span> <span class="o">+</span> <span class="n">dark_only</span> <span class="o">+</span> <span class="n">flat</span> <span class="o">*</span> <span class="p">(</span><span class="n">sky_background</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">sky_counts</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">)</span> <span class="o">+</span> <span class="n">stars_only</span><span class="p">)</span>
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">final_image2</span> <span class="o">=</span> <span class="n">bias_only</span> <span class="o">+</span> <span class="n">noise_only</span> <span class="o">+</span> <span class="n">dark_only</span> <span class="o">+</span> <span class="n">flat</span> <span class="o">*</span> <span class="p">(</span><span class="n">isim</span><span class="o">.</span><span class="n">sky_background</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">sky_counts</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">)</span> <span class="o">+</span> <span class="n">stars_only</span><span class="p">)</span>
 <span class="n">show_image</span><span class="p">(</span><span class="n">final_image2</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
 </code></pre></div></div>
 

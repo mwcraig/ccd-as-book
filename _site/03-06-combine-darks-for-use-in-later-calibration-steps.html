@@ -29,9 +29,9 @@
   "headline":
     "Combine calibrated dark images for use in later reduction steps",
   "datePublished":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "dateModified":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "description":
     "Combine calibrated dark images for use in later reduction steps",
   "author": {
@@ -552,29 +552,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-07-Calibration-choices-you-need-to-make.html"
-                >
-                  
-                    1.5
-                  
-                  Calibration choices to make
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
                   href="/01-08-Overscan.html"
                 >
                   
-                    1.6
+                    1.5
                   
                   Overscan
                 </a>
@@ -590,7 +571,26 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-09-reading-images.html"
+                  href="/01-09-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.6
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-11-reading-images.html"
                 >
                   
                     1.7
@@ -668,7 +668,7 @@ initFunction(initQuery);
                   
                     2.2
                   
-                  Combinge bias images to make master bias
+                  Combine bias images to make master bias
                 </a>
 
                 
@@ -736,12 +736,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                  href="/03-02-Real-dark-current-noise-and-other-artifacts.html"
                 >
                   
                     3.2
                   
-                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                  Real dark current: noise and other artifacts
                 </a>
 
                 
@@ -755,12 +755,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                  href="/03-04-Handling-overscan-and-bias-for-dark-frames.html"
                 >
                   
                     3.3
                   
-                  Make a choice about next steps for darks
+                  Handling overscan and bias for dark frames
                 </a>
 
                 
@@ -970,7 +970,7 @@ initFunction(initQuery);
     <span class="n">combined_dark</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">calibrated_darks</span><span class="p">,</span>
                                  <span class="n">method</span><span class="o">=</span><span class="s">'average'</span><span class="p">,</span>
                                  <span class="n">sigma_clip</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sigma_clip_low_thresh</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sigma_clip_high_thresh</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-                                 <span class="n">sigma_clip_func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">median</span><span class="p">,</span> <span class="n">signma_clip_dev_func</span><span class="o">=</span><span class="n">mad_std</span><span class="p">,</span>
+                                 <span class="n">sigma_clip_func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">median</span><span class="p">,</span> <span class="n">sigma_clip_dev_func</span><span class="o">=</span><span class="n">mad_std</span><span class="p">,</span>
                                  <span class="n">mem_limit</span><span class="o">=</span><span class="mf">350e6</span>
                                 <span class="p">)</span>
 

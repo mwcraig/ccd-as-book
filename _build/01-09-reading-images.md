@@ -161,19 +161,17 @@ image_name = 'img-0001.fits'
 image_path = Path(data_directory) / image_name
 
 hdu_list = fits.open(image_path)
-hdu_list
+hdu_list.info()
 ```
 
 
-
-
-
-{:.output .output_data_text}
+{:.output .output_stream}
 ```
-[<astropy.io.fits.hdu.image.PrimaryHDU object at 0x1143d24e0>]
+Filename: path/to/my/images/img-0001.fits
+No.    Name      Ver    Type      Cards   Dimensions   Format
+  0  PRIMARY       1 PrimaryHDU       8   (200, 300)   float64   
+
 ```
-
-
 
 The `hdu_list` is a list of FITS Header-Data Units. In this case there is just one, containing both the image header and data, which can be accessed as shown below.
 
@@ -216,19 +214,19 @@ hdu.data
 
 {:.output .output_data_text}
 ```
-array([[-1.12570767,  0.54076278,  2.23107807, ..., -1.53992489,
-        -2.49444674, -0.16752201],
-       [ 1.62168502,  0.37126556,  1.1663372 , ...,  0.14790602,
-         0.66979128,  0.08638055],
-       [ 0.71684382,  0.68471199, -0.8792814 , ...,  0.65920594,
-        -0.20866833,  0.41546901],
+array([[ 0.79594486,  0.58510367,  0.74947591, ..., -0.10522366,
+         0.27859077, -1.29521026],
+       [ 0.56121583,  0.04487361, -1.74967458, ...,  0.62918341,
+        -0.98824881,  0.19647211],
+       [-0.24159919,  0.7280129 , -2.00913606, ...,  0.20806568,
+        -0.55413867, -0.19564352],
        ...,
-       [ 0.96784   ,  0.56345797,  1.04352749, ..., -1.47385381,
-         0.3924519 ,  1.26399021],
-       [-0.042637  , -1.21850614,  0.38485001, ...,  0.95423618,
-         0.27638212,  0.0713511 ],
-       [-0.3263315 ,  1.36429723, -0.2969532 , ...,  0.1238056 ,
-        -1.76651732, -0.96451534]])
+       [-1.24377182,  2.22951798,  1.25893506, ...,  0.42731991,
+        -0.56027345, -0.16764965],
+       [ 0.92460983,  0.4478629 , -0.0808522 , ...,  0.36694817,
+         1.20955208,  0.01549615],
+       [ 2.31128335, -1.48114369,  0.18650796, ...,  0.50438105,
+        -0.60628956,  1.3647795 ]])
 ```
 
 
@@ -289,19 +287,19 @@ ccd.data
 
 {:.output .output_data_text}
 ```
-array([[-1.12570767,  0.54076278,  2.23107807, ..., -1.53992489,
-        -2.49444674, -0.16752201],
-       [ 1.62168502,  0.37126556,  1.1663372 , ...,  0.14790602,
-         0.66979128,  0.08638055],
-       [ 0.71684382,  0.68471199, -0.8792814 , ...,  0.65920594,
-        -0.20866833,  0.41546901],
+array([[ 0.79594486,  0.58510367,  0.74947591, ..., -0.10522366,
+         0.27859077, -1.29521026],
+       [ 0.56121583,  0.04487361, -1.74967458, ...,  0.62918341,
+        -0.98824881,  0.19647211],
+       [-0.24159919,  0.7280129 , -2.00913606, ...,  0.20806568,
+        -0.55413867, -0.19564352],
        ...,
-       [ 0.96784   ,  0.56345797,  1.04352749, ..., -1.47385381,
-         0.3924519 ,  1.26399021],
-       [-0.042637  , -1.21850614,  0.38485001, ...,  0.95423618,
-         0.27638212,  0.0713511 ],
-       [-0.3263315 ,  1.36429723, -0.2969532 , ...,  0.1238056 ,
-        -1.76651732, -0.96451534]])
+       [-1.24377182,  2.22951798,  1.25893506, ...,  0.42731991,
+        -0.56027345, -0.16764965],
+       [ 0.92460983,  0.4478629 , -0.0808522 , ...,  0.36694817,
+         1.20955208,  0.01549615],
+       [ 2.31128335, -1.48114369,  0.18650796, ...,  0.50438105,
+        -0.60628956,  1.3647795 ]])
 ```
 
 
@@ -310,7 +308,7 @@ There are a [number of features of `CCDData`](https://astropy.readthedocs.io/en/
 
 ## Option 3: Working with a directory of images using `ImageFileCollection`
 
-The affiliated package [cdcproc](https://ccdproc.readthedocs.io/) provides an easier way to work with collections of images in a directory: an `ImageFileCollection`. The `ImageFileCollection` is initialized with the name of the directory containing the images.
+The affiliated package [ccdproc](https://ccdproc.readthedocs.io/) provides an easier way to work with collections of images in a directory: an `ImageFileCollection`. The `ImageFileCollection` is initialized with the name of the directory containing the images.
 
 
 
@@ -340,7 +338,7 @@ im_collection.summary
 
 <div markdown="0" class="output output_html">
 <i>Table masked=True length=28</i>
-<table id="table47613197448" class="table-striped table-bordered table-condensed">
+<table id="table47766300880" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>simple</th><th>bitpix</th><th>naxis</th><th>naxis1</th><th>naxis2</th><th>imagetyp</th><th>exposure</th><th>bunit</th><th>filter</th><th>object</th></tr></thead>
 <thead><tr><th>str13</th><th>bool</th><th>int64</th><th>int64</th><th>int64</th><th>int64</th><th>str5</th><th>float64</th><th>str3</th><th>object</th><th>object</th></tr></thead>
 <tr><td>img-0000.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>BIAS</td><td>0.0</td><td>adu</td><td>--</td><td>--</td></tr>
@@ -405,11 +403,11 @@ for a_flat, fname in im_collection.hdus(imagetyp='LIGHT', object='m82', return_f
 
 {:.output .output_stream}
 ```
-In file img-0018.fits the exposure is: 30.0 with standard deviation  1.002718545695149
-In file img-0020.fits the exposure is: 30.0 with standard deviation  1.0002906457414735
-In file img-0022.fits the exposure is: 30.0 with standard deviation  0.9991784700879347
-In file img-0024.fits the exposure is: 30.0 with standard deviation  0.9985687387452966
-In file img-0026.fits the exposure is: 30.0 with standard deviation  0.9992128351096516
+In file img-0018.fits the exposure is: 30.0 with standard deviation  1.0033742097577956
+In file img-0020.fits the exposure is: 30.0 with standard deviation  0.9999240877290317
+In file img-0022.fits the exposure is: 30.0 with standard deviation  0.9999643779265854
+In file img-0024.fits the exposure is: 30.0 with standard deviation  0.9987587056465542
+In file img-0026.fits the exposure is: 30.0 with standard deviation  1.0010196937389666
 
 ```
 

@@ -29,9 +29,9 @@
   "headline":
     "An artificial, but realistic, image",
   "datePublished":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "dateModified":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "description":
     "Construction of an artificial (but realistic) image",
   "author": {
@@ -552,29 +552,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-07-Calibration-choices-you-need-to-make.html"
-                >
-                  
-                    1.5
-                  
-                  Calibration choices to make
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
                   href="/01-08-Overscan.html"
                 >
                   
-                    1.6
+                    1.5
                   
                   Overscan
                 </a>
@@ -590,7 +571,26 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-09-reading-images.html"
+                  href="/01-09-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.6
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-11-reading-images.html"
                 >
                   
                     1.7
@@ -668,7 +668,7 @@ initFunction(initQuery);
                   
                     2.2
                   
-                  Combinge bias images to make master bias
+                  Combine bias images to make master bias
                 </a>
 
                 
@@ -736,12 +736,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                  href="/03-02-Real-dark-current-noise-and-other-artifacts.html"
                 >
                   
                     3.2
                   
-                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                  Real dark current: noise and other artifacts
                 </a>
 
                 
@@ -755,12 +755,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                  href="/03-04-Handling-overscan-and-bias-for-dark-frames.html"
                 >
                   
                     3.3
                   
-                  Make a choice about next steps for darks
+                  Handling overscan and bias for dark frames
                 </a>
 
                 
@@ -979,7 +979,7 @@ initFunction(initQuery);
 
 <h2 id="bias">Bias</h2>
 
-<p>Bias is an offset voltage (which translates into some non-zero number of counts) added to every pixel in the image to ensure that when voltages are converted to counts there is never a negative count. Note that in the noise image above, some counts are positive and some are negative, as you would expect for a Gaussian distribution centered on zero.</p>
+<p>Bias is an offset voltage (which translates into some non-zero number of counts) added to every pixel in the image to ensure that when voltages are converted to counts there is never a negative count. Note that in the noise image above, some counts are positive and some are negative, as you would expect for a Gaussian distribution centered on zero. Pixel values are typically read out from the electronics as <em>positive</em> numbers, though. Adding a constant voltage, which corresponds to a constant, positive number, ensures that even an image which consists entirely of noise has no negative values.</p>
 
 <p>The bias value is roughly the same across the CCD chip, though it’s not uncommon to have “bad” columns and pixels in which the bias level is consistently offset from the rest of the chip.</p>
 
@@ -1003,7 +1003,7 @@ initFunction(initQuery);
     value: float
         Bias level to add.
     realistic : bool, optional
-        If ``True``, add some clomuns with somewhat higher bias value (a not uncommon thing)
+        If ``True``, add some columns with somewhat higher bias value (a not uncommon thing)
     """</span>
     <span class="c"># This is the whole thing: the bias is really suppose to be a constant offset!</span>
     <span class="n">bias_im</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">image</span><span class="p">)</span> <span class="o">+</span> <span class="n">value</span>
@@ -1066,7 +1066,7 @@ initFunction(initQuery);
 
 <p>A dark frame (or dark image) is an image taken with the camera shutter closed.</p>
 
-<p>The function below simulates dark currrent only, i.e. it does <em>not</em> simulate the read noise that is a part of any actual dark frame from a CCD.</p>
+<p>The function below simulates dark current only, i.e. it does <em>not</em> simulate the read noise that is a part of any actual dark frame from a CCD.</p>
 
 <p>Note that the simulation dark image looks noisy even though it doesn’t include read noise. This is because the number of electrons generated obey a Poisson distribution.</p>
 

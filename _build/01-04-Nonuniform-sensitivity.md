@@ -22,7 +22,7 @@ Not all pixels in a camera have the same sensitivity to light: there are intrins
 
 Vingetting and dust can reduce the amount of light reaching the CCD chip while pixel-to-pixel sensitivity variations affects the counts read from the chip.
 
-The code to produce the simulated sensitivty map (aka flat image) is long enough that is not included in this notebook. We load it instead from [image_sim.py](image_sim.py).
+The code to produce the simulated sensitivity map (aka flat image) is long enough that is not included in this notebook. We load it instead from [image_sim.py](image_sim.py).
 
 
 
@@ -31,7 +31,7 @@ The code to produce the simulated sensitivty map (aka flat image) is long enough
 import numpy as np
 
 from convenience_functions import show_image
-from image_sim import *
+import image_sim as isim
 ```
 
 
@@ -44,7 +44,7 @@ The sample flat image below has the same size as the simulated image in the prev
 {:.input_area}
 ```python
 image = np.zeros([2000, 2000])
-flat = sensitivity_variations(image)
+flat = isim.sensitivity_variations(image)
 ```
 
 
@@ -100,11 +100,11 @@ sky_counts = 20
 bias_level = 1100
 read_noise_electrons = 5
 max_star_counts = 2000
-bias_only = bias(image, bias_level, realistic=True)
-noise_only = read_noise(image, read_noise_electrons, gain=gain)
-dark_only = dark_current(image, dark, exposure, gain=gain, hot_pixels=True)
-sky_only = sky_background(image, sky_counts, gain=gain)
-stars_only = stars(image, 50, max_counts=max_star_counts)
+bias_only = isim.bias(image, bias_level, realistic=True)
+noise_only = isim.read_noise(image, read_noise_electrons, gain=gain)
+dark_only = isim.dark_current(image, dark, exposure, gain=gain, hot_pixels=True)
+sky_only = isim.sky_background(image, sky_counts, gain=gain)
+stars_only = isim.stars(image, 50, max_counts=max_star_counts)
 ```
 
 
@@ -146,7 +146,7 @@ You can see the effect by artificially increasing the sky background.
 
 {:.input_area}
 ```python
-final_image2 = bias_only + noise_only + dark_only + flat * (sky_background(image, 100 * sky_counts, gain=gain) + stars_only)
+final_image2 = bias_only + noise_only + dark_only + flat * (isim.sky_background(image, 100 * sky_counts, gain=gain) + stars_only)
 show_image(final_image2, cmap='gray')
 ```
 

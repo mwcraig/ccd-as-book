@@ -29,9 +29,9 @@
   "headline":
     "Dark current: the ideal case",
   "datePublished":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "dateModified":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "description":
     "Dark current: the ideal case",
   "author": {
@@ -552,29 +552,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-07-Calibration-choices-you-need-to-make.html"
-                >
-                  
-                    1.5
-                  
-                  Calibration choices to make
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
                   href="/01-08-Overscan.html"
                 >
                   
-                    1.6
+                    1.5
                   
                   Overscan
                 </a>
@@ -590,7 +571,26 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-09-reading-images.html"
+                  href="/01-09-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.6
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-11-reading-images.html"
                 >
                   
                     1.7
@@ -668,7 +668,7 @@ initFunction(initQuery);
                   
                     2.2
                   
-                  Combinge bias images to make master bias
+                  Combine bias images to make master bias
                 </a>
 
                 
@@ -736,12 +736,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                  href="/03-02-Real-dark-current-noise-and-other-artifacts.html"
                 >
                   
                     3.2
                   
-                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                  Real dark current: noise and other artifacts
                 </a>
 
                 
@@ -755,12 +755,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                  href="/03-04-Handling-overscan-and-bias-for-dark-frames.html"
                 >
                   
                     3.3
                   
-                  Make a choice about next steps for darks
+                  Handling overscan and bias for dark frames
                 </a>
 
                 
@@ -855,27 +855,20 @@ initFunction(initQuery);
       <ul class="toc__menu">
   <li><a href="#a-dark-frame-measures-dark-current">A dark frame measures dark current</a>
     <ul>
-      <li><a href="#a-function-to-generate-dark-frames">A function to generate dark frames</a></li>
-      <li><a href="#a-function-to-plot-the-distribution-of-dark-counts">A function to plot the distribution of dark counts</a></li>
+      <li><a href="#convenience-functions">Convenience functions</a></li>
     </ul>
   </li>
   <li><a href="#dark-current-theory">Dark current theory</a></li>
-  <li><a href="#illustration-with-dark-current-only-no-read-noise">Illustration with dark current only, no read noise</a>
+  <li><a href="#illustration-with-dark-current-only">Illustration with dark current only</a>
     <ul>
       <li><a href="#dark-current-is-a-random-process">Dark current is a random process</a></li>
-      <li><a href="#the-distribution-of-dark-counts-follows-a-poisson-distribution">The distribution of dark counts follows a Poisson distribution</a></li>
+      <li><a href="#dark-counts-follows-a-poisson-distribution">Dark counts follows a Poisson distribution</a></li>
     </ul>
   </li>
   <li><a href="#illustration-with-dark-current-and-read-noise">Illustration with dark current and read noise</a>
     <ul>
-      <li><a href="#high-noise-read-noise-is-about-the-same-as-the-expected-dark-current">High noise: Read noise is about the same as the expected dark current</a></li>
-      <li><a href="#high-noise-this-dark-frame-measures-noise-not-dark-current">High noise: This dark frame measures noise, not dark current</a></li>
-      <li><a href="#combining-many-noisy-dark-images-does-not-recover-the-dark-current">Combining many noisy dark images does not recover the dark current</a></li>
-    </ul>
-  </li>
-  <li><a href="#low-noise-read-noise-much-lower-than-dark-current">Low noise: Read noise much lower than dark current</a>
-    <ul>
-      <li><a href="#low-noise-the-dark-frame-is-measuring-dark-current">Low noise: the dark frame is measuring dark current</a></li>
+      <li><a href="#high-noise">High noise</a></li>
+      <li><a href="#low-noise">Low noise</a></li>
     </ul>
   </li>
 </ul>
@@ -933,7 +926,11 @@ initFunction(initQuery);
 
 <p>You measure the dark current in your camera by taking dark frames.</p>
 
-<h3 id="a-function-to-generate-dark-frames">A function to generate dark frames</h3>
+<h3 id="convenience-functions">Convenience functions</h3>
+
+<p>A couple of functions that will be reused a few times in this notebook are defined below.</p>
+
+<p><strong>A function to generate dark frames</strong></p>
 
 <p>This function generates a set of dark frames. It will be used several times below.</p>
 
@@ -955,7 +952,7 @@ initFunction(initQuery);
     <span class="k">return</span> <span class="n">darks</span>
 </code></pre></div></div>
 
-<h3 id="a-function-to-plot-the-distribution-of-dark-counts">A function to plot the distribution of dark counts</h3>
+<p><strong>A function to plot the distribution of dark counts</strong></p>
 
 <p>The function below plots the</p>
 
@@ -1044,15 +1041,15 @@ initFunction(initQuery);
 
 <script type="math/tex; mode=display">d_e(t) = d_c(T) t.</script>
 
-<p>For liquid-cooled cameras, particularly ones cooled bu liquid nitrogen, the operating temperature doesn’t change. For thermo-electrically cooled cameras one is able to set the desired operating temperature. As a result, you should be able to ignore the temperature dependence of the dark current.</p>
+<p>For liquid-cooled cameras, particularly ones cooled by liquid nitrogen, the operating temperature doesn’t change. For thermo-electrically cooled cameras one is able to set the desired operating temperature. As a result, you should be able to ignore the temperature dependence of the dark current.</p>
 
 <p>The thermo-electric coolers can usually cool by some fixed amount below the ambient temperature. Though in principle one could choose to always cool by the same fixed amount, like $50^\circ$C below the ambient temperature, there is an advantage to always running your camera at the same temperature: dark frames taken on one date are potentially useful on another date. If the operating temperature varies then you need to make sure to take dark frames every time you observe unless you carefully characterize the temperature dependence of your dark current.</p>
 
 <p>It will turn out that for practical reasons – not all pixels in your camera have the same dark current – it is usually best to take dark frames every time you observe anyway.</p>
 
-<h2 id="illustration-with-dark-current-only-no-read-noise">Illustration with dark current only, no read noise</h2>
+<h2 id="illustration-with-dark-current-only">Illustration with dark current only</h2>
 
-<p>For the purposes of illustrating some of the properties of dark current and dark frames we’ll generated some simulated images in which the counts are due to dark current alone. We’ll use these values:</p>
+<p>For the purposes of illustrating some of the properties of dark current and dark frames we’ll generate some simulated images in which the counts are due to dark current alone. We’ll use these values:</p>
 
 <ul>
   <li>Dark current is $d_c(T) = 0.1 e^-$/pixel/sec</li>
@@ -1111,9 +1108,9 @@ initFunction(initQuery);
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p class="output output_png"><img src="images/03-01-Dark-current-The-ideal-case_11_0.png" alt="png" /></p>
+<p class="output output_png"><img src="images/03-01-Dark-current-The-ideal-case_12_0.png" alt="png" /></p>
 
-<h3 id="the-distribution-of-dark-counts-follows-a-poisson-distribution">The distribution of dark counts follows a Poisson distribution</h3>
+<h3 id="dark-counts-follows-a-poisson-distribution">Dark counts follows a Poisson distribution</h3>
 
 <p>The distribution below shows a normalized histogram of number of pixels as a function of dark counts in each pixel for one of the simulated dark frames. Overlaid on the histogram is a Poisson distribution with a mean of $d_e(t_{exp}) = d_C(T) * t_{exp} / g$, where $t_{exp}$ is the exposure time.</p>
 
@@ -1135,9 +1132,9 @@ initFunction(initQuery);
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p class="output output_png"><img src="images/03-01-Dark-current-The-ideal-case_13_0.png" alt="png" /></p>
+<p class="output output_png"><img src="images/03-01-Dark-current-The-ideal-case_14_0.png" alt="png" /></p>
 
-<h2 id="illustration-with-dark-current-and-read-noise">Illustration with dark current <em>and</em> read noise</h2>
+<h2 id="illustration-with-dark-current-and-read-noise">Illustration with dark current and read noise</h2>
 
 <p>Now let’s run through the same couple of plots with a non-zero read noise. For the sake of illustration, we’ll look at two cases:</p>
 
@@ -1158,7 +1155,7 @@ initFunction(initQuery);
 
 <p>The dark current rate in this example is somewhat higher than that of a real CCD. A large dark current is used here to demonstrate the interaction of dark current and read noise, and the exposure time has been chosen that expected dark electrons is 10$e-$.</p>
 
-<h3 id="high-noise-read-noise-is-about-the-same-as-the-expected-dark-current">High noise: Read noise is about the same as the expected dark current</h3>
+<h3 id="high-noise">High noise</h3>
 
 <p>In this first case, the read noise and the dark current are both 10$e^-$. As we will see shortly, the dark frame really measures read noise, not dark current, under these circumstances.</p>
 
@@ -1179,15 +1176,15 @@ initFunction(initQuery);
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
 </code></pre></div></div>
 
-<p class="output output_png"><img src="images/03-01-Dark-current-The-ideal-case_18_0.png" alt="png" /></p>
+<p class="output output_png"><img src="images/03-01-Dark-current-The-ideal-case_19_0.png" alt="png" /></p>
 
-<h3 id="high-noise-this-dark-frame-measures-noise-not-dark-current">High noise: This dark frame measures noise, not dark current</h3>
+<p><strong>This dark frame measures noise, not dark current</strong></p>
 
 <p>The pixel distribution is clearly a Gaussian distribution with a width determined by the read noise, not the underlying Poisson distribution that a dark frame is trying to measure. The only way around this (assuming the dark current is large enough that it needs to be subtracted at all) is to make the exposure long enough that the expected counts exceed the dark current.</p>
 
 <p>We explore that case below by adding in a much smaller amount of noise.</p>
 
-<h3 id="combining-many-noisy-dark-images-does-not-recover-the-dark-current">Combining many noisy dark images does not recover the dark current</h3>
+<p><strong>Combining does not recover the dark current</strong></p>
 
 <p>The plots below show the result of averaging several (20 in this case) dark frames together. One might hope that averaging reduces the noise enough that the distribution of pixels becomes the Poisson distribution expected for a dark frame. It does not.</p>
 
@@ -1201,11 +1198,11 @@ initFunction(initQuery);
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Distribution of counts for the average of 20 dark images, high noise case"</span><span class="p">);</span>
 </code></pre></div></div>
 
-<p class="output output_png"><img src="images/03-01-Dark-current-The-ideal-case_22_0.png" alt="png" /></p>
+<p class="output output_png"><img src="images/03-01-Dark-current-The-ideal-case_23_0.png" alt="png" /></p>
 
 <p>Even the combination of 20 dark frames doesn’t lead to a Poisson distribution; the distribution is still a Gaussian whose width is determined by the read noise and the number of images.</p>
 
-<h2 id="low-noise-read-noise-much-lower-than-dark-current">Low noise: Read noise much lower than dark current</h2>
+<h3 id="low-noise">Low noise</h3>
 
 <p>In this case the read noise is 1 $e^-$, lower by a factor of ten than the expected dark current for this exposure time, 10$e^-$.</p>
 
@@ -1230,7 +1227,7 @@ initFunction(initQuery);
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Distribution of counts for the average of one dark images, low noise case"</span><span class="p">);</span>
 </code></pre></div></div>
 
-<p class="output output_png"><img src="images/03-01-Dark-current-The-ideal-case_26_0.png" alt="png" /></p>
+<p class="output output_png"><img src="images/03-01-Dark-current-The-ideal-case_27_0.png" alt="png" /></p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 
@@ -1243,47 +1240,11 @@ initFunction(initQuery);
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Distribution of counts for the average of 20 dark images, low noise case"</span><span class="p">);</span>
 </code></pre></div></div>
 
-<p class="output output_png"><img src="images/03-01-Dark-current-The-ideal-case_27_0.png" alt="png" /></p>
+<p class="output output_png"><img src="images/03-01-Dark-current-The-ideal-case_28_0.png" alt="png" /></p>
 
-<h3 id="low-noise-the-dark-frame-is-measuring-dark-current">Low noise: the dark frame is measuring dark current</h3>
+<p><strong>Dark frame is measuring dark current</strong></p>
 
-<p>Unlike the high noise case, the pixels in a single low-noise dark frame follow the Poisson distribution expected for the dark current in this simulated camera.</p>
-
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">counts</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">((</span><span class="n">n_images</span> <span class="o">*</span> <span class="n">image_average</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-
-<span class="n">expected_mean_dark</span> <span class="o">=</span> <span class="n">dark_rate</span> <span class="o">*</span> <span class="n">exposure</span> <span class="o">/</span> <span class="n">gain</span>
-<span class="n">pois</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">expected_mean_dark</span> <span class="o">*</span> <span class="n">n_images</span><span class="p">)</span>
-<span class="n">pois_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">pois_pmf</span> <span class="o">=</span> <span class="n">pois</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">pois_x</span><span class="p">)</span>
-
-<span class="n">gauss</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">expected_mean_dark</span> <span class="o">*</span> <span class="n">n_images</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">low_read_noise</span> <span class="o">/</span> <span class="n">gain</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_images</span><span class="p">))</span>
-<span class="n">gauss_x</span> <span class="o">=</span> <span class="n">pois_x</span>
-<span class="n">gauss_pdf</span> <span class="o">=</span> <span class="n">gauss</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">gauss_x</span><span class="p">)</span>
-
-</code></pre></div></div>
-
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-
-<span class="n">scaled_counts</span> <span class="o">=</span> <span class="n">counts</span> <span class="o">*</span> <span class="n">n_images</span>
-<span class="n">scaled_bins</span> <span class="o">=</span> <span class="n">bins</span> <span class="o">/</span> <span class="n">n_images</span>
-<span class="n">bin_mid_points</span> <span class="o">=</span> <span class="p">(</span><span class="n">scaled_bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">scaled_bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">bin_mid_points</span><span class="p">,</span> <span class="n">scaled_counts</span><span class="p">,</span> <span class="n">scaled_bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">scaled_bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-        <span class="n">label</span><span class="o">=</span><span class="s">'Dark current counts'</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pois_x</span> <span class="o">/</span> <span class="n">n_images</span><span class="p">,</span> <span class="n">pois_pmf</span> <span class="o">*</span> <span class="n">n_images</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'C1'</span><span class="p">,</span>
-         <span class="n">label</span><span class="o">=</span><span class="s">"Scaled Poisson distribution"</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gauss_x</span> <span class="o">/</span> <span class="n">n_images</span><span class="p">,</span> <span class="n">gauss_pdf</span> <span class="o">*</span> <span class="n">n_images</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'C2'</span><span class="p">,</span> 
-         <span class="n">label</span><span class="o">=</span><span class="s">"Scaled Gaussian distribution"</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
-</code></pre></div></div>
-
-<p class="output output_png"><img src="images/03-01-Dark-current-The-ideal-case_30_0.png" alt="png" /></p>
-
+<p>Unlike the high noise case, the pixels in a single low-noise dark frame follow the Poisson distribution expected for the dark current in this simulated camera. When multiple images are combined the pixels still follow the Poisson distribution, as expected in this case.</p>
 
               <nav class="c-page__nav">
   
@@ -1295,8 +1256,8 @@ initFunction(initQuery);
 
   
     
-    <a id="js-page__nav__next" class="c-page__nav__next" href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current">
-      Reality: most of your dark frame i... <span class="u-margin-right-tiny"></span> 〉
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/03-02-Real-dark-current-noise-and-other-artifacts">
+      Real dark current: noise and other... <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>

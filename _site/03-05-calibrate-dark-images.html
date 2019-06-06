@@ -29,9 +29,9 @@
   "headline":
     "Calibrate dark images",
   "datePublished":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "dateModified":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "description":
     "Calibrate dark images",
   "author": {
@@ -552,29 +552,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-07-Calibration-choices-you-need-to-make.html"
-                >
-                  
-                    1.5
-                  
-                  Calibration choices to make
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
                   href="/01-08-Overscan.html"
                 >
                   
-                    1.6
+                    1.5
                   
                   Overscan
                 </a>
@@ -590,7 +571,26 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-09-reading-images.html"
+                  href="/01-09-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.6
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-11-reading-images.html"
                 >
                   
                     1.7
@@ -668,7 +668,7 @@ initFunction(initQuery);
                   
                     2.2
                   
-                  Combinge bias images to make master bias
+                  Combine bias images to make master bias
                 </a>
 
                 
@@ -736,12 +736,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                  href="/03-02-Real-dark-current-noise-and-other-artifacts.html"
                 >
                   
                     3.2
                   
-                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                  Real dark current: noise and other artifacts
                 </a>
 
                 
@@ -755,12 +755,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                  href="/03-04-Handling-overscan-and-bias-for-dark-frames.html"
                 >
                   
                     3.3
                   
-                  Make a choice about next steps for darks
+                  Handling overscan and bias for dark frames
                 </a>
 
                 
@@ -906,7 +906,7 @@ initFunction(initQuery);
 <p>Dark images, like any other images, need to be calibrated. Depending on the data you have and the choices you have made in reducing your data the steps to reducing your images may include:</p>
 
 <ol>
-  <li>Subtracting overscan (only if you decide to subtract ocverscan from all images)</li>
+  <li>Subtracting overscan (only if you decide to subtract overscan from all images)</li>
   <li>Trim the image (if it has overscan, whether you are using the overscan or not)</li>
   <li>Subtract bias (if you need to scale the calibrated dark frames to a different exposure time).</li>
 </ol>
@@ -940,7 +940,7 @@ initFunction(initQuery);
 
 <div class="output output_html">
 <i>Table masked=True length=14</i>
-<table id="table47829768232" class="table-striped table-bordered table-condensed">
+<table id="table4735898176" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>exptime</th><th>filter</th></tr></thead>
 <thead><tr><th>str17</th><th>str9</th><th>float64</th><th>str2</th></tr></thead>
 <tr><td>ccd.001.0.fits.gz</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
@@ -967,7 +967,7 @@ initFunction(initQuery);
 
 <div class="output output_html">
 <i>Table masked=True length=10</i>
-<table id="table47829769128" class="table-striped table-bordered table-condensed">
+<table id="table47813671120" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>imagetyp</th><th>exptime</th><th>filter</th></tr></thead>
 <thead><tr><th>str17</th><th>str4</th><th>float64</th><th>str2</th></tr></thead>
 <tr><td>ccd.002.0.fits.gz</td><td>BIAS</td><td>0.0</td><td>r&apos;</td></tr>
@@ -1022,21 +1022,31 @@ initFunction(initQuery);
 
 <h4 id="reduced-images-so-far">Reduced images (so far)</h4>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ex1_images_reduced</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s">'file'</span><span class="p">,</span> <span class="s">'imagetyp'</span><span class="p">,</span> <span class="s">'exptime'</span><span class="p">,</span> <span class="s">'filter'</span><span class="p">]</span>
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ex1_images_reduced</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="n">ex1_images_reduced</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s">'file'</span><span class="p">,</span> <span class="s">'imagetyp'</span><span class="p">,</span> <span class="s">'exptime'</span><span class="p">,</span> <span class="s">'filter'</span><span class="p">,</span> <span class="s">'combined'</span><span class="p">]</span>
 </code></pre></div></div>
 
 <div class="output output_html">
-<i>Table masked=True length=7</i>
-<table id="table47829696408" class="table-striped table-bordered table-condensed">
-<thead><tr><th>file</th><th>imagetyp</th><th>exptime</th><th>filter</th></tr></thead>
-<thead><tr><th>str17</th><th>str4</th><th>float64</th><th>str2</th></tr></thead>
-<tr><td>ccd.001.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
-<tr><td>ccd.002.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
-<tr><td>ccd.003.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
-<tr><td>ccd.004.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
-<tr><td>ccd.005.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
-<tr><td>ccd.006.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
-<tr><td>combined_bias.fit</td><td>BIAS</td><td>0.0</td><td>i&apos;</td></tr>
+<i>Table masked=True length=16</i>
+<table id="table47813712528" class="table-striped table-bordered table-condensed">
+<thead><tr><th>file</th><th>imagetyp</th><th>exptime</th><th>filter</th><th>combined</th></tr></thead>
+<thead><tr><th>str17</th><th>str4</th><th>float64</th><th>str2</th><th>object</th></tr></thead>
+<tr><td>ccd.001.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td><td>--</td></tr>
+<tr><td>ccd.002.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td><td>--</td></tr>
+<tr><td>ccd.003.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td><td>--</td></tr>
+<tr><td>ccd.004.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td><td>--</td></tr>
+<tr><td>ccd.005.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td><td>--</td></tr>
+<tr><td>ccd.006.0.fits</td><td>BIAS</td><td>0.0</td><td>i&apos;</td><td>--</td></tr>
+<tr><td>ccd.013.0.fits</td><td>DARK</td><td>300.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.014.0.fits</td><td>DARK</td><td>300.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.015.0.fits</td><td>DARK</td><td>300.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.017.0.fits</td><td>DARK</td><td>70.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.018.0.fits</td><td>DARK</td><td>70.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.019.0.fits</td><td>DARK</td><td>70.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.023.0.fits</td><td>DARK</td><td>7.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.024.0.fits</td><td>DARK</td><td>7.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>ccd.025.0.fits</td><td>DARK</td><td>7.0</td><td>r&apos;</td><td>--</td></tr>
+<tr><td>combined_bias.fit</td><td>BIAS</td><td>0.0</td><td>i&apos;</td><td>True</td></tr>
 </table>
 </div>
 
@@ -1057,7 +1067,7 @@ initFunction(initQuery);
 
 <div class="output output_html">
 <i>Table masked=True length=32</i>
-<table id="table47829695344-257768" class="table-striped table-bordered table-condensed">
+<table id="table47813617536-93729" class="table-striped table-bordered table-condensed">
 <thead><tr><th>idx</th><th>file</th><th>imagetyp</th><th>exposure</th></tr></thead>
 <tr><td>0</td><td>AutoFlat-PANoRot-r-Bin1-001.fit.gz</td><td>FLAT</td><td>1.0</td></tr>
 <tr><td>1</td><td>AutoFlat-PANoRot-r-Bin1-002.fit.gz</td><td>FLAT</td><td>1.0</td></tr>
@@ -1114,14 +1124,14 @@ require.config({paths: {
     datatables: 'https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min'
 }});
 require(["datatables"], function(){
-    console.log("$('#table47829695344-257768').dataTable()");
+    console.log("$('#table47813617536-93729').dataTable()");
     
 jQuery.extend( jQuery.fn.dataTableExt.oSort, {
     "optionalnum-asc": astropy_sort_num,
     "optionalnum-desc": function (a,b) { return -astropy_sort_num(a, b); }
 });
 
-    $('#table47829695344-257768').dataTable({
+    $('#table47813617536-93729').dataTable({
         order: [],
         pageLength: 50,
         lengthMenu: [[10, 25, 50, 100, 500, 1000, -1], [10, 25, 50, 100, 500, 1000, 'All']],
@@ -1137,7 +1147,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 
 <p>In this case the only dark frames have exposure time 90 sec. Though that matches the exposure time of the science images, the flat field images are much shorter exposure time, ranging from 1 sec to 1.21 sec. That type range of exposure is typical when twilights flats are taken. Since these are a much different exposure time than the darks, the dark frames will need to be scaled.</p>
 
-<p>Recall that for this camera the overcan is not useful and should simply be trimmed off.</p>
+<p>Recall that for this camera the overscan is not useful and should simply be trimmed off.</p>
 
 <p>Given this, we will:</p>
 
@@ -1174,8 +1184,8 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
               <nav class="c-page__nav">
   
     
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/03-04-Make-a-choice-about-next-steps-for-darks">
-      〈 <span class="u-margin-right-tiny"></span> Make a choice about next steps for...
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/03-04-Handling-overscan-and-bias-for-dark-frames">
+      〈 <span class="u-margin-right-tiny"></span> Handling overscan and bias for dar...
     </a>
   
 

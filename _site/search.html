@@ -29,9 +29,9 @@
   "headline":
     "Search the site",
   "datePublished":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "dateModified":
-    "2019-05-29T18:21:05-05:00",
+    "2019-06-06T16:34:07-05:00",
   "description":
     "This is an example book built with Jupyter Books.",
   "author": {
@@ -552,29 +552,10 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-07-Calibration-choices-you-need-to-make.html"
-                >
-                  
-                    1.5
-                  
-                  Calibration choices to make
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
                   href="/01-08-Overscan.html"
                 >
                   
-                    1.6
+                    1.5
                   
                   Overscan
                 </a>
@@ -590,7 +571,26 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/01-09-reading-images.html"
+                  href="/01-09-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.6
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-11-reading-images.html"
                 >
                   
                     1.7
@@ -668,7 +668,7 @@ initFunction(initQuery);
                   
                     2.2
                   
-                  Combinge bias images to make master bias
+                  Combine bias images to make master bias
                 </a>
 
                 
@@ -736,12 +736,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html"
+                  href="/03-02-Real-dark-current-noise-and-other-artifacts.html"
                 >
                   
                     3.2
                   
-                  Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current
+                  Real dark current: noise and other artifacts
                 </a>
 
                 
@@ -755,12 +755,12 @@ initFunction(initQuery);
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/03-04-Make-a-choice-about-next-steps-for-darks.html"
+                  href="/03-04-Handling-overscan-and-bias-for-dark-frames.html"
                 >
                   
                     3.3
                   
-                  Make a choice about next steps for darks
+                  Handling overscan and bias for dark frames
                 </a>
 
                 
@@ -896,7 +896,7 @@ initFunction(initQuery);
         "title": "Non-uniform sensitivity in astronomical detectors",
         
         "excerpt":
-            "Nonuniform sensitivity Background Not all pixels in a camera have the same sensitivity to light: there are intrinsic differences from pixel-to-pixel. Vignetting, a dimming near the corners of an image caused by the optical system to which the camera is attached, and dust on optical elements such as filters, the glass window covering the CCD, and the CCD chip itself can also block some light. Vingetting and dust can reduce the amount of light reaching the CCD chip while pixel-to-pixel sensitivity variations affects the counts read from the chip. The code to produce the simulated sensitivty map (aka flat image)...",
+            "Nonuniform sensitivity Background Not all pixels in a camera have the same sensitivity to light: there are intrinsic differences from pixel-to-pixel. Vignetting, a dimming near the corners of an image caused by the optical system to which the camera is attached, and dust on optical elements such as filters, the glass window covering the CCD, and the CCD chip itself can also block some light. Vingetting and dust can reduce the amount of light reaching the CCD chip while pixel-to-pixel sensitivity variations affects the counts read from the chip. The code to produce the simulated sensitivity map (aka flat image)...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/01-04-Nonuniform-sensitivity.html",
@@ -912,7 +912,7 @@ initFunction(initQuery);
         "title": "Image combination",
         
         "excerpt":
-            "Image combination Image combination serves several purposes. Combining images: reduces noise in images can remove transient artifacts like cosmic rays and satellite tracks can remove stars in twilight flats from the combined image It’s essential that several of each type of calibration image (bias, dark, flat) be taken. Combining them reduces the noise in the images by roughly a factor of $1/\\sqrt{N}$, where $N$ is the number of images being combined. As shown in the previous notebook, using a single calibration image actually increases the noise in your image. There are a few ways to combine images; if done properly,...",
+            "Image combination Image combination serves several purposes. Combining images: reduces noise in images can remove transient artifacts like cosmic rays and satellite tracks can remove stars in flat images taken at twilight It’s essential that several of each type of calibration image (bias, dark, flat) be taken. Combining them reduces the noise in the images by roughly a factor of $1/\\sqrt{N}$, where $N$ is the number of images being combined. As shown in the previous notebook, using a single calibration image actually increases the noise in your image. There are a few ways to combine images; if done properly, features...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/01-06-Image-combination.html",
@@ -933,6 +933,14 @@ initFunction(initQuery);
         "tags": [],
         "url": "YOUR%20URL/01-08-Overscan.html",
         "teaser":null},{
+        "title": "Calibration choices to make",
+        
+        "excerpt":
+            "Calibration choices you need to make There are a few choices you need to make about how you will calibrate your data. Sometimes the decision will be made for you by the data you have. Subtract bias and dark as separate steps or in one step? Every dark image contains bias when it comes off of the camera, so in principle you can take care of both bias and dark by constructing a master dark image that leaves the bias already present in the dark images in place. This only works if for every image from which you need to...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/01-09-Calibration-choices-you-need-to-make.html",
+        "teaser":null},{
         "title": "Reading images",
         
         "excerpt":
@@ -941,10 +949,18 @@ initFunction(initQuery);
         "tags": [],
         "url": "YOUR%20URL/01-09-reading-images.html",
         "teaser":null},{
+        "title": "Reading images",
+        
+        "excerpt":
+            "Reading images Astropy provides a few ways to read in FITS images, some in the core package and others in affiliated packages. Before exploring those, we’ll create a set of (fake) images to work with. from pathlib import Path from astropy.nddata import CCDData from astropy.io import fits Working with directories The cell below contains the path to the images. In this notebook we’ll use it both to store the fake images we generate and to read images. In normal use, you wouldn’t start by writing images there, however. If the images are in the same directory as the notebook you...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/01-11-reading-images.html",
+        "teaser":null},{
         "title": "Overscan and bias images",
         
         "excerpt":
-            "Handling overscan, trimming, and bias subtraction Introduction The bias in a CCD camera is a DC offset applied to all pixels so that when the voltage in each pixel is converted to a number the number will always be positive. In an ideal CCD the bias would be the same for every pixel and not change over time. In practice, the bias is slightly different for each pixel, and can vary by a count or two from night to night or during a night. A bias image is a picture taken with the shutter close and zero exposure time; think...",
+            "Handling overscan, trimming, and bias subtraction Introduction The bias in a CCD camera is a DC offset applied to all pixels so that when the voltage in each pixel is converted to a number the number will always be positive. In an ideal CCD the bias would be the same for every pixel and not change over time. In practice, the bias is slightly different for each pixel, and can vary by a count or two from night to night or during a night. A bias image is a picture taken with the shutter closed and zero exposure time; think...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/02-00-Handling-overscan-trimming-and-bias-subtraction.html",
@@ -957,7 +973,7 @@ initFunction(initQuery);
         "tags": [],
         "url": "YOUR%20URL/02-01-Calibrating-bias-images.html",
         "teaser":null},{
-        "title": "Combinge bias images to make master bias",
+        "title": "Combine bias images to make master bias",
         
         "excerpt":
             "Combine bias images to make master The final step is to combine the individual calibrated bias images into a single combined image. That combined image will have less noise than the individual images, minimizing the noise added to the remaining images when the bias is subtracted. Regardless of which path you took through the calibration of the biases (with overscan or without) there should be a folder named reduced that contains the calibrated bias images. If there is not, please run the previous notebook before continuing with this one. from pathlib import Path import os from astropy.nddata import CCDData from...",
@@ -968,7 +984,7 @@ initFunction(initQuery);
         "title": "Dark current and dark frames",
         
         "excerpt":
-            "Dark current and hot pixels Every image from a CCD contains dark current, which are counts in a raw image caused by thermal effects in the CCD. the dark current is modern CCDs is extremely small if the camera is cooled in some way. Cameras cooled with liquid nitrogen have nearly zero dark current while thermo-electrically cooled CCDs have a somewhat larger dark current. The dark current in a CCD operating at room temperature will typically be very large. Even a camera in which the dark current is typically very small will have a small fraction of pixels, called hot...",
+            "Dark current and hot pixels Every image from a CCD contains dark current, which are counts in a raw image caused by thermal effects in the CCD. The dark current in modern CCDs is extremely small if the camera is cooled in some way. Cameras cooled with liquid nitrogen have nearly zero dark current while thermo-electrically cooled CCDs have a somewhat larger dark current. The dark current in a CCD operating at room temperature will typically be very large. Even a camera in which the dark current is typically very small will have a small fraction of pixels, called hot...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/03-00-Dark-current-and-hot-pixels.html",
@@ -981,6 +997,14 @@ initFunction(initQuery);
         "tags": [],
         "url": "YOUR%20URL/03-01-Dark-current-The-ideal-case.html",
         "teaser":null},{
+        "title": "Real dark current: noise and other artifacts",
+        
+        "excerpt":
+            "Real dark current: noise and other artifacts The dark current on modern CCDs, even relatively inexpensive ones, is very small. In a typical exposure the dark current is likely smaller, maybe much smaller, than the read noise. Despite that, it is worth examining some dark frames from your camera. because not all pixels have the same dark current. Some, called hot pixels, have much higher dark current than the rest of the sensor. Some sensors have non-astronomical sources of counts whose value are proportional to exposure time, like dark current, but whose origin is nonthermal effects. As we did in...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/03-02-Real-dark-current-noise-and-other-artifacts.html",
+        "teaser":null},{
         "title": "Reality: most of your dark frame is noise and not all of the time dependent artifacts are dark current",
         
         "excerpt":
@@ -989,10 +1013,18 @@ initFunction(initQuery);
         "tags": [],
         "url": "YOUR%20URL/03-02-Reality-of-dark-currrent--most-of-your-dark-frame-is-noise-and-not-all-of-the-time-dependent-artifacts-are-dark-current.html",
         "teaser":null},{
+        "title": "Handling overscan and bias for dark frames",
+        
+        "excerpt":
+            "Handling overscan and bias for dark frames The options for reducing dark frames The next steps to take depend on two things: Are you subtracting overscan? If so, you should subtract overscan for the dark frames. Will you need to scale these darks to a different exposure time? If so, you need to subtract bias from the darks. If not, leave the bias in. 1. Do you need to subtract overscan? If you decide to subtract the overscan from any of the images used in your data reduction then you must subtract overscan from all of the images. This includes...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/03-04-Handling-overscan-and-bias-for-dark-frames.html",
+        "teaser":null},{
         "title": "Make a choice about next steps for darks",
         
         "excerpt":
-            "Make a choice about next steps for darks The options for reducing dark frames The next steps to take depend on two things: Are you subtracting overscan? If so, you should subtract overscan for the dark frames. Will you need to scale these darks to a different exposure time? If so, you need to subtract bias from the darks. If not, leave the bias in. 1. Do you need to subtract overscan? If you decide to subtract from any of the images used in your data reduction then you must subtract overscan from all of the images. This includes the...",
+            "Make a choice about next steps for darks The options for reducing dark frames The next steps to take depend on two things: Are you subtracting overscan? If so, you should subtract overscan for the dark frames. Will you need to scale these darks to a different exposure time? If so, you need to subtract bias from the darks. If not, leave the bias in. 1. Do you need to subtract overscan? If you decide to subtract the overscan from any of the images used in your data reduction then you must subtract overscan from all of the images. This...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/03-04-Make-a-choice-about-next-steps-for-darks.html",
@@ -1000,7 +1032,7 @@ initFunction(initQuery);
         "title": "Calibrate dark images",
         
         "excerpt":
-            "Calibrate dark images Dark images, like any other images, need to be calibrated. Depending on the data you have and the choices you have made in reducing your data the steps to reducing your images may include: Subtracting overscan (only if you decide to subtract ocverscan from all images) Trim the image (if it has overscan, whether you are using the overscan or not) Subtract bias (if you need to scale the calibrated dark frames to a different exposure time). from pathlib import Path from astropy.nddata import CCDData from ccdproc import ImageFileCollection import ccdproc as ccdp Example 1: Overscan subtracted,...",
+            "Calibrate dark images Dark images, like any other images, need to be calibrated. Depending on the data you have and the choices you have made in reducing your data the steps to reducing your images may include: Subtracting overscan (only if you decide to subtract overscan from all images) Trim the image (if it has overscan, whether you are using the overscan or not) Subtract bias (if you need to scale the calibrated dark frames to a different exposure time). from pathlib import Path from astropy.nddata import CCDData from ccdproc import ImageFileCollection import ccdproc as ccdp Example 1: Overscan subtracted,...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/03-05-Calibrate-dark-images.html",
