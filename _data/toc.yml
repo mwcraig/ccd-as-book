@@ -73,7 +73,7 @@
   - title: Calibrating bias images
     url: 02-01-Calibrating-bias-images
     not_numbered: false
-  - title: Combinge bias images to make master bias
+  - title: Combine bias images to make master bias
     url: 02-04-Combine-bias-images-to-make-master
     not_numbered: false
 
