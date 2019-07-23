@@ -16,16 +16,27 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 # Calibration choices you need to make
 
-There are a few choices you need to make about how you will calibrate your data. Sometimes the decision will be made for you by the data you have.
+There are a few choices you need to make about how you will calibrate your data.
+Sometimes the decision will be made for you by the data you have.
 
 ## Subtract bias and dark as separate steps or in one step?
 
-Every dark image contains bias when it comes off of the camera, so in principle you can take care of both bias and dark by constructing a master dark image that leaves the bias already present in the dark images in place.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/121/files#diff-5ebad08eb890638f832ded81cd482162R22){:target="_blank"}
 
-This only works if for every image from which you need to remove dark currrent you have a master dark of exactly the same exposure length.
+Every dark image contains bias when it comes off of the camera, so in principle
+you can take care of both bias and dark by constructing a master dark image that
+leaves the bias already present in the dark images in place.
 
-If not, you need to produce master dark images with the bias removed so that they can be scaled by exposure time. 
+This only works if for every image from which you need to remove dark currrent
+you have a master dark of exactly the same exposure length.
+
+If not, you need to produce master dark images with the bias removed so that
+they can be scaled by exposure time.
 
 ## Subtract overscan or not?
 
-This is only applicable if your images have an overscan region. Subtracting overscan can be useful for removing small (typically a few counts) variations from image-to-image over the course of a night. 
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/121/files#diff-5ebad08eb890638f832ded81cd482162R39){:target="_blank"}
+
+This is only applicable if your images have an overscan region. Subtracting
+overscan can be useful for removing small (typically a few counts) variations
+from image-to-image over the course of a night.

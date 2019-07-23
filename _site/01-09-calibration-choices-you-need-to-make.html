@@ -29,9 +29,9 @@
   "headline":
     "Calibration choices to make",
   "datePublished":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "dateModified":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "description":
     "Calibration choices you need to make",
   "author": {
@@ -815,6 +815,213 @@ initFunction(initQuery);
     
       
       
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/05-00-Flat-corrections.html"
+        >
+          
+            4.
+          
+          Flat fielding
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-03-Calibrating-the-flats.html"
+                >
+                  
+                    4.1
+                  
+                  Calibrating flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-04-Combining-flats.html"
+                >
+                  
+                    4.2
+                  
+                  Combining flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/06-00-Reducing-science-images.html"
+        >
+          
+            5.
+          
+          Calibrating science images
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/08-00-Image-masking.html"
+        >
+          
+            6.
+          
+          Finding and dealing with bad pixels
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-01-Identifying-hot-pixels.html"
+                >
+                  
+                    6.1
+                  
+                  Identifying hot pixels
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-02-Creating-a-mask.html"
+                >
+                  
+                    6.2
+                  
+                  Identifying bad pixels with ccdmask
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-03-Cosmic-ray-removal.html"
+                >
+                  
+                    6.3
+                  
+                  Removing cosmic rays
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-05-incorporating-masks-into-calibrated-science-images.html"
+                >
+                  
+                    6.4
+                  
+                  Incorporating masks in science images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
         <li class="c-sidebar__divider"></li>
         
       
@@ -892,19 +1099,30 @@ initFunction(initQuery);
             <div class="c-textbook__content">
               <h1 id="calibration-choices-you-need-to-make">Calibration choices you need to make</h1>
 
-<p>There are a few choices you need to make about how you will calibrate your data. Sometimes the decision will be made for you by the data you have.</p>
+<p>There are a few choices you need to make about how you will calibrate your data.
+Sometimes the decision will be made for you by the data you have.</p>
 
 <h2 id="subtract-bias-and-dark-as-separate-steps-or-in-one-step">Subtract bias and dark as separate steps or in one step?</h2>
 
-<p>Every dark image contains bias when it comes off of the camera, so in principle you can take care of both bias and dark by constructing a master dark image that leaves the bias already present in the dark images in place.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/121/files#diff-5ebad08eb890638f832ded81cd482162R22" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
-<p>This only works if for every image from which you need to remove dark currrent you have a master dark of exactly the same exposure length.</p>
+<p>Every dark image contains bias when it comes off of the camera, so in principle
+you can take care of both bias and dark by constructing a master dark image that
+leaves the bias already present in the dark images in place.</p>
 
-<p>If not, you need to produce master dark images with the bias removed so that they can be scaled by exposure time.</p>
+<p>This only works if for every image from which you need to remove dark currrent
+you have a master dark of exactly the same exposure length.</p>
+
+<p>If not, you need to produce master dark images with the bias removed so that
+they can be scaled by exposure time.</p>
 
 <h2 id="subtract-overscan-or-not">Subtract overscan or not?</h2>
 
-<p>This is only applicable if your images have an overscan region. Subtracting overscan can be useful for removing small (typically a few counts) variations from image-to-image over the course of a night.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/121/files#diff-5ebad08eb890638f832ded81cd482162R39" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>This is only applicable if your images have an overscan region. Subtracting
+overscan can be useful for removing small (typically a few counts) variations
+from image-to-image over the course of a night.</p>
 
               <nav class="c-page__nav">
   

@@ -29,9 +29,9 @@
   "headline":
     "Overscan and bias images",
   "datePublished":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "dateModified":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "description":
     "Handling overscan, trimming, and bias subtraction",
   "author": {
@@ -815,6 +815,213 @@ initFunction(initQuery);
     
       
       
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/05-00-Flat-corrections.html"
+        >
+          
+            4.
+          
+          Flat fielding
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-03-Calibrating-the-flats.html"
+                >
+                  
+                    4.1
+                  
+                  Calibrating flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-04-Combining-flats.html"
+                >
+                  
+                    4.2
+                  
+                  Combining flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/06-00-Reducing-science-images.html"
+        >
+          
+            5.
+          
+          Calibrating science images
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/08-00-Image-masking.html"
+        >
+          
+            6.
+          
+          Finding and dealing with bad pixels
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-01-Identifying-hot-pixels.html"
+                >
+                  
+                    6.1
+                  
+                  Identifying hot pixels
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-02-Creating-a-mask.html"
+                >
+                  
+                    6.2
+                  
+                  Identifying bad pixels with ccdmask
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-03-Cosmic-ray-removal.html"
+                >
+                  
+                    6.3
+                  
+                  Removing cosmic rays
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-05-incorporating-masks-into-calibrated-science-images.html"
+                >
+                  
+                    6.4
+                  
+                  Incorporating masks in science images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
         <li class="c-sidebar__divider"></li>
         
       
@@ -900,13 +1107,26 @@ initFunction(initQuery);
 
 <h2 id="introduction">Introduction</h2>
 
-<p>The bias in a CCD camera is a DC offset applied to all pixels so that when the voltage in each pixel is converted to a number the number will always be positive. In an ideal CCD the bias would be the same for every pixel and not change over time. In practice, the bias is slightly different for each pixel, and can vary by a count or two from night to night or during a night.</p>
+<p>The bias in a CCD camera is a DC offset applied to all pixels so that when the
+voltage in each pixel is converted to a number the number will always be
+positive. In an ideal CCD the bias would be the same for every pixel and not
+change over time. In practice, the bias is slightly different for each pixel,
+and can vary by a count or two from night to night or during a night.</p>
 
-<p>A bias <em>image</em> is a picture taken with the shutter closed and zero exposure time; think about it as a command to the camera to do whatever it usually does to prepare the camera’s electronics to take an image and then immediately read out the CCD as though you had taken a picture.</p>
+<p>A bias <em>image</em> is a picture taken with the shutter closed and zero exposure
+time; think about it as a command to the camera to do whatever it usually does
+to prepare the camera’s electronics to take an image and then immediately read
+out the CCD as though you had taken a picture.</p>
 
 <h2 id="sample-bias-images">Sample bias images</h2>
 
-<p>The images below are a single bias frame and an average 100 bias frames from an <a href="http://www.andor.com/pdfs/specifications/Apogee_Aspen_CG16M_Specifications.pdf">Andor Apogee Aspen CG16M</a>, a low-end 4k × 4k CCD with a <a href="http://www.onsemi.com/pub/Collateral/KAF-16803-D.PDF">Kodak KAF-16803 sensor chip</a>. That model camera has a typical bias level around 1000 and read noise around 10 $e^-$, though the precise value varies from camera to camera and with temperature.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/106/files#diff-3dd85a391bd98db8392ba77440bd56b2R37" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>The images below are a single bias frame and an average 100 bias frames from an
+<a href="http://www.andor.com/pdfs/specifications/Apogee_Aspen_CG16M_Specifications.pdf">Andor Apogee Aspen CG16M</a>, a low-end 4k × 4k CCD with a
+<a href="http://www.onsemi.com/pub/Collateral/KAF-16803-D.PDF">Kodak KAF-16803 sensor chip</a>. That model camera has a typical bias level
+around 1000 and read noise around 10 $e^-$, though the precise value varies from
+camera to camera and with temperature.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">autoreload</span>
 <span class="o">%</span><span class="n">autoreload</span> <span class="mi">2</span>
@@ -914,6 +1134,10 @@ initFunction(initQuery);
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use custom style for larger fonts and figures</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">'guide.mplstyle'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">astropy.nddata</span> <span class="kn">import</span> <span class="n">CCDData</span>
@@ -942,22 +1166,40 @@ initFunction(initQuery);
 <span class="n">ax_avg_bias</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'100 bias images combined'</span><span class="p">);</span>
 </code></pre></div></div>
 
-<p class="output output_png"><img src="images/02-00-Handling-overscan-trimming-and-bias-subtraction_8_0.png" alt="png" /></p>
+<p class="output output_png"><img src="images/02-00-Handling-overscan-trimming-and-bias-subtraction_9_0.png" alt="png" /></p>
 
 <h3 id="note-a-few-things">Note a few things</h3>
 
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/106/files#diff-3dd85a391bd98db8392ba77440bd56b2R122" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
 <ul>
-  <li>The bias level in this specific camera is about 1023 (the mid-range of the colorbar).</li>
-  <li>The image is brighter on the left and right edges. This “amplifier glow” is frequently present and caused by the CCD electronics (photosensors with an applied voltage are LEDs).</li>
-  <li>There are several vertical lines; these are columns for which the bias level is consistently higher.</li>
+  <li>The bias level in this specific camera is about 1023 (the mid-range of the
+colorbar).</li>
+  <li>The image is brighter on the left and right edges. This “amplifier glow” is
+frequently present and caused by the CCD electronics (photosensors with an
+applied voltage are LEDs).</li>
+  <li>There are several vertical lines; these are columns for which the bias level
+is consistently higher.</li>
   <li>There is noticeable “static” in the images; that is read noise.</li>
   <li>None of the variations are particularly large.</li>
-  <li>Combining several bias images vastly reduces the read noise. This example is a little unrealistic in that 100 bias images were combined but does illustrate the idea that combining images reduces noise.</li>
+  <li>Combining several bias images vastly reduces the read noise. This example is a
+little unrealistic in that 100 bias images were combined but does illustrate the
+idea that combining images reduces noise.</li>
 </ul>
 
 <h2 id="impact-of-combining-images-on-noise">Impact of combining images on noise</h2>
 
-<p>As discussed at length in the <a href="01.06-Image-combination.ipynb">notebook on combination</a>, the reason for taking and combining several calibration images is to reduce the noise if the images used for calibration. The difference between a single image and a combination of images is apparent in the images above. Another way to see the impact of combining images in the histogram of pixel values. Notice that the distribution of values is much narrower for the combined image than for a single bias. Pixels near the edges, where the amplifier glow is large, are binned separately from the rest of the pixels to emphasize the uniformity of the chip away from the glow.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/106/files#diff-3dd85a391bd98db8392ba77440bd56b2R142" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>As discussed at length in the <a href="01-06-Image-combination.html">notebook on combination</a>, the reason for
+taking and combining several calibration images is to reduce the noise if the
+images used for calibration. The difference between a single image and a
+combination of images is apparent in the images above. Another way to see the
+impact of combining images in the histogram of pixel values. Notice that the
+distribution of values is much narrower for the combined image than for a single
+bias. Pixels near the edges, where the amplifier glow is large, are binned
+separately from the rest of the pixels to emphasize the uniformity of the chip
+away from the glow.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 <span class="n">hist</span><span class="p">(</span><span class="n">one_bias</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">15</span><span class="p">:</span><span class="o">-</span><span class="mi">30</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'One bias'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'deepskyblue'</span><span class="p">)</span>
@@ -976,11 +1218,14 @@ initFunction(initQuery);
 <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">();</span>
 </code></pre></div></div>
 
-<p class="output output_png"><img src="images/02-00-Handling-overscan-trimming-and-bias-subtraction_11_0.png" alt="png" /></p>
+<p class="output output_png"><img src="images/02-00-Handling-overscan-trimming-and-bias-subtraction_12_0.png" alt="png" /></p>
 
 <h2 id="bias-calibration--overview">Bias calibration  overview</h2>
 
-<p>The progression here is to “calibrate” the bias images by subtracting overscan, if desired, trim the overscan from the bias images if it is present, and combine all of the bias images to make a “combined” bias (another common term for these images is “master” bias and occasionally “super” bias).</p>
+<p>The progression here is to “calibrate” the bias images by subtracting overscan,
+if desired, trim the overscan from the bias images if it is present, and combine
+all of the bias images to make a “combined” bias (another common term for these
+images is “master” bias and occasionally “super” bias).</p>
 
               <nav class="c-page__nav">
   

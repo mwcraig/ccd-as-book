@@ -9,17 +9,23 @@ prev_page:
   url: /03-05-Calibrate-dark-images
   title: 'Calibrate dark images'
 next_page:
-  url: /https://github.com/mwcraig/ccd-reduction-and-photometry-guide
-  title: 'GitHub repository'
+  url: /05-00-Flat-corrections
+  title: 'Flat fielding'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
 # Combine calibrated dark images for use in later reduction steps
 
 
-The final step is to combine the individual calibrated dark images into a single combined image. That combined image will have less noise than the individual images, minimizing the noise added to the remaining images when the dark is subtracted.
+The final step is to combine the individual calibrated dark images into a single
+combined image. That combined image will have less noise than the individual
+images, minimizing the noise added to the remaining images when the dark is
+subtracted.
 
-Regardless of which path you took through the calibration of the biases (with overscan or without) there should be a folder named either `example1-reduced` or `example2-reduced` that contains the calibrated bias and dark images. If there is not, please run the previous notebook before continuing with this one.
+Regardless of which path you took through the calibration of the biases (with
+overscan or without) there should be a folder named either `example1-reduced` or
+`example2-reduced` that contains the calibrated bias and dark images. If there
+is not, please run the previous notebook before continuing with this one.
 
 
 
@@ -39,20 +45,39 @@ from convenience_functions import show_image
 ```
 
 
+
+
+{:.input_area}
+```python
+# Use custom style for larger fonts and figures
+plt.style.use('guide.mplstyle')
+```
+
+
 ## Recommended settings for image combination
 
-As discussed in the [notebook about combining images](), the recommendation is that you combine by averaging the individual images but sigma clip to remove extreme values. 
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/111/files#diff-3d1bd0a69f50517e257452b5fa08c685R58){:target="_blank"}
+
+As discussed in the [notebook about combining images](), the recommendation is
+that you combine by averaging the individual images but sigma clip to remove
+extreme values.
 
 [ccdproc]() provides two ways to combine:
 
-+ An object-oriented interface built around the `Combiner` object, described in the [ccdproc documentation on image combination]().
-+ A function called `combine`, which we will use here because the function allows one to specify the maximum amount of memory that should be used during combination. That feature can be essential depending on how many images you need to combine, how big they are, and how much memory your computer has. 
++ An object-oriented interface built around the `Combiner` object, described in
+the [ccdproc documentation on image combination]().
++ A function called `combine`, which we will use here because the function
+allows one to specify the maximum amount of memory that should be used during
+combination. That feature can be essential depending on how many images you need
+to combine, how big they are, and how much memory your computer has.
 
-*NOTE: If using a version of ccdproc lower than 2.0 set the memory limit a factor of 2-3 lower than you want the maximum memory consumption to be.*
+*NOTE: If using a version of ccdproc lower than 2.0 set the memory limit a
+factor of 2-3 lower than you want the maximum memory consumption to be.*
 
 ## Example 1: cryogenically-cooled camera
 
-The remained of this section assumes the calibrated bias images are in the folder `example1-reduced` which is created in the previous notebook.
+The remained of this section assumes the calibrated bias images are in the
+folder `example1-reduced` which is created in the previous notebook.
 
 
 
@@ -63,9 +88,10 @@ reduced_images = ccdp.ImageFileCollection(calibrated_path)
 ```
 
 
-### Make a combined image for each exposure time
+### Make a combined image for each exposure time in Example 1
 
-There are several dark exposure times in this data set. By converting the times in the summary table to a set it returns only the unique values.
+There are several dark exposure times in this data set. By converting the times
+in the summary table to a set it returns only the unique values.
 
 
 
@@ -87,7 +113,8 @@ The code below loops over the dark exposure times and, for each exposure time:
 
 + selects the relevant calibrated dark images,
 + combines them using the `combine` function,
-+ adds the keyword `COMBINED` to the header so that later calibration steps can easily identify which bias to use, and 
++ adds the keyword `COMBINED` to the header so that later calibration steps can
+easily identify which bias to use, and
 + writes the file whose name includes the exposure time.
 
 
@@ -112,9 +139,10 @@ for exp_time in sorted(dark_times):
 ```
 
 
-### Result
+### Result for Example 1
 
-A single calibrated 300 second dark image and the combined 300 second image are shown below.
+A single calibrated 300 second dark image and the combined 300 second image are
+shown below.
 
 
 
@@ -141,13 +169,16 @@ Text(0.5, 1.0, '3 dark images combined')
 
 
 {:.output .output_png}
-![png](images/03-06-Combine-darks-for-use-in-later-calibration-steps_12_1.png)
+![png](images/03-06-Combine-darks-for-use-in-later-calibration-steps_15_1.png)
 
 
 
 ## Example 2: Thermo-electrically cooled camera
 
-The process for combining the images is exactly the same as in example 1. The only difference is the directory that contains the calibrated bias frames.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/111/files#diff-3d1bd0a69f50517e257452b5fa08c685R197){:target="_blank"}
+
+The process for combining the images is exactly the same as in example 1. The
+only difference is the directory that contains the calibrated bias frames.
 
 
 
@@ -158,7 +189,7 @@ reduced_images = ccdp.ImageFileCollection(calibrated_path)
 ```
 
 
-### Make a combined image for each exposure time
+### Make a combined image for each exposure time in Example 2
 
 In this example there are only darks of a single exposure time.
 
@@ -178,7 +209,8 @@ print(dark_times)
 
 ```
 
-Despite the fact that there is only one exposure time we might as well re-use the code from above. 
+Despite the fact that there is only one exposure time we might as well re-use
+the code from above.
 
 
 
@@ -204,13 +236,14 @@ for exp_time in sorted(dark_times):
 
 {:.output .output_stream}
 ```
-INFO: splitting each image into 4 chunks to limit memory usage to 350000000.0 bytes. [ccdproc.combiner]
+INFO: splitting each image into 5 chunks to limit memory usage to 350000000.0 bytes. [ccdproc.combiner]
 
 ```
 
-### Result
+### Result for Example 2
 
-The difference between a single calibrated bias image and the combined bias image is miuch clearer in this case.
+The difference between a single calibrated bias image and the combined bias
+image is miuch clearer in this case.
 
 
 
@@ -230,13 +263,13 @@ ax2.set_title('{} dark images combined'.format(len(calibrated_darks)))
 
 {:.output .output_data_text}
 ```
-Text(0.5, 1.0, '10 dark images combined')
+Text(0.5, 1.0, '11 dark images combined')
 ```
 
 
 
 
 {:.output .output_png}
-![png](images/03-06-Combine-darks-for-use-in-later-calibration-steps_20_1.png)
+![png](images/03-06-Combine-darks-for-use-in-later-calibration-steps_25_1.png)
 
 

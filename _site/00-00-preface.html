@@ -29,9 +29,9 @@
   "headline":
     "Home",
   "datePublished":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "dateModified":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "description":
     "Preface",
   "author": {
@@ -815,6 +815,213 @@ initFunction(initQuery);
     
       
       
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/05-00-Flat-corrections.html"
+        >
+          
+            4.
+          
+          Flat fielding
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-03-Calibrating-the-flats.html"
+                >
+                  
+                    4.1
+                  
+                  Calibrating flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-04-Combining-flats.html"
+                >
+                  
+                    4.2
+                  
+                  Combining flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/06-00-Reducing-science-images.html"
+        >
+          
+            5.
+          
+          Calibrating science images
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/08-00-Image-masking.html"
+        >
+          
+            6.
+          
+          Finding and dealing with bad pixels
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-01-Identifying-hot-pixels.html"
+                >
+                  
+                    6.1
+                  
+                  Identifying hot pixels
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-02-Creating-a-mask.html"
+                >
+                  
+                    6.2
+                  
+                  Identifying bad pixels with ccdmask
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-03-Cosmic-ray-removal.html"
+                >
+                  
+                    6.3
+                  
+                  Removing cosmic rays
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-05-incorporating-masks-into-calibrated-science-images.html"
+                >
+                  
+                    6.4
+                  
+                  Incorporating masks in science images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
         <li class="c-sidebar__divider"></li>
         
       
@@ -854,6 +1061,13 @@ initFunction(initQuery);
       <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
       <ul class="toc__menu">
   <li><a href="#software-setup">Software setup</a></li>
+  <li><a href="#data-files">Data files</a>
+    <ul>
+      <li><a href="#use-this-in-a-terminal-to-download-the-data">Use this in a terminal to download the data</a></li>
+      <li><a href="#use-this-in-a-notebook-cell-to-download-the-data">Use this in a notebook cell to download the data</a></li>
+      <li><a href="#list-of-data-files">List of data files</a></li>
+    </ul>
+  </li>
 </ul>
     </nav>
   </aside>
@@ -891,16 +1105,58 @@ initFunction(initQuery);
             <div class="c-textbook__content">
               <h1 id="preface">Preface</h1>
 
-<p>The purpose of this text is to walk through image reduction and photometry using Python, especially Astropy and its affiliated packages. It assumes some basic familiarity with astronomical images and with Python. The inspiration for this work is a pair of guides written for IRAF, <a href="http://www.ifa.hawaii.edu/~meech/a399/handouts/ccduser3.pdf">“A User’s Guide to CCD Reductions with IRAF” (Massey 1997)</a> and <a href="https://www.mn.uio.no/astro/english/services/it/help/visualization/iraf/daophot2.pdf">“A User’s Guide to Stellar CCD Photometry with IRAF” (Massey and Davis 1992)</a>.</p>
+<p>The purpose of this text is to walk through image reduction and photometry using
+Python, especially Astropy and its affiliated packages. It assumes some basic
+familiarity with astronomical images and with Python. The inspiration for this
+work is a pair of guides written for IRAF, <a href="http://www.ifa.hawaii.edu/~meech/a399/handouts/ccduser3.pdf">“A User’s Guide to CCD Reductions with IRAF” (Massey 1997)</a> and
+<a href="https://www.mn.uio.no/astro/english/services/it/help/visualization/iraf/daophot2.pdf">“A User’s Guide to Stellar CCD Photometry with IRAF” (Massey and Davis 1992)</a>.</p>
 
 <p>The focus is on optical/IR images, not spectra.</p>
 
 <h2 id="software-setup">Software setup</h2>
 
-<p>The recommended way to get set up to use this guide is to use the <a href="https://www.anaconda.com/download/">Anaconda Python distribution</a> (or the much smaller <a href="https://conda.io/miniconda.html">miniconda installer</a>). Once you have that, you can install everything you need with:</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/109/files#diff-6b9e05c00a713108878905584fab99ceR27" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>The recommended way to get set up to use this guide is to use the
+<a href="https://www.anaconda.com/download/">Anaconda Python distribution</a> (or the much smaller
+<a href="https://conda.io/miniconda.html">miniconda installer</a>). Once you have that, you can install
+everything you need with:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda install -c astropy ccdproc photutils ipywidgets matplotlib
 </code></pre></div></div>
+
+<h2 id="data-files">Data files</h2>
+
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/109/files#diff-6b9e05c00a713108878905584fab99ceR43" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>The list of the data files, and their approximate sizes, is below. You can either download them one by one, or use the download helper included with these notebooks.</p>
+
+<h3 id="use-this-in-a-terminal-to-download-the-data">Use this in a terminal to download the data</h3>
+
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/109/files#diff-6b9e05c00a713108878905584fab99ceR47" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span> python download_data.py
+</code></pre></div></div>
+
+<h3 id="use-this-in-a-notebook-cell-to-download-the-data">Use this in a notebook cell to download the data</h3>
+
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/109/files#diff-6b9e05c00a713108878905584fab99ceR53" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">run</span> <span class="n">download_data</span><span class="o">.</span><span class="n">py</span>
+</code></pre></div></div>
+
+<h3 id="list-of-data-files">List of data files</h3>
+
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/109/files#diff-6b9e05c00a713108878905584fab99ceR59" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<ul>
+  <li><a href="https://zenodo.org/record/3320113/files/combined_bias_100_images.fit.bz2?download=1">Combination of 100 bias images (26MB)</a> (DOI: https://doi.org/10.5281/zenodo.3320113)</li>
+  <li><a href="https://zenodo.org/record/3312535/files/dark-test-0002d1000.fit.bz2?download=1">Single dark frame, exposure time 1,000 seconds (11MB)</a> (DOI: https://doi.org/10.5281/zenodo.3312535)</li>
+  <li><a href="https://zenodo.org/record/2634177/files/master_dark_exposure_1000.0.fit.bz2?download=1">Combination of several dark frames, each 1,000 exposure time (52MB)</a> (DOI: https://doi.org/10.5281/zenodo.2634177)</li>
+  <li><a href="https://zenodo.org/record/3332818/files/combined_dark_300.000.fits.bz2?download=1">Combination of several dark frames, each 300 sec (7MB)</a> (DOI: https://doi.org/10.5281/zenodo.3332818)</li>
+  <li><strong>“Example 1” in the reduction notebooks:</strong> <a href="https://zenodo.org/record/3254683/files/example-cryo-LFC.tar.bz2?download=1">Several images from the Palomar Large Format Camera, Chip 0 <strong>(162MB)</strong></a> (DOI: https://doi.org/10.5281/zenodo.3254683)</li>
+  <li><strong>“Example 2” in the reduction notebooks:</strong> <a href="https://zenodo.org/record/3245296/files/example-thermo-electric.tar.bz2?download=1">Several images from an Andor Aspen CG16M <strong>(483MB)</strong></a> (DOI: https://doi.org/10.5281/zenodo.3245296)</li>
+</ul>
 
               <nav class="c-page__nav">
   

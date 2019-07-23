@@ -29,9 +29,9 @@
   "headline":
     "Reading images",
   "datePublished":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "dateModified":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "description":
     "Reading images",
   "author": {
@@ -815,6 +815,213 @@ initFunction(initQuery);
     
       
       
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/05-00-Flat-corrections.html"
+        >
+          
+            4.
+          
+          Flat fielding
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-03-Calibrating-the-flats.html"
+                >
+                  
+                    4.1
+                  
+                  Calibrating flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-04-Combining-flats.html"
+                >
+                  
+                    4.2
+                  
+                  Combining flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/06-00-Reducing-science-images.html"
+        >
+          
+            5.
+          
+          Calibrating science images
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/08-00-Image-masking.html"
+        >
+          
+            6.
+          
+          Finding and dealing with bad pixels
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-01-Identifying-hot-pixels.html"
+                >
+                  
+                    6.1
+                  
+                  Identifying hot pixels
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-02-Creating-a-mask.html"
+                >
+                  
+                    6.2
+                  
+                  Identifying bad pixels with ccdmask
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-03-Cosmic-ray-removal.html"
+                >
+                  
+                    6.3
+                  
+                  Removing cosmic rays
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-05-incorporating-masks-into-calibrated-science-images.html"
+                >
+                  
+                    6.4
+                  
+                  Incorporating masks in science images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
         <li class="c-sidebar__divider"></li>
         
       
@@ -900,7 +1107,8 @@ initFunction(initQuery);
             <div class="c-textbook__content">
               <h1 id="reading-images">Reading images</h1>
 
-<p>Astropy provides a few ways to read in FITS images, some in the core package and others in affiliated packages.</p>
+<p>Astropy provides a few ways to read in FITS images, some in the core package and
+others in affiliated packages.</p>
 
 <p>Before exploring those, we’ll create a set of (fake) images to work with.</p>
 
@@ -911,16 +1119,28 @@ initFunction(initQuery);
 
 <h2 id="working-with-directories">Working with directories</h2>
 
-<p>The cell below contains the path to the images. In this notebook we’ll use it both to store the fake images we generate and to read images. In normal use, you wouldn’t start by writing images there, however.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/117/files#diff-487933c57483df376c3cb4974dd2f82cR30" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
-<p>If the images are in the same directory as the notebook you can omit this, or set it to an empty string <code class="highlighter-rouge">''</code>. Having images in the same directory as the notebook is less complicated, but it’s not at all uncommon to need to work with images in a different directory.</p>
+<p>The cell below contains the path to the images. In this notebook we’ll use it
+both to store the fake images we generate and to read images. In normal use, you
+wouldn’t start by writing images there, however.</p>
 
-<p>Later, we’ll look at how to generate the full path to an image (directory plus file name) in a way that will work on any platform. One of the approaches to loading images (using <code class="highlighter-rouge">ccdproc.ImageFileCollection</code>) lets you mostly forget about this.</p>
+<p>If the images are in the same directory as the notebook you can omit this, or
+set it to an empty string <code class="highlighter-rouge">''</code>. Having images in the same directory as the
+notebook is less complicated, but it’s not at all uncommon to need to work with
+images in a different directory.</p>
+
+<p>Later, we’ll look at how to generate the full path to an image (directory plus
+file name) in a way that will work on any platform. One of the approaches to
+loading images (using <code class="highlighter-rouge">ccdproc.ImageFileCollection</code>) lets you mostly forget
+about this.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data_directory</span> <span class="o">=</span> <span class="s">'path/to/my/images'</span>
 </code></pre></div></div>
 
 <h2 id="generate-some-fake-images">Generate some fake images</h2>
+
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/117/files#diff-487933c57483df376c3cb4974dd2f82cR60" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>The cells below generate some fake images to use later in the notebook.</p>
 
@@ -1017,9 +1237,15 @@ path/to/my/images/img-0027.fits
 
 <h2 id="option-1-reading-a-single-image-with-astropyiofits">Option 1: Reading a single image with <code class="highlighter-rouge">astropy.io.fits</code></h2>
 
-<p>This option gives you the most flexibility but is the least adapted to CCD images specifically. What you read in is a list of FITS extensions; you must first select the one you want then access the data or header as desired.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/117/files#diff-487933c57483df376c3cb4974dd2f82cR135" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
-<p>We’ll open up the first of the fake images, <code class="highlighter-rouge">img-0001.fits</code>. To combine that with the directory name we’ll use Python 3’s <code class="highlighter-rouge">pathlib</code>, which ensures that the path combination will work on Windows too.</p>
+<p>This option gives you the most flexibility but is the least adapted to CCD
+images specifically. What you read in is a list of FITS extensions; you must
+first select the one you want then access the data or header as desired.</p>
+
+<p>We’ll open up the first of the fake images, <code class="highlighter-rouge">img-0001.fits</code>. To combine that
+with the directory name we’ll use Python 3’s <code class="highlighter-rouge">pathlib</code>, which ensures that the
+path combination will work on Windows too.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">image_name</span> <span class="o">=</span> <span class="s">'img-0001.fits'</span>
 
@@ -1035,7 +1261,9 @@ No.    Name      Ver    Type      Cards   Dimensions   Format
 
 </code></pre></div></div>
 
-<p>The <code class="highlighter-rouge">hdu_list</code> is a list of FITS Header-Data Units. In this case there is just one, containing both the image header and data, which can be accessed as shown below.</p>
+<p>The <code class="highlighter-rouge">hdu_list</code> is a list of FITS Header-Data Units. In this case there is just
+one, containing both the image header and data, which can be accessed as shown
+below.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">hdu</span> <span class="o">=</span> <span class="n">hdu_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">hdu</span><span class="o">.</span><span class="n">header</span>
@@ -1054,33 +1282,40 @@ BUNIT   = 'adu     '
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">hdu</span><span class="o">.</span><span class="n">data</span>
 </code></pre></div></div>
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[-0.24082525, -0.61596111,  1.40504962, ..., -0.95602572,
-         0.32338068,  0.716591  ],
-       [-1.50385832, -0.13093736,  1.4136507 , ...,  1.12879793,
-        -0.32334627, -0.81963707],
-       [ 0.48263061,  0.17008701, -1.38350014, ..., -0.13908031,
-         0.2488827 , -0.45236737],
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[ 0.73388303,  1.51039338,  1.92931626, ...,  0.73118149,
+        -0.32248473,  1.12536494],
+       [ 0.16597099, -0.2380526 ,  1.02686664, ..., -0.09848631,
+        -0.13883757,  0.94113025],
+       [-0.32547894, -0.80262039,  1.54554652, ..., -1.38184162,
+        -1.43076526, -0.90921897],
        ...,
-       [-0.82620458, -0.35021302,  0.86281333, ...,  1.23057035,
-        -1.66331447, -1.76052673],
-       [-0.47725929,  0.53159173,  0.95011343, ..., -0.81887752,
-        -0.93528647,  0.04563882],
-       [ 1.58988455, -0.03754931,  1.16860852, ...,  0.19850412,
-         0.81610997,  0.68645446]])
+       [-0.14906601, -0.80387809,  0.79166634, ...,  0.59830061,
+         2.1727949 ,  0.3011837 ],
+       [-0.59628723, -0.55602356, -0.88096687, ...,  1.51835737,
+         1.3739444 ,  0.88844415],
+       [-1.11497944,  0.0968861 , -0.32730897, ...,  0.18226531,
+         1.37797504,  0.2240868 ]])
 </code></pre></div></div>
 
 <p>The <a href="https://astropy.readthedocs.io/en/stable/io/fits/index.html">documentation for io.fits</a> describes more of its capabilities.</p>
 
 <h2 id="option-2--use-ccddata-to-read-in-a-single-image">Option 2:  Use <code class="highlighter-rouge">CCDData</code> to read in a single image</h2>
 
-<p>Astropy contains a <code class="highlighter-rouge">CCDData</code> object for representing a single image. It’s not as flexible as using <code class="highlighter-rouge">astrop.io.fits</code> directly (for example, it assumes there is only one FITS extension and that it contains image data) but it sets up several properties that make the data easier to work with.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/117/files#diff-487933c57483df376c3cb4974dd2f82cR199" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
-<p>We’ll read in the same single image we did in the example above, <code class="highlighter-rouge">img-0001.fits</code>.</p>
+<p>Astropy contains a <code class="highlighter-rouge">CCDData</code> object for representing a single image. It’s not as
+flexible as using <code class="highlighter-rouge">astrop.io.fits</code> directly (for example, it assumes there is
+only one FITS extension and that it contains image data) but it sets up several
+properties that make the data easier to work with.</p>
+
+<p>We’ll read in the same single image we did in the example above,
+<code class="highlighter-rouge">img-0001.fits</code>.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ccd</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p>The data and header are accessed similarly to how you access it in an HDU returned by <code class="highlighter-rouge">astropy.io.fits</code>:</p>
+<p>The data and header are accessed similarly to how you access it in an HDU
+returned by <code class="highlighter-rouge">astropy.io.fits</code>:</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ccd</span><span class="o">.</span><span class="n">header</span>
 </code></pre></div></div>
@@ -1098,43 +1333,54 @@ BUNIT   = 'adu     '
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ccd</span><span class="o">.</span><span class="n">data</span>
 </code></pre></div></div>
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[-0.24082525, -0.61596111,  1.40504962, ..., -0.95602572,
-         0.32338068,  0.716591  ],
-       [-1.50385832, -0.13093736,  1.4136507 , ...,  1.12879793,
-        -0.32334627, -0.81963707],
-       [ 0.48263061,  0.17008701, -1.38350014, ..., -0.13908031,
-         0.2488827 , -0.45236737],
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[ 0.73388303,  1.51039338,  1.92931626, ...,  0.73118149,
+        -0.32248473,  1.12536494],
+       [ 0.16597099, -0.2380526 ,  1.02686664, ..., -0.09848631,
+        -0.13883757,  0.94113025],
+       [-0.32547894, -0.80262039,  1.54554652, ..., -1.38184162,
+        -1.43076526, -0.90921897],
        ...,
-       [-0.82620458, -0.35021302,  0.86281333, ...,  1.23057035,
-        -1.66331447, -1.76052673],
-       [-0.47725929,  0.53159173,  0.95011343, ..., -0.81887752,
-        -0.93528647,  0.04563882],
-       [ 1.58988455, -0.03754931,  1.16860852, ...,  0.19850412,
-         0.81610997,  0.68645446]])
+       [-0.14906601, -0.80387809,  0.79166634, ...,  0.59830061,
+         2.1727949 ,  0.3011837 ],
+       [-0.59628723, -0.55602356, -0.88096687, ...,  1.51835737,
+         1.3739444 ,  0.88844415],
+       [-1.11497944,  0.0968861 , -0.32730897, ...,  0.18226531,
+         1.37797504,  0.2240868 ]])
 </code></pre></div></div>
 
-<p>There are a <a href="https://astropy.readthedocs.io/en/stable/nddata/ccddata.html">number of features of <code class="highlighter-rouge">CCDData</code></a> that make it convenient for working with WCS, slicing, and more. Some of those features will be discussed in more detail in the notebooks that follow.</p>
+<p>There are a <a href="https://astropy.readthedocs.io/en/stable/nddata/ccddata.html">number of features of <code class="highlighter-rouge">CCDData</code></a> that make it convenient for working
+with WCS, slicing, and more. Some of those features will be discussed in more
+detail in the notebooks that follow.</p>
 
 <h2 id="option-3-working-with-a-directory-of-images-using-imagefilecollection">Option 3: Working with a directory of images using <code class="highlighter-rouge">ImageFileCollection</code></h2>
 
-<p>The affiliated package <a href="https://ccdproc.readthedocs.io/">ccdproc</a> provides an easier way to work with collections of images in a directory: an <code class="highlighter-rouge">ImageFileCollection</code>. The <code class="highlighter-rouge">ImageFileCollection</code> is initialized with the name of the directory containing the images.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/117/files#diff-487933c57483df376c3cb4974dd2f82cR258" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>The affiliated package <a href="https://ccdproc.readthedocs.io/">ccdproc</a> provides an easier way
+to work with collections of images in a directory: an <code class="highlighter-rouge">ImageFileCollection</code>. The
+<code class="highlighter-rouge">ImageFileCollection</code> is initialized with the name of the directory containing
+the images.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">ccdproc</span> <span class="kn">import</span> <span class="n">ImageFileCollection</span>
 <span class="n">im_collection</span> <span class="o">=</span> <span class="n">ImageFileCollection</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p>Note that we didn’t need to worry about using <code class="highlighter-rouge">pathlib</code> to combine the directory and file name, instead we give the collection the name of the directory.</p>
+<p>Note that we didn’t need to worry about using <code class="highlighter-rouge">pathlib</code> to combine the directory
+and file name, instead we give the collection the name of the directory.</p>
 
 <h3 id="summary-of-directory-contents">Summary of directory contents</h3>
 
-<p>The <code class="highlighter-rouge">summary</code> property provides an overview of the files in the directory: it’s an astropy <code class="highlighter-rouge">Table</code>, so you can access columns in the usual way.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/117/files#diff-487933c57483df376c3cb4974dd2f82cR288" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>The <code class="highlighter-rouge">summary</code> property provides an overview of the files in the directory: it’s
+an astropy <code class="highlighter-rouge">Table</code>, so you can access columns in the usual way.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">im_collection</span><span class="o">.</span><span class="n">summary</span>
 </code></pre></div></div>
 
 <div class="output output_html">
 <i>Table masked=True length=28</i>
-<table id="table47678712016" class="table-striped table-bordered table-condensed">
+<table id="table47648459184" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>simple</th><th>bitpix</th><th>naxis</th><th>naxis1</th><th>naxis2</th><th>imagetyp</th><th>exposure</th><th>bunit</th><th>filter</th><th>object</th></tr></thead>
 <thead><tr><th>str13</th><th>bool</th><th>int64</th><th>int64</th><th>int64</th><th>int64</th><th>str5</th><th>float64</th><th>str3</th><th>object</th><th>object</th></tr></thead>
 <tr><td>img-0000.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>BIAS</td><td>0.0</td><td>adu</td><td>--</td><td>--</td></tr>
@@ -1163,7 +1409,10 @@ BUNIT   = 'adu     '
 
 <h3 id="filtering-and-iterating-over-images">Filtering and iterating over images</h3>
 
-<p>The convenient thing about <code class="highlighter-rouge">ImageFileCollection</code> is that it provides easy ways to filter or loop over files via FITS header keyword values.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/117/files#diff-487933c57483df376c3cb4974dd2f82cR307" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>The convenient thing about <code class="highlighter-rouge">ImageFileCollection</code> is that it provides easy ways
+to filter or loop over files via FITS header keyword values.</p>
 
 <p>For example, looping over just the flat files is one line of code:</p>
 
@@ -1177,21 +1426,26 @@ BUNIT   = 'adu     '
 
 </code></pre></div></div>
 
-<p>Instead of iterating over HDUs, as in the example above, you can iterate over just the headers (with <code class="highlighter-rouge">.headers</code>) or just the data (with <code class="highlighter-rouge">.data</code>). You can use any FITS keyword from the header as a keyword for selecting the images you want. In addition, you can return the file name while also iterating.</p>
+<p>Instead of iterating over HDUs, as in the example above, you can iterate over
+just the headers (with <code class="highlighter-rouge">.headers</code>) or just the data (with <code class="highlighter-rouge">.data</code>). You can use
+any FITS keyword from the header as a keyword for selecting the images you want.
+In addition, you can return the file name while also iterating.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">a_flat</span><span class="p">,</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">im_collection</span><span class="o">.</span><span class="n">hdus</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s">'LIGHT'</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="s">'m82'</span><span class="p">,</span> <span class="n">return_fname</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">'In file {fname} the exposure is:'</span><span class="p">,</span> <span class="n">a_flat</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">'EXPOSURE'</span><span class="p">],</span> <span class="s">'with standard deviation '</span><span class="p">,</span> <span class="n">a_flat</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
 </code></pre></div></div>
 
-<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>In file img-0018.fits the exposure is: 30.0 with standard deviation  0.9961022768485803
-In file img-0020.fits the exposure is: 30.0 with standard deviation  1.0002295254737152
-In file img-0022.fits the exposure is: 30.0 with standard deviation  0.997896302946767
-In file img-0024.fits the exposure is: 30.0 with standard deviation  1.002036724423229
-In file img-0026.fits the exposure is: 30.0 with standard deviation  0.9998651456136034
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>In file img-0018.fits the exposure is: 30.0 with standard deviation  0.9970184261097547
+In file img-0020.fits the exposure is: 30.0 with standard deviation  0.9989291170831724
+In file img-0022.fits the exposure is: 30.0 with standard deviation  1.0027290427519762
+In file img-0024.fits the exposure is: 30.0 with standard deviation  0.9969441499507293
+In file img-0026.fits the exposure is: 30.0 with standard deviation  0.9983948955080862
 
 </code></pre></div></div>
 
-<p>The <a href="https://ccdproc.readthedocs.io/en/latest/ccdproc/image_management.html">documentation for <code class="highlighter-rouge">ImageFileCollection</code></a> describes more of its capabilities. <code class="highlighter-rouge">ImageFileCollection</code> can automatically save a copy of each image as you iterate over them, for example.</p>
+<p>The <a href="https://ccdproc.readthedocs.io/en/latest/ccdproc/image_management.html">documentation for <code class="highlighter-rouge">ImageFileCollection</code></a> describes more of its capabilities.
+<code class="highlighter-rouge">ImageFileCollection</code> can automatically save a copy of each image as you iterate
+over them, for example.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">a_flat</span><span class="p">,</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">im_collection</span><span class="o">.</span><span class="n">ccds</span><span class="p">(</span><span class="n">bunit</span><span class="o">=</span><span class="s">'ADU'</span><span class="p">,</span> <span class="n">return_fname</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="k">print</span><span class="p">(</span><span class="n">a_flat</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>

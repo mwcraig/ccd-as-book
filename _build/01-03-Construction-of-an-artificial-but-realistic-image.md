@@ -16,11 +16,19 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 # Construction of an artificial (but realistic) image
 
-Before we move on to looking at a real image, let's spend a few minutes getting comfortable with what each of the different sources of counts look like in an artificial image. The advantage is that we can control how much of each count source goes into the image. Looking at extreme examples can help build an understanding of what's going on in your images.
+Before we move on to looking at a real image, let's spend a few minutes getting
+comfortable with what each of the different sources of counts look like in an
+artificial image. The advantage is that we can control how much of each count
+source goes into the image. Looking at extreme examples can help build an
+understanding of what's going on in your images.
 
 ## Imports
 
-Almost all of the notebooks in this tutorial will start with the import of the Python packages needed for that notebook. The lines below set up [matplotlib](https://matplotlib.org/), a widely used plotting package.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/110/files#diff-fc99a51012bba83185b859b4db365a9bR20){:target="_blank"}
+
+Almost all of the notebooks in this tutorial will start with the import of the
+Python packages needed for that notebook. The lines below set up
+[matplotlib](https://matplotlib.org/), a widely used plotting package.
 
 
 
@@ -33,7 +41,20 @@ from photutils.aperture import EllipticalAperture
 ```
 
 
-The Python file referenced below, [convenience_functions.py](convenience_functions.py), contains a few functions for convenient display of images in a notebook. Note that by clicking the above link you can read (or edit) the file in the browser. You can also read/edit it in your preferred editor, but it's handy to know that editing Python files in the Jupyter notebook environment is possible.
+
+
+{:.input_area}
+```python
+# Use custom style for larger fonts and figures
+plt.style.use('guide.mplstyle')
+```
+
+
+The Python file referenced below, [convenience_functions.py](convenience_functions.py), contains a
+few functions for convenient display of images in a notebook. Note that by
+clicking the above link you can read (or edit) the file in the browser. You can
+also read/edit it in your preferred editor, but it's handy to know that editing
+Python files in the Jupyter notebook environment is possible.
 
 
 
@@ -45,7 +66,11 @@ from convenience_functions import show_image
 
 ## Start: a blank image
 
-We'll begin with the simplest possible image: an array of zeros. The dimensions of the image below are chosen to match some real images we'll be working with later.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/110/files#diff-fc99a51012bba83185b859b4db365a9bR73){:target="_blank"}
+
+We'll begin with the simplest possible image: an array of zeros. The dimensions
+of the image below are chosen to match some real images we'll be working with
+later.
 
 
 
@@ -63,23 +88,24 @@ show_image(synthetic_image, cmap='gray')
 ```
 
 
-{:.output .output_stream}
-```
-(10.0, 10)
-
-```
-
 
 {:.output .output_png}
-![png](images/01-03-Construction-of-an-artificial-but-realistic-image_7_1.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_8_0.png)
 
 
 
 ## Add some read noise
 
-Which each of the things we add, we'll write a small function for adding so that it's easier to experiment with different values. Read noise has a Gaussian distribution; the standard deviation of the Gaussian (in counts) is the read noise (in electrons) divided by the gain (in electrons per count). Read noise is almost always given in electrons.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/110/files#diff-fc99a51012bba83185b859b4db365a9bR102){:target="_blank"}
 
-Note that each time you run this function you'll get a different set of pixels so that it behaves like real noise.
+Which each of the things we add, we'll write a small function for adding so that
+it's easier to experiment with different values. Read noise has a Gaussian
+distribution; the standard deviation of the Gaussian (in counts) is the read
+noise (in electrons) divided by the gain (in electrons per count). Read noise is
+almost always given in electrons.
+
+Note that each time you run this function you'll get a different set of pixels
+so that it behaves like real noise.
 
 
 
@@ -111,36 +137,56 @@ def read_noise(image, amount, gain=1):
 
 {:.input_area}
 ```python
+plt.figure()
 noise_im = synthetic_image + read_noise(synthetic_image, 5)
 show_image(noise_im, cmap='gray')
 ```
 
 
-{:.output .output_stream}
-```
-(10.0, 10)
 
+{:.output .output_data_text}
 ```
+<Figure size 2000x2000 with 0 Axes>
+```
+
 
 
 {:.output .output_png}
-![png](images/01-03-Construction-of-an-artificial-but-realistic-image_10_1.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_11_1.png)
 
 
 
 ##  Bias
 
-Bias is an offset voltage (which translates into some non-zero number of counts) added to every pixel in the image to ensure that when voltages are converted to counts there is never a negative count. Note that in the noise image above, some counts are positive and some are negative, as you would expect for a Gaussian distribution centered on zero. Pixel values are typically read out from the electronics as *positive* numbers, though. Adding a constant voltage, which corresponds to a constant, positive number, ensures that even an image which consists entirely of noise has no negative values.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/110/files#diff-fc99a51012bba83185b859b4db365a9bR156){:target="_blank"}
 
-The bias value is roughly the same across the CCD chip, though it's not uncommon to have "bad" columns and pixels in which the bias level is consistently offset from the rest of the chip.
+Bias is an offset voltage (which translates into some non-zero number of counts)
+added to every pixel in the image to ensure that when voltages are converted to
+counts there is never a negative count. Note that in the noise image above, some
+counts are positive and some are negative, as you would expect for a Gaussian
+distribution centered on zero. Pixel values are typically read out from the
+electronics as *positive* numbers, though. Adding a constant voltage, which
+corresponds to a constant, positive number, ensures that even an image which
+consists entirely of noise has no negative values.
 
-To model a bias image, we create a uniform array and, optionally, add in some "bad" columns. The bad columns are exaggeratesd here to ensure they are visible.
+The bias value is roughly the same across the CCD chip, though it's not uncommon
+to have "bad" columns and pixels in which the bias level is consistently offset
+from the rest of the chip.
 
-The bad columns in a CCD are typically stable over a very long time. A random number generator is used below to pick which columns in our CCD are bad, but we'll use a seed to make sure that each time we generate the bias we get the same bad columns (and pixel values within the bad columns).
+To model a bias image, we create a uniform array and, optionally, add in some
+"bad" columns. The bad columns are exaggeratesd here to ensure they are visible.
 
-This stability is what makes it possible to correct for the effect in real images.
+The bad columns in a CCD are typically stable over a very long time. A random
+number generator is used below to pick which columns in our CCD are bad, but
+we'll use a seed to make sure that each time we generate the bias we get the
+same bad columns (and pixel values within the bad columns).
 
-Finally, note that the bias doesn't depend on exposure time. That's because a bias exposure is a zero-second exposure in which the camera simply reads the chip out.
+This stability is what makes it possible to correct for the effect in real
+images.
+
+Finally, note that the bias doesn't depend on exposure time. That's because a
+bias exposure is a zero-second exposure in which the camera simply reads the
+chip out.
 
 
 
@@ -189,16 +235,10 @@ def bias(image, value, realistic=False):
 {:.input_area}
 ```python
 bias_only = bias(synthetic_image, 1100, realistic=True)
-show_image(bias_only, cmap='gray', figsize=(7, 9))
+show_image(bias_only, cmap='gray', figsize=(10, 10))
 plt.title('Bias alone, bad columns included', fontsize='20')
 ```
 
-
-{:.output .output_stream}
-```
-(9.0, 9)
-
-```
 
 
 
@@ -212,7 +252,7 @@ Text(0.5, 1.0, 'Bias alone, bad columns included')
 
 
 {:.output .output_png}
-![png](images/01-03-Construction-of-an-artificial-but-realistic-image_13_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_14_1.png)
 
 
 
@@ -221,16 +261,10 @@ Text(0.5, 1.0, 'Bias alone, bad columns included')
 {:.input_area}
 ```python
 bias_noise_im = noise_im + bias_only
-show_image(bias_noise_im, cmap='gray', figsize=(4, 9))
+show_image(bias_noise_im, cmap='gray', figsize=(10, 10))
 plt.title('Realistic bias frame (includes read noise)', fontsize='20')
 ```
 
-
-{:.output .output_stream}
-```
-(9.0, 9)
-
-```
 
 
 
@@ -244,23 +278,37 @@ Text(0.5, 1.0, 'Realistic bias frame (includes read noise)')
 
 
 {:.output .output_png}
-![png](images/01-03-Construction-of-an-artificial-but-realistic-image_14_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_15_1.png)
 
 
 
 ## Dark current
 
-Dark current depends on the temperature of the sensor. The amount of dark counts in an image also depends on the exposure time. Dark current is typically very small (0.1 electrons/pixel/second or less). Dark counts in this function are calculated by multiplying the input dark current by the input exposure time after converting the dark current unit from electrons to counts using the gain.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/110/files#diff-fc99a51012bba83185b859b4db365a9bR256){:target="_blank"}
 
-A small fraction of pixels are "hot": their dark current is much larger than the rest of the pixels. Hot pixels are modeled here by choosing a subset of the pixels to have a dark current 10,000 times larger than the input dark current. This exaggerates the effect to make those pixels more visible.
+Dark current depends on the temperature of the sensor. The amount of dark counts
+in an image also depends on the exposure time. Dark current is typically very
+small (0.1 electrons/pixel/second or less). Dark counts in this function are
+calculated by multiplying the input dark current by the input exposure time
+after converting the dark current unit from electrons to counts using the gain.
 
-The location and current of hot pixels is typically stable over long periods of time, which makes it straightforward to remove their effect from science images by subtracting them out.
+A small fraction of pixels are "hot": their dark current is much larger than the
+rest of the pixels. Hot pixels are modeled here by choosing a subset of the
+pixels to have a dark current 10,000 times larger than the input dark current.
+This exaggerates the effect to make those pixels more visible.
+
+The location and current of hot pixels is typically stable over long periods of
+time, which makes it straightforward to remove their effect from science images
+by subtracting them out.
 
 A dark frame (or dark image) is an image taken with the camera shutter closed.
 
-The function below simulates dark current only, i.e. it does *not* simulate the read noise that is a part of any actual dark frame from a CCD.
+The function below simulates dark current only, i.e. it does *not* simulate the
+read noise that is a part of any actual dark frame from a CCD.
 
-Note that the simulation dark image looks noisy even though it doesn't include read noise. This is because the number of electrons generated obey a Poisson distribution.
+Note that the simulation dark image looks noisy even though it doesn't include
+read noise. This is because the number of electrons generated obey a Poisson
+distribution.
 
 
 
@@ -321,41 +369,30 @@ def dark_current(image, current, exposure_time, gain=1.0, hot_pixels=False):
 dark_exposure = 100
 dark_cur = 0.1
 dark_only = dark_current(synthetic_image, dark_cur, dark_exposure, hot_pixels=True)
-show_image(dark_only, cmap='gray', figsize=(4, 9))
+show_image(dark_only, cmap='gray')
 title_string = 'Dark current only, {dark_cur} $e^-$/sec/pix\n{dark_exposure} sec exposure'.format(dark_cur=dark_cur, dark_exposure=dark_exposure)
 plt.title(title_string, fontsize='20');
 ```
 
 
-{:.output .output_stream}
-```
-(9.0, 9)
-
-```
-
 
 {:.output .output_png}
-![png](images/01-03-Construction-of-an-artificial-but-realistic-image_17_1.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_18_0.png)
 
 
 
-Note that the central value of the image colorbar is 10, the product of the dark current and the exposure time.
+Note that the central value of the image colorbar is 10, the product of the dark
+current and the exposure time.
 
 
 
 {:.input_area}
 ```python
 dark_bias_noise_im = bias_noise_im + dark_only
-show_image(dark_bias_noise_im, cmap='gray', figsize=(4, 9))
+show_image(dark_bias_noise_im, cmap='gray')
 plt.title('Realistic dark frame \n(with bias, read noise)', fontsize='20')
 ```
 
-
-{:.output .output_stream}
-```
-(9.0, 9)
-
-```
 
 
 
@@ -369,19 +406,29 @@ Text(0.5, 1.0, 'Realistic dark frame \n(with bias, read noise)')
 
 
 {:.output .output_png}
-![png](images/01-03-Construction-of-an-artificial-but-realistic-image_19_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_20_1.png)
 
 
 
 ## Sky background
 
-The amount of sky background depends on the atmospheric conditions (humidity, presence of light clouds, fires upwind from the observatory), the light sources in the sky (the Moon), and light sources in the surrounding area (cities). It may be uniform across the frame or it may not be, depending on the conditions.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/110/files#diff-fc99a51012bba83185b859b4db365a9bR373){:target="_blank"}
 
-The function below generates some sky background. Each time you run it you'll get slightly different results (even if you keep the desired amount of sky counts the same) because the counts from a light source follow a Poisson distribution.
+The amount of sky background depends on the atmospheric conditions (humidity,
+presence of light clouds, fires upwind from the observatory), the light sources
+in the sky (the Moon), and light sources in the surrounding area (cities). It
+may be uniform across the frame or it may not be, depending on the conditions.
 
-The amount of sky background is directly proportional to the exposure time. In the function below however, you input the desired number of sky counts.
+The function below generates some sky background. Each time you run it you'll
+get slightly different results (even if you keep the desired amount of sky
+counts the same) because the counts from a light source follow a Poisson
+distribution.
 
-It's not at all unusual to have a gradient in the sky across the image, but that effect is not simulated here.
+The amount of sky background is directly proportional to the exposure time. In
+the function below however, you input the desired number of sky counts.
+
+It's not at all unusual to have a gradient in the sky across the image, but that
+effect is not simulated here.
 
 
 
@@ -415,16 +462,10 @@ def sky_background(image, sky_counts, gain=1):
 ```python
 sky_level = 20
 sky_only = sky_background(synthetic_image, sky_level)
-show_image(sky_only, cmap='gray', figsize=(4, 9))
+show_image(sky_only, cmap='gray')
 plt.title('Sky background only, {} counts input'.format(sky_level), fontsize=20)
 ```
 
-
-{:.output .output_stream}
-```
-(9.0, 9)
-
-```
 
 
 
@@ -438,7 +479,7 @@ Text(0.5, 1.0, 'Sky background only, 20 counts input')
 
 
 {:.output .output_png}
-![png](images/01-03-Construction-of-an-artificial-but-realistic-image_22_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_23_1.png)
 
 
 
@@ -447,36 +488,39 @@ Text(0.5, 1.0, 'Sky background only, 20 counts input')
 {:.input_area}
 ```python
 sky_dark_bias_noise_im = dark_bias_noise_im + sky_only
-show_image(sky_dark_bias_noise_im, cmap='gray', figsize=(4, 9))
+show_image(sky_dark_bias_noise_im, cmap='gray')
 plt.title('Sky, dark, bias and noise\n(Realistic image of clouds)', fontsize=20);
 ```
 
 
-{:.output .output_stream}
-```
-(9.0, 9)
-
-```
-
 
 {:.output .output_png}
-![png](images/01-03-Construction-of-an-artificial-but-realistic-image_23_1.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_24_0.png)
 
 
 
-### Summary
+### Summary of the backgrounds in an astronomical image
 
-Note that the central value of the pixels in the "realistic" cloud image above, 1130 or so, is the sum of the: 
+Note that the central value of the pixels in the "realistic" cloud image above,
+1130 or so, is the sum of the:
 
 + bias level (1100 counts)
-+ dark current (10 counts, which is 0.1 e/sec/pix $\times$ 100 sec, divided by the gain of 1 e/count)
++ dark current (10 counts, which is 0.1 e/sec/pix $\times$ 100 sec, divided by
+the gain of 1 e/count)
 + sky counts (20 counts)
 
-The distribution of counts around that is determined by the read noise (5 electrons) and the expected width of a Poisson distribution for the sky counts, which is the square root of the number of those counts, $\sqrt{20} \approx 4.5$. Add those in quadrature and you get about 6.7.
+The distribution of counts around that is determined by the read noise (5
+electrons) and the expected width of a Poisson distribution for the sky counts,
+which is the square root of the number of those counts, $\sqrt{20} \approx 4.5$.
+Add those in quadrature and you get about 6.7.
 
 ### Interactive demo
 
-The cell below sets up an interactive demo that lets you change the value of read noise and other parameters to see the effect that changing them has on the resulting image.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/110/files#diff-fc99a51012bba83185b859b4db365a9bR471){:target="_blank"}
+
+The cell below sets up an interactive demo that lets you change the value of
+read noise and other parameters to see the effect that changing them has on the
+resulting image.
 
 
 
@@ -513,13 +557,17 @@ i
 
 
 {:.output .output_png}
-![png](images/01-03-Construction-of-an-artificial-but-realistic-image_26_0.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_28_0.png)
 
 
 
 ## Add some "stars"
 
-The "stars" we'll add below are essentially just (round) Gaussian sources. The function that does most of the work is from [photutils](https://photutils.readthedocs.io/en/stable/index.html), which we'll return to later for doing photometry.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/110/files#diff-fc99a51012bba83185b859b4db365a9bR-1){:target="_blank"}
+
+The "stars" we'll add below are essentially just (round) Gaussian sources. The
+function that does most of the work is from [photutils](https://photutils.readthedocs.io/en/stable/index.html),
+which we'll return to later for doing photometry.
 
 
 
@@ -563,16 +611,10 @@ def stars(image, number, max_counts=10000, gain=1):
 {:.input_area}
 ```python
 stars_only = stars(synthetic_image, 50, max_counts=2000)
-show_image(stars_only, cmap='gray', figsize=(4, 9), percu=99.9)
+show_image(stars_only, cmap='gray', percu=99.9)
 plt.title('Stars only'.format(stars_only), fontsize=20)
 ```
 
-
-{:.output .output_stream}
-```
-(9.0, 9)
-
-```
 
 
 
@@ -586,7 +628,7 @@ Text(0.5, 1.0, 'Stars only')
 
 
 {:.output .output_png}
-![png](images/01-03-Construction-of-an-artificial-but-realistic-image_29_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_31_1.png)
 
 
 
@@ -602,16 +644,10 @@ stars_with_background = sky_dark_bias_noise_im + stars_only
 
 {:.input_area}
 ```python
-show_image(stars_with_background, cmap='gray', figsize=(4, 9), percu=99.9)
+show_image(stars_with_background, cmap='gray', percu=99.9)
 plt.title('Stars with noise, bias, dark, sky'.format(stars_with_background), fontsize=20)
 ```
 
-
-{:.output .output_stream}
-```
-(9.0, 9)
-
-```
 
 
 
@@ -625,17 +661,21 @@ Text(0.5, 1.0, 'Stars with noise, bias, dark, sky')
 
 
 {:.output .output_png}
-![png](images/01-03-Construction-of-an-artificial-but-realistic-image_31_2.png)
+![png](images/01-03-Construction-of-an-artificial-but-realistic-image_33_1.png)
 
 
 
 ### Discussion
 
-In the image above the single-pixel bright dots are hot pixels while the remaining dots that are larger than a pixel are simulated stars.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/110/files#diff-fc99a51012bba83185b859b4db365a9bR594){:target="_blank"}
+
+In the image above the single-pixel bright dots are hot pixels while the
+remaining dots that are larger than a pixel are simulated stars.
 
 ## Summary
 
-Everything we have included so far has been additive. Symbolically, the simulated image above was built like this:
+Everything we have included so far has been additive. Symbolically, the
+simulated image above was built like this:
 
 $$
 \text{image} = \text{bias} + \text{noise} + \text{dark current} + \text{sky} + \text{stars}
@@ -650,5 +690,7 @@ $$
 There are a few complications:
 
 1. There are multiplicative effects that will be discussed in the next notebook.
-2. The way to measure each of the the things we need to subtract (bias and dark current) is to take images, each of which includes read noise. That can be minimized by combining several calibration images.
+2. The way to measure each of the the things we need to subtract (bias and dark
+current) is to take images, each of which includes read noise. That can be
+minimized by combining several calibration images.
 3. There is no way to subtract the read noise because it is random.

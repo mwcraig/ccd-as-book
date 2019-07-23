@@ -29,9 +29,9 @@
   "headline":
     "Dark current and dark frames",
   "datePublished":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "dateModified":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "description":
     "Dark current and hot pixels",
   "author": {
@@ -815,6 +815,213 @@ initFunction(initQuery);
     
       
       
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/05-00-Flat-corrections.html"
+        >
+          
+            4.
+          
+          Flat fielding
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-03-Calibrating-the-flats.html"
+                >
+                  
+                    4.1
+                  
+                  Calibrating flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-04-Combining-flats.html"
+                >
+                  
+                    4.2
+                  
+                  Combining flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/06-00-Reducing-science-images.html"
+        >
+          
+            5.
+          
+          Calibrating science images
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/08-00-Image-masking.html"
+        >
+          
+            6.
+          
+          Finding and dealing with bad pixels
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-01-Identifying-hot-pixels.html"
+                >
+                  
+                    6.1
+                  
+                  Identifying hot pixels
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-02-Creating-a-mask.html"
+                >
+                  
+                    6.2
+                  
+                  Identifying bad pixels with ccdmask
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-03-Cosmic-ray-removal.html"
+                >
+                  
+                    6.3
+                  
+                  Removing cosmic rays
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-05-incorporating-masks-into-calibrated-science-images.html"
+                >
+                  
+                    6.4
+                  
+                  Incorporating masks in science images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
         <li class="c-sidebar__divider"></li>
         
       
@@ -882,12 +1089,20 @@ initFunction(initQuery);
             <div class="c-textbook__content">
               <h1 id="dark-current-and-hot-pixels">Dark current and hot pixels</h1>
 
-<p>Every image from a CCD contains <em>dark current</em>, which are counts in a raw image caused by thermal effects in the CCD. 
-The dark current in modern CCDs is extremely small if the camera is cooled in some way. Cameras cooled with liquid nitrogen have nearly zero dark current while thermo-electrically cooled CCDs have a somewhat larger dark current. The dark current in a CCD operating at room temperature will typically be very large.</p>
+<p>Every image from a CCD contains <em>dark current</em>, which are counts in a raw image
+caused by thermal effects in the CCD.
+The dark current in modern CCDs is extremely small if the camera is cooled in
+some way. Cameras cooled with liquid nitrogen have nearly zero dark current
+while thermo-electrically cooled CCDs have a somewhat larger dark current. The
+dark current in a CCD operating at room temperature will typically be very
+large.</p>
 
-<p>Even a camera in which the dark current is <em>typically</em> very small will have a small fraction of pixels, called hot pixels, in which the dark current is much higher.</p>
+<p>Even a camera in which the dark current is <em>typically</em> very small will have a
+small fraction of pixels, called hot pixels, in which the dark current is much
+higher.</p>
 
-<p>The next notebook walks through how to identify those pixels and how to decide the right way to remove dark current from your data.</p>
+<p>The next notebook walks through how to identify those pixels and how to decide
+the right way to remove dark current from your data.</p>
 
               <nav class="c-page__nav">
   

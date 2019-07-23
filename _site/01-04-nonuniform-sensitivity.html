@@ -29,9 +29,9 @@
   "headline":
     "Non-uniform sensitivity in astronomical detectors",
   "datePublished":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "dateModified":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "description":
     "Nonuniform sensitivity",
   "author": {
@@ -815,6 +815,213 @@ initFunction(initQuery);
     
       
       
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/05-00-Flat-corrections.html"
+        >
+          
+            4.
+          
+          Flat fielding
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-03-Calibrating-the-flats.html"
+                >
+                  
+                    4.1
+                  
+                  Calibrating flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-04-Combining-flats.html"
+                >
+                  
+                    4.2
+                  
+                  Combining flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/06-00-Reducing-science-images.html"
+        >
+          
+            5.
+          
+          Calibrating science images
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/08-00-Image-masking.html"
+        >
+          
+            6.
+          
+          Finding and dealing with bad pixels
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-01-Identifying-hot-pixels.html"
+                >
+                  
+                    6.1
+                  
+                  Identifying hot pixels
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-02-Creating-a-mask.html"
+                >
+                  
+                    6.2
+                  
+                  Identifying bad pixels with ccdmask
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-03-Cosmic-ray-removal.html"
+                >
+                  
+                    6.3
+                  
+                  Removing cosmic rays
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-05-incorporating-masks-into-calibrated-science-images.html"
+                >
+                  
+                    6.4
+                  
+                  Incorporating masks in science images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
         <li class="c-sidebar__divider"></li>
         
       
@@ -896,11 +1103,20 @@ initFunction(initQuery);
 
 <h2 id="background">Background</h2>
 
-<p>Not all pixels in a camera have the same sensitivity to light: there are intrinsic differences from pixel-to-pixel. Vignetting, a dimming near the corners of an image caused by the optical system to which the camera is attached, and dust on optical elements such as filters, the glass window covering the CCD, and the CCD chip itself can also block some light.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/120/files#diff-26309967ccb21dd7088822c9778eee01R14" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
-<p>Vingetting and dust can reduce the amount of light reaching the CCD chip while pixel-to-pixel sensitivity variations affects the counts read from the chip.</p>
+<p>Not all pixels in a camera have the same sensitivity to light: there are
+intrinsic differences from pixel-to-pixel. Vignetting, a dimming near the
+corners of an image caused by the optical system to which the camera is
+attached, and dust on optical elements such as filters, the glass window
+covering the CCD, and the CCD chip itself can also block some light.</p>
 
-<p>The code to produce the simulated sensitivity map (aka flat image) is long enough that is not included in this notebook. We load it instead from <a href="image_sim.py">image_sim.py</a>.</p>
+<p>Vingetting and dust can reduce the amount of light reaching the CCD chip while
+pixel-to-pixel sensitivity variations affects the counts read from the chip.</p>
+
+<p>The code to produce the simulated sensitivity map (aka flat image) is long
+enough that is not included in this notebook. We load it instead from
+<a href="image_sim.py">image_sim.py</a>.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
 
@@ -910,7 +1126,10 @@ initFunction(initQuery);
 
 <h2 id="a-sample-flat-image">A sample flat image</h2>
 
-<p>The sample flat image below has the same size as the simulated image in the previous notebook.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/120/files#diff-26309967ccb21dd7088822c9778eee01R46" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>The sample flat image below has the same size as the simulated image in the
+previous notebook.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
 <span class="n">flat</span> <span class="o">=</span> <span class="n">isim</span><span class="o">.</span><span class="n">sensitivity_variations</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
@@ -919,27 +1138,31 @@ initFunction(initQuery);
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">show_image</span><span class="p">(</span><span class="n">flat</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
 </code></pre></div></div>
 
-<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10.0, 10)
+<p class="output output_png"><img src="images/01-04-Nonuniform-sensitivity_5_0.png" alt="png" /></p>
 
-</code></pre></div></div>
-
-<p class="output output_png"><img src="images/01-04-Nonuniform-sensitivity_5_1.png" alt="png" /></p>
-
-<p>The “donuts” in the image are dust on elements like filters in the optical path. Note that the size of the variations is small, a few percent at most.</p>
+<p>The “donuts” in the image are dust on elements like filters in the optical path.
+Note that the size of the variations is small, a few percent at most.</p>
 
 <h2 id="effect-of-nonuniform-sensitivity-on-images">Effect of nonuniform sensitivity on images</h2>
 
-<p>Recall that an image read off a CCD, ignoring variations in sensitivity, can be thought of as a combination of several pieces:</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/120/files#diff-26309967ccb21dd7088822c9778eee01R83" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>Recall that an image read off a CCD, ignoring variations in sensitivity, can be
+thought of as a combination of several pieces:</p>
 
 <script type="math/tex; mode=display">\text{image} = \text{bias} + \text{noise} + \text{dark current} + \text{sky} + \text{stars}</script>
 
-<p>The effect of sensitivity variations is to reduce the amount of <em>light</em> reaching the sensor. In the equation above, that means that the flat multiplies just the sky and stars portion of the input:</p>
+<p>The effect of sensitivity variations is to reduce the amount of <em>light</em> reaching
+the sensor. In the equation above, that means that the flat multiplies just the
+sky and stars portion of the input:</p>
 
 <script type="math/tex; mode=display">\text{image} = \text{bias} + \text{noise} + \text{dark current} + \text{flat} \times (\text{sky} + \text{stars})</script>
 
 <h2 id="a-realistic-image">A realistic image</h2>
 
-<p>In the cell below we construct the last image from the previous notebook. Recall that there we used a read noise of 5 electrons/pixel, dark current of 0.1 electron/pix/sec, bias level of 1100, and sky background of 20 counts.</p>
+<p>In the cell below we construct the last image from the previous notebook. Recall
+that there we used a read noise of 5 electrons/pixel, dark current of 0.1
+electron/pix/sec, bias level of 1100, and sky background of 20 counts.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gain</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">exposure</span> <span class="o">=</span> <span class="mf">30.0</span>
@@ -955,7 +1178,9 @@ initFunction(initQuery);
 <span class="n">stars_only</span> <span class="o">=</span> <span class="n">isim</span><span class="o">.</span><span class="n">stars</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">max_counts</span><span class="o">=</span><span class="n">max_star_counts</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p>The individual pieces of the image are assembled below; it is the inclusion of the flat that makes this the closest of the simulated images to a realistic images.</p>
+<p>The individual pieces of the image are assembled below; it is the inclusion of
+the flat that makes this the closest of the simulated images to a realistic
+images.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">final_image</span> <span class="o">=</span> <span class="n">bias_only</span> <span class="o">+</span> <span class="n">noise_only</span> <span class="o">+</span> <span class="n">dark_only</span> <span class="o">+</span> <span class="n">flat</span> <span class="o">*</span> <span class="p">(</span><span class="n">sky_only</span> <span class="o">+</span> <span class="n">stars_only</span><span class="p">)</span>
 </code></pre></div></div>
@@ -963,13 +1188,11 @@ initFunction(initQuery);
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">show_image</span><span class="p">(</span><span class="n">final_image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">)</span>
 </code></pre></div></div>
 
-<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10.0, 10)
+<p class="output output_png"><img src="images/01-04-Nonuniform-sensitivity_13_0.png" alt="png" /></p>
 
-</code></pre></div></div>
-
-<p class="output output_png"><img src="images/01-04-Nonuniform-sensitivity_13_1.png" alt="png" /></p>
-
-<p>Visually, this does not look any different than the final image in the previous notebook; the effects of sensitivity variations are typically not evident in raw images unless the sky background is large.</p>
+<p>Visually, this does not look any different than the final image in the previous
+notebook; the effects of sensitivity variations are typically not evident in raw
+images unless the sky background is large.</p>
 
 <p>You can see the effect by artificially increasing the sky background.</p>
 
@@ -977,11 +1200,7 @@ initFunction(initQuery);
 <span class="n">show_image</span><span class="p">(</span><span class="n">final_image2</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
 </code></pre></div></div>
 
-<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10.0, 10)
-
-</code></pre></div></div>
-
-<p class="output output_png"><img src="images/01-04-Nonuniform-sensitivity_15_1.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-04-Nonuniform-sensitivity_15_0.png" alt="png" /></p>
 
 
               <nav class="c-page__nav">

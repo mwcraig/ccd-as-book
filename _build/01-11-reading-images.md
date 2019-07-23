@@ -14,7 +14,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 # Reading images
 
-Astropy provides a few ways to read in FITS images, some in the core package and others in affiliated packages.
+Astropy provides a few ways to read in FITS images, some in the core package and
+others in affiliated packages.
 
 Before exploring those, we'll create a set of (fake) images to work with.
 
@@ -30,11 +31,21 @@ from astropy.io import fits
 
 ## Working with directories
 
-The cell below contains the path to the images. In this notebook we'll use it both to store the fake images we generate and to read images. In normal use, you wouldn't start by writing images there, however. 
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/117/files#diff-487933c57483df376c3cb4974dd2f82cR30){:target="_blank"}
 
-If the images are in the same directory as the notebook you can omit this, or set it to an empty string `''`. Having images in the same directory as the notebook is less complicated, but it's not at all uncommon to need to work with images in a different directory.
+The cell below contains the path to the images. In this notebook we'll use it
+both to store the fake images we generate and to read images. In normal use, you
+wouldn't start by writing images there, however.
 
-Later, we'll look at how to generate the full path to an image (directory plus file name) in a way that will work on any platform. One of the approaches to loading images (using `ccdproc.ImageFileCollection`) lets you mostly forget about this.
+If the images are in the same directory as the notebook you can omit this, or
+set it to an empty string `''`. Having images in the same directory as the
+notebook is less complicated, but it's not at all uncommon to need to work with
+images in a different directory.
+
+Later, we'll look at how to generate the full path to an image (directory plus
+file name) in a way that will work on any platform. One of the approaches to
+loading images (using `ccdproc.ImageFileCollection`) lets you mostly forget
+about this.
 
 
 
@@ -45,6 +56,8 @@ data_directory = 'path/to/my/images'
 
 
 ## Generate some fake images
+
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/117/files#diff-487933c57483df376c3cb4974dd2f82cR60){:target="_blank"}
 
 The cells below generate some fake images to use later in the notebook.
 
@@ -148,9 +161,15 @@ path/to/my/images/img-0027.fits
 
 ## Option 1: Reading a single image with `astropy.io.fits`
 
-This option gives you the most flexibility but is the least adapted to CCD images specifically. What you read in is a list of FITS extensions; you must first select the one you want then access the data or header as desired. 
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/117/files#diff-487933c57483df376c3cb4974dd2f82cR135){:target="_blank"}
 
-We'll open up the first of the fake images, `img-0001.fits`. To combine that with the directory name we'll use Python 3's `pathlib`, which ensures that the path combination will work on Windows too.
+This option gives you the most flexibility but is the least adapted to CCD
+images specifically. What you read in is a list of FITS extensions; you must
+first select the one you want then access the data or header as desired.
+
+We'll open up the first of the fake images, `img-0001.fits`. To combine that
+with the directory name we'll use Python 3's `pathlib`, which ensures that the
+path combination will work on Windows too.
 
 
 
@@ -173,7 +192,9 @@ No.    Name      Ver    Type      Cards   Dimensions   Format
 
 ```
 
-The `hdu_list` is a list of FITS Header-Data Units. In this case there is just one, containing both the image header and data, which can be accessed as shown below.
+The `hdu_list` is a list of FITS Header-Data Units. In this case there is just
+one, containing both the image header and data, which can be accessed as shown
+below.
 
 
 
@@ -214,19 +235,19 @@ hdu.data
 
 {:.output .output_data_text}
 ```
-array([[-0.24082525, -0.61596111,  1.40504962, ..., -0.95602572,
-         0.32338068,  0.716591  ],
-       [-1.50385832, -0.13093736,  1.4136507 , ...,  1.12879793,
-        -0.32334627, -0.81963707],
-       [ 0.48263061,  0.17008701, -1.38350014, ..., -0.13908031,
-         0.2488827 , -0.45236737],
+array([[ 0.73388303,  1.51039338,  1.92931626, ...,  0.73118149,
+        -0.32248473,  1.12536494],
+       [ 0.16597099, -0.2380526 ,  1.02686664, ..., -0.09848631,
+        -0.13883757,  0.94113025],
+       [-0.32547894, -0.80262039,  1.54554652, ..., -1.38184162,
+        -1.43076526, -0.90921897],
        ...,
-       [-0.82620458, -0.35021302,  0.86281333, ...,  1.23057035,
-        -1.66331447, -1.76052673],
-       [-0.47725929,  0.53159173,  0.95011343, ..., -0.81887752,
-        -0.93528647,  0.04563882],
-       [ 1.58988455, -0.03754931,  1.16860852, ...,  0.19850412,
-         0.81610997,  0.68645446]])
+       [-0.14906601, -0.80387809,  0.79166634, ...,  0.59830061,
+         2.1727949 ,  0.3011837 ],
+       [-0.59628723, -0.55602356, -0.88096687, ...,  1.51835737,
+         1.3739444 ,  0.88844415],
+       [-1.11497944,  0.0968861 , -0.32730897, ...,  0.18226531,
+         1.37797504,  0.2240868 ]])
 ```
 
 
@@ -235,9 +256,15 @@ The [documentation for io.fits](https://astropy.readthedocs.io/en/stable/io/fits
 
 ## Option 2:  Use `CCDData` to read in a single image
 
-Astropy contains a `CCDData` object for representing a single image. It's not as flexible as using `astrop.io.fits` directly (for example, it assumes there is only one FITS extension and that it contains image data) but it sets up several properties that make the data easier to work with. 
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/117/files#diff-487933c57483df376c3cb4974dd2f82cR199){:target="_blank"}
 
-We'll read in the same single image we did in the example above, `img-0001.fits`.
+Astropy contains a `CCDData` object for representing a single image. It's not as
+flexible as using `astrop.io.fits` directly (for example, it assumes there is
+only one FITS extension and that it contains image data) but it sets up several
+properties that make the data easier to work with.
+
+We'll read in the same single image we did in the example above,
+`img-0001.fits`.
 
 
 
@@ -247,7 +274,8 @@ ccd = CCDData.read(image_path)
 ```
 
 
-The data and header are accessed similarly to how you access it in an HDU returned by `astropy.io.fits`:
+The data and header are accessed similarly to how you access it in an HDU
+returned by `astropy.io.fits`:
 
 
 
@@ -287,28 +315,35 @@ ccd.data
 
 {:.output .output_data_text}
 ```
-array([[-0.24082525, -0.61596111,  1.40504962, ..., -0.95602572,
-         0.32338068,  0.716591  ],
-       [-1.50385832, -0.13093736,  1.4136507 , ...,  1.12879793,
-        -0.32334627, -0.81963707],
-       [ 0.48263061,  0.17008701, -1.38350014, ..., -0.13908031,
-         0.2488827 , -0.45236737],
+array([[ 0.73388303,  1.51039338,  1.92931626, ...,  0.73118149,
+        -0.32248473,  1.12536494],
+       [ 0.16597099, -0.2380526 ,  1.02686664, ..., -0.09848631,
+        -0.13883757,  0.94113025],
+       [-0.32547894, -0.80262039,  1.54554652, ..., -1.38184162,
+        -1.43076526, -0.90921897],
        ...,
-       [-0.82620458, -0.35021302,  0.86281333, ...,  1.23057035,
-        -1.66331447, -1.76052673],
-       [-0.47725929,  0.53159173,  0.95011343, ..., -0.81887752,
-        -0.93528647,  0.04563882],
-       [ 1.58988455, -0.03754931,  1.16860852, ...,  0.19850412,
-         0.81610997,  0.68645446]])
+       [-0.14906601, -0.80387809,  0.79166634, ...,  0.59830061,
+         2.1727949 ,  0.3011837 ],
+       [-0.59628723, -0.55602356, -0.88096687, ...,  1.51835737,
+         1.3739444 ,  0.88844415],
+       [-1.11497944,  0.0968861 , -0.32730897, ...,  0.18226531,
+         1.37797504,  0.2240868 ]])
 ```
 
 
 
-There are a [number of features of `CCDData`](https://astropy.readthedocs.io/en/stable/nddata/ccddata.html) that make it convenient for working with WCS, slicing, and more. Some of those features will be discussed in more detail in the notebooks that follow.
+There are a [number of features of `CCDData`](https://astropy.readthedocs.io/en/stable/nddata/ccddata.html) that make it convenient for working
+with WCS, slicing, and more. Some of those features will be discussed in more
+detail in the notebooks that follow.
 
 ## Option 3: Working with a directory of images using `ImageFileCollection`
 
-The affiliated package [ccdproc](https://ccdproc.readthedocs.io/) provides an easier way to work with collections of images in a directory: an `ImageFileCollection`. The `ImageFileCollection` is initialized with the name of the directory containing the images.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/117/files#diff-487933c57483df376c3cb4974dd2f82cR258){:target="_blank"}
+
+The affiliated package [ccdproc](https://ccdproc.readthedocs.io/) provides an easier way
+to work with collections of images in a directory: an `ImageFileCollection`. The
+`ImageFileCollection` is initialized with the name of the directory containing
+the images.
 
 
 
@@ -319,11 +354,15 @@ im_collection = ImageFileCollection(data_directory)
 ```
 
 
-Note that we didn't need to worry about using `pathlib` to combine the directory and file name, instead we give the collection the name of the directory.
+Note that we didn't need to worry about using `pathlib` to combine the directory
+and file name, instead we give the collection the name of the directory.
 
 ### Summary of directory contents
 
-The `summary` property provides an overview of the files in the directory: it's an astropy `Table`, so you can access columns in the usual way.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/117/files#diff-487933c57483df376c3cb4974dd2f82cR288){:target="_blank"}
+
+The `summary` property provides an overview of the files in the directory: it's
+an astropy `Table`, so you can access columns in the usual way.
 
 
 
@@ -338,7 +377,7 @@ im_collection.summary
 
 <div markdown="0" class="output output_html">
 <i>Table masked=True length=28</i>
-<table id="table47678712016" class="table-striped table-bordered table-condensed">
+<table id="table47648459184" class="table-striped table-bordered table-condensed">
 <thead><tr><th>file</th><th>simple</th><th>bitpix</th><th>naxis</th><th>naxis1</th><th>naxis2</th><th>imagetyp</th><th>exposure</th><th>bunit</th><th>filter</th><th>object</th></tr></thead>
 <thead><tr><th>str13</th><th>bool</th><th>int64</th><th>int64</th><th>int64</th><th>int64</th><th>str5</th><th>float64</th><th>str3</th><th>object</th><th>object</th></tr></thead>
 <tr><td>img-0000.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>BIAS</td><td>0.0</td><td>adu</td><td>--</td><td>--</td></tr>
@@ -369,7 +408,10 @@ im_collection.summary
 
 ### Filtering and iterating over images
 
-The convenient thing about `ImageFileCollection` is that it provides easy ways to filter or loop over files via FITS header keyword values. 
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/117/files#diff-487933c57483df376c3cb4974dd2f82cR307){:target="_blank"}
+
+The convenient thing about `ImageFileCollection` is that it provides easy ways
+to filter or loop over files via FITS header keyword values.
 
 For example, looping over just the flat files is one line of code:
 
@@ -390,7 +432,10 @@ for a_flat in im_collection.hdus(imagetyp='FLAT'):
 
 ```
 
-Instead of iterating over HDUs, as in the example above, you can iterate over just the headers (with `.headers`) or just the data (with `.data`). You can use any FITS keyword from the header as a keyword for selecting the images you want. In addition, you can return the file name while also iterating.
+Instead of iterating over HDUs, as in the example above, you can iterate over
+just the headers (with `.headers`) or just the data (with `.data`). You can use
+any FITS keyword from the header as a keyword for selecting the images you want.
+In addition, you can return the file name while also iterating.
 
 
 
@@ -403,15 +448,17 @@ for a_flat, fname in im_collection.hdus(imagetyp='LIGHT', object='m82', return_f
 
 {:.output .output_stream}
 ```
-In file img-0018.fits the exposure is: 30.0 with standard deviation  0.9961022768485803
-In file img-0020.fits the exposure is: 30.0 with standard deviation  1.0002295254737152
-In file img-0022.fits the exposure is: 30.0 with standard deviation  0.997896302946767
-In file img-0024.fits the exposure is: 30.0 with standard deviation  1.002036724423229
-In file img-0026.fits the exposure is: 30.0 with standard deviation  0.9998651456136034
+In file img-0018.fits the exposure is: 30.0 with standard deviation  0.9970184261097547
+In file img-0020.fits the exposure is: 30.0 with standard deviation  0.9989291170831724
+In file img-0022.fits the exposure is: 30.0 with standard deviation  1.0027290427519762
+In file img-0024.fits the exposure is: 30.0 with standard deviation  0.9969441499507293
+In file img-0026.fits the exposure is: 30.0 with standard deviation  0.9983948955080862
 
 ```
 
-The [documentation for `ImageFileCollection`](https://ccdproc.readthedocs.io/en/latest/ccdproc/image_management.html) describes more of its capabilities. `ImageFileCollection` can automatically save a copy of each image as you iterate over them, for example.
+The [documentation for `ImageFileCollection`](https://ccdproc.readthedocs.io/en/latest/ccdproc/image_management.html) describes more of its capabilities.
+`ImageFileCollection` can automatically save a copy of each image as you iterate
+over them, for example.
 
 
 

@@ -29,9 +29,9 @@
   "headline":
     "Calibration overview",
   "datePublished":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "dateModified":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "description":
     "Calibration overview",
   "author": {
@@ -815,6 +815,213 @@ initFunction(initQuery);
     
       
       
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/05-00-Flat-corrections.html"
+        >
+          
+            4.
+          
+          Flat fielding
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-03-Calibrating-the-flats.html"
+                >
+                  
+                    4.1
+                  
+                  Calibrating flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-04-Combining-flats.html"
+                >
+                  
+                    4.2
+                  
+                  Combining flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/06-00-Reducing-science-images.html"
+        >
+          
+            5.
+          
+          Calibrating science images
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/08-00-Image-masking.html"
+        >
+          
+            6.
+          
+          Finding and dealing with bad pixels
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-01-Identifying-hot-pixels.html"
+                >
+                  
+                    6.1
+                  
+                  Identifying hot pixels
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-02-Creating-a-mask.html"
+                >
+                  
+                    6.2
+                  
+                  Identifying bad pixels with ccdmask
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-03-Cosmic-ray-removal.html"
+                >
+                  
+                    6.3
+                  
+                  Removing cosmic rays
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-05-incorporating-masks-into-calibrated-science-images.html"
+                >
+                  
+                    6.4
+                  
+                  Incorporating masks in science images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
         <li class="c-sidebar__divider"></li>
         
       
@@ -906,9 +1113,12 @@ initFunction(initQuery);
             <div class="c-textbook__content">
               <h1 id="calibration-overview">Calibration overview</h1>
 
-<p>An image of the sky contains counts from several sources. The task of data reduction (another name for image calibration) is to remove all non-celestial counts from the image and to correct for non-uniform sensitivity.</p>
+<p>An image of the sky contains counts from several sources. The task of data
+reduction (another name for image calibration) is to remove all non-celestial
+counts from the image and to correct for non-uniform sensitivity.</p>
 
-<p>At the end of the previous notebook we arrived at an expression for the counts in a science image in terms of the sources of counts:</p>
+<p>At the end of the previous notebook we arrived at an expression for the counts
+in a science image in terms of the sources of counts:</p>
 
 <script type="math/tex; mode=display">\text{raw image} = \text{bias} + \text{noise} + \text{dark current} + \text{flat} \times (\text{sky} + \text{stars}).</script>
 
@@ -916,9 +1126,11 @@ initFunction(initQuery);
 
 <script type="math/tex; mode=display">\text{stars} + \text{noise} = \frac{\text{raw image} - \text{bias} - \text{dark current}}{\text{flat}} - \text{sky}</script>
 
-<p><strong>It is <em>impossible</em> to remove the noise from the raw image because the noise is random.</strong></p>
+<p><strong>It is <em>impossible</em> to remove the noise from the raw image because the noise is
+random.</strong></p>
 
-<p>The dark current is typically calculated from a <em>dark frame</em> (aka dark image). Such an image has bias and read noise in it as well, so:</p>
+<p>The dark current is typically calculated from a <em>dark frame</em> (aka dark image).
+Such an image has bias and read noise in it as well, so:</p>
 
 <script type="math/tex; mode=display">\text{dark current} + \text{noise} = (\text{dark frame} - \text{bias})/(\text{dark exposure time})</script>
 
@@ -926,7 +1138,12 @@ initFunction(initQuery);
 
 <h2 id="this-noise-cannot-be-removed-from-ccd-images">This noise cannot be removed from CCD images</h2>
 
-<p>To demonstrate that you cannot remove the noise from an image, let’s construct an image with just stars and noise and try to subtract a noise image created with the same parameters. The amount of noise here is exaggerated to make it clear in the images.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R48" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>To demonstrate that you cannot remove the noise from an image, let’s construct
+an image with just stars and noise and try to subtract a noise image created
+with the same parameters. The amount of noise here is exaggerated to make it
+clear in the images.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
 <span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
@@ -939,9 +1156,16 @@ initFunction(initQuery);
 <span class="kn">from</span> <span class="nn">convenience_functions</span> <span class="kn">import</span> <span class="n">show_image</span>
 </code></pre></div></div>
 
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use custom style for larger fonts and figures</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">'guide.mplstyle'</span><span class="p">)</span>
+</code></pre></div></div>
+
 <h3 id="first-some-stars-with-noise">First, some stars with noise</h3>
 
-<p>The image below shows stars (the larger “blobs” in the image) but shows quite a bit of noise as well (the much smaller “dots”).</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R87" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>The image below shows stars (the larger “blobs” in the image) but shows quite a
+bit of noise as well (the much smaller “dots”).</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
 <span class="n">gain</span> <span class="o">=</span> <span class="mf">1.0</span>
@@ -953,43 +1177,48 @@ initFunction(initQuery);
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Stars with noise'</span><span class="p">)</span>
 </code></pre></div></div>
 
-<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10.0, 10)
-
-</code></pre></div></div>
-
 <div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5, 1.0, 'Stars with noise')
 </code></pre></div></div>
 
-<p class="output output_png"><img src="images/01-05-Calibration-overview_5_2.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-05-Calibration-overview_6_1.png" alt="png" /></p>
 
 <h3 id="now-an-incorrect-attempt-at-reducing-noise">Now an <em>incorrect</em> attempt at reducing noise</h3>
 
-<p>Notice that the call to the noise function has exactly the same arguments as above, in much the same way your camera’s electronics will have the same noise properties every time you read out an image.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R113" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
-<p>However, the amount of noise has <strong>increased</strong>, not decreased. It’s much harder to pick out the stars in this image.</p>
+<p>Notice that the call to the noise function has exactly the same arguments as
+above, in much the same way your camera’s electronics will have the same noise
+properties every time you read out an image.</p>
+
+<p>However, the amount of noise has <strong>increased</strong>, not decreased. It’s much harder
+to pick out the stars in this image.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">incorrect_attempt_to_remove_noise</span> <span class="o">=</span> <span class="n">stars_with_noise</span> <span class="o">-</span> <span class="n">imsim</span><span class="o">.</span><span class="n">read_noise</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">noise_amount</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">)</span>
 
 <span class="n">show_image</span><span class="p">(</span><span class="n">incorrect_attempt_to_remove_noise</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">)</span>
 </code></pre></div></div>
 
-<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10.0, 10)
-
-</code></pre></div></div>
-
-<p class="output output_png"><img src="images/01-05-Calibration-overview_7_1.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-05-Calibration-overview_8_0.png" alt="png" /></p>
 
 <h2 id="every-image-has-noise">Every image has noise</h2>
 
-<p>Every image, including calibration images like bias and dark frames, has noise. If we tried to calibrate images by taking a single bias image and a single dark image, the final result might well look worse than before the image is reduced.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R138" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>Every image, including calibration images like bias and dark frames, has noise.
+If we tried to calibrate images by taking a single bias image and a single dark
+image, the final result might well look worse than before the image is reduced.</p>
 
 <p>For demonstration, we’ll see what happens below.</p>
 
-<p>Note that here we construct <em>realistic</em> bias and dark, but leave read noise out of the flat; we’ll return to that point later.</p>
+<p>Note that here we construct <em>realistic</em> bias and dark, but leave read noise out
+of the flat; we’ll return to that point later.</p>
 
 <h3 id="first-set-parameters-for-the-ccd">First, set parameters for the CCD</h3>
 
-<p>These are the same as in the previous notebook, except for the read noise, which is 700$e-$, 100 times larger than in the previous notebook.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R154" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>These are the same as in the previous notebook, except for the read noise, which
+is 700$e-$, 100 times larger than in the previous notebook.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gain</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">star_exposure</span> <span class="o">=</span> <span class="mf">30.0</span>
@@ -1022,29 +1251,33 @@ initFunction(initQuery);
 
 <h3 id="uncalibrated-image">Uncalibrated image</h3>
 
-<p>Below we display the uncalibrated image; in a moment we’ll compare it to the calibrated version. Even though they don’t stand out there really are stars in  it.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R216" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>Below we display the uncalibrated image; in a moment we’ll compare it to the
+calibrated version. Even though they don’t stand out there really are stars in
+it.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
 <span class="n">show_image</span><span class="p">(</span><span class="n">realistic_stars</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
 </code></pre></div></div>
 
-<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(9.0, 9)
-
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Figure size 2400x2400 with 0 Axes&gt;
 </code></pre></div></div>
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Figure size 864x864 with 0 Axes&gt;
-</code></pre></div></div>
-
-<p class="output output_png"><img src="images/01-05-Calibration-overview_15_2.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-05-Calibration-overview_16_1.png" alt="png" /></p>
 
 <h3 id="reduce-calibrate-the-star-image">Reduce (calibrate) the star image</h3>
 
-<p>First we calculate the dark current, scaled to the exposure time of our light image.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R237" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>First we calculate the dark current, scaled to the exposure time of our light
+image.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">scaled_dark_current</span> <span class="o">=</span> <span class="n">star_exposure</span> <span class="o">*</span> <span class="p">(</span><span class="n">dark_frame_with_noise</span> <span class="o">-</span> <span class="n">bias_with_noise</span><span class="p">)</span> <span class="o">/</span> <span class="n">dark_exposure</span>
 </code></pre></div></div>
 
-<p>Next, we subtract the bias and dark current from the star image and then apply the flat correction.</p>
+<p>Next, we subtract the bias and dark current from the star image and then apply
+the flat correction.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">calibrated_stars</span> <span class="o">=</span> <span class="p">(</span><span class="n">realistic_stars</span> <span class="o">-</span> <span class="n">bias_with_noise</span> <span class="o">-</span> <span class="n">scaled_dark_current</span><span class="p">)</span> <span class="o">/</span> <span class="n">flat</span>
 </code></pre></div></div>
@@ -1052,21 +1285,27 @@ initFunction(initQuery);
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">show_image</span><span class="p">(</span><span class="n">calibrated_stars</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">)</span>
 </code></pre></div></div>
 
-<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10.0, 10)
-
-</code></pre></div></div>
-
-<p class="output output_png"><img src="images/01-05-Calibration-overview_20_1.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-05-Calibration-overview_21_0.png" alt="png" /></p>
 
 <h3 id="reducing-the-image-cleans-up-the-image-a-bit">Reducing the image cleans up the image a bit</h3>
 
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R282" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
 <p>The stars stand more clearly than in the unreduced image.</p>
 
-<p>This image does not look <em>much</em> better than the uncalibrated image, but remember that the read noise used in this simulated image, 700 $e^-$ per pixel, is unrealistically high.</p>
+<p>This image does not look <em>much</em> better than the uncalibrated image, but remember
+that the read noise used in this simulated image, 700 $e^-$ per pixel, is
+unrealistically high.</p>
 
 <h3 id="reducing-the-image-increases-the-noise-in-the-image">Reducing the image increases the noise in the image</h3>
 
-<p>The histogram below shows pixel values before and after calibration. The width of the distribution is a measure of the read noise. As expected, reducing the image increases the read noise. One reason one takes several calibration images of each type is to reduce the amount of noise in the calibration image. That will, in turn, keep the noise in the final image as small as possible.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R295" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>The histogram below shows pixel values before and after calibration. The width
+of the distribution is a measure of the read noise. As expected, reducing the
+image increases the read noise. One reason one takes several calibration images
+of each type is to reduce the amount of noise in the calibration image. That
+will, in turn, keep the noise in the final image as small as possible.</p>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
 <span class="n">hist</span><span class="p">(</span><span class="n">calibrated_stars</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="s">'freedman'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'calibrated star image'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
@@ -1077,7 +1316,7 @@ initFunction(initQuery);
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Number of pixels with that count'</span><span class="p">);</span>
 </code></pre></div></div>
 
-<p class="output output_png"><img src="images/01-05-Calibration-overview_23_0.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-05-Calibration-overview_24_0.png" alt="png" /></p>
 
 
               <nav class="c-page__nav">

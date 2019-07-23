@@ -18,11 +18,20 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 ## Background
 
-Not all pixels in a camera have the same sensitivity to light: there are intrinsic differences from pixel-to-pixel. Vignetting, a dimming near the corners of an image caused by the optical system to which the camera is attached, and dust on optical elements such as filters, the glass window covering the CCD, and the CCD chip itself can also block some light.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/120/files#diff-26309967ccb21dd7088822c9778eee01R14){:target="_blank"}
 
-Vingetting and dust can reduce the amount of light reaching the CCD chip while pixel-to-pixel sensitivity variations affects the counts read from the chip.
+Not all pixels in a camera have the same sensitivity to light: there are
+intrinsic differences from pixel-to-pixel. Vignetting, a dimming near the
+corners of an image caused by the optical system to which the camera is
+attached, and dust on optical elements such as filters, the glass window
+covering the CCD, and the CCD chip itself can also block some light.
 
-The code to produce the simulated sensitivity map (aka flat image) is long enough that is not included in this notebook. We load it instead from [image_sim.py](image_sim.py).
+Vingetting and dust can reduce the amount of light reaching the CCD chip while
+pixel-to-pixel sensitivity variations affects the counts read from the chip.
+
+The code to produce the simulated sensitivity map (aka flat image) is long
+enough that is not included in this notebook. We load it instead from
+[image_sim.py](image_sim.py).
 
 
 
@@ -37,7 +46,10 @@ import image_sim as isim
 
 ## A sample flat image
 
-The sample flat image below has the same size as the simulated image in the previous notebook. 
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/120/files#diff-26309967ccb21dd7088822c9778eee01R46){:target="_blank"}
+
+The sample flat image below has the same size as the simulated image in the
+previous notebook.
 
 
 
@@ -56,29 +68,29 @@ show_image(flat, cmap='gray')
 ```
 
 
-{:.output .output_stream}
-```
-(10.0, 10)
-
-```
-
 
 {:.output .output_png}
-![png](images/01-04-Nonuniform-sensitivity_5_1.png)
+![png](images/01-04-Nonuniform-sensitivity_5_0.png)
 
 
 
-The "donuts" in the image are dust on elements like filters in the optical path. Note that the size of the variations is small, a few percent at most. 
+The "donuts" in the image are dust on elements like filters in the optical path.
+Note that the size of the variations is small, a few percent at most.
 
 ## Effect of nonuniform sensitivity on images
 
-Recall that an image read off a CCD, ignoring variations in sensitivity, can be thought of as a combination of several pieces:
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/120/files#diff-26309967ccb21dd7088822c9778eee01R83){:target="_blank"}
+
+Recall that an image read off a CCD, ignoring variations in sensitivity, can be
+thought of as a combination of several pieces:
 
 $$
 \text{image} = \text{bias} + \text{noise} + \text{dark current} + \text{sky} + \text{stars}
 $$
 
-The effect of sensitivity variations is to reduce the amount of *light* reaching the sensor. In the equation above, that means that the flat multiplies just the sky and stars portion of the input:
+The effect of sensitivity variations is to reduce the amount of *light* reaching
+the sensor. In the equation above, that means that the flat multiplies just the
+sky and stars portion of the input:
 
 $$
 \text{image} = \text{bias} + \text{noise} + \text{dark current} + \text{flat} \times (\text{sky} + \text{stars})
@@ -87,7 +99,9 @@ $$
 
 ## A realistic image
 
-In the cell below we construct the last image from the previous notebook. Recall that there we used a read noise of 5 electrons/pixel, dark current of 0.1 electron/pix/sec, bias level of 1100, and sky background of 20 counts.
+In the cell below we construct the last image from the previous notebook. Recall
+that there we used a read noise of 5 electrons/pixel, dark current of 0.1
+electron/pix/sec, bias level of 1100, and sky background of 20 counts.
 
 
 
@@ -108,7 +122,9 @@ stars_only = isim.stars(image, 50, max_counts=max_star_counts)
 ```
 
 
-The individual pieces of the image are assembled below; it is the inclusion of the flat that makes this the closest of the simulated images to a realistic images.
+The individual pieces of the image are assembled below; it is the inclusion of
+the flat that makes this the closest of the simulated images to a realistic
+images.
 
 
 
@@ -126,19 +142,15 @@ show_image(final_image, cmap='gray', percu=99.9)
 ```
 
 
-{:.output .output_stream}
-```
-(10.0, 10)
-
-```
-
 
 {:.output .output_png}
-![png](images/01-04-Nonuniform-sensitivity_13_1.png)
+![png](images/01-04-Nonuniform-sensitivity_13_0.png)
 
 
 
-Visually, this does not look any different than the final image in the previous notebook; the effects of sensitivity variations are typically not evident in raw images unless the sky background is large. 
+Visually, this does not look any different than the final image in the previous
+notebook; the effects of sensitivity variations are typically not evident in raw
+images unless the sky background is large.
 
 You can see the effect by artificially increasing the sky background.
 
@@ -151,14 +163,8 @@ show_image(final_image2, cmap='gray')
 ```
 
 
-{:.output .output_stream}
-```
-(10.0, 10)
-
-```
-
 
 {:.output .output_png}
-![png](images/01-04-Nonuniform-sensitivity_15_1.png)
+![png](images/01-04-Nonuniform-sensitivity_15_0.png)
 
 

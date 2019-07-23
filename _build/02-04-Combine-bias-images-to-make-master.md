@@ -17,9 +17,15 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 # Combine bias images to make master
 
 
-The final step is to combine the individual calibrated bias images into a single combined image. That combined image will have less noise than the individual images, minimizing the noise added to the remaining images when the bias is subtracted.
+The final step is to combine the individual calibrated bias images into a single
+combined image. That combined image will have less noise than the individual
+images, minimizing the noise added to the remaining images when the bias is
+subtracted.
 
-Regardless of which path you took through the calibration of the biases (with overscan or without) there should be a folder named `reduced` that contains the calibrated bias images. If there is not, please run the previous notebook before continuing with this one.
+Regardless of which path you took through the calibration of the biases (with
+overscan or without) there should be a folder named `reduced` that contains the
+calibrated bias images. If there is not, please run the previous notebook before
+continuing with this one.
 
 
 
@@ -36,25 +42,42 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from convenience_functions import show_image
+```
 
-#download_base_url = 'http://physics.mnstate.edu/craig/ccd-guide/'
+
+
+
+{:.input_area}
+```python
+# Use custom style for larger fonts and figures
+plt.style.use('guide.mplstyle')
 ```
 
 
 ## Recommended settings for image combination
 
-As discussed in the [notebook about combining images](), the recommendation is that you combine by averaging the individual images but sigma clip to remove extreme values. 
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/127/files#diff-1f54a686dd2ec68ba3bb1fefa65691acR58){:target="_blank"}
+
+As discussed in the [notebook about combining images](), the recommendation is
+that you combine by averaging the individual images but sigma clip to remove
+extreme values.
 
 [ccdproc]() provides two ways to combine:
 
-+ An object-oriented interface built around the `Combiner` object, described in the [ccdproc documentation on image combination]().
-+ A function called `combine`, which we will use here because the function allows one to specify the maximum amount of memory that should be used during combination. That feature can be essential depending on how many images you need to combine, how big they are, and how much memory your computer has. 
++ An object-oriented interface built around the `Combiner` object, described in
+the [ccdproc documentation on image combination]().
++ A function called `combine`, which we will use here because the function
+allows one to specify the maximum amount of memory that should be used during
+combination. That feature can be essential depending on how many images you need
+to combine, how big they are, and how much memory your computer has.
 
-*NOTE: If using a version of ccdproc lower than 2.0 set the memory limit a factor of 2-3 lower than you want the maximum memory consumption to be.*
+*NOTE: If using a version of ccdproc lower than 2.0 set the memory limit a
+factor of 2-3 lower than you want the maximum memory consumption to be.*
 
 ## Example 1: cryogenically-cooled camera
 
-The remainder of this section assumes the calibrated bias images are in the folder `example1-reduced` which is created in the previous notebook.
+The remainder of this section assumes the calibrated bias images are in the
+folder `example1-reduced` which is created in the previous notebook.
 
 
 
@@ -69,7 +92,8 @@ The code below:
 
 + selects the calibrated bias images,
 + combines them using the `combine` function,
-+ adds the keyword `COMBINED` to the header so that later calibration steps can easily identify which bias to use, and 
++ adds the keyword `COMBINED` to the header so that later calibration steps can
+easily identify which bias to use, and
 + writes the file.
 
 
@@ -97,9 +121,15 @@ INFO: splitting each image into 2 chunks to limit memory usage to 350000000.0 by
 
 ```
 
-### Result
+### Result for Example 1
 
-A single calibrated image and the combined image are shown below. There is significant two-dimensional structure in the bias that cannot easily be removed by subtracting only the overscan in the next image reduction steps. It takes little time to acquire bias images and doing so will result in higher quality science images.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/127/files#diff-1f54a686dd2ec68ba3bb1fefa65691acR139){:target="_blank"}
+
+A single calibrated image and the combined image are shown below. There is
+significant two-dimensional structure in the bias that cannot easily be removed
+by subtracting only the overscan in the next image reduction steps. It takes
+little time to acquire bias images and doing so will result in higher quality
+science images.
 
 
 
@@ -126,13 +156,16 @@ Text(0.5, 1.0, '6 bias images combined')
 
 
 {:.output .output_png}
-![png](images/02-04-Combine-bias-images-to-make-master_10_1.png)
+![png](images/02-04-Combine-bias-images-to-make-master_11_1.png)
 
 
 
 ## Example 2: Thermo-electrically cooled camera
 
-The process for combining the images is exactly the same as in example 1. The only difference is the directory that contains the calibrated bias frames.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/127/files#diff-1f54a686dd2ec68ba3bb1fefa65691acR166){:target="_blank"}
+
+The process for combining the images is exactly the same as in example 1. The
+only difference is the directory that contains the calibrated bias frames.
 
 
 
@@ -147,7 +180,8 @@ The code below:
 
 + selects the calibrated bias images,
 + combines them using the `combine` function,
-+ adds the keyword `COMBINED` to the header so that later calibration steps can easily identify which bias to use, and 
++ adds the keyword `COMBINED` to the header so that later calibration steps can
+easily identify which bias to use, and
 + writes the file.
 
 
@@ -175,9 +209,12 @@ INFO: splitting each image into 4 chunks to limit memory usage to 350000000.0 by
 
 ```
 
-### Result
+### Result for Example 2
 
-The difference between a single calibrated bias image and the combined bias image is miuch clearer in this case.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/127/files#diff-1f54a686dd2ec68ba3bb1fefa65691acR219){:target="_blank"}
+
+The difference between a single calibrated bias image and the combined bias
+image is much clearer in this case.
 
 
 
@@ -204,6 +241,6 @@ Text(0.5, 1.0, '10 bias images combined')
 
 
 {:.output .output_png}
-![png](images/02-04-Combine-bias-images-to-make-master_16_1.png)
+![png](images/02-04-Combine-bias-images-to-make-master_17_1.png)
 
 

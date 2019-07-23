@@ -98,6 +98,41 @@
   - title: Combine calibrated dark images for use in later reduction steps
     url: 03-06-Combine-darks-for-use-in-later-calibration-steps
     not_numbered: false
+
+- title: Flat fielding
+  url: 05-00-Flat-corrections
+  not_numbered: false
+  expand_sections: true
+  sections:
+    - title: Calibrating flat frames
+      url: 05-03-Calibrating-the-flats
+      not_numbered: false
+    - title: Combining flat frames
+      url: 05-04-Combining-flats
+      not_numbered: false
+
+- title: Calibrating science images
+  url: 06-00-Reducing-science-images
+  not_numbered: false
+
+- title: 'Finding and dealing with bad pixels'
+  url: 08-00-Image-masking
+  not_numbered: false
+  expand_sections: true
+  sections:
+    - title: Identifying hot pixels
+      url: 08-01-Identifying-hot-pixels
+      not_numbered: false
+    - title: Identifying bad pixels with ccdmask
+      url: 08-02-Creating-a-mask
+      not_numbered: false
+    - title: Removing cosmic rays
+      url: 08-03-Cosmic-ray-removal
+      not_numbered: false
+    - title: Incorporating masks in science images
+      url: 08-05-incorporating-masks-into-calibrated-science-images
+      not_numbered: false
+
 # Divider for meta-pages and content page
 - divider: true
 

@@ -16,9 +16,17 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 # Dark current and hot pixels
 
-Every image from a CCD contains *dark current*, which are counts in a raw image caused by thermal effects in the CCD. 
-The dark current in modern CCDs is extremely small if the camera is cooled in some way. Cameras cooled with liquid nitrogen have nearly zero dark current while thermo-electrically cooled CCDs have a somewhat larger dark current. The dark current in a CCD operating at room temperature will typically be very large.
+Every image from a CCD contains *dark current*, which are counts in a raw image
+caused by thermal effects in the CCD.
+The dark current in modern CCDs is extremely small if the camera is cooled in
+some way. Cameras cooled with liquid nitrogen have nearly zero dark current
+while thermo-electrically cooled CCDs have a somewhat larger dark current. The
+dark current in a CCD operating at room temperature will typically be very
+large.
 
-Even a camera in which the dark current is *typically* very small will have a small fraction of pixels, called hot pixels, in which the dark current is much higher.
+Even a camera in which the dark current is *typically* very small will have a
+small fraction of pixels, called hot pixels, in which the dark current is much
+higher.
 
-The next notebook walks through how to identify those pixels and how to decide the right way to remove dark current from your data. 
+The next notebook walks through how to identify those pixels and how to decide
+the right way to remove dark current from your data.

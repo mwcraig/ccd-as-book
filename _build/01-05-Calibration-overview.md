@@ -17,9 +17,12 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 # Calibration overview
 
 
-An image of the sky contains counts from several sources. The task of data reduction (another name for image calibration) is to remove all non-celestial counts from the image and to correct for non-uniform sensitivity.
+An image of the sky contains counts from several sources. The task of data
+reduction (another name for image calibration) is to remove all non-celestial
+counts from the image and to correct for non-uniform sensitivity.
 
-At the end of the previous notebook we arrived at an expression for the counts in a science image in terms of the sources of counts:
+At the end of the previous notebook we arrived at an expression for the counts
+in a science image in terms of the sources of counts:
 
 $$
 \text{raw image} = \text{bias} + \text{noise} + \text{dark current} + \text{flat} \times (\text{sky} + \text{stars}).
@@ -31,9 +34,11 @@ $$
 \text{stars} + \text{noise} = \frac{\text{raw image} - \text{bias} - \text{dark current}}{\text{flat}} - \text{sky}
 $$
 
-**It is *impossible* to remove the noise from the raw image because the noise is random.**
+**It is *impossible* to remove the noise from the raw image because the noise is
+random.**
 
-The dark current is typically calculated from a *dark frame* (aka dark image). Such an image has bias and read noise in it as well, so:
+The dark current is typically calculated from a *dark frame* (aka dark image).
+Such an image has bias and read noise in it as well, so:
 
 $$
 \text{dark current} + \text{noise} = (\text{dark frame} - \text{bias})/(\text{dark exposure time})
@@ -43,7 +48,12 @@ Once again, note that the noise cannot be removed.
 
 ## This noise cannot be removed from CCD images
 
-To demonstrate that you cannot remove the noise from an image, let's construct an image with just stars and noise and try to subtract a noise image created with the same parameters. The amount of noise here is exaggerated to make it clear in the images.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R48){:target="_blank"}
+
+To demonstrate that you cannot remove the noise from an image, let's construct
+an image with just stars and noise and try to subtract a noise image created
+with the same parameters. The amount of noise here is exaggerated to make it
+clear in the images.
 
 
 
@@ -61,9 +71,21 @@ from convenience_functions import show_image
 ```
 
 
+
+
+{:.input_area}
+```python
+# Use custom style for larger fonts and figures
+plt.style.use('guide.mplstyle')
+```
+
+
 ### First, some stars with noise
 
-The image below shows stars (the larger "blobs" in the image) but shows quite a bit of noise as well (the much smaller "dots").
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R87){:target="_blank"}
+
+The image below shows stars (the larger "blobs" in the image) but shows quite a
+bit of noise as well (the much smaller "dots").
 
 
 
@@ -80,12 +102,6 @@ plt.title('Stars with noise')
 ```
 
 
-{:.output .output_stream}
-```
-(10.0, 10)
-
-```
-
 
 
 
@@ -98,15 +114,20 @@ Text(0.5, 1.0, 'Stars with noise')
 
 
 {:.output .output_png}
-![png](images/01-05-Calibration-overview_5_2.png)
+![png](images/01-05-Calibration-overview_6_1.png)
 
 
 
 ### Now an *incorrect* attempt at reducing noise
 
-Notice that the call to the noise function has exactly the same arguments as above, in much the same way your camera's electronics will have the same noise properties every time you read out an image.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R113){:target="_blank"}
 
-However, the amount of noise has **increased**, not decreased. It's much harder to pick out the stars in this image.
+Notice that the call to the noise function has exactly the same arguments as
+above, in much the same way your camera's electronics will have the same noise
+properties every time you read out an image.
+
+However, the amount of noise has **increased**, not decreased. It's much harder
+to pick out the stars in this image.
 
 
 
@@ -118,29 +139,31 @@ show_image(incorrect_attempt_to_remove_noise, cmap='gray', percu=99.9)
 ```
 
 
-{:.output .output_stream}
-```
-(10.0, 10)
-
-```
-
 
 {:.output .output_png}
-![png](images/01-05-Calibration-overview_7_1.png)
+![png](images/01-05-Calibration-overview_8_0.png)
 
 
 
 ## Every image has noise
 
-Every image, including calibration images like bias and dark frames, has noise. If we tried to calibrate images by taking a single bias image and a single dark image, the final result might well look worse than before the image is reduced.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R138){:target="_blank"}
+
+Every image, including calibration images like bias and dark frames, has noise.
+If we tried to calibrate images by taking a single bias image and a single dark
+image, the final result might well look worse than before the image is reduced.
 
 For demonstration, we'll see what happens below.
 
-Note that here we construct *realistic* bias and dark, but leave read noise out of the flat; we'll return to that point later. 
+Note that here we construct *realistic* bias and dark, but leave read noise out
+of the flat; we'll return to that point later.
 
 ### First, set parameters for the CCD
 
-These are the same as in the previous notebook, except for the read noise, which is 700$e-$, 100 times larger than in the previous notebook.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R154){:target="_blank"}
+
+These are the same as in the previous notebook, except for the read noise, which
+is 700$e-$, 100 times larger than in the previous notebook.
 
 
 
@@ -188,7 +211,11 @@ realistic_stars = (imsim.stars(image, 50, max_counts=max_star_counts) +
 
 ### Uncalibrated image
 
-Below we display the uncalibrated image; in a moment we'll compare it to the calibrated version. Even though they don't stand out there really are stars in  it.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R216){:target="_blank"}
+
+Below we display the uncalibrated image; in a moment we'll compare it to the
+calibrated version. Even though they don't stand out there really are stars in
+it.
 
 
 
@@ -199,28 +226,25 @@ show_image(realistic_stars, cmap='gray', percu=99.9, figsize=(9, 9))
 ```
 
 
-{:.output .output_stream}
-```
-(9.0, 9)
-
-```
-
 
 {:.output .output_data_text}
 ```
-<Figure size 864x864 with 0 Axes>
+<Figure size 2400x2400 with 0 Axes>
 ```
 
 
 
 {:.output .output_png}
-![png](images/01-05-Calibration-overview_15_2.png)
+![png](images/01-05-Calibration-overview_16_1.png)
 
 
 
 ### Reduce (calibrate) the star image
 
-First we calculate the dark current, scaled to the exposure time of our light image.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R237){:target="_blank"}
+
+First we calculate the dark current, scaled to the exposure time of our light
+image.
 
 
 
@@ -230,7 +254,8 @@ scaled_dark_current = star_exposure * (dark_frame_with_noise - bias_with_noise) 
 ```
 
 
-Next, we subtract the bias and dark current from the star image and then apply the flat correction.
+Next, we subtract the bias and dark current from the star image and then apply
+the flat correction.
 
 
 
@@ -248,27 +273,31 @@ show_image(calibrated_stars, cmap='gray', percu=99.9)
 ```
 
 
-{:.output .output_stream}
-```
-(10.0, 10)
-
-```
-
 
 {:.output .output_png}
-![png](images/01-05-Calibration-overview_20_1.png)
+![png](images/01-05-Calibration-overview_21_0.png)
 
 
 
 ### Reducing the image cleans up the image a bit
 
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R282){:target="_blank"}
+
 The stars stand more clearly than in the unreduced image.
 
-This image does not look *much* better than the uncalibrated image, but remember that the read noise used in this simulated image, 700 $e^-$ per pixel, is unrealistically high. 
+This image does not look *much* better than the uncalibrated image, but remember
+that the read noise used in this simulated image, 700 $e^-$ per pixel, is
+unrealistically high.
 
 ### Reducing the image increases the noise in the image
 
-The histogram below shows pixel values before and after calibration. The width of the distribution is a measure of the read noise. As expected, reducing the image increases the read noise. One reason one takes several calibration images of each type is to reduce the amount of noise in the calibration image. That will, in turn, keep the noise in the final image as small as possible.
+[*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/129/files#diff-e68335d91ecff166e2afcee832511ee2R295){:target="_blank"}
+
+The histogram below shows pixel values before and after calibration. The width
+of the distribution is a measure of the read noise. As expected, reducing the
+image increases the read noise. One reason one takes several calibration images
+of each type is to reduce the amount of noise in the calibration image. That
+will, in turn, keep the noise in the final image as small as possible.
 
 
 
@@ -286,6 +315,6 @@ plt.ylabel('Number of pixels with that count');
 
 
 {:.output .output_png}
-![png](images/01-05-Calibration-overview_23_0.png)
+![png](images/01-05-Calibration-overview_24_0.png)
 
 

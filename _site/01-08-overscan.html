@@ -29,9 +29,9 @@
   "headline":
     "Overscan",
   "datePublished":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "dateModified":
-    "2019-06-06T16:34:07-05:00",
+    "2019-07-23T10:17:20-05:00",
   "description":
     "Overscan",
   "author": {
@@ -815,6 +815,213 @@ initFunction(initQuery);
     
       
       
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/05-00-Flat-corrections.html"
+        >
+          
+            4.
+          
+          Flat fielding
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-03-Calibrating-the-flats.html"
+                >
+                  
+                    4.1
+                  
+                  Calibrating flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-04-Combining-flats.html"
+                >
+                  
+                    4.2
+                  
+                  Combining flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/06-00-Reducing-science-images.html"
+        >
+          
+            5.
+          
+          Calibrating science images
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/08-00-Image-masking.html"
+        >
+          
+            6.
+          
+          Finding and dealing with bad pixels
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-01-Identifying-hot-pixels.html"
+                >
+                  
+                    6.1
+                  
+                  Identifying hot pixels
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-02-Creating-a-mask.html"
+                >
+                  
+                    6.2
+                  
+                  Identifying bad pixels with ccdmask
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-03-Cosmic-ray-removal.html"
+                >
+                  
+                    6.3
+                  
+                  Removing cosmic rays
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-05-incorporating-masks-into-calibrated-science-images.html"
+                >
+                  
+                    6.4
+                  
+                  Incorporating masks in science images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
         <li class="c-sidebar__divider"></li>
         
       
@@ -855,13 +1062,13 @@ initFunction(initQuery);
       <ul class="toc__menu">
   <li><a href="#case-1-cryogenically-cooled-large-format-camera-lfc-at-palomar">Case 1: Cryogenically cooled Large Format Camera (LFC) at Palomar</a>
     <ul>
-      <li><a href="#discussion">Discussion</a></li>
+      <li><a href="#discussion-of-example-1">Discussion of Example 1</a></li>
       <li><a href="#conclusion-for-case-1">Conclusion for case 1</a></li>
     </ul>
   </li>
   <li><a href="#case-2-thermo-electrically-cooled-apogee-aspen-cg16m">Case 2: Thermo-electrically cooled Apogee Aspen CG16M</a>
     <ul>
-      <li><a href="#discussion-1">Discussion</a></li>
+      <li><a href="#discussion-of-example-2">Discussion of Example 2</a></li>
       <li><a href="#conclusion-for-case-2">Conclusion for case 2</a></li>
     </ul>
   </li>
@@ -902,37 +1109,70 @@ initFunction(initQuery);
             <div class="c-textbook__content">
               <h1 id="overscan">Overscan</h1>
 
-<p>The overscan region of a CCD, if present, is a part of the chip that is covered. Depending on the camera, it can be a useful way to remove small variations in the bias level from frame to frame.</p>
+<p>The overscan region of a CCD, if present, is a part of the chip that is covered.
+Depending on the camera, it can be a useful way to remove small variations in
+the bias level from frame to frame.</p>
 
-<p>However, whether or not the overscan is useful depends on the camera. It’s advisable to examine the overscan part of the camera you’re using before deciding if you should include it in image reduction.</p>
+<p>However, whether or not the overscan is useful depends on the camera. It’s
+advisable to examine the overscan part of the camera you’re using before
+deciding if you should include it in image reduction.</p>
 
-<p>One important note: <em>overscan always includes bias, read noise, and dark current</em>. The overscan pixels are still pixels, and just like any other pixel includes dark current and is subject to read noise. Many sources describe overscan as correcting for bias, but if the dark current for the camera is negligible, as it often is for cryogenically cooled cameras, then the overscan is essentially bias.</p>
+<p>One important note: <em>overscan always includes bias, read noise, and dark
+current</em>. The overscan pixels are still pixels, and just like any other pixel
+includes dark current and is subject to read noise. Many sources describe
+overscan as correcting for bias, but if the dark current for the camera is
+negligible, as it often is for cryogenically cooled cameras, then the overscan
+is essentially bias.</p>
 
-<p>The read noise in the overscan is reduced by averaging over the overscan region. That will be covered in a later notebook; this notebook focuses on what the overscan looks like and how to decide whether or not to use it.</p>
+<p>The read noise in the overscan is reduced by averaging over the overscan region.
+That will be covered in a later notebook; this notebook focuses on what the
+overscan looks like and how to decide whether or not to use it.</p>
 
-<p>In this notebook we will look at the overscan region for two different cameras, a cryogenically cooled camera in which the overscan provides useful information and a thermo-electrically cooled camera in which the overscan does not provide useful information.</p>
+<p>In this notebook we will look at the overscan region for two different cameras,
+a cryogenically cooled camera in which the overscan provides useful information
+and a thermo-electrically cooled camera in which the overscan does not provide
+useful information.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">astropy.nddata</span> <span class="kn">import</span> <span class="n">CCDData</span>
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">astropy.nddata</span> <span class="kn">import</span> <span class="n">CCDData</span>
 <span class="kn">from</span> <span class="nn">astropy.visualization</span> <span class="kn">import</span> <span class="n">hist</span>
 <span class="kn">from</span> <span class="nn">ccdproc</span> <span class="kn">import</span> <span class="n">subtract_overscan</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
 <span class="kn">from</span> <span class="nn">convenience_functions</span> <span class="kn">import</span> <span class="n">show_image</span>
+</code></pre></div></div>
 
-<span class="n">download_base_url</span> <span class="o">=</span> <span class="s">'http://physics.mnstate.edu/craig/ccd-guide/'</span>
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use custom style for larger fonts and figures</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">'guide.mplstyle'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h2 id="case-1-cryogenically-cooled-large-format-camera-lfc-at-palomar">Case 1: Cryogenically cooled Large Format Camera (LFC) at Palomar</h2>
 
-<p>The images below are from chip 0 of the LFC at the Palomar 200-inch telescope. Technical information about the camera is <a href="http://www.astro.caltech.edu/palomar/observer/200inchResources/lfcspecs.html">here</a>. It turns out that the images are not actually 2048 × 4096; as you can see below, the images are 2080 × 4128. The “extra” in each direction is overscan.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/124/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R69" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
-<p>The FITS header for these files includes the keyword <code class="highlighter-rouge">BIASSEC</code>, which indicates the nominal extent of the overscan region. Its value is <code class="highlighter-rouge">[2049:2080,1:4127]</code>, which indicates the overscan extends from 2048 to 2079 (Python indexing starts at 0, not 1 like in FITS) in the “short” direction and over the entire chip in the other direction. As we’ll see shortly, the useful overscan region is smaller than this.</p>
+<p>The images below are from chip 0 of the LFC at the Palomar 200-inch telescope.
+Technical information about the camera is <a href="http://www.astro.caltech.edu/palomar/observer/200inchResources/lfcspecs.html">here</a>. It
+turns out that the images are not actually 2048 × 4096; as you can see below,
+the images are 2080 × 4128. The “extra” in each direction is overscan.</p>
 
-<p>We’ll focus here on the overscan in the side that is nominally 2048 wide; in Python that’s the second index. The pixel count cross-sections plotted below are from a bias, science, and flat image. Flat images are particularly helpful in evaluating how much of the overscan region is useful because the average pixel value in the exposed part of the camera is typically large.</p>
+<p>The FITS header for these files includes the keyword <code class="highlighter-rouge">BIASSEC</code>, which indicates
+the nominal extent of the overscan region. Its value is <code class="highlighter-rouge">[2049:2080,1:4127]</code>,
+which indicates the overscan extends from 2048 to 2079 (Python indexing starts
+at 0, not 1 like in FITS) in the “short” direction and over the entire chip in
+the other direction. As we’ll see shortly, the useful overscan region is smaller
+than this.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bias_lfc</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">'python_imred_data/ccd.001.0.fits.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'count'</span><span class="p">)</span>
-<span class="n">science_g_lfc</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">'python_imred_data/ccd.037.0.fits.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'count'</span><span class="p">)</span>
-<span class="n">flat_g_lfc</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">'python_imred_data/ccd.014.0.fits.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'count'</span><span class="p">)</span>
+<p>We’ll focus here on the overscan in the side that is nominally 2048 wide; in
+Python that’s the second index. The pixel count cross-sections plotted below are
+from a bias, science, and flat image. Flat images are particularly helpful in
+evaluating how much of the overscan region is useful because the average pixel
+value in the exposed part of the camera is typically large.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cryo_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'example-cryo-LFC'</span><span class="p">)</span>
+<span class="n">bias_lfc</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">cryo_path</span> <span class="o">/</span> <span class="s">'ccd.001.0.fits'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'count'</span><span class="p">)</span>
+<span class="n">science_g_lfc</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">cryo_path</span> <span class="o">/</span> <span class="s">'ccd.037.0.fits'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'count'</span><span class="p">)</span>
+<span class="n">flat_g_lfc</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">cryo_path</span> <span class="o">/</span> <span class="s">'ccd.014.0.fits'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'count'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bias_lfc</span><span class="o">.</span><span class="n">shape</span>
@@ -958,48 +1198,86 @@ initFunction(initQuery);
 <div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5, 1.0, 'Overscan region, averaged over all rows')
 </code></pre></div></div>
 
-<p class="output output_png"><img src="images/01-08-Overscan_6_1.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-08-Overscan_7_1.png" alt="png" /></p>
 
-<h3 id="discussion">Discussion</h3>
+<h3 id="discussion-of-example-1">Discussion of Example 1</h3>
+
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/124/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R135" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>There are a few interesting things here.</p>
 
-<h4 id="the-count-value-is-nearly-uniform-in-the-overscan-region">The count value is nearly uniform in the overscan region.</h4>
+<p><strong>The count value is nearly uniform in the overscan region.</strong></p>
 
-<p>This is good; ideally the overscan is nearly uniform since the pixels are not illuminated.</p>
+<p>This is good; ideally the overscan is nearly uniform since the pixels are not
+illuminated.</p>
 
-<h4 id="some-light-leaks-from-the-imaging-region-into-the-overscan-region-this-is-clearest-in-the-flat-image-where-the-counts-are-much-higher-than-the-value-to-which-they-asymptote-until-at-least-pixel-number-2055">Some light leaks from the imaging region into the overscan region. This is clearest in the flat image, where the counts are much higher than the value to which they asymptote until at least pixel number 2055.</h4>
+<p><strong>Some light leaks from the imaging region into the overscan region.</strong></p>
 
-<p>Though the FITS header indicates the overscan starts at pixel 2048, the <em>useful</em> part of the overscan (i.e. the part not contaminated by light) extends from pixel 2055 to the end.</p>
+<p>This is
+clearest in the flat image, where the counts are much higher than the value to
+which they asymptote until at least pixel number 2055.</p>
 
-<h4 id="there-is-an-offset-between-the-science-image-and-the-other-two-images-and-perhaps-between-the-flat-and-bias-images">There is an offset between the science image and the other two images, and perhaps between the flat and bias images.</h4>
+<p>Though the FITS header indicates the overscan starts at pixel 2048, the <em>useful</em>
+part of the overscan (i.e. the part not contaminated by light) extends from
+pixel 2055 to the end.</p>
 
-<p>This sort of variation is what overscan is intended to correct. It could be that this one science image has a different overscan value (it was taken several hours after the flat image) or it could be that all science images have a different overscan value than other types of images.</p>
+<p><strong>There is an offset between the science image and the other two images, and
+perhaps between the flat and bias images.</strong></p>
 
-<p>Either way, subtracting overscan from each of the images allows for correction of these offsets.</p>
+<p>This sort of variation is what overscan is intended to correct. It could be that
+this one science image has a different overscan value (it was taken several
+hours after the flat image) or it could be that all science images have a
+different overscan value than other types of images.</p>
 
-<h4 id="dark-current-in-this-camera-is-essentially-zero-so-the-overscan-is-measuring-bias">Dark current <em>in this camera</em> is essentially zero so the overscan is measuring bias</h4>
+<p>Either way, subtracting overscan from each of the images allows for correction
+of these offsets.</p>
 
-<p>To be clear, this isn’t apparent from the graph above, but cryogenically cooled cameras have negligible dark current.</p>
+<p><strong>Dark current <em>in this camera</em> is essentially zero so the overscan is
+measuring bias.</strong></p>
+
+<p>To be clear, this isn’t apparent from the graph above, but cryogenically cooled
+cameras have negligible dark current.</p>
 
 <h4 id="what-happens-if-you-dont-use-the-overscan">What happens if you don’t use the overscan?</h4>
 
-<p>Nothing particularly bad. In the specific case above, ignoring the overscan will shift the background level in the science image by roughly 20 counts, since the difference between the overscan region of the science image is lower than the overscan in the other images by roughly 20 counts. If, before doing science, the background of those images is subtracted, then this shift should be removed with the background.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/124/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R171" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>Nothing particularly bad. In the specific case above, ignoring the overscan will
+shift the background level in the science image by roughly 20 counts, since the
+difference between the overscan region of the science image is lower than the
+overscan in the other images by roughly 20 counts. If, before doing science, the
+background of those images is subtracted, then this shift should be removed with
+the background.</p>
 
 <h3 id="conclusion-for-case-1">Conclusion for case 1</h3>
 
-<p>The overscan is useful, but the usable overscan region extends from 2055 to the end of the chip rather than from 2048 to end of the chip as the FITS header claims. Put a little differently, the appropriate <code class="highlighter-rouge">BIASSEC</code> for these images is <code class="highlighter-rouge">[2056:2080,1:4127]</code>. (Note that FITS starts numbering at 1 instead of 0, so 2055 in Python is 2056 in FITS notation.)</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/124/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R185" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
-<p>If the science you are using requires knowing the counts to a precision of a count or two, and modeling the background in the science image isn’t an option, consider using the overscan.</p>
+<p>The overscan is useful, but the usable overscan region extends from 2055 to the
+end of the chip rather than from 2048 to end of the chip as the FITS header
+claims. Put a little differently, the appropriate <code class="highlighter-rouge">BIASSEC</code> for these images is
+<code class="highlighter-rouge">[2056:2080,1:4127]</code>. (Note that FITS starts numbering at 1 instead of 0, so
+2055 in Python is 2056 in FITS notation.)</p>
+
+<p>If the science you are using requires knowing the counts to a precision of a
+count or two, and modeling the background in the science image isn’t an option,
+consider using the overscan.</p>
 
 <h2 id="case-2-thermo-electrically-cooled-apogee-aspen-cg16m">Case 2: Thermo-electrically cooled Apogee Aspen CG16M</h2>
 
-<p>This is a low-end, research-grade CCD sold by Andor. Basic information is <a href="https://andor.oxinst.com/assets/uploads/documents/Andor/apogee/Apogee_Aspen_CG16M_Specifications.pdf">here</a>, though you need to track down the description of the sensor chip, <a href="http://www.onsemi.com/pub/Collateral/KAF-16803-D.PDF">KAF-16803 CCD</a> to find out that the overscan region of this 4096 × 4096 pixel camera extends from pixel 4097 to 4109 along one of the directions.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/124/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R202" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wasp</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">download_base_url</span> <span class="o">+</span> <span class="s">'wasp-10-b-S001-R001-C041-r.fit.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'adu'</span><span class="p">)</span>
-<span class="n">dark1000</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">download_base_url</span> <span class="o">+</span> <span class="s">'dark-test-0002d1000.fit.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'adu'</span><span class="p">)</span>
-<span class="n">flat</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">download_base_url</span> <span class="o">+</span> <span class="s">'AutoFlat-PANoRot-r-Bin1-006.fit.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'adu'</span><span class="p">)</span>
-<span class="n">master</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">download_base_url</span> <span class="o">+</span> <span class="s">'master_bias.fit.gz'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'adu'</span><span class="p">)</span>
+<p>This is a low-end, research-grade CCD sold by Andor. Basic information is
+<a href="https://andor.oxinst.com/assets/uploads/documents/Andor/apogee/Apogee_Aspen_CG16M_Specifications.pdf">here</a>, though you need to track down the description
+of the sensor chip, <a href="http://www.onsemi.com/pub/Collateral/KAF-16803-D.PDF">KAF-16803 CCD</a> to find out that the
+overscan region of this 4096 × 4096 pixel camera extends from pixel 4097 to 4109
+along one of the directions.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">therma_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'example-thermo-electric'</span><span class="p">)</span>
+<span class="n">kelt</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">therma_path</span> <span class="o">/</span> <span class="s">'kelt-16-b-S001-R001-C084-r.fit'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'adu'</span><span class="p">)</span>
+<span class="n">dark1000</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">'dark-test-0002d1000.fit.bz2'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'adu'</span><span class="p">)</span>
+<span class="n">flat</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">therma_path</span> <span class="o">/</span> <span class="s">'AutoFlat-PANoRot-r-Bin1-006.fit'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'adu'</span><span class="p">)</span>
+<span class="n">master</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">'combined_bias_100_images.fit.bz2'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">'adu'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
@@ -1010,7 +1288,7 @@ INFO: using the unit adu passed to the FITS reader instead of the unit adu in th
 
 <div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wasp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'night sky average'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kelt</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'night sky average'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">master</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'100 bias combined'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dark1000</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'1000sec dark average'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">flat</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'flat average'</span><span class="p">)</span>
@@ -1025,31 +1303,47 @@ INFO: using the unit adu passed to the FITS reader instead of the unit adu in th
 <div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(900, 1300)
 </code></pre></div></div>
 
-<p class="output output_png"><img src="images/01-08-Overscan_11_1.png" alt="png" /></p>
+<p class="output output_png"><img src="images/01-08-Overscan_12_1.png" alt="png" /></p>
 
-<h3 id="discussion-1">Discussion</h3>
+<h3 id="discussion-of-example-2">Discussion of Example 2</h3>
+
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/124/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R248" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>The camera also has some interesting features.</p>
 
-<h4 id="count-values-change-quite-a-bit-in-the-overscan-region">Count values change quite a bit in the overscan region</h4>
+<p><strong>Count values change quite a bit in the overscan region</strong></p>
 
-<p>This is clearest in the overscan for the flat. Not only is light leaking into the overscan, the overscan appears to be mostly light leakage. One pixel may be useful at best.</p>
+<p>This is clearest in the overscan for the flat. Not only is light leaking into
+the overscan, the overscan appears to be mostly light leakage. One pixel may be
+useful at best.</p>
 
-<h4 id="overscan-includes-dark-current">Overscan includes dark current</h4>
+<p><strong>Overscan includes dark current</strong></p>
 
-<p>The overscan for the dark image in the figure above is roughly 10 counts higher than the counts for the bias. The dark current for this camera is roughly 0.01 counts/pixel/second. For a 1000 second dark exposure, the expected dark counts are about 10, which is the difference seen in the graph.</p>
+<p>The overscan for the dark image in the figure above is roughly 10 counts higher
+than the counts for the bias. The dark current for this camera is roughly 0.01
+counts/pixel/second. For a 1000 second dark exposure, the expected dark counts
+are about 10, which is the difference seen in the graph.</p>
 
-<h4 id="there-is-an-offset-between-the-biasdark-and-scienceflat-images">There is an offset between the bias/dark and science/flat images</h4>
+<p><strong>There is an offset between the bias/dark and science/flat images</strong></p>
 
-<p>The offset in this camera is roughly 50 counts. It’s large enough that one ought to be hesitant to use the overscan for this camera.</p>
+<p>The offset in this camera is roughly 50 counts. It’s large enough that one ought
+to be hesitant to use the overscan for this camera.</p>
 
-<h4 id="the-overscan-counts-are-higher-than-the-average-bias-counts">The overscan counts are higher than the average bias counts</h4>
+<p><strong>The overscan counts are higher than the average bias counts</strong></p>
 
-<p>Note that for the bias image, counts increase up to the pixel where overscan starts and then level out. It turns out that overscan counts are <em>higher</em> than the average of the bias counts, so subtracting the overscan would lead to a bias image that is negative. This is another reason to be suspicious of the overscan region on this camera.</p>
+<p>Note that for the bias image, counts increase up to the pixel where overscan
+starts and then level out. It turns out that overscan counts are <em>higher</em> than
+the average of the bias counts, so subtracting the overscan would lead to a bias
+image that is negative. This is another reason to be suspicious of the overscan
+region on this camera.</p>
 
 <h3 id="conclusion-for-case-2">Conclusion for case 2</h3>
 
-<p>Do not use the overscan in this case. There are serious issues with light leakage and large differences in the overscan counts between the bias and science images.</p>
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/124/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R283" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>Do not use the overscan in this case. There are serious issues with light
+leakage and large differences in the overscan counts between the bias and
+science images.</p>
 
               <nav class="c-page__nav">
   

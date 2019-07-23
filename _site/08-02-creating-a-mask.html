@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+
+  <title>Identifying bad pixels with ccdmask</title>
+  <meta name="description" content="Creating an image mask">
+
+  <link rel="canonical" href="/YOUR%20URL//08-02-Creating-a-mask.html">
+  <link rel="alternate" type="application/rss+xml" title="CCD Data Reduction Guide" href="/YOUR%20URL//feed.xml">
+
+  <meta property="og:url"         content="/YOUR%20URL//08-02-Creating-a-mask.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="Identifying bad pixels with ccdmask" />
+<meta property="og:description" content="Creating an image mask" />
+<meta property="og:image"       content="" />
+
+
+  <script type="application/ld+json">
+  {
+  "@context": "http://schema.org",
+  "@type": "NewsArticle",
+  "mainEntityOfPage":
+    "YOUR URL//08-02-Creating-a-mask.html",
+  "headline":
+    "Identifying bad pixels with ccdmask",
+  "datePublished":
+    "2019-07-23T10:17:20-05:00",
+  "dateModified":
+    "2019-07-23T10:17:20-05:00",
+  "description":
+    "Creating an image mask",
+  "author": {
+    "@type": "Person",
+    "name": "Matthew Craig"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Data 100 at UC Berkeley",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "YOUR URL/",
+      "width": 60,
+      "height": 60
+    }
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "YOUR URL/",
+    "height": 60,
+    "width": 60
+  }
+}
+
+  </script>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css ">
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+
+  <!-- <link rel="manifest" href="/manifest.json"> -->
+  <!-- <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#efae0a"> -->
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+  <meta name="theme-color" content="#233947">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo/favicon.ico">
+
+  <!-- MathJax Config -->
+  <!-- Allow inline math using $ and automatically break long math lines -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true,
+        processEnvironments: true
+    },
+    CommonHTML: {
+        linebreaks: {
+            automatic: true,
+        },
+    },
+});
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML' async></script>
+
+  <!-- DOM updating function -->
+  <script>
+const runWhenDOMLoaded = cb => {
+  if (document.readyState != 'loading') {
+    cb()
+  } else if (document.addEventListener) {
+    document.addEventListener('DOMContentLoaded', cb)
+  } else {
+    document.attachEvent('onreadystatechange', function() {
+      if (document.readyState == 'complete') cb()
+    })
+  }
+}
+
+// Helper function to init things quickly
+initFunction = function(myfunc) {
+  runWhenDOMLoaded(myfunc);
+  document.addEventListener('turbolinks:load', myfunc);
+};
+</script>
+
+  <!-- Define some javascript variables that will be useful in other javascript -->
+  <script>
+    const site_basename = '/';
+  </script>
+
+  <!-- Add AnchorJS to let headers be linked -->
+  <script src="/assets/js/anchor.min.js"  type="text/javascript"></script>
+  <script>
+
+initFunction(function () {
+    anchors.add("main h1, main h2, main h3, main h4")
+});
+
+</script>
+
+  <!-- Include Turbolinks to make page loads fast -->
+  <!-- https://github.com/turbolinks/turbolinks -->
+  <script src="/assets/js/turbolinks.js" async></script>
+  <meta name="turbolinks-cache-control" content="no-cache">
+
+  <!-- Load nbinteract for widgets -->
+  <script src="https://unpkg.com/nbinteract-core" async></script>
+
+  <!-- Load Thebelab for interactive widgets -->
+  <!-- Include Thebelab for interactive code if it's enabled -->
+
+
+  <!-- Google analytics -->
+  <script src="/assets/js/ga.js" async></script>
+
+  <!-- Clipboard copy button -->
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" async></script>
+
+  <!-- Load JS that depends on site variables -->
+  <script>
+/**
+ * Set up copy/paste for code blocks
+ */
+const codeCellId = index => `codecell${index}`
+
+const clipboardButton = id =>
+  `<a class="btn copybtn o-tooltip--left" data-tooltip="Copy" data-clipboard-target="#${id}">
+    <img src="/assets/images/copy-button.svg" alt="Copy to clipboard">
+  </a>`
+
+// Clears selected text since ClipboardJS will select the text when copying
+const clearSelection = () => {
+  if (window.getSelection) {
+    window.getSelection().removeAllRanges()
+  } else if (document.selection) {
+    document.selection.empty()
+  }
+}
+
+// Changes tooltip text for two seconds, then changes it back
+const temporarilyChangeTooltip = (el, newText) => {
+  const oldText = el.getAttribute('data-tooltip')
+  el.setAttribute('data-tooltip', newText)
+  setTimeout(() => el.setAttribute('data-tooltip', oldText), 2000)
+}
+
+const addCopyButtonToCodeCells = () => {
+  // If ClipboardJS hasn't loaded, wait a bit and try again. This
+  // happens because we load ClipboardJS asynchronously.
+  if (window.ClipboardJS === undefined) {
+    setTimeout(addCopyButtonToCodeCells, 250)
+    return
+  }
+
+  const codeCells = document.querySelectorAll('div.highlighter-rouge:not(.output) pre')
+  codeCells.forEach((codeCell, index) => {
+    const id = codeCellId(index)
+    codeCell.setAttribute('id', id)
+    if (document.querySelector(`pre#${id} + a`) == null) {
+      codeCell.insertAdjacentHTML('afterend', clipboardButton(id));
+    }
+  })
+
+  const clipboard = new ClipboardJS('.copybtn')
+  clipboard.on('success', event => {
+    clearSelection()
+    temporarilyChangeTooltip(event.trigger, 'Copied!')
+  })
+
+  clipboard.on('error', event => {
+    temporarilyChangeTooltip(event.trigger, 'Failed to copy')
+  })
+
+  // Get rid of clipboard before the next page visit to avoid memory leak
+  document.addEventListener('turbolinks:before-visit', () =>
+    clipboard.destroy()
+  )
+}
+
+initFunction(addCopyButtonToCodeCells);
+</script>
+
+  <!-- Hide cell code -->
+  
+<script>
+/**
+Add buttons to hide code cells
+*/
+
+
+var setCodeCellVisibility = function(inputField, kind) {
+    // Update the image and class for hidden
+    var id = inputField.getAttribute('data-id');
+    var codeCell = document.querySelector(`#${id}`);
+
+    if (kind === "visible") {
+        codeCell.classList.remove('hidden');
+        inputField.checked = true;
+    } else {
+        codeCell.classList.add('hidden');
+        inputField.checked = false;
+    }
+}
+
+var toggleCodeCellVisibility = function (event) {
+    // The label is clicked, and now we decide what to do based on the input field's clicked status
+    if (event.target.tagName === "LABEL") {
+        var inputField = event.target.previousElementSibling;
+    } else {
+        // It is the span inside the target
+        var inputField = event.target.parentElement.previousElementSibling;
+    }
+
+    if (inputField.checked === true) {
+        setCodeCellVisibility(inputField, "visible");
+    } else {
+        setCodeCellVisibility(inputField, "hidden");
+    }
+}
+
+
+// Button constructor
+const hideCodeButton = id => `<input class="hidebtn" type="checkbox" id="hidebtn${id}" data-id="${id}"><label title="Toggle cell" for="hidebtn${id}" class="plusminus"><span class="pm_h"></span><span class="pm_v"></span></label>`
+
+var addHideButton = function () {
+  // If a hide button is already added, don't add another
+  if (document.querySelector('div.hidecode input') !== null) {
+      return;
+  }
+
+  // Find the input cells and add a hide button
+  document.querySelectorAll('div.input_area div.highlight').forEach(function (item, index) {
+    if (!item.parentElement.classList.contains("hidecode")) {
+        // Skip the cell if it doesn't have a hidecode class
+        return;
+    }
+
+    const id = codeCellId(index)
+    item.setAttribute('id', id);
+    item.insertAdjacentHTML('afterend', hideCodeButton(id))
+
+    // Set up the visibility toggle
+    hideLink = document.querySelector(`#${id} + input + label`);
+    hideLink.addEventListener('click', toggleCodeCellVisibility)
+  });
+}
+
+
+// Initialize the hide buttos
+var initHiddenCells = function () {
+    // Add hide buttons to the cells
+    addHideButton();
+
+    // Toggle the code cells that should be hidden
+    document.querySelectorAll('div.hidecode input').forEach(function (item) {
+        setCodeCellVisibility(item, 'hidden');
+        item.checked = true;
+    })
+}
+
+initFunction(initHiddenCells);
+
+</script>
+
+
+  <!-- Load custom website scripts -->
+  <script src="/assets/js/scripts.js" async></script>
+
+  <!-- Load custom user CSS and JS  -->
+  <script src="/assets/custom/custom.js" async></script>
+  <link rel="stylesheet" href="/assets/custom/custom.css">
+
+  <!-- Update interact links w/ REST param, is defined in includes so we can use templates -->
+  
+
+  <!-- Lunr search code - will only be executed on the /search page -->
+  <script src="/assets/js/lunr/lunr.min.js" type="text/javascript"></script>
+  <script>var initQuery = function() {
+  // See if we have a search box
+  var searchInput = document.querySelector('input#lunr_search');
+  if (searchInput === null) {
+    return;
+  }
+
+  // Function to parse our lunr cache
+  var idx = lunr(function () {
+    this.field('title')
+    this.field('excerpt')
+    this.field('categories')
+    this.field('tags')
+    this.ref('id')
+
+    this.pipeline.remove(lunr.trimmer)
+
+    for (var item in store) {
+      this.add({
+        title: store[item].title,
+        excerpt: store[item].excerpt,
+        categories: store[item].categories,
+        tags: store[item].tags,
+        id: item
+      })
+    }
+  });
+
+  // Run search upon keyup
+  searchInput.addEventListener('keyup', function () {
+    var resultdiv = document.querySelector('#results');
+    var query = document.querySelector("input#lunr_search").value.toLowerCase();
+    var result =
+      idx.query(function (q) {
+        query.split(lunr.tokenizer.separator).forEach(function (term) {
+          q.term(term, { boost: 100 })
+          if(query.lastIndexOf(" ") != query.length-1){
+            q.term(term, {  usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 10 })
+          }
+          if (term != ""){
+            q.term(term, {  usePipeline: false, editDistance: 1, boost: 1 })
+          }
+        })
+      });
+
+      // Empty the results div
+      while (resultdiv.firstChild) {
+        resultdiv.removeChild(resultdiv.firstChild);
+      }
+
+    resultdiv.insertAdjacentHTML('afterbegin', '<p class="results__found">'+result.length+' Result(s) found</p>');
+    for (var item in result) {
+      var ref = result[item].ref;
+      if(store[ref].teaser){
+        var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<div class="archive__item-teaser">'+
+                '<img src="'+store[ref].teaser+'" alt="">'+
+              '</div>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      else{
+    	  var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      resultdiv.insertAdjacentHTML('beforeend', searchitem);
+    }
+  });
+};
+
+initFunction(initQuery);
+</script>
+</head>
+
+  <body>
+    <!-- .js-show-sidebar shows sidebar by default -->
+    <div id="js-textbook" class="c-textbook js-show-sidebar">
+      
+
+
+
+<nav id="js-sidebar" class="c-textbook__sidebar">
+  <a href="https://jupyter.org/jupyter-book/"><img src="/images/logo/logo.png" class="textbook_logo" id="sidebar-logo" data-turbolinks-permanent/></a>
+  <h2 class="c-sidebar__title">CCD Data Reduction Guide</h2>
+  <ul class="c-sidebar__chapters">
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/00-00-Preface.html"
+        >
+          
+          Home
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__chapter"><a class="c-sidebar__entry" href="/search.html">Search</a></li>
+        
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+        <li><h2 class="c-sidebar__title">CCD Data Reduction Guide</li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/01-00-Understanding-an-astronomical-CCD-image.html"
+        >
+          
+            1.
+          
+          Understanding astronomical images
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-03-Construction-of-an-artificial-but-realistic-image.html"
+                >
+                  
+                    1.1
+                  
+                  An artificial, but realistic, image
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-04-Nonuniform-sensitivity.html"
+                >
+                  
+                    1.2
+                  
+                  Non-uniform sensitivity in astronomical detectors
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-05-Calibration-overview.html"
+                >
+                  
+                    1.3
+                  
+                  Calibration overview
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-06-Image-combination.html"
+                >
+                  
+                    1.4
+                  
+                  Image combination
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-08-Overscan.html"
+                >
+                  
+                    1.5
+                  
+                  Overscan
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-09-Calibration-choices-you-need-to-make.html"
+                >
+                  
+                    1.6
+                  
+                  Calibration choices to make
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/01-11-reading-images.html"
+                >
+                  
+                    1.7
+                  
+                  Reading images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/02-00-Handling-overscan-trimming-and-bias-subtraction.html"
+        >
+          
+            2.
+          
+          Overscan and bias images
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/02-01-Calibrating-bias-images.html"
+                >
+                  
+                    2.1
+                  
+                  Calibrating bias images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/02-04-Combine-bias-images-to-make-master.html"
+                >
+                  
+                    2.2
+                  
+                  Combine bias images to make master bias
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/03-00-Dark-current-and-hot-pixels.html"
+        >
+          
+            3.
+          
+          Dark current and dark frames
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-01-Dark-current-The-ideal-case.html"
+                >
+                  
+                    3.1
+                  
+                  Dark current: the ideal case
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-02-Real-dark-current-noise-and-other-artifacts.html"
+                >
+                  
+                    3.2
+                  
+                  Real dark current: noise and other artifacts
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-04-Handling-overscan-and-bias-for-dark-frames.html"
+                >
+                  
+                    3.3
+                  
+                  Handling overscan and bias for dark frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-05-Calibrate-dark-images.html"
+                >
+                  
+                    3.4
+                  
+                  Calibrate dark images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/03-06-Combine-darks-for-use-in-later-calibration-steps.html"
+                >
+                  
+                    3.5
+                  
+                  Combine calibrated dark images for use in later reduction steps
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/05-00-Flat-corrections.html"
+        >
+          
+            4.
+          
+          Flat fielding
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-03-Calibrating-the-flats.html"
+                >
+                  
+                    4.1
+                  
+                  Calibrating flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/05-04-Combining-flats.html"
+                >
+                  
+                    4.2
+                  
+                  Combining flat frames
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/06-00-Reducing-science-images.html"
+        >
+          
+            5.
+          
+          Calibrating science images
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/08-00-Image-masking.html"
+        >
+          
+            6.
+          
+          Finding and dealing with bad pixels
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-01-Identifying-hot-pixels.html"
+                >
+                  
+                    6.1
+                  
+                  Identifying hot pixels
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry c-sidebar__entry--active"
+                  href="/08-02-Creating-a-mask.html"
+                >
+                  
+                    6.2
+                  
+                  Identifying bad pixels with ccdmask
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-03-Cosmic-ray-removal.html"
+                >
+                  
+                    6.3
+                  
+                  Removing cosmic rays
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/08-05-incorporating-masks-into-calibrated-science-images.html"
+                >
+                  
+                    6.4
+                  
+                  Incorporating masks in science images
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide"
+        >
+          
+          GitHub repository
+        </a>
+
+        
+      </li>
+
+      
+    
+  </ul>
+  <p class="sidebar_footer">Powered by <a href="https://github.com/jupyter/jupyter-book">Jupyter Book</a> and <a href="https://astropy.org">Astropy</a></p>
+</nav>
+
+      
+      <!-- Shamelessly copied from minimal mistakes -->
+
+
+<!-- TOC will only show up if it has at least one item -->
+
+
+  <aside class="sidebar__right">
+    <nav class="onthispage">
+      <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
+      <ul class="toc__menu">
+  <li><a href="#detecting-bad-pixels-with-ccdmask">Detecting bad pixels with ccdmask</a>
+    <ul>
+      <li><a href="#saving-the-mask">Saving the mask</a></li>
+    </ul>
+  </li>
+  <li><a href="#making-the-mask-with-a-single-flat">Making the mask with a single flat</a></li>
+</ul>
+    </nav>
+  </aside>
+
+
+      
+      <main class="c-textbook__page" tabindex="-1">
+          <div class="o-wrapper">
+            <div class="c-sidebar-toggle">
+  <!-- We show the sidebar by default so we use .is-active -->
+  <button
+    id="js-sidebar-toggle"
+    class="hamburger hamburger--arrowalt is-active"
+  >
+    <span class="hamburger-box">
+      <span class="hamburger-inner"></span>
+    </span>
+    <span class="c-sidebar-toggle__label">Toggle Sidebar</span>
+  </button>
+</div>
+
+            
+<div class="buttons">
+<a href="/content/08-02-Creating-a-mask.ipynb" download>
+<button id="interact-button-download" class="interact-button">Download</button>
+</a>
+
+
+
+
+
+</div>
+
+
+            <div class="c-textbook__content">
+              <h1 id="creating-an-image-mask">Creating an image mask</h1>
+
+<p>Calibration cannot compensate for every defect in a CCD. Some examples (a
+non-exhaustive list):</p>
+
+<ul>
+  <li>Some hot pixels are not actually linear with exposure time.</li>
+  <li>Some pixels in the CCD may respond less to light than others in a way that
+flat frames cannot compensate for.</li>
+  <li>There may be defects in all or part of a row or column of the chip.</li>
+  <li>Cosmic rays strike the CCD during every exposure. While those are eliminated
+in the combined calibrated frames with the proper choice of combination
+parameters, they are not removed from science images.</li>
+</ul>
+
+<p>The first three are discussed in this notebook. Removal of cosmic rays from
+science images is discussed <a href="">in the cosmic ray notebook</a></p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="kn">from</span> <span class="nn">astropy.nddata</span> <span class="kn">import</span> <span class="n">CCDData</span>
+
+<span class="kn">import</span> <span class="nn">ccdproc</span> <span class="k">as</span> <span class="n">ccdp</span>
+<span class="kn">from</span> <span class="nn">photutils</span> <span class="kn">import</span> <span class="n">detect_sources</span>
+<span class="kn">from</span> <span class="nn">astrowidgets</span> <span class="kn">import</span> <span class="n">ImageWidget</span>
+
+<span class="kn">from</span> <span class="nn">convenience_functions</span> <span class="kn">import</span> <span class="n">show_image</span><span class="p">,</span> <span class="n">image_snippet</span>
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use custom style for larger fonts and figures</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">'guide.mplstyle'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="detecting-bad-pixels-with-ccdmask">Detecting bad pixels with <code class="highlighter-rouge">ccdmask</code></h2>
+
+<p>The ccdproc function <a href="https://ccdproc.readthedocs.io/en/latest/api/ccdproc.ccdmask.html#ccdproc.ccdmask">ccdmask</a> uses an method that is
+based on the <a href="http://stsdas.stsci.edu/cgi-bin/gethelp.cgi?ccdmask">IRAF task ccdmask</a>. The method works best when the
+input image used to detect flaws in the CCD is the ratio of two flat frames with
+different counts. That may or may not be available depending on what images are
+collected.</p>
+
+<p>In the example below, which uses images from Example 2 in the reduction
+notebooks, the two extreme exposure times are 1 sec and 1.2 sec, but the average
+counts in the images differ by 10,000. These were twilight flats taken just
+after sunset.</p>
+
+<p>Even with dome flats where the illumination is supposed to be constant the
+counts may actually vary. If they do not, use a single flat for identifying bad
+pixels instead of a ratio.</p>
+
+<p>We begin by creating an image collection and then the information for all of the
+calibrated, uncombined, flat images.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ex2_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'example2-reduced'</span><span class="p">)</span>
+
+<span class="n">ifc</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="n">ex2_path</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">long_values</span> <span class="ow">in</span> <span class="p">[</span><span class="s">'history'</span><span class="p">,</span> <span class="s">'comment'</span><span class="p">]:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ifc</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="n">long_values</span><span class="p">)</span>
+    <span class="k">except</span> <span class="nb">KeyError</span><span class="p">:</span>
+        <span class="c"># These two columns were not present, so removing them failed.</span>
+        <span class="c"># Just keep going.</span>
+        <span class="k">pass</span>
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">flats</span> <span class="o">=</span> <span class="p">(</span><span class="n">ifc</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s">'imagetyp'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'FLAT'</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ifc</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s">'combined'</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">ifc</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="n">flats</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="output output_html">
+<i>Table masked=True length=10</i>
+<table id="table81956507720" class="table-striped table-bordered table-condensed">
+<thead><tr><th>file</th><th>simple</th><th>bitpix</th><th>naxis</th><th>naxis1</th><th>naxis2</th><th>date-obs</th><th>exptime</th><th>exposure</th><th>set-temp</th><th>ccd-temp</th><th>xpixsz</th><th>ypixsz</th><th>xbinning</th><th>ybinning</th><th>xorgsubf</th><th>yorgsubf</th><th>readoutm</th><th>filter</th><th>imagetyp</th><th>focallen</th><th>aptdia</th><th>aptarea</th><th>swcreate</th><th>swserial</th><th>sitelat</th><th>sitelong</th><th>telescop</th><th>instrume</th><th>notes</th><th>flipstat</th><th>swowner</th><th>date</th><th>time-obs</th><th>ut</th><th>timesys</th><th>radecsys</th><th>purged</th><th>latitude</th><th>longitud</th><th>altitude</th><th>lst</th><th>jd-obs</th><th>mjd-obs</th><th>biassec</th><th>trimsec</th><th>bunit</th><th>trim_image</th><th>trimim</th><th>subtract_dark</th><th>subdark</th><th>cstretch</th><th>cblack</th><th>cwhite</th><th>pedestal</th><th>bscale</th><th>bzero</th><th>subtract_bias</th><th>subbias</th><th>combined</th><th>hjd-obs</th><th>bjd-obs</th><th>azimuth</th><th>ha</th><th>readmode</th><th>st</th><th>lat-obs</th><th>long-obs</th><th>alt-obs</th><th>observat</th><th>ra</th><th>objctra</th><th>dec</th><th>objctdec</th><th>fwhm</th><th>zmag</th><th>_quinox</th><th>epoch</th><th>pa</th><th>_type1</th><th>_rval1</th><th>_rpix1</th><th>_delt1</th><th>_rota1</th><th>_type2</th><th>_rval2</th><th>_rpix2</th><th>_delt2</th><th>_rota2</th><th>_d1_1</th><th>_d1_2</th><th>_d2_1</th><th>_d2_2</th><th>tr1_0</th><th>tr1_1</th><th>tr1_2</th><th>tr1_3</th><th>tr1_4</th><th>tr1_5</th><th>tr1_6</th><th>tr1_7</th><th>tr1_8</th><th>tr1_9</th><th>tr1_10</th><th>tr1_11</th><th>tr1_12</th><th>tr1_13</th><th>tr1_14</th><th>tr2_0</th><th>tr2_1</th><th>tr2_2</th><th>tr2_3</th><th>tr2_4</th><th>tr2_5</th><th>tr2_6</th><th>tr2_7</th><th>tr2_8</th><th>tr2_9</th><th>tr2_10</th><th>tr2_11</th><th>tr2_12</th><th>tr2_13</th><th>tr2_14</th><th>pltsolvd</th><th>airmass</th><th>secz</th><th>alt-obj</th><th>az-obj</th><th>object</th><th>cd1_1</th><th>cd1_2</th><th>cd2_1</th><th>cd2_2</th><th>a_0_0</th><th>a_0_1</th><th>a_1_0</th><th>b_0_0</th><th>b_0_1</th><th>b_1_0</th><th>_ate</th><th>flat_correct</th><th>flatcor</th><th>wcsaxes</th><th>crpix1</th><th>crpix2</th><th>pc1_1</th><th>pc1_2</th><th>pc2_1</th><th>pc2_2</th><th>cdelt1</th><th>cdelt2</th><th>cunit1</th><th>cunit2</th><th>ctype1</th><th>ctype2</th><th>crval1</th><th>crval2</th><th>lonpole</th><th>latpole</th><th>radesys</th><th>equinox</th><th>a_order</th><th>a_0_2</th><th>a_1_1</th><th>a_2_0</th><th>b_order</th><th>b_0_2</th><th>b_1_1</th><th>b_2_0</th><th>ap_order</th><th>ap_0_0</th><th>ap_0_1</th><th>ap_0_2</th><th>ap_1_0</th><th>ap_1_1</th><th>ap_2_0</th><th>bp_order</th><th>bp_0_0</th><th>bp_0_1</th><th>bp_0_2</th><th>bp_1_0</th><th>bp_1_1</th><th>bp_2_0</th></tr></thead>
+<thead><tr><th>str35</th><th>bool</th><th>int64</th><th>int64</th><th>int64</th><th>int64</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>str9</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th></tr></thead>
+<tr><td>AutoFlat-PANoRot-r-Bin1-001.fit</td><td>True</td><td>-64</td><td>2</td><td>4096</td><td>4096</td><td>2018-08-23T01:25:17</td><td>1.0</td><td>1.0</td><td>-20.0</td><td>-20.0225025</td><td>9.0</td><td>9.0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>Monochrome</td><td>r</td><td>FLAT</td><td>3200.0</td><td>400.0</td><td>125663.70964050293</td><td>MaxIm DL Version 6.18 190601 00KPP</td><td>00KPP-F3HN8-9JMTJ-1CE5W-A4AX5-F3</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td></td><td>AspenCG16</td><td></td><td></td><td>Matt Craig</td><td>23/08/18</td><td>01:25:17</td><td>01:25:17</td><td>UTC</td><td>FK5</td><td>True</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td>311.7999999995668</td><td>17:04:39.2507</td><td>2458353.559224537</td><td>58353.05922453704</td><td>[4096:4109]</td><td>[1:4096, :]</td><td>adu</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s, scale=True</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-002.fit</td><td>True</td><td>-64</td><td>2</td><td>4096</td><td>4096</td><td>2018-08-23T01:25:43</td><td>1.0</td><td>1.0</td><td>-20.0</td><td>-20.041362000000003</td><td>9.0</td><td>9.0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>Monochrome</td><td>r</td><td>FLAT</td><td>3200.0</td><td>400.0</td><td>125663.70964050293</td><td>MaxIm DL Version 6.18 190601 00KPP</td><td>00KPP-F3HN8-9JMTJ-1CE5W-A4AX5-F3</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td></td><td>AspenCG16</td><td></td><td></td><td>Matt Craig</td><td>23/08/18</td><td>01:25:43</td><td>01:25:43</td><td>UTC</td><td>FK5</td><td>True</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td>311.7999999995668</td><td>17:05:05.3219</td><td>2458353.559525463</td><td>58353.05952546297</td><td>[4096:4109]</td><td>[1:4096, :]</td><td>adu</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s, scale=True</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-003.fit</td><td>True</td><td>-64</td><td>2</td><td>4096</td><td>4096</td><td>2018-08-23T01:26:08</td><td>1.0</td><td>1.0</td><td>-20.0</td><td>-20.041362000000003</td><td>9.0</td><td>9.0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>Monochrome</td><td>r</td><td>FLAT</td><td>3200.0</td><td>400.0</td><td>125663.70964050293</td><td>MaxIm DL Version 6.18 190601 00KPP</td><td>00KPP-F3HN8-9JMTJ-1CE5W-A4AX5-F3</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td></td><td>AspenCG16</td><td></td><td></td><td>Matt Craig</td><td>23/08/18</td><td>01:26:08</td><td>01:26:08</td><td>UTC</td><td>FK5</td><td>True</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td>311.7999999995668</td><td>17:05:30.3903</td><td>2458353.559814815</td><td>58353.05981481481</td><td>[4096:4109]</td><td>[1:4096, :]</td><td>adu</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s, scale=True</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-004.fit</td><td>True</td><td>-64</td><td>2</td><td>4096</td><td>4096</td><td>2018-08-23T01:26:34</td><td>1.0</td><td>1.0</td><td>-20.0</td><td>-20.06965125</td><td>9.0</td><td>9.0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>Monochrome</td><td>r</td><td>FLAT</td><td>3200.0</td><td>400.0</td><td>125663.70964050293</td><td>MaxIm DL Version 6.18 190601 00KPP</td><td>00KPP-F3HN8-9JMTJ-1CE5W-A4AX5-F3</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td></td><td>AspenCG16</td><td></td><td></td><td>Matt Craig</td><td>23/08/18</td><td>01:26:34</td><td>01:26:34</td><td>UTC</td><td>FK5</td><td>True</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td>311.7999999995668</td><td>17:05:56.4615</td><td>2458353.560115741</td><td>58353.06011574074</td><td>[4096:4109]</td><td>[1:4096, :]</td><td>adu</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s, scale=True</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-005.fit</td><td>True</td><td>-64</td><td>2</td><td>4096</td><td>4096</td><td>2018-08-23T01:27:00</td><td>1.0</td><td>1.0</td><td>-20.0</td><td>-20.0602215</td><td>9.0</td><td>9.0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>Monochrome</td><td>r</td><td>FLAT</td><td>3200.0</td><td>400.0</td><td>125663.70964050293</td><td>MaxIm DL Version 6.18 190601 00KPP</td><td>00KPP-F3HN8-9JMTJ-1CE5W-A4AX5-F3</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td></td><td>AspenCG16</td><td></td><td></td><td>Matt Craig</td><td>23/08/18</td><td>01:27:00</td><td>01:27:00</td><td>UTC</td><td>FK5</td><td>True</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td>311.7999999995668</td><td>17:06:22.5327</td><td>2458353.560416667</td><td>58353.06041666667</td><td>[4096:4109]</td><td>[1:4096, :]</td><td>adu</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s, scale=True</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-006.fit</td><td>True</td><td>-64</td><td>2</td><td>4096</td><td>4096</td><td>2018-08-23T01:27:25</td><td>1.02</td><td>1.02</td><td>-20.0</td><td>-20.066508000000002</td><td>9.0</td><td>9.0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>Monochrome</td><td>r</td><td>FLAT</td><td>3200.0</td><td>400.0</td><td>125663.70964050293</td><td>MaxIm DL Version 6.18 190601 00KPP</td><td>00KPP-F3HN8-9JMTJ-1CE5W-A4AX5-F3</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td></td><td>AspenCG16</td><td></td><td></td><td>Matt Craig</td><td>23/08/18</td><td>01:27:25</td><td>01:27:25</td><td>UTC</td><td>FK5</td><td>True</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td>311.7999999995668</td><td>17:06:47.6012</td><td>2458353.560706018</td><td>58353.06070601852</td><td>[4096:4109]</td><td>[1:4096, :]</td><td>adu</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s, scale=True</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-007.fit</td><td>True</td><td>-64</td><td>2</td><td>4096</td><td>4096</td><td>2018-08-23T01:27:51</td><td>1.06</td><td>1.06</td><td>-20.0</td><td>-20.053935000000003</td><td>9.0</td><td>9.0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>Monochrome</td><td>r</td><td>FLAT</td><td>3200.0</td><td>400.0</td><td>125663.70964050293</td><td>MaxIm DL Version 6.18 190601 00KPP</td><td>00KPP-F3HN8-9JMTJ-1CE5W-A4AX5-F3</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td></td><td>AspenCG16</td><td></td><td></td><td>Matt Craig</td><td>23/08/18</td><td>01:27:51</td><td>01:27:51</td><td>UTC</td><td>FK5</td><td>True</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td>311.7999999995668</td><td>17:07:13.6723</td><td>2458353.561006945</td><td>58353.06100694444</td><td>[4096:4109]</td><td>[1:4096, :]</td><td>adu</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s, scale=True</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-008.fit</td><td>True</td><td>-64</td><td>2</td><td>4096</td><td>4096</td><td>2018-08-23T01:28:17</td><td>1.11</td><td>1.11</td><td>-20.0</td><td>-20.050791750000002</td><td>9.0</td><td>9.0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>Monochrome</td><td>r</td><td>FLAT</td><td>3200.0</td><td>400.0</td><td>125663.70964050293</td><td>MaxIm DL Version 6.18 190601 00KPP</td><td>00KPP-F3HN8-9JMTJ-1CE5W-A4AX5-F3</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td></td><td>AspenCG16</td><td></td><td></td><td>Matt Craig</td><td>23/08/18</td><td>01:28:17</td><td>01:28:17</td><td>UTC</td><td>FK5</td><td>True</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td>311.7999999995668</td><td>17:07:39.7435</td><td>2458353.56130787</td><td>58353.06130787037</td><td>[4096:4109]</td><td>[1:4096, :]</td><td>adu</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s, scale=True</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-009.fit</td><td>True</td><td>-64</td><td>2</td><td>4096</td><td>4096</td><td>2018-08-23T01:28:42</td><td>1.16</td><td>1.16</td><td>-20.0</td><td>-20.0225025</td><td>9.0</td><td>9.0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>Monochrome</td><td>r</td><td>FLAT</td><td>3200.0</td><td>400.0</td><td>125663.70964050293</td><td>MaxIm DL Version 6.18 190601 00KPP</td><td>00KPP-F3HN8-9JMTJ-1CE5W-A4AX5-F3</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td></td><td>AspenCG16</td><td></td><td></td><td>Matt Craig</td><td>23/08/18</td><td>01:28:42</td><td>01:28:42</td><td>UTC</td><td>FK5</td><td>True</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td>311.7999999995668</td><td>17:08:04.8120</td><td>2458353.561597222</td><td>58353.06159722222</td><td>[4096:4109]</td><td>[1:4096, :]</td><td>adu</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s, scale=True</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-010.fit</td><td>True</td><td>-64</td><td>2</td><td>4096</td><td>4096</td><td>2018-08-23T01:29:08</td><td>1.21</td><td>1.21</td><td>-20.0</td><td>-20.013072750000003</td><td>9.0</td><td>9.0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>Monochrome</td><td>r</td><td>FLAT</td><td>3200.0</td><td>400.0</td><td>125663.70964050293</td><td>MaxIm DL Version 6.18 190601 00KPP</td><td>00KPP-F3HN8-9JMTJ-1CE5W-A4AX5-F3</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td></td><td>AspenCG16</td><td></td><td></td><td>Matt Craig</td><td>23/08/18</td><td>01:29:08</td><td>01:29:08</td><td>UTC</td><td>FK5</td><td>True</td><td>+46:52:00.408</td><td>-96:27:11.8008</td><td>311.7999999995668</td><td>17:08:30.8832</td><td>2458353.561898148</td><td>58353.06189814815</td><td>[4096:4109]</td><td>[1:4096, :]</td><td>adu</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s, scale=True</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+</table>
+</div>
+
+<p>The best we can do here is the ratio of the first and last of the flat images
+listed above.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">first</span> <span class="o">=</span> <span class="n">ifc</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s">'file'</span><span class="p">][</span><span class="n">flats</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">last</span> <span class="o">=</span> <span class="n">ifc</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s">'file'</span><span class="p">][</span><span class="n">flats</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ccd1</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ex2_path</span> <span class="o">/</span> <span class="n">first</span><span class="p">)</span>
+<span class="n">ccd2</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ex2_path</span> <span class="o">/</span> <span class="n">last</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ratio</span> <span class="o">=</span> <span class="n">ccd2</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">ccd1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The ratio is roughly 0.85:</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ratio</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.8424684815539478
+</code></pre></div></div>
+
+<p>Running <code class="highlighter-rouge">ccdmask</code> takes a little time but only needs to be done once, not once
+for each image.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">time</span>
+<span class="n">maskr</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ccdmask</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU times: user 1min 27s, sys: 452 ms, total: 1min 28s
+Wall time: 1min 28s
+
+</code></pre></div></div>
+
+<p>The result of <code class="highlighter-rouge">ccdmask</code> is one where there is a defect and zero where the chip
+is good, which matches the format of the mask numpy expects.</p>
+
+<p>The input image and derived mask are shown below</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+
+<span class="n">show_image</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">show_colorbar</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Ratio of two flats'</span><span class="p">)</span>
+
+<span class="n">show_image</span><span class="p">(</span><span class="n">maskr</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">show_colorbar</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Derived mask'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5, 1.0, 'Derived mask')
+</code></pre></div></div>
+
+<p class="output output_png"><img src="images/08-02-Creating-a-mask_16_1.png" alt="png" /></p>
+
+<p>Two comments are in order:</p>
+
+<ul>
+  <li>The “starfish” pattern in the first image is an artifact of the camera
+shutter. Ideally, a longer exposure time would be used for the flats to avoid
+this.</li>
+  <li>It appear at first glance that there were no pixels masked. The problem is
+that the masked regions are very small and, at the scale shown, happen to not be
+visible.</li>
+</ul>
+
+<p>Two defects in this CCD are shown below. The first is a small patch of pixels
+that are vastly less sensitive than the rest. The second is a column on the left
+edge of the CCD. It turns out this column is not actually exposed to light.
+<code class="highlighter-rouge">ccdmask</code> correctly identifies both patches as bad.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="n">width</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3823</span><span class="p">,</span> <span class="mi">2446</span><span class="p">)</span>
+<span class="n">plot_row</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">image_snippet</span><span class="p">(</span><span class="n">ccd1</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Flat, camera defect'</span><span class="p">)</span>
+
+<span class="n">image_snippet</span><span class="p">(</span><span class="n">maskr</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">is_mask</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Mask, same center'</span><span class="p">)</span>
+
+<span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>
+<span class="n">plot_row</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">image_snippet</span><span class="p">(</span><span class="n">ccd1</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">,</span> <span class="n">percl</span><span class="o">=</span><span class="mi">70</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Flat, bad column'</span><span class="p">)</span>
+
+<span class="n">image_snippet</span><span class="p">(</span><span class="n">maskr</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">is_mask</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Mask, same center'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5, 1.0, 'Mask, same center')
+</code></pre></div></div>
+
+<p class="output output_png"><img src="images/08-02-Creating-a-mask_19_1.png" alt="png" /></p>
+
+<h3 id="saving-the-mask">Saving the mask</h3>
+
+<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/113/files#diff-3d31a738ada4920a4a4656b218ad63efR266" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+
+<p>The mask can be saved in a FITS file as an image. We will see in <a href="">the summary
+notebook on masking</a> how to combine the mask generated here with a mask
+generated from the dark current and with a cosmic ray mask for each science
+image.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mask_as_ccd</span> <span class="o">=</span> <span class="n">CCDData</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">maskr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">'uint8'</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span><span class="p">)</span>
+<span class="n">mask_as_ccd</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">'imagetyp'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'flat mask'</span>
+<span class="n">mask_as_ccd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ex2_path</span> <span class="o">/</span> <span class="s">'mask_from_ccdmask.fits'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="making-the-mask-with-a-single-flat">Making the mask with a single flat</h2>
+
+<p>The flats we used in Example 1, taken with the Large Format Camera at Palomar,
+are dome flats taken with nearly constant illumination. In that case the best we
+can do is run <code class="highlighter-rouge">ccdmask</code> on a single flat image. As we will see, this still
+allows the identification of several clearly bad areas of the chip.</p>
+
+<p>First, a look at the calibratted, but not combined, flat images.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ex1_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'example1-reduced'</span><span class="p">)</span>
+
+<span class="n">ifc1</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="n">ex1_path</span><span class="p">)</span>
+
+<span class="n">flats</span> <span class="o">=</span> <span class="p">(</span><span class="n">ifc1</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s">'imagetyp'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'FLATFIELD'</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ifc1</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s">'combined'</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">ifc1</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="n">flats</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="output output_html">
+<i>Table masked=True length=6</i>
+<table id="table82429485464" class="table-striped table-bordered table-condensed">
+<thead><tr><th>file</th><th>simple</th><th>bitpix</th><th>naxis</th><th>naxis1</th><th>naxis2</th><th>date</th><th>origin</th><th>latitude</th><th>longitud</th><th>telescop</th><th>fratio</th><th>instrume</th><th>detector</th><th>frame</th><th>ccdpicno</th><th>object</th><th>imagetyp</th><th>exptime</th><th>darktime</th><th>date-obs</th><th>ut</th><th>jd</th><th>ra</th><th>dec</th><th>equinox</th><th>epoch</th><th>ha</th><th>st</th><th>airmass</th><th>filter</th><th>gain</th><th>secpix1</th><th>secpix2</th><th>ccdbin1</th><th>ccdbin2</th><th>rotangle</th><th>datasec</th><th>ccdsec</th><th>biassec</th><th>loginfo</th><th>chipid</th><th>subtract_overscan</th><th>suboscan</th><th>trim_image</th><th>trimim</th><th>bunit</th><th>subtract_dark</th><th>subdark</th><th>flat_correct</th><th>flatcor</th><th>combined</th></tr></thead>
+<thead><tr><th>str27</th><th>bool</th><th>int64</th><th>int64</th><th>int64</th><th>int64</th><th>str10</th><th>str34</th><th>float64</th><th>float64</th><th>str17</th><th>float64</th><th>str3</th><th>str14</th><th>int64</th><th>int64</th><th>str7</th><th>str9</th><th>float64</th><th>float64</th><th>str10</th><th>str12</th><th>float64</th><th>str12</th><th>str12</th><th>float64</th><th>float64</th><th>str12</th><th>str12</th><th>float64</th><th>str2</th><th>float64</th><th>float64</th><th>float64</th><th>int64</th><th>int64</th><th>float64</th><th>str15</th><th>str15</th><th>str18</th><th>str18</th><th>int64</th><th>str8</th><th>str46</th><th>str6</th><th>str13</th><th>str3</th><th>object</th><th>object</th><th>object</th><th>object</th><th>object</th></tr></thead>
+<tr><td>flat-ccd.014.0.fits</td><td>True</td><td>-64</td><td>2</td><td>2048</td><td>4128</td><td>2016-01-16</td><td>California Institute of Technology</td><td>33.4</td><td>-116.9</td><td>Hale 5m Telescope</td><td>7.5</td><td>LFC</td><td>SITe SI002 x 6</td><td>14</td><td>14</td><td>flat_g</td><td>FLATFIELD</td><td>70.001</td><td>70.673</td><td>2016-01-16</td><td>04:17:28.00</td><td>2457403.678796</td><td>04:08:58.50</td><td>33:25:12.69</td><td>2000.0</td><td>2000.0</td><td>00:00:04.00</td><td>04:10:04.46</td><td>1.0</td><td>g&apos;</td><td>1.1</td><td>0.182</td><td>0.182</td><td>1</td><td>1</td><td>0.0</td><td>[1:2048,1:4128]</td><td>[1:2048,1:4128]</td><td>[2049:2080,1:4127]</td><td>Status=0x00000000</td><td>0</td><td>suboscan</td><td>ccd=&lt;CCDData&gt;, overscan=&lt;CCDData&gt;, median=True</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>adu</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s</td><td>--</td><td>--</td><td>--</td></tr>
+<tr><td>flat-ccd.015.0.fits</td><td>True</td><td>-64</td><td>2</td><td>2048</td><td>4128</td><td>2016-01-16</td><td>California Institute of Technology</td><td>33.4</td><td>-116.9</td><td>Hale 5m Telescope</td><td>7.5</td><td>LFC</td><td>SITe SI002 x 6</td><td>15</td><td>15</td><td>flat_g</td><td>FLATFIELD</td><td>70.011</td><td>70.683</td><td>2016-01-16</td><td>04:20:35.00</td><td>2457403.680961</td><td>04:12:05.19</td><td>33:25:16.79</td><td>2000.0</td><td>2000.0</td><td>00:00:04.00</td><td>04:13:11.98</td><td>1.0</td><td>g&apos;</td><td>1.1</td><td>0.182</td><td>0.182</td><td>1</td><td>1</td><td>0.0</td><td>[1:2048,1:4128]</td><td>[1:2048,1:4128]</td><td>[2049:2080,1:4127]</td><td>Status=0x00000000</td><td>0</td><td>suboscan</td><td>ccd=&lt;CCDData&gt;, overscan=&lt;CCDData&gt;, median=True</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>adu</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s</td><td>--</td><td>--</td><td>--</td></tr>
+<tr><td>flat-ccd.016.0.fits</td><td>True</td><td>-64</td><td>2</td><td>2048</td><td>4128</td><td>2016-01-16</td><td>California Institute of Technology</td><td>33.4</td><td>-116.9</td><td>Hale 5m Telescope</td><td>7.5</td><td>LFC</td><td>SITe SI002 x 6</td><td>16</td><td>16</td><td>flat_g</td><td>FLATFIELD</td><td>70.001</td><td>70.684</td><td>2016-01-16</td><td>04:23:41.00</td><td>2457403.683113</td><td>04:15:12.00</td><td>33:25:20.79</td><td>2000.0</td><td>2000.0</td><td>00:00:04.00</td><td>04:16:18.49</td><td>1.0</td><td>g&apos;</td><td>1.1</td><td>0.182</td><td>0.182</td><td>1</td><td>1</td><td>0.0</td><td>[1:2048,1:4128]</td><td>[1:2048,1:4128]</td><td>[2049:2080,1:4127]</td><td>Status=0x00000000</td><td>0</td><td>suboscan</td><td>ccd=&lt;CCDData&gt;, overscan=&lt;CCDData&gt;, median=True</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>adu</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s</td><td>--</td><td>--</td><td>--</td></tr>
+<tr><td>flat-ccd.017.0.fits</td><td>True</td><td>-64</td><td>2</td><td>2048</td><td>4128</td><td>2016-01-16</td><td>California Institute of Technology</td><td>33.4</td><td>-116.9</td><td>Hale 5m Telescope</td><td>7.5</td><td>LFC</td><td>SITe SI002 x 6</td><td>17</td><td>17</td><td>flat_i</td><td>FLATFIELD</td><td>7.0</td><td>7.683</td><td>2016-01-16</td><td>04:27:23.00</td><td>2457403.685683</td><td>04:18:54.58</td><td>33:25:25.70</td><td>2000.0</td><td>2000.0</td><td>00:00:04.00</td><td>04:20:01.09</td><td>1.0</td><td>i&apos;</td><td>1.1</td><td>0.182</td><td>0.182</td><td>1</td><td>1</td><td>0.0</td><td>[1:2048,1:4128]</td><td>[1:2048,1:4128]</td><td>[2049:2080,1:4127]</td><td>Status=0x00000000</td><td>0</td><td>suboscan</td><td>ccd=&lt;CCDData&gt;, overscan=&lt;CCDData&gt;, median=True</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>adu</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s</td><td>--</td><td>--</td><td>--</td></tr>
+<tr><td>flat-ccd.018.0.fits</td><td>True</td><td>-64</td><td>2</td><td>2048</td><td>4128</td><td>2016-01-16</td><td>California Institute of Technology</td><td>33.4</td><td>-116.9</td><td>Hale 5m Telescope</td><td>7.5</td><td>LFC</td><td>SITe SI002 x 6</td><td>18</td><td>18</td><td>flat_i</td><td>FLATFIELD</td><td>7.0</td><td>7.672</td><td>2016-01-16</td><td>04:29:26.00</td><td>2457403.687106</td><td>04:20:58.15</td><td>33:25:28.39</td><td>2000.0</td><td>2000.0</td><td>00:00:04.00</td><td>04:22:04.43</td><td>1.0</td><td>i&apos;</td><td>1.1</td><td>0.182</td><td>0.182</td><td>1</td><td>1</td><td>0.0</td><td>[1:2048,1:4128]</td><td>[1:2048,1:4128]</td><td>[2049:2080,1:4127]</td><td>Status=0x00000000</td><td>0</td><td>suboscan</td><td>ccd=&lt;CCDData&gt;, overscan=&lt;CCDData&gt;, median=True</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>adu</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s</td><td>--</td><td>--</td><td>--</td></tr>
+<tr><td>flat-ccd.019.0.fits</td><td>True</td><td>-64</td><td>2</td><td>2048</td><td>4128</td><td>2016-01-16</td><td>California Institute of Technology</td><td>33.4</td><td>-116.9</td><td>Hale 5m Telescope</td><td>7.5</td><td>LFC</td><td>SITe SI002 x 6</td><td>19</td><td>19</td><td>flat_i</td><td>FLATFIELD</td><td>7.0</td><td>7.673</td><td>2016-01-16</td><td>04:31:30.00</td><td>2457403.688542</td><td>04:23:01.65</td><td>33:25:31.20</td><td>2000.0</td><td>2000.0</td><td>00:00:04.00</td><td>04:24:08.77</td><td>1.0</td><td>i&apos;</td><td>1.1</td><td>0.182</td><td>0.182</td><td>1</td><td>1</td><td>0.0</td><td>[1:2048,1:4128]</td><td>[1:2048,1:4128]</td><td>[2049:2080,1:4127]</td><td>Status=0x00000000</td><td>0</td><td>suboscan</td><td>ccd=&lt;CCDData&gt;, overscan=&lt;CCDData&gt;, median=True</td><td>trimim</td><td>ccd=&lt;CCDData&gt;</td><td>adu</td><td>subdark</td><td>ccd=&lt;CCDData&gt;, master=&lt;CCDData&gt;, exposure_time=exptime, exposure_unit=s</td><td>--</td><td>--</td><td>--</td></tr>
+</table>
+</div>
+
+<p>We can double check that a ratio of flats will not be useful by calculating the
+mean counts in each flat image:</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ccs</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ifc1</span><span class="o">.</span><span class="n">ccds</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s">'flatfield'</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="s">"g'"</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s">'combined'</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">header</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+    <span class="n">ccs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>19906.38951623411
+19902.514437929316
+19890.652615963663
+
+</code></pre></div></div>
+
+<p>The variation in counts is so small that the ratio of two flats will not be
+useful.</p>
+
+<p>Instead, we run <code class="highlighter-rouge">ccdmask</code> on the first flat. There is nothing special about that
+one. The kind of defects that <code class="highlighter-rouge">ccdmask</code> tries to identify are in the CCD sensor
+itself and should be the same for all filters.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">time</span>
+<span class="n">ccs1_mask</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ccdmask</span><span class="p">(</span><span class="n">ccs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU times: user 43.9 s, sys: 198 ms, total: 44.1 s
+Wall time: 44.2 s
+
+</code></pre></div></div>
+
+<p>Displaying the flat we used and the mask side-by-side demonstrates that the
+defects which are clear in the flat are picked up in the mask.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="n">show_image</span><span class="p">(</span><span class="n">ccs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Single calibrated flat'</span><span class="p">)</span>
+
+<span class="n">show_image</span><span class="p">(</span><span class="n">ccs1_mask</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">is_mask</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Derived mask'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p class="output output_png"><img src="images/08-02-Creating-a-mask_30_0.png" alt="png" /></p>
+
+<p>A couple of cutouts are shown below illustrating some of the individual defects
+identified.</p>
+
+<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="n">width</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">3976</span><span class="p">)</span>
+<span class="n">plot_row</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">image_snippet</span><span class="p">(</span><span class="n">ccs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Flat, partial bad column'</span><span class="p">)</span>
+
+<span class="n">image_snippet</span><span class="p">(</span><span class="n">ccs1_mask</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">is_mask</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Mask, same center'</span><span class="p">)</span>
+
+<span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="mi">420</span><span class="p">,</span> <span class="mi">3250</span><span class="p">)</span>
+<span class="n">width</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">plot_row</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">image_snippet</span><span class="p">(</span><span class="n">ccs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Flat, bad patch'</span><span class="p">)</span>
+
+<span class="n">image_snippet</span><span class="p">(</span><span class="n">ccs1_mask</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">is_mask</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="n">plot_row</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Mask, same center'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0.5, 1.0, 'Mask, same center')
+</code></pre></div></div>
+
+<p class="output output_png"><img src="images/08-02-Creating-a-mask_32_1.png" alt="png" /></p>
+
+
+              <nav class="c-page__nav">
+  
+    
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/08-01-Identifying-hot-pixels">
+      〈 <span class="u-margin-right-tiny"></span> Identifying hot pixels
+    </a>
+  
+
+  
+    
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/08-03-Cosmic-ray-removal">
+      Removing cosmic rays <span class="u-margin-right-tiny"></span> 〉
+    </a>
+  
+</nav>
+
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+  </body>
+</html>
