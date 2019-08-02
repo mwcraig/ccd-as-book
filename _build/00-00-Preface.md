@@ -25,6 +25,12 @@ work is a pair of guides written for IRAF, ["A User's Guide to CCD Reductions wi
 
 The focus is on optical/IR images, not spectra.
 
+## Credits
+
+### Acknowledgements
+
+Made possible by the Astropy Project and ScienceBetter Consulting through financial support from the Community Software Initiative at the Space Telescope Science Institute.
+
 ## Software setup
 
 [*Click here to comment on this section on GitHub (opens in new tab).*](https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/109/files#diff-6b9e05c00a713108878905584fab99ceR27){:target="_blank"}
