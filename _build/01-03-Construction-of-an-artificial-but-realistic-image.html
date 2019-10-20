@@ -40,7 +40,7 @@ understanding of what's going on in your images.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Imports">Imports<a class="anchor-link" href="#Imports"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR20"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<h2 id="Imports">Imports<a class="anchor-link" href="#Imports"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR20" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>Almost all of the notebooks in this tutorial will start with the import of the
 Python packages needed for that notebook. The lines below set up
 <a href="https://matplotlib.org/">matplotlib</a>, a widely used plotting package.</p>
@@ -124,7 +124,7 @@ Python files in the Jupyter notebook environment is possible.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Start:-a-blank-image">Start: a blank image<a class="anchor-link" href="#Start:-a-blank-image"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR73"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<h2 id="Start:-a-blank-image">Start: a blank image<a class="anchor-link" href="#Start:-a-blank-image"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR73" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>We'll begin with the simplest possible image: an array of zeros. The dimensions
 of the image below are chosen to match some real images we'll be working with
 later.</p>
@@ -190,7 +190,7 @@ later.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Add-some-read-noise">Add some read noise<a class="anchor-link" href="#Add-some-read-noise"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR102"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<h2 id="Add-some-read-noise">Add some read noise<a class="anchor-link" href="#Add-some-read-noise"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR102" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>Which each of the things we add, we'll write a small function for adding so that
 it's easier to experiment with different values. Read noise has a Gaussian
 distribution; the standard deviation of the Gaussian (in counts) is the read
@@ -291,7 +291,7 @@ so that it behaves like real noise.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Bias">Bias<a class="anchor-link" href="#Bias"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR156"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<h2 id="Bias">Bias<a class="anchor-link" href="#Bias"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR156" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>Bias is an offset voltage (which translates into some non-zero number of counts)
 added to every pixel in the image to ensure that when voltages are converted to
 counts there is never a negative count. Note that in the noise image above, some
@@ -471,7 +471,7 @@ chip out.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Dark-current">Dark current<a class="anchor-link" href="#Dark-current"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR256"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<h2 id="Dark-current">Dark current<a class="anchor-link" href="#Dark-current"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR256" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>Dark current depends on the temperature of the sensor. The amount of dark counts
 in an image also depends on the exposure time. Dark current is typically very
 small (0.1 electrons/pixel/second or less). Dark counts in this function are
@@ -670,7 +670,7 @@ current and the exposure time.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Sky-background">Sky background<a class="anchor-link" href="#Sky-background"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR373"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<h2 id="Sky-background">Sky background<a class="anchor-link" href="#Sky-background"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR373" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The amount of sky background depends on the atmospheric conditions (humidity,
 presence of light clouds, fires upwind from the observatory), the light sources
 in the sky (the Moon), and light sources in the surrounding area (cities). It
@@ -846,7 +846,7 @@ Add those in quadrature and you get about 6.7.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Interactive-demo">Interactive demo<a class="anchor-link" href="#Interactive-demo"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR471"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<h3 id="Interactive-demo">Interactive demo<a class="anchor-link" href="#Interactive-demo"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR471" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The cell below sets up an interactive demo that lets you change the value of
 read noise and other parameters to see the effect that changing them has on the
 resulting image.</p>
@@ -929,7 +929,7 @@ resulting image.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Add-some-&quot;stars&quot;">Add some "stars"<a class="anchor-link" href="#Add-some-&quot;stars&quot;"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR-1"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<h2 id="Add-some-&quot;stars&quot;">Add some "stars"<a class="anchor-link" href="#Add-some-&quot;stars&quot;"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR-1" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The "stars" we'll add below are essentially just (round) Gaussian sources. The
 function that does most of the work is from <a href="https://photutils.readthedocs.io/en/stable/index.html">photutils</a>,
 which we'll return to later for doing photometry.</p>
@@ -1099,7 +1099,7 @@ which we'll return to later for doing photometry.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Discussion">Discussion<a class="anchor-link" href="#Discussion"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR594"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<h3 id="Discussion">Discussion<a class="anchor-link" href="#Discussion"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR594" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>In the image above the single-pixel bright dots are hot pixels while the
 remaining dots that are larger than a pixel are simulated stars.</p>
 
