@@ -40,7 +40,7 @@ noise in your image.</p>
 in only one of the images (like cosmic rays) are not present in the combination.
 If done incorrectly, those features show up in your combined images and then
 contaminate your calibrated science images too.</p>
-<h3 id="The-bottom-line:-combine-by-averaging-images,-but-clip-extreme-values">The bottom line: combine by averaging images, but clip extreme values<a class="anchor-link" href="#The-bottom-line:-combine-by-averaging-images,-but-clip-extreme-values"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R26" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="The-bottom-line:-combine-by-averaging-images,-but-clip-extreme-values">The bottom line: combine by averaging images, but clip extreme values<a class="anchor-link" href="#The-bottom-line:-combine-by-averaging-images,-but-clip-extreme-values"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R26" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The remainder of this notebook demonstrates this conclusion and explains how to
 do a combination by averaging images with <a href="https://ccdproc.readthedocs.io/en/latest/">ccdproc</a>.</p>
 
@@ -114,7 +114,7 @@ do a combination by averaging images with <a href="https://ccdproc.readthedocs.i
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Combination-method:-average-or-median?">Combination method: average or median?<a class="anchor-link" href="#Combination-method:-average-or-median?"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R73" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h2 id="Combination-method:-average-or-median?">Combination method: average or median?<a class="anchor-link" href="#Combination-method:-average-or-median?"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R73" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>In this section we'll look at a simplified version of the challenges of
 combining images to reduce noise. It's fair to think of astronomical images
 (especially bias and dark images) as being a Gaussian distribution of pixel
@@ -252,7 +252,7 @@ compute than the median.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Image-view-of-these-distributions">Image view of these distributions<a class="anchor-link" href="#Image-view-of-these-distributions"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R160" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Image-view-of-these-distributions">Image view of these distributions<a class="anchor-link" href="#Image-view-of-these-distributions"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R160" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>As suggested above, we could view each of these distributions as an image
 instead of a histogram. One take away from the diagram below is that in this
 case, the difference between mean and median is not apparent.</p>
@@ -312,7 +312,7 @@ width of the initial distribution.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-effect-of-outliers">The effect of outliers<a class="anchor-link" href="#The-effect-of-outliers"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R192" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h2 id="The-effect-of-outliers">The effect of outliers<a class="anchor-link" href="#The-effect-of-outliers"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R192" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>Suppose that, in just one of the 100 distributions we're combining, there are a
 small number of extreme values. In astronomical images these extremes happen
 very frequently because of cosmic ray hits on the detector that cause, in one
@@ -484,7 +484,7 @@ looks for the middle value, an extreme value doesn't affect the result too much.
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Combining-using-the-average-has-a-noticeable-effect-on-the-result;-median">Combining using the average has a noticeable effect on the result; median<a class="anchor-link" href="#Combining-using-the-average-has-a-noticeable-effect-on-the-result;-median"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R282" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>
+<h3 id="Combining-using-the-average-has-a-noticeable-effect-on-the-result;-median">Combining using the average has a noticeable effect on the result; median<a class="anchor-link" href="#Combining-using-the-average-has-a-noticeable-effect-on-the-result;-median"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R282" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>
 removes the artifact</p>
 <p>The effect of the outlier is <em>much</em> clearer if the distributions are displayed
 as images. If the distributions we're combining were calibration images then the
@@ -560,7 +560,7 @@ are common.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-solution:-average-combine,-but-clip-the-extreme-values">The solution: average combine, but clip the extreme values<a class="anchor-link" href="#The-solution:-average-combine,-but-clip-the-extreme-values"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R326" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h2 id="The-solution:-average-combine,-but-clip-the-extreme-values">The solution: average combine, but clip the extreme values<a class="anchor-link" href="#The-solution:-average-combine,-but-clip-the-extreme-values"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R326" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The answer here is to first clip extreme values from the distributions and then
 combine using the average. That rejects outlying values like the median but with
 the modestly better statistical properties of the average. A method called
@@ -590,7 +590,7 @@ scenes in <a href="https://ccdproc.readthedocs.io">ccdproc</a>.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Sigma-clipping">Sigma clipping<a class="anchor-link" href="#Sigma-clipping"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R350" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Sigma-clipping">Sigma clipping<a class="anchor-link" href="#Sigma-clipping"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R350" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>Sigma clipping means calculating how "far" each pixel to be combined is from the
 "typical" value and excluding values from the combination if they are "too far"
 from the pixel value.</p>
@@ -850,7 +850,7 @@ you.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Summary">Summary<a class="anchor-link" href="#Summary"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R520" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h2 id="Summary">Summary<a class="anchor-link" href="#Summary"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R520" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>Combine images by (1) excluding extreme values using sigma clipping, with the
 median as the typical value and the MAD estimator of the standard deviation, and
 then (2) averaging the remaining pixels across all of the images.</p>

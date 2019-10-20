@@ -55,7 +55,7 @@ others in affiliated packages.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Working-with-directories">Working with directories<a class="anchor-link" href="#Working-with-directories"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR30" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h2 id="Working-with-directories">Working with directories<a class="anchor-link" href="#Working-with-directories"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR30" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The cell below contains the path to the images. In this notebook we'll use it
 both to store the fake images we generate and to read images. In normal use, you
 wouldn't start by writing images there, however.</p>
@@ -94,7 +94,7 @@ about this.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Generate-some-fake-images">Generate some fake images<a class="anchor-link" href="#Generate-some-fake-images"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR60" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h2 id="Generate-some-fake-images">Generate some fake images<a class="anchor-link" href="#Generate-some-fake-images"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR60" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The cells below generate some fake images to use later in the notebook.</p>
 
 </div>
@@ -222,7 +222,7 @@ path/to/my/images/img-0027.fits
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Option-1:-Reading-a-single-image-with-astropy.io.fits">Option 1: Reading a single image with <code>astropy.io.fits</code><a class="anchor-link" href="#Option-1:-Reading-a-single-image-with-astropy.io.fits"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR135" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h2 id="Option-1:-Reading-a-single-image-with-astropy.io.fits">Option 1: Reading a single image with <code>astropy.io.fits</code><a class="anchor-link" href="#Option-1:-Reading-a-single-image-with-astropy.io.fits"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR135" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>This option gives you the most flexibility but is the least adapted to CCD
 images specifically. What you read in is a list of FITS extensions; you must
 first select the one you want then access the data or header as desired.</p>
@@ -390,7 +390,7 @@ BUNIT   = &#39;adu     &#39;                                                    
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Option-2:--Use-CCDData-to-read-in-a-single-image">Option 2:  Use <code>CCDData</code> to read in a single image<a class="anchor-link" href="#Option-2:--Use-CCDData-to-read-in-a-single-image"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR199" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h2 id="Option-2:--Use-CCDData-to-read-in-a-single-image">Option 2:  Use <code>CCDData</code> to read in a single image<a class="anchor-link" href="#Option-2:--Use-CCDData-to-read-in-a-single-image"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR199" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>Astropy contains a <code>CCDData</code> object for representing a single image. It's not as
 flexible as using <code>astrop.io.fits</code> directly (for example, it assumes there is
 only one FITS extension and that it contains image data) but it sets up several
@@ -536,7 +536,7 @@ detail in the notebooks that follow.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Option-3:-Working-with-a-directory-of-images-using-ImageFileCollection">Option 3: Working with a directory of images using <code>ImageFileCollection</code><a class="anchor-link" href="#Option-3:-Working-with-a-directory-of-images-using-ImageFileCollection"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR258" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h2 id="Option-3:-Working-with-a-directory-of-images-using-ImageFileCollection">Option 3: Working with a directory of images using <code>ImageFileCollection</code><a class="anchor-link" href="#Option-3:-Working-with-a-directory-of-images-using-ImageFileCollection"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR258" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The affiliated package <a href="https://ccdproc.readthedocs.io/">ccdproc</a> provides an easier way
 to work with collections of images in a directory: an <code>ImageFileCollection</code>. The
 <code>ImageFileCollection</code> is initialized with the name of the directory containing
@@ -581,7 +581,7 @@ and file name, instead we give the collection the name of the directory.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Summary-of-directory-contents">Summary of directory contents<a class="anchor-link" href="#Summary-of-directory-contents"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR288" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Summary-of-directory-contents">Summary of directory contents<a class="anchor-link" href="#Summary-of-directory-contents"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR288" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The <code>summary</code> property provides an overview of the files in the directory: it's
 an astropy <code>Table</code>, so you can access columns in the usual way.</p>
 
@@ -652,7 +652,7 @@ an astropy <code>Table</code>, so you can access columns in the usual way.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Filtering-and-iterating-over-images">Filtering and iterating over images<a class="anchor-link" href="#Filtering-and-iterating-over-images"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR307" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Filtering-and-iterating-over-images">Filtering and iterating over images<a class="anchor-link" href="#Filtering-and-iterating-over-images"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR307" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The convenient thing about <code>ImageFileCollection</code> is that it provides easy ways
 to filter or loop over files via FITS header keyword values.</p>
 <p>For example, looping over just the flat files is one line of code:</p>

@@ -26,8 +26,8 @@
   "@type": "NewsArticle",
   "mainEntityOfPage": "YOUR URL//search",
   "headline": "Search the site",
-  "datePublished": "2019-10-20T09:35:14-06:00",
-  "dateModified": "2019-10-20T09:35:14-06:00",
+  "datePublished": "2019-10-20T11:28:18-06:00",
+  "dateModified": "2019-10-20T11:28:18-06:00",
   "description": "        ",
   "author": {
     "@type": "Person",
@@ -1012,7 +1012,7 @@ initFunction(initPrint)
         "title": "An artificial, but realistic, image",
         
         "excerpt":
-            "Construction of an artificial (but realistic) image Before we move on to looking at a real image, let's spend a few minutes getting comfortable with what each of the different sources of counts look like in an artificial image. The advantage is that we can control how much of each count source goes into the image. Looking at extreme examples can help build an understanding of what's going on in your images. Imports Click here to comment on this section on GitHub (opens in new tab).{:target=\"_blank\"} Almost all of the notebooks in this tutorial will start with the import of...",
+            "Construction of an artificial (but realistic) image Before we move on to looking at a real image, let's spend a few minutes getting comfortable with what each of the different sources of counts look like in an artificial image. The advantage is that we can control how much of each count source goes into the image. Looking at extreme examples can help build an understanding of what's going on in your images. Imports Click here to comment on this section on GitHub (opens in new tab). Almost all of the notebooks in this tutorial will start with the import of...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/01-03-Construction-of-an-artificial-but-realistic-image.html",
@@ -1020,7 +1020,7 @@ initFunction(initPrint)
         "title": "Non-uniform sensitivity in astronomical detectors",
         
         "excerpt":
-            "Nonuniform sensitivity Background Click here to comment on this section on GitHub (opens in new tab).{:target=\"_blank\"} Not all pixels in a camera have the same sensitivity to light: there are intrinsic differences from pixel-to-pixel. Vignetting, a dimming near the corners of an image caused by the optical system to which the camera is attached, and dust on optical elements such as filters, the glass window covering the CCD, and the CCD chip itself can also block some light. Vingetting and dust can reduce the amount of light reaching the CCD chip while pixel-to-pixel sensitivity variations affects the counts read from...",
+            "Nonuniform sensitivity Background Click here to comment on this section on GitHub (opens in new tab). Not all pixels in a camera have the same sensitivity to light: there are intrinsic differences from pixel-to-pixel. Vignetting, a dimming near the corners of an image caused by the optical system to which the camera is attached, and dust on optical elements such as filters, the glass window covering the CCD, and the CCD chip itself can also block some light. Vingetting and dust can reduce the amount of light reaching the CCD chip while pixel-to-pixel sensitivity variations affects the counts read from...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/01-04-Nonuniform-sensitivity.html",
@@ -1052,7 +1052,7 @@ initFunction(initPrint)
         "title": "Calibration choices to make",
         
         "excerpt":
-            "Calibration choices you need to make There are a few choices you need to make about how you will calibrate your data. Sometimes the decision will be made for you by the data you have. Subtract bias and dark as separate steps or in one step? Click here to comment on this section on GitHub (opens in new tab).{:target=\"_blank\"} Every dark image contains bias when it comes off of the camera, so in principle you can take care of both bias and dark by constructing a master dark image that leaves the bias already present in the dark images in...",
+            "Calibration choices you need to make There are a few choices you need to make about how you will calibrate your data. Sometimes the decision will be made for you by the data you have. Subtract bias and dark as separate steps or in one step? Click here to comment on this section on GitHub (opens in new tab). Every dark image contains bias when it comes off of the camera, so in principle you can take care of both bias and dark by constructing a master dark image that leaves the bias already present in the dark images in...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/01-09-Calibration-choices-you-need-to-make.html",
@@ -1060,7 +1060,7 @@ initFunction(initPrint)
         "title": "Reading images",
         
         "excerpt":
-            "Reading images Astropy provides a few ways to read in FITS images, some in the core package and others in affiliated packages. Before exploring those, we'll create a set of (fake) images to work with. from pathlib import Path from astropy.nddata import CCDData from astropy.io import fits Working with directories Click here to comment on this section on GitHub (opens in new tab).{:target=\"_blank\"} The cell below contains the path to the images. In this notebook we'll use it both to store the fake images we generate and to read images. In normal use, you wouldn't start by writing images there,...",
+            "Reading images Astropy provides a few ways to read in FITS images, some in the core package and others in affiliated packages. Before exploring those, we'll create a set of (fake) images to work with. from pathlib import Path from astropy.nddata import CCDData from astropy.io import fits Working with directories Click here to comment on this section on GitHub (opens in new tab). The cell below contains the path to the images. In this notebook we'll use it both to store the fake images we generate and to read images. In normal use, you wouldn't start by writing images there,...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/01-11-reading-images.html",
@@ -1100,7 +1100,7 @@ initFunction(initPrint)
         "title": "Dark current: the ideal case",
         
         "excerpt":
-            "Dark current: the ideal case import numpy as np from scipy import stats %matplotlib inline from matplotlib import pyplot as plt from image_sim import dark_current, read_noise # Use custom style for larger fonts and figures plt.style.use(&#39;guide.mplstyle&#39;) A dark frame measures dark current Click here to comment on this section on GitHub (opens in new tab).{:target=\"_blank\"} Recall that dark current refers to counts (electrons) generated in a pixel because an electron in the pixel happens to have enough energy to \"break free\" and register as a count. The distribution of electron thermal energies in pixel follows a Maxwell-Boltzmann distribution in which...",
+            "Dark current: the ideal case import numpy as np from scipy import stats %matplotlib inline from matplotlib import pyplot as plt from image_sim import dark_current, read_noise # Use custom style for larger fonts and figures plt.style.use(&#39;guide.mplstyle&#39;) A dark frame measures dark current Click here to comment on this section on GitHub (opens in new tab). Recall that dark current refers to counts (electrons) generated in a pixel because an electron in the pixel happens to have enough energy to \"break free\" and register as a count. The distribution of electron thermal energies in pixel follows a Maxwell-Boltzmann distribution in which...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/03-01-Dark-current-The-ideal-case.html",
@@ -1116,7 +1116,7 @@ initFunction(initPrint)
         "title": "Handling overscan and bias for dark frames",
         
         "excerpt":
-            "Handling overscan and bias for dark frames The options for reducing dark frames Click here to comment on this section on GitHub (opens in new tab).{:target=\"_blank\"} The next steps to take depend on two things: Are you subtracting overscan? If so, you should subtract overscan for the dark frames. Will you need to scale these darks to a different exposure time? If so, you need to subtract bias from the darks. If not, leave the bias in. 1. Do you need to subtract overscan? If you decide to subtract the overscan from any of the images used in your data...",
+            "Handling overscan and bias for dark frames The options for reducing dark frames Click here to comment on this section on GitHub (opens in new tab). The next steps to take depend on two things: Are you subtracting overscan? If so, you should subtract overscan for the dark frames. Will you need to scale these darks to a different exposure time? If so, you need to subtract bias from the darks. If not, leave the bias in. 1. Do you need to subtract overscan? If you decide to subtract the overscan from any of the images used in your data...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/03-04-Handling-overscan-and-bias-for-dark-frames.html",
@@ -1140,7 +1140,7 @@ initFunction(initPrint)
         "title": "Flat fielding",
         
         "excerpt":
-            "Table of Contents 1&nbsp;&nbsp;What are flat corrections?2&nbsp;&nbsp;Overview of taking images for flat corrections3&nbsp;&nbsp;Calibrating and combining flat images Flat corrections What are flat corrections? Click here to comment on this section on GitHub (opens in new tab).{:target=\"_blank\"} The purpose of flat corrections is to compensate for any non-uniformity in the response of the CCD to light. There can be several reasons that the response is not uniform across the detector: variations in the sensitivity of pixels in the detector, though this source is usually small. dust on either the filter or the glass window covering the detector. vignetting, a dimming in...",
+            "Table of Contents 1&nbsp;&nbsp;What are flat corrections?2&nbsp;&nbsp;Overview of taking images for flat corrections3&nbsp;&nbsp;Calibrating and combining flat images Flat corrections What are flat corrections? Click here to comment on this section on GitHub (opens in new tab). The purpose of flat corrections is to compensate for any non-uniformity in the response of the CCD to light. There can be several reasons that the response is not uniform across the detector: variations in the sensitivity of pixels in the detector, though this source is usually small. dust on either the filter or the glass window covering the detector. vignetting, a dimming in...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/05-00-Flat-corrections.html",
@@ -1164,7 +1164,7 @@ initFunction(initPrint)
         "title": "Calibrating science images",
         
         "excerpt":
-            "Reducing science images from pathlib import Path from matplotlib import pyplot as plt import numpy as np from astropy import units as u import ccdproc as ccdp from convenience_functions import show_image # Use custom style for larger fonts and figures plt.style.use(&#39;guide.mplstyle&#39;) Overview Click here to comment on this section on GitHub (opens in new tab).{:target=\"_blank\"} ccdproc provides a couple of ways to approach calibration of the science images: Perform each of the individual steps manually using subtract_bias, subtract_dark, and flat_correct. Use the ccd_process function to perform all of the reduction steps. This notebook will do each of those in separate...",
+            "Reducing science images from pathlib import Path from matplotlib import pyplot as plt import numpy as np from astropy import units as u import ccdproc as ccdp from convenience_functions import show_image # Use custom style for larger fonts and figures plt.style.use(&#39;guide.mplstyle&#39;) Overview Click here to comment on this section on GitHub (opens in new tab). ccdproc provides a couple of ways to approach calibration of the science images: Perform each of the individual steps manually using subtract_bias, subtract_dark, and flat_correct. Use the ccd_process function to perform all of the reduction steps. This notebook will do each of those in separate...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/06-00-Reducing-science-images.html",
@@ -1180,7 +1180,7 @@ initFunction(initPrint)
         "title": "Identifying hot pixels",
         
         "excerpt":
-            "Identifying hot pixels Some pixels are too hot Click here to comment on this section on GitHub (opens in new tab).{:target=\"_blank\"} Recall from the notebook about dark current that even a cryogenically-cooled camera with low dark current has some pixels with much higher dark current. In the discussion of \"ideal\" dark current we noted that the counts in a dark image should be proportional to the exposure time. For some hot pixels that is not the case, unfortunately, which means that those pixels cannot easily be corrected by subtracting a combined dark. Those pixels can be identified by taking darks...",
+            "Identifying hot pixels Some pixels are too hot Click here to comment on this section on GitHub (opens in new tab). Recall from the notebook about dark current that even a cryogenically-cooled camera with low dark current has some pixels with much higher dark current. In the discussion of \"ideal\" dark current we noted that the counts in a dark image should be proportional to the exposure time. For some hot pixels that is not the case, unfortunately, which means that those pixels cannot easily be corrected by subtracting a combined dark. Those pixels can be identified by taking darks...",
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/08-01-Identifying-hot-pixels.html",
