@@ -1,0 +1,610 @@
+---
+redirect_from:
+  - "01-05-calibration-overview"
+interact_link: content/01-05-Calibration-overview.ipynb
+kernel_name: python3
+has_widgets: false
+title: |-
+  Calibration overview
+prev_page:
+  url: /01-04-Nonuniform-sensitivity.html
+  title: |-
+    Non-uniform sensitivity in astronomical detectors
+next_page:
+  url: /01-06-Image-combination.html
+  title: |-
+    Image combination
+suffix: .ipynb
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Calibration-overview">Calibration overview<a class="anchor-link" href="#Calibration-overview"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>An image of the sky contains counts from several sources. The task of data
+reduction (another name for image calibration) is to remove all non-celestial
+counts from the image and to correct for non-uniform sensitivity.</p>
+<p>At the end of the previous notebook we arrived at an expression for the counts
+in a science image in terms of the sources of counts:</p>
+$$
+\text{raw image} = \text{bias} + \text{noise} + \text{dark current} + \text{flat} \times (\text{sky} + \text{stars}).
+$$<p>Solving for the counts just from the stars is as follows:</p>
+$$
+\text{stars} + \text{noise} = \frac{\text{raw image} - \text{bias} - \text{dark current}}{\text{flat}} - \text{sky}
+$$<p><strong>It is <em>impossible</em> to remove the noise from the raw image because the noise is
+random.</strong></p>
+<p>The dark current is typically calculated from a <em>dark frame</em> (aka dark image).
+Such an image has bias and read noise in it as well, so:</p>
+$$
+\text{dark current} + \text{noise} = (\text{dark frame} - \text{bias})/(\text{dark exposure time})
+$$<p>Once again, note that the noise cannot be removed.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="This-noise-cannot-be-removed-from-CCD-images">This noise cannot be removed from CCD images<a class="anchor-link" href="#This-noise-cannot-be-removed-from-CCD-images"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R48"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>To demonstrate that you cannot remove the noise from an image, let's construct
+an image with just stars and noise and try to subtract a noise image created
+with the same parameters. The amount of noise here is exaggerated to make it
+clear in the images.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="kn">from</span> <span class="nn">astropy.visualization</span> <span class="k">import</span> <span class="n">hist</span>
+<span class="kn">from</span> <span class="nn">astropy.stats</span> <span class="k">import</span> <span class="n">histogram</span>
+
+<span class="kn">import</span> <span class="nn">image_sim</span> <span class="k">as</span> <span class="nn">imsim</span>
+<span class="kn">from</span> <span class="nn">convenience_functions</span> <span class="k">import</span> <span class="n">show_image</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Use custom style for larger fonts and figures</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;guide.mplstyle&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="First,-some-stars-with-noise">First, some stars with noise<a class="anchor-link" href="#First,-some-stars-with-noise"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R87"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The image below shows stars (the larger "blobs" in the image) but shows quite a
+bit of noise as well (the much smaller "dots").</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
+<span class="n">gain</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">noise_amount</span> <span class="o">=</span> <span class="mi">1500</span> 
+
+<span class="n">stars_with_noise</span> <span class="o">=</span> <span class="n">imsim</span><span class="o">.</span><span class="n">stars</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">max_counts</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">fwhm</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="n">imsim</span><span class="o">.</span><span class="n">read_noise</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">noise_amount</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">)</span>
+
+<span class="n">show_image</span><span class="p">(</span><span class="n">stars_with_noise</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Stars with noise&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Text(0.5, 1.0, &#39;Stars with noise&#39;)</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/01-05-Calibration-overview_6_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Now-an-incorrect-attempt-at-reducing-noise">Now an <em>incorrect</em> attempt at reducing noise<a class="anchor-link" href="#Now-an-incorrect-attempt-at-reducing-noise"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R113"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>Notice that the call to the noise function has exactly the same arguments as
+above, in much the same way your camera's electronics will have the same noise
+properties every time you read out an image.</p>
+<p>However, the amount of noise has <strong>increased</strong>, not decreased. It's much harder
+to pick out the stars in this image.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">incorrect_attempt_to_remove_noise</span> <span class="o">=</span> <span class="n">stars_with_noise</span> <span class="o">-</span> <span class="n">imsim</span><span class="o">.</span><span class="n">read_noise</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">noise_amount</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">)</span>
+
+<span class="n">show_image</span><span class="p">(</span><span class="n">incorrect_attempt_to_remove_noise</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/01-05-Calibration-overview_8_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Every-image-has-noise">Every image has noise<a class="anchor-link" href="#Every-image-has-noise"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R138"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>Every image, including calibration images like bias and dark frames, has noise.
+If we tried to calibrate images by taking a single bias image and a single dark
+image, the final result might well look worse than before the image is reduced.</p>
+<p>For demonstration, we'll see what happens below.</p>
+<p>Note that here we construct <em>realistic</em> bias and dark, but leave read noise out
+of the flat; we'll return to that point later.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="First,-set-parameters-for-the-CCD">First, set parameters for the CCD<a class="anchor-link" href="#First,-set-parameters-for-the-CCD"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R154"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>These are the same as in the previous notebook, except for the read noise, which
+is 700$e-$, 100 times larger than in the previous notebook.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gain</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">star_exposure</span> <span class="o">=</span> <span class="mf">30.0</span>
+<span class="n">dark_exposure</span> <span class="o">=</span> <span class="mf">60.0</span>
+<span class="n">dark</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">sky_counts</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">bias_level</span> <span class="o">=</span> <span class="mi">1100</span>
+<span class="n">read_noise_electrons</span> <span class="o">=</span> <span class="mi">700</span>
+<span class="n">max_star_counts</span> <span class="o">=</span> <span class="mi">2000</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Generate-the-images,-with-noise">Generate the images, with noise<a class="anchor-link" href="#Generate-the-images,-with-noise"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bias_with_noise</span> <span class="o">=</span> <span class="p">(</span><span class="n">imsim</span><span class="o">.</span><span class="n">bias</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">bias_level</span><span class="p">,</span> <span class="n">realistic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> 
+                   <span class="n">imsim</span><span class="o">.</span><span class="n">read_noise</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">read_noise_electrons</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">))</span>
+
+<span class="n">dark_frame_with_noise</span> <span class="o">=</span> <span class="p">(</span><span class="n">imsim</span><span class="o">.</span><span class="n">bias</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">bias_level</span><span class="p">,</span> <span class="n">realistic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> 
+                         <span class="n">imsim</span><span class="o">.</span><span class="n">dark_current</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dark</span><span class="p">,</span> <span class="n">dark_exposure</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">,</span> <span class="n">hot_pixels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span>
+                         <span class="n">imsim</span><span class="o">.</span><span class="n">read_noise</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">read_noise_electrons</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">))</span>
+
+<span class="n">flat</span> <span class="o">=</span> <span class="n">imsim</span><span class="o">.</span><span class="n">sensitivity_variations</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/mcraig/Documents/Research/find-file-links-ccd-redu-phot/ccd-reduction-and-photometry-guide/notebooks/image_sim.py:121: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  dark_im[[hot_y, hot_x]] = hot_current * exposure_time / gain
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">realistic_stars</span> <span class="o">=</span> <span class="p">(</span><span class="n">imsim</span><span class="o">.</span><span class="n">stars</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">max_counts</span><span class="o">=</span><span class="n">max_star_counts</span><span class="p">)</span> <span class="o">+</span>
+                   <span class="n">imsim</span><span class="o">.</span><span class="n">dark_current</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dark</span><span class="p">,</span> <span class="n">star_exposure</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">,</span> <span class="n">hot_pixels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span>
+                   <span class="n">imsim</span><span class="o">.</span><span class="n">bias</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">bias_level</span><span class="p">,</span> <span class="n">realistic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span>
+                   <span class="n">imsim</span><span class="o">.</span><span class="n">read_noise</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">read_noise_electrons</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">)</span>
+                  <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/mcraig/Documents/Research/find-file-links-ccd-redu-phot/ccd-reduction-and-photometry-guide/notebooks/image_sim.py:121: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  dark_im[[hot_y, hot_x]] = hot_current * exposure_time / gain
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Uncalibrated-image">Uncalibrated image<a class="anchor-link" href="#Uncalibrated-image"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R216"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>Below we display the uncalibrated image; in a moment we'll compare it to the
+calibrated version. Even though they don't stand out there really are stars in
+it.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">realistic_stars</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&lt;Figure size 2400x2400 with 0 Axes&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/01-05-Calibration-overview_16_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Reduce-(calibrate)-the-star-image">Reduce (calibrate) the star image<a class="anchor-link" href="#Reduce-(calibrate)-the-star-image"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R237"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>First we calculate the dark current, scaled to the exposure time of our light
+image.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scaled_dark_current</span> <span class="o">=</span> <span class="n">star_exposure</span> <span class="o">*</span> <span class="p">(</span><span class="n">dark_frame_with_noise</span> <span class="o">-</span> <span class="n">bias_with_noise</span><span class="p">)</span> <span class="o">/</span> <span class="n">dark_exposure</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next, we subtract the bias and dark current from the star image and then apply
+the flat correction.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">calibrated_stars</span> <span class="o">=</span> <span class="p">(</span><span class="n">realistic_stars</span> <span class="o">-</span> <span class="n">bias_with_noise</span> <span class="o">-</span> <span class="n">scaled_dark_current</span><span class="p">)</span> <span class="o">/</span> <span class="n">flat</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">show_image</span><span class="p">(</span><span class="n">calibrated_stars</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">percu</span><span class="o">=</span><span class="mf">99.9</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/01-05-Calibration-overview_21_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Reducing-the-image-cleans-up-the-image-a-bit">Reducing the image cleans up the image a bit<a class="anchor-link" href="#Reducing-the-image-cleans-up-the-image-a-bit"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R282"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The stars stand more clearly than in the unreduced image.</p>
+<p>This image does not look <em>much</em> better than the uncalibrated image, but remember
+that the read noise used in this simulated image, 700 $e^-$ per pixel, is
+unrealistically high.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Reducing-the-image-increases-the-noise-in-the-image">Reducing the image increases the noise in the image<a class="anchor-link" href="#Reducing-the-image-increases-the-noise-in-the-image"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R295"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The histogram below shows pixel values before and after calibration. The width
+of the distribution is a measure of the read noise. As expected, reducing the
+image increases the read noise. One reason one takes several calibration images
+of each type is to reduce the amount of noise in the calibration image. That
+will, in turn, keep the noise in the final image as small as possible.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">hist</span><span class="p">(</span><span class="n">calibrated_stars</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="s1">&#39;freedman&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;calibrated star image&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">hist</span><span class="p">(</span><span class="n">stars_with_noise</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="s1">&#39;freedman&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;raw star image&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Count level in image&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of pixels with that count&#39;</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/01-05-Calibration-overview_24_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

@@ -1,0 +1,1150 @@
+---
+redirect_from:
+  - "02-01-calibrating-bias-images"
+interact_link: content/02-01-Calibrating-bias-images.ipynb
+kernel_name: python3
+has_widgets: false
+title: |-
+  Calibrating bias images
+prev_page:
+  url: /02-00-Handling-overscan-trimming-and-bias-subtraction.html
+  title: |-
+    Overscan and bias images
+next_page:
+  url: /02-04-Combine-bias-images-to-make-master.html
+  title: |-
+    Combine bias images to make master bias
+suffix: .ipynb
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Calibrating-bias-images">Calibrating bias images<a class="anchor-link" href="#Calibrating-bias-images"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The purpose of calibrating bias images is three-fold:</p>
+<ul>
+<li>Subtract overscan if you have decided your science will be better if you
+subtract overscan. See <a href="01-08-Overscan.html">this discussion of overscan</a> for some guidance.</li>
+<li>Trim the overscan region off of the image if it is present, regardless of
+whether you have chosen to subtract the overscan.</li>
+<li>Combine the bias images into a "combined" bias to be used in calibrating the
+rest of the images. The purpose of combining several images is to reduce as much
+as possible the read noise in the combined bias.</li>
+</ul>
+<p>The approach in this notebook will be to reduce a single image, look at the
+effects the reduction step had on that image and then demonstrate how to
+calibrate a folder containing several images of that type.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">astropy.nddata</span> <span class="k">import</span> <span class="n">CCDData</span>
+<span class="kn">from</span> <span class="nn">astropy.visualization</span> <span class="k">import</span> <span class="n">hist</span>
+<span class="kn">import</span> <span class="nn">ccdproc</span> <span class="k">as</span> <span class="nn">ccdp</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">convenience_functions</span> <span class="k">import</span> <span class="n">show_image</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Use custom style for larger fonts and figures</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;guide.mplstyle&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Data-for-these-examples">Data for these examples<a class="anchor-link" href="#Data-for-these-examples"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>See the <a href="00-00-Preface.html">Preface notebook</a> for download links for all data.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Example-1:-With-overscan-subtraction">Example 1: With overscan subtraction<a class="anchor-link" href="#Example-1:-With-overscan-subtraction"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Decide-where-to-put-your-Example-1-calibrated-images">Decide where to put your Example 1 calibrated images<a class="anchor-link" href="#Decide-where-to-put-your-Example-1-calibrated-images"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/196/files#diff-7160ef18a737dfb1b8282fbbbcb37d9cR82"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}
+Though it is possible to overwrite your raw data with calibrated images that is
+a bad idea. Here we create a folder called <code>example1-reduced</code> that will contain
+the calibrated data and create it if it doesn't exist.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">calibrated_data</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;example1-reduced&#39;</span><span class="p">)</span>
+<span class="n">calibrated_data</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Make-an-image-file-collection-for-the-raw-data">Make an image file collection for the raw data<a class="anchor-link" href="#Make-an-image-file-collection-for-the-raw-data"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">example_cryo_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;example-cryo-LFC&#39;</span><span class="p">)</span>
+<span class="n">files</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="n">example_cryo_path</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">files</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="s1">&#39;imagetyp&#39;</span><span class="p">,</span> <span class="s1">&#39;filter&#39;</span><span class="p">,</span> <span class="s1">&#39;exptime&#39;</span><span class="p">,</span> <span class="s1">&#39;naxis1&#39;</span><span class="p">,</span> <span class="s1">&#39;naxis2&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<i>Table masked=True length=14</i>
+<table id="table47812714224" class="table-striped table-bordered table-condensed">
+<thead><tr><th>file</th><th>imagetyp</th><th>filter</th><th>exptime</th><th>naxis1</th><th>naxis2</th></tr></thead>
+<thead><tr><th>str14</th><th>str9</th><th>str2</th><th>float64</th><th>int64</th><th>int64</th></tr></thead>
+<tr><td>ccd.001.0.fits</td><td>BIAS</td><td>i&apos;</td><td>0.0</td><td>2080</td><td>4128</td></tr>
+<tr><td>ccd.002.0.fits</td><td>BIAS</td><td>i&apos;</td><td>0.0</td><td>2080</td><td>4128</td></tr>
+<tr><td>ccd.003.0.fits</td><td>BIAS</td><td>i&apos;</td><td>0.0</td><td>2080</td><td>4128</td></tr>
+<tr><td>ccd.004.0.fits</td><td>BIAS</td><td>i&apos;</td><td>0.0</td><td>2080</td><td>4128</td></tr>
+<tr><td>ccd.005.0.fits</td><td>BIAS</td><td>i&apos;</td><td>0.0</td><td>2080</td><td>4128</td></tr>
+<tr><td>ccd.006.0.fits</td><td>BIAS</td><td>i&apos;</td><td>0.0</td><td>2080</td><td>4128</td></tr>
+<tr><td>ccd.014.0.fits</td><td>FLATFIELD</td><td>g&apos;</td><td>70.001</td><td>2080</td><td>4128</td></tr>
+<tr><td>ccd.015.0.fits</td><td>FLATFIELD</td><td>g&apos;</td><td>70.011</td><td>2080</td><td>4128</td></tr>
+<tr><td>ccd.016.0.fits</td><td>FLATFIELD</td><td>g&apos;</td><td>70.001</td><td>2080</td><td>4128</td></tr>
+<tr><td>ccd.017.0.fits</td><td>FLATFIELD</td><td>i&apos;</td><td>7.0</td><td>2080</td><td>4128</td></tr>
+<tr><td>ccd.018.0.fits</td><td>FLATFIELD</td><td>i&apos;</td><td>7.0</td><td>2080</td><td>4128</td></tr>
+<tr><td>ccd.019.0.fits</td><td>FLATFIELD</td><td>i&apos;</td><td>7.0</td><td>2080</td><td>4128</td></tr>
+<tr><td>ccd.037.0.fits</td><td>OBJECT</td><td>g&apos;</td><td>300.062</td><td>2080</td><td>4128</td></tr>
+<tr><td>ccd.043.0.fits</td><td>OBJECT</td><td>i&apos;</td><td>300.014</td><td>2080</td><td>4128</td></tr>
+</table>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">darks_only</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="n">example_cryo_path</span> <span class="o">/</span> <span class="s1">&#39;darks&#39;</span><span class="p">)</span>
+<span class="n">darks_only</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="s1">&#39;imagetyp&#39;</span><span class="p">,</span> <span class="s1">&#39;exptime&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<i>Table masked=True length=10</i>
+<table id="table47812664400" class="table-striped table-bordered table-condensed">
+<thead><tr><th>file</th><th>imagetyp</th><th>exptime</th></tr></thead>
+<thead><tr><th>str14</th><th>str4</th><th>float64</th></tr></thead>
+<tr><td>ccd.002.0.fits</td><td>BIAS</td><td>0.0</td></tr>
+<tr><td>ccd.013.0.fits</td><td>DARK</td><td>300.0</td></tr>
+<tr><td>ccd.014.0.fits</td><td>DARK</td><td>300.0</td></tr>
+<tr><td>ccd.015.0.fits</td><td>DARK</td><td>300.0</td></tr>
+<tr><td>ccd.017.0.fits</td><td>DARK</td><td>70.0</td></tr>
+<tr><td>ccd.018.0.fits</td><td>DARK</td><td>70.0</td></tr>
+<tr><td>ccd.019.0.fits</td><td>DARK</td><td>70.0</td></tr>
+<tr><td>ccd.023.0.fits</td><td>DARK</td><td>7.0</td></tr>
+<tr><td>ccd.024.0.fits</td><td>DARK</td><td>7.0</td></tr>
+<tr><td>ccd.025.0.fits</td><td>DARK</td><td>7.0</td></tr>
+</table>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Determine-overscan-region-for-the-LFC-Chip-0">Determine overscan region for the LFC Chip 0<a class="anchor-link" href="#Determine-overscan-region-for-the-LFC-Chip-0"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Please see the discussion of this camera in
+<a href="01.08-Overscan.ipynb#Case-1:-Cryogenically-cooled-Large-Format-Camera-(LFC">the overscan notebook</a>-at-Palomar) for the appropriate overscan region
+to use for this camera. Note, in particular, that it differs from the the value
+given in the <code>BIASSEC</code> keyword in the header of the images.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The astropy affiliated package <a href="https://ccdproc.readthedocs.io">ccdproc</a> provides two
+useful functions here:</p>
+<ul>
+<li><code>subtract_overscan</code> for subtracting the overscan from the image, and</li>
+<li><code>trim_image</code> for trimming off the overscan.</li>
+</ul>
+<p>First, let's see what the values of <code>BIASSEC</code> which sometimes (but not always)
+indicates that there is is overscan and which part of the chip is the overscan,
+and <code>CCDSEC</code>, which is sometimes, but not always present, and indicates which
+part of the chip light hit.</p>
+<p>Note that neither of these are standard; sometimes, for example, <code>trimsec</code> is
+used instead of <code>ccdsec</code>, and there are likely other variants. Some images may
+have neither keyword in the header. That does not necessary indicate that
+ovserscan isn't present. The best advice is to carefully check the documentation
+for the camera you are using.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">files</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="s1">&#39;imagetyp&#39;</span><span class="p">,</span> <span class="s1">&#39;biassec&#39;</span><span class="p">,</span> <span class="s1">&#39;ccdsec&#39;</span><span class="p">,</span> <span class="s1">&#39;datasec&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<i>Row index=0 masked=True</i>
+<table id="table47812875600">
+<thead><tr><th>file</th><th>imagetyp</th><th>biassec</th><th>ccdsec</th><th>datasec</th></tr></thead>
+<thead><tr><th>str14</th><th>str9</th><th>str18</th><th>str15</th><th>str15</th></tr></thead>
+<tr><td>ccd.001.0.fits</td><td>BIAS</td><td>[2049:2080,1:4127]</td><td>[1:2048,1:4128]</td><td>[1:2048,1:4128]</td></tr>
+</table>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The fits header claims the overscan extends from the 2049$^{th}$ column to the
+end of the image (this is one-based indexing) and that the part of the image
+exposed to light extends over all rows and from the first column to the
+2048$^{th}$ column (again, this is one-indexed).</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="FITS-vs-Python-indexing">FITS <em>vs</em> Python indexing<a class="anchor-link" href="#FITS-vs-Python-indexing"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/196/files#diff-7160ef18a737dfb1b8282fbbbcb37d9cR196"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>There are two differences between FITS and Python in terms of indexing:</p>
+<ul>
+<li>Python indexes are zero-based (i.e. numbering starts at zero), FITS indexes
+are one-based (i.e. numbering starts at 1).</li>
+<li>The <em>order</em> of the indexes is swapped.</li>
+</ul>
+<p>For example, the <strong>FITS</strong> representation of the part of the chip exposed to
+light is <code>[1:2048,1:4128]</code>. To access that part of the data from a numpy array
+in <strong>Python</strong>, switch the order so that the indexing looks like this: <code>[0:4128,
+0:2048]</code> (or, more compactly <code>[:, :2048]</code>). Note that the <em>ending</em> indexes given
+here for python are correct because the second part of a range (after the colon)
+is <em>not included</em> in the array slice. For example, <code>0:2048</code> starts at 0 (the
+first pixel) and goes up to but not including 2048, so the last pixel included
+is <code>2047</code> (the 2048$^{th}$ pixel).</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As discussed in <a href="01.08-Overscan.ipynb#Case-1:-Cryogenically-cooled-Large-Format-Camera-(LFC">the overscan notebook</a>-at-Palomar), the useful
+overscan region for this camera starts at the 2055$^{th}$ column, not column
+2049 as indicated by the <code>BIASSEC</code> keyword in the header. This situation is not
+unusual; column 2049 is the first of the columns masked by the manufacturer from
+light but there is some leakage into this region from the rest of the CCD.</p>
+<p>If you are going to overscan you need to carefully examine the overscan in a few
+representative images to understand which part of the overscan to use.</p>
+<p>In what follows, we will use for the overscan the region (Python/numpy indexing)
+<code>[:, 2055:]</code>.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Subtract-and-then-trim-the-overscan-(one-sample-image)">Subtract and then trim the overscan (one sample image)<a class="anchor-link" href="#Subtract-and-then-trim-the-overscan-(one-sample-image)"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Using <code>subtract_overscan</code> is reasonably straightforward, as shown in the cell
+below.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">raw_biases</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">files_filtered</span><span class="p">(</span><span class="n">include_path</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;BIAS&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">first_bias</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">raw_biases</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;adu&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bias_overscan_subtracted</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">subtract_overscan</span><span class="p">(</span><span class="n">first_bias</span><span class="p">,</span> <span class="n">overscan</span><span class="o">=</span><span class="n">first_bias</span><span class="p">[:,</span> <span class="mi">2055</span><span class="p">:],</span> <span class="n">median</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next, we trim off the full overscan region (not just the part we used for
+subtracting overscan)</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">trimmed_bias</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">trim_image</span><span class="p">(</span><span class="n">bias_overscan_subtracted</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2048</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="n">show_image</span><span class="p">(</span><span class="n">first_bias</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Raw bias&#39;</span><span class="p">)</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">trimmed_bias</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Bias, overscan subtracted and trimmed&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Text(0.5, 1.0, &#39;Bias, overscan subtracted and trimmed&#39;)</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/02-01-Calibrating-bias-images_27_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Discussion">Discussion<a class="anchor-link" href="#Discussion"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/196/files#diff-7160ef18a737dfb1b8282fbbbcb37d9cR308"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>Visually, the images look nearly identical before and after calibration. The
+only prominent difference is a shift in the pixel values, as one would expect
+from subtracting the same value from each pixel in an image. It simply shifts
+the zero point.</p>
+<p>There is ones other important difference between the images: the input image
+uses 32MB of memory while the calibrated, overscan-subtracted image uses roughly
+128MB. The input image is stored as unsigned 16-bit integers; the calibrated
+image is stored as floating point numbers, which default in python to 64-bit
+floats. The memory size is also the size the files will have when written to
+disk (ignoring any compression). One can reduce the memory and disk footprint by
+changing the <code>dtype</code> of the image: <code>trimmed_bias.dtype = 'float32'</code>. It is best
+to do this just before writing the image out because arithmetic operations on
+the image may convert its dtype back to <code>float64</code>.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Processing-the-folder-of-bias-images-for-the-LFC-Chip-0">Processing the folder of bias images for the LFC Chip 0<a class="anchor-link" href="#Processing-the-folder-of-bias-images-for-the-LFC-Chip-0"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Processing each of the bias images individually would be tedious, at best.
+Instead, we can use the <a href="https://ccdproc.readthedocs.io/en/latest/ccdproc/image_management.html"><code>ImageFileCollection</code></a> we created above to
+loop over only the bias images, saving each in the folder <code>calibrated_data</code>. In
+this example the files are saved uncompressed because the Python library for
+compressing gzip files is extremely slow.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">ccd</span><span class="p">,</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">ccds</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;BIAS&#39;</span><span class="p">,</span>            <span class="c1"># Just get the bias frames</span>
+                                 <span class="n">ccd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="s1">&#39;adu&#39;</span><span class="p">},</span> <span class="c1"># CCDData requires a unit for the image if </span>
+                                                             <span class="c1"># it is not in the header</span>
+                                 <span class="n">return_fname</span><span class="o">=</span><span class="kc">True</span>           <span class="c1"># Provide the file name too.</span>
+                                <span class="p">):</span>
+        <span class="c1"># Subtract the overscan</span>
+    <span class="n">ccd</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">subtract_overscan</span><span class="p">(</span><span class="n">ccd</span><span class="p">,</span> <span class="n">overscan</span><span class="o">=</span><span class="n">ccd</span><span class="p">[:,</span> <span class="mi">2055</span><span class="p">:],</span> <span class="n">median</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># Trim the overscan</span>
+    <span class="n">ccd</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">trim_image</span><span class="p">(</span><span class="n">ccd</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2048</span><span class="p">])</span>
+    
+    <span class="c1"># Save the result</span>
+    <span class="n">ccd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">calibrated_data</span> <span class="o">/</span> <span class="n">file_name</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's check that we really did get the images we expect by creating an
+<a href="https://ccdproc.readthedocs.io/en/latest/ccdproc/image_management.html"><code>ImageFileCollection</code></a> for the reduced folder and displaying the size
+of each image. We are expecting the images to be 2048 × 4128, and that there
+will be the same number of reduced bias images as input bias images (six).</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reduced_images</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="n">calibrated_data</span><span class="p">)</span>
+<span class="n">reduced_images</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="s1">&#39;imagetyp&#39;</span><span class="p">,</span> <span class="s1">&#39;naxis1&#39;</span><span class="p">,</span> <span class="s1">&#39;naxis2&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<i>Table masked=True length=6</i>
+<table id="table112421224064" class="table-striped table-bordered table-condensed">
+<thead><tr><th>file</th><th>imagetyp</th><th>naxis1</th><th>naxis2</th></tr></thead>
+<thead><tr><th>str14</th><th>str4</th><th>int64</th><th>int64</th></tr></thead>
+<tr><td>ccd.001.0.fits</td><td>BIAS</td><td>2048</td><td>4128</td></tr>
+<tr><td>ccd.002.0.fits</td><td>BIAS</td><td>2048</td><td>4128</td></tr>
+<tr><td>ccd.003.0.fits</td><td>BIAS</td><td>2048</td><td>4128</td></tr>
+<tr><td>ccd.004.0.fits</td><td>BIAS</td><td>2048</td><td>4128</td></tr>
+<tr><td>ccd.005.0.fits</td><td>BIAS</td><td>2048</td><td>4128</td></tr>
+<tr><td>ccd.006.0.fits</td><td>BIAS</td><td>2048</td><td>4128</td></tr>
+</table>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Example-2:-No-overscan-subtraction,-but-trim-the-images">Example 2: No overscan subtraction, but trim the images<a class="anchor-link" href="#Example-2:-No-overscan-subtraction,-but-trim-the-images"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If you are not subtracting overscan then the only manipulation you may need to
+do is trimming the overscan from the images. If there is no overscan region in
+your images then even that is unnecessary.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Decide-where-to-put-your-calibrated-Example-2-images">Decide where to put your calibrated Example 2 images<a class="anchor-link" href="#Decide-where-to-put-your-calibrated-Example-2-images"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Though it is possible to overwrite your raw data with calibrated images that is
+a bad idea. Here we create a folder called <code>example2-reduced</code> that will contain
+the calibrated data and create it if it doesn't exist.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">calibrated_data</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;example2-reduced&#39;</span><span class="p">)</span>
+<span class="n">calibrated_data</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">files</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="s1">&#39;example-thermo-electric&#39;</span><span class="p">)</span>
+<span class="n">files</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="s1">&#39;imagetyp&#39;</span><span class="p">,</span> <span class="s1">&#39;filter&#39;</span><span class="p">,</span> <span class="s1">&#39;exptime&#39;</span><span class="p">,</span> <span class="s1">&#39;naxis1&#39;</span><span class="p">,</span> <span class="s1">&#39;naxis2&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<i>Table masked=True length=33</i>
+<table id="table47829283000" class="table-striped table-bordered table-condensed">
+<thead><tr><th>file</th><th>imagetyp</th><th>filter</th><th>exptime</th><th>naxis1</th><th>naxis2</th></tr></thead>
+<thead><tr><th>str35</th><th>str5</th><th>object</th><th>float64</th><th>int64</th><th>int64</th></tr></thead>
+<tr><td>AutoFlat-PANoRot-r-Bin1-001.fit</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-002.fit</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-003.fit</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-004.fit</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-005.fit</td><td>FLAT</td><td>r</td><td>1.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-006.fit</td><td>FLAT</td><td>r</td><td>1.02</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-007.fit</td><td>FLAT</td><td>r</td><td>1.06</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-008.fit</td><td>FLAT</td><td>r</td><td>1.11</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-009.fit</td><td>FLAT</td><td>r</td><td>1.16</td><td>4109</td><td>4096</td></tr>
+<tr><td>AutoFlat-PANoRot-r-Bin1-010.fit</td><td>FLAT</td><td>r</td><td>1.21</td><td>4109</td><td>4096</td></tr>
+<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+<tr><td>Dark-S001-R001-C004-NoFilt.fit</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C005-NoFilt.fit</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C006-NoFilt.fit</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C007-NoFilt.fit</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C008-NoFilt.fit</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C009-NoFilt copy.fit</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C009-NoFilt.fit</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>Dark-S001-R001-C020-NoFilt.fit</td><td>DARK</td><td>--</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>kelt-16-b-S001-R001-C084-r.fit</td><td>LIGHT</td><td>r</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+<tr><td>kelt-16-b-S001-R001-C125-r.fit</td><td>LIGHT</td><td>r</td><td>90.0</td><td>4109</td><td>4096</td></tr>
+</table>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Determine-overscan-region-for-this-camera">Determine overscan region for this camera<a class="anchor-link" href="#Determine-overscan-region-for-this-camera"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Please see the discussion of this camera in <a href="01.08-Overscan.ipynb#Case-2:-Thermo-electrically-cooled-Apogee-Aspen-CG16M">the overscan notebook</a> for
+a discussion of the overscan region of this camera. The overscan for this camera
+is not useful but should be trimmed out at this stage.</p>
+<p>These headers have some information in the keywords <code>BIASSEC</code> and <code>TRIMSEC</code>
+indicating, in the FITS numbering convention, the overscan region and the
+science region of the chip.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">files</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="s1">&#39;imagetyp&#39;</span><span class="p">,</span> <span class="s1">&#39;biassec&#39;</span><span class="p">,</span> <span class="s1">&#39;trimsec&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<i>Row index=0 masked=True</i>
+<table id="table47824182464">
+<thead><tr><th>file</th><th>imagetyp</th><th>biassec</th><th>trimsec</th></tr></thead>
+<thead><tr><th>str35</th><th>str5</th><th>str11</th><th>str11</th></tr></thead>
+<tr><td>AutoFlat-PANoRot-r-Bin1-001.fit</td><td>FLAT</td><td>[4096:4109]</td><td>[1:4096, :]</td></tr>
+</table>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Based on this, and the decision not to subtract overscan for this camera, we
+will only need to trim the overscan region off of the images. See the discussion
+at <a href="#FITS-vs-Python-indexing">FITS <em>vs</em> Python indexing</a>, above, for some details about the
+difference between FITS and Python indexing. Essentially, to get Python indexes
+from FITS, reverse the order and subtract one.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Trim-the-overscan-(one-sample-image)">Trim the overscan (one sample image)<a class="anchor-link" href="#Trim-the-overscan-(one-sample-image)"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/196/files#diff-7160ef18a737dfb1b8282fbbbcb37d9cR482"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The function <code>trim_image</code> from <a href="ccdproc.rtfd.io">ccdproc</a> removes a
+portion of the image and updates the image metadata as needed.</p>
+<p>Below we get the first bias image.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">raw_biases</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">files_filtered</span><span class="p">(</span><span class="n">include_path</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;BIAS&#39;</span><span class="p">)</span>
+
+<span class="n">first_bias</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">raw_biases</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;adu&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO:astropy:using the unit adu passed to the FITS reader instead of the unit adu in the FITS file.
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There two ways of specifying the region to trim. One is to slice the image in
+Python; the other is to use the <code>fits_section</code> argument to <code>trim_image</code>.</p>
+<p>The cell below uses a FITS-style section.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">trimmed_bias_fits</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">trim_image</span><span class="p">(</span><span class="n">first_bias</span><span class="p">,</span> <span class="n">fits_section</span><span class="o">=</span><span class="s1">&#39;[1:4096, :]&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The cell below does the same trimming as the one above, but with Python-style
+slicing.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">trimmed_bias_python</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">trim_image</span><span class="p">(</span><span class="n">first_bias</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">4096</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_allclose</span><span class="p">(</span><span class="n">trimmed_bias_python</span><span class="p">,</span> <span class="n">trimmed_bias_fits</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Processing-the-folder-of-bias-images-for-Example-2">Processing the folder of bias images for Example 2<a class="anchor-link" href="#Processing-the-folder-of-bias-images-for-Example-2"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As in <a href="#Example-1:-With-overscan-subtraction">Example 1</a>, above, we can use the
+<a href="https://ccdproc.readthedocs.io/en/latest/ccdproc/image_management.html"><code>ImageFileCollection</code></a> we created  to loop over only the bias images,
+saving each in the folder <code>calibrated_data</code>.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">ccd</span><span class="p">,</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">ccds</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;BIAS&#39;</span><span class="p">,</span>            <span class="c1"># Just get the bias frames</span>
+                                 <span class="n">return_fname</span><span class="o">=</span><span class="kc">True</span>           <span class="c1"># Provide the file name too.</span>
+                                <span class="p">):</span>    
+    <span class="c1"># Trim the overscan</span>
+    <span class="n">ccd</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">trim_image</span><span class="p">(</span><span class="n">ccd</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">4096</span><span class="p">])</span>
+    
+    <span class="c1"># Save the result</span>
+    <span class="n">ccd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">calibrated_data</span> <span class="o">/</span> <span class="n">file_name</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Example-3:-No-overscan-at-all">Example 3: No overscan at all<a class="anchor-link" href="#Example-3:-No-overscan-at-all"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/196/files#diff-7160ef18a737dfb1b8282fbbbcb37d9cR582"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>If there is no overscan then there is, in principle, nothing to be done with the
+bias frames. It may be convenient to copy them to the directory with the rest of
+your reduced images. The code below does that.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">calibrated_data</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;example3-reduced&#39;</span><span class="p">)</span>
+<span class="n">calibrated_data</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">biases</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">files_filtered</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;BIAS&#39;</span><span class="p">,</span> <span class="n">include_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+<span class="k">for</span> <span class="n">bias</span> <span class="ow">in</span> <span class="n">biases</span><span class="p">:</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">bias</span><span class="p">,</span> <span class="n">calibrated_data</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

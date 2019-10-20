@@ -1,0 +1,871 @@
+---
+interact_link: content/01-11-reading-images.ipynb
+kernel_name: python3
+has_widgets: false
+title: |-
+  Reading images
+prev_page:
+  url: /01-09-Calibration-choices-you-need-to-make.html
+  title: |-
+    Calibration choices to make
+next_page:
+  url: /02-00-Handling-overscan-trimming-and-bias-subtraction.html
+  title: |-
+    Overscan and bias images
+suffix: .ipynb
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Reading-images">Reading images<a class="anchor-link" href="#Reading-images"> </a></h1><p>Astropy provides a few ways to read in FITS images, some in the core package and
+others in affiliated packages.</p>
+<p>Before exploring those, we'll create a set of (fake) images to work with.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">astropy.nddata</span> <span class="k">import</span> <span class="n">CCDData</span>
+<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="k">import</span> <span class="n">fits</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Working-with-directories">Working with directories<a class="anchor-link" href="#Working-with-directories"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR30"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The cell below contains the path to the images. In this notebook we'll use it
+both to store the fake images we generate and to read images. In normal use, you
+wouldn't start by writing images there, however.</p>
+<p>If the images are in the same directory as the notebook you can omit this, or
+set it to an empty string <code>''</code>. Having images in the same directory as the
+notebook is less complicated, but it's not at all uncommon to need to work with
+images in a different directory.</p>
+<p>Later, we'll look at how to generate the full path to an image (directory plus
+file name) in a way that will work on any platform. One of the approaches to
+loading images (using <code>ccdproc.ImageFileCollection</code>) lets you mostly forget
+about this.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_directory</span> <span class="o">=</span> <span class="s1">&#39;path/to/my/images&#39;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Generate-some-fake-images">Generate some fake images<a class="anchor-link" href="#Generate-some-fake-images"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR60"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The cells below generate some fake images to use later in the notebook.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">cycle</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">image_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)</span>
+
+<span class="n">image_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">images_to_generate</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;BIAS&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s1">&#39;DARK&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s1">&#39;FLAT&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s1">&#39;LIGHT&#39;</span><span class="p">:</span> <span class="mi">10</span>
+<span class="p">}</span>
+
+<span class="n">exposure_times</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;BIAS&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">],</span>
+    <span class="s1">&#39;DARK&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">],</span>
+    <span class="s1">&#39;FLAT&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.1</span><span class="p">,</span> <span class="mf">7.3</span><span class="p">],</span>
+    <span class="s1">&#39;LIGHT&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">30.0</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">filters</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;FLAT&#39;</span><span class="p">:</span> <span class="s1">&#39;V&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;LIGHT&#39;</span><span class="p">:</span> <span class="s1">&#39;V&#39;</span>
+<span class="p">}</span>
+
+<span class="n">objects</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;LIGHT&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;m82&#39;</span><span class="p">,</span> <span class="s1">&#39;xx cyg&#39;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">image_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">]</span>
+
+<span class="n">image_number</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">image_type</span><span class="p">,</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">images_to_generate</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">exposures</span> <span class="o">=</span> <span class="n">cycle</span><span class="p">(</span><span class="n">exposure_times</span><span class="p">[</span><span class="n">image_type</span><span class="p">])</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">filts</span> <span class="o">=</span> <span class="n">cycle</span><span class="p">(</span><span class="n">filters</span><span class="p">[</span><span class="n">image_type</span><span class="p">])</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">filts</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="n">cycle</span><span class="p">(</span><span class="n">objects</span><span class="p">[</span><span class="n">image_type</span><span class="p">])</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">CCDData</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">image_size</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;adu&#39;</span><span class="p">)</span>
+        <span class="n">img</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;IMAGETYP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">image_type</span>
+        <span class="n">img</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;EXPOSURE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">exposures</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">filts</span><span class="p">:</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;FILTER&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">filts</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">objs</span><span class="p">:</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;OBJECT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">objs</span><span class="p">)</span>
+        <span class="n">image_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">image_path</span> <span class="o">/</span> <span class="n">f</span><span class="s1">&#39;img-</span><span class="si">{image_number:04d}</span><span class="s1">.fits&#39;</span><span class="p">)</span>
+        <span class="n">img</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">image_name</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">image_name</span><span class="p">)</span>
+        <span class="n">image_number</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>path/to/my/images/img-0000.fits
+path/to/my/images/img-0001.fits
+path/to/my/images/img-0002.fits
+path/to/my/images/img-0003.fits
+path/to/my/images/img-0004.fits
+path/to/my/images/img-0005.fits
+path/to/my/images/img-0006.fits
+path/to/my/images/img-0007.fits
+path/to/my/images/img-0008.fits
+path/to/my/images/img-0009.fits
+path/to/my/images/img-0010.fits
+path/to/my/images/img-0011.fits
+path/to/my/images/img-0012.fits
+path/to/my/images/img-0013.fits
+path/to/my/images/img-0014.fits
+path/to/my/images/img-0015.fits
+path/to/my/images/img-0016.fits
+path/to/my/images/img-0017.fits
+path/to/my/images/img-0018.fits
+path/to/my/images/img-0019.fits
+path/to/my/images/img-0020.fits
+path/to/my/images/img-0021.fits
+path/to/my/images/img-0022.fits
+path/to/my/images/img-0023.fits
+path/to/my/images/img-0024.fits
+path/to/my/images/img-0025.fits
+path/to/my/images/img-0026.fits
+path/to/my/images/img-0027.fits
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Option-1:-Reading-a-single-image-with-astropy.io.fits">Option 1: Reading a single image with <code>astropy.io.fits</code><a class="anchor-link" href="#Option-1:-Reading-a-single-image-with-astropy.io.fits"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR135"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>This option gives you the most flexibility but is the least adapted to CCD
+images specifically. What you read in is a list of FITS extensions; you must
+first select the one you want then access the data or header as desired.</p>
+<p>We'll open up the first of the fake images, <code>img-0001.fits</code>. To combine that
+with the directory name we'll use Python 3's <code>pathlib</code>, which ensures that the
+path combination will work on Windows too.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">image_name</span> <span class="o">=</span> <span class="s1">&#39;img-0001.fits&#39;</span>
+
+<span class="n">image_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)</span> <span class="o">/</span> <span class="n">image_name</span>
+
+<span class="n">hdu_list</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
+<span class="n">hdu_list</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Filename: path/to/my/images/img-0001.fits
+No.    Name      Ver    Type      Cards   Dimensions   Format
+  0  PRIMARY       1 PrimaryHDU       8   (200, 300)   float64   
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>hdu_list</code> is a list of FITS Header-Data Units. In this case there is just
+one, containing both the image header and data, which can be accessed as shown
+below.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdu</span> <span class="o">=</span> <span class="n">hdu_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">hdu</span><span class="o">.</span><span class="n">header</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>SIMPLE  =                    T / conforms to FITS standard                      
+BITPIX  =                  -64 / array data type                                
+NAXIS   =                    2 / number of array dimensions                     
+NAXIS1  =                  200                                                  
+NAXIS2  =                  300                                                  
+IMAGETYP= &#39;BIAS    &#39;                                                            
+EXPOSURE=                  0.0                                                  
+BUNIT   = &#39;adu     &#39;                                                            </pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hdu</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[-2.10466962,  0.79016383,  1.56840549, ...,  1.3307201 ,
+        -1.64779879, -0.00327792],
+       [ 2.0959757 ,  0.06492949,  0.65173715, ..., -1.01333469,
+        -1.47949839,  1.46325531],
+       [-0.33605326, -0.70059869,  0.49266116, ...,  1.00226157,
+        -0.90296251, -0.79850624],
+       ...,
+       [ 0.48324367, -0.40456662,  1.28274008, ..., -1.52925773,
+        -0.40928904,  0.40132555],
+       [-0.81395517, -0.51625258, -1.97428048, ..., -0.44288625,
+         0.35035458,  0.84327684],
+       [-0.70691875,  0.61581772, -1.81976853, ..., -0.67779282,
+         0.88652713, -2.32460854]])</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <a href="https://astropy.readthedocs.io/en/stable/io/fits/index.html">documentation for io.fits</a> describes more of its capabilities.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Option-2:--Use-CCDData-to-read-in-a-single-image">Option 2:  Use <code>CCDData</code> to read in a single image<a class="anchor-link" href="#Option-2:--Use-CCDData-to-read-in-a-single-image"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR199"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>Astropy contains a <code>CCDData</code> object for representing a single image. It's not as
+flexible as using <code>astrop.io.fits</code> directly (for example, it assumes there is
+only one FITS extension and that it contains image data) but it sets up several
+properties that make the data easier to work with.</p>
+<p>We'll read in the same single image we did in the example above,
+<code>img-0001.fits</code>.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ccd</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The data and header are accessed similarly to how you access it in an HDU
+returned by <code>astropy.io.fits</code>:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ccd</span><span class="o">.</span><span class="n">header</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>SIMPLE  =                    T / conforms to FITS standard                      
+BITPIX  =                  -64 / array data type                                
+NAXIS   =                    2 / number of array dimensions                     
+NAXIS1  =                  200                                                  
+NAXIS2  =                  300                                                  
+IMAGETYP= &#39;BIAS    &#39;                                                            
+EXPOSURE=                  0.0                                                  
+BUNIT   = &#39;adu     &#39;                                                            </pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ccd</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[-2.10466962,  0.79016383,  1.56840549, ...,  1.3307201 ,
+        -1.64779879, -0.00327792],
+       [ 2.0959757 ,  0.06492949,  0.65173715, ..., -1.01333469,
+        -1.47949839,  1.46325531],
+       [-0.33605326, -0.70059869,  0.49266116, ...,  1.00226157,
+        -0.90296251, -0.79850624],
+       ...,
+       [ 0.48324367, -0.40456662,  1.28274008, ..., -1.52925773,
+        -0.40928904,  0.40132555],
+       [-0.81395517, -0.51625258, -1.97428048, ..., -0.44288625,
+         0.35035458,  0.84327684],
+       [-0.70691875,  0.61581772, -1.81976853, ..., -0.67779282,
+         0.88652713, -2.32460854]])</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There are a <a href="https://astropy.readthedocs.io/en/stable/nddata/ccddata.html">number of features of <code>CCDData</code></a> that make it convenient for working
+with WCS, slicing, and more. Some of those features will be discussed in more
+detail in the notebooks that follow.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Option-3:-Working-with-a-directory-of-images-using-ImageFileCollection">Option 3: Working with a directory of images using <code>ImageFileCollection</code><a class="anchor-link" href="#Option-3:-Working-with-a-directory-of-images-using-ImageFileCollection"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR258"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The affiliated package <a href="https://ccdproc.readthedocs.io/">ccdproc</a> provides an easier way
+to work with collections of images in a directory: an <code>ImageFileCollection</code>. The
+<code>ImageFileCollection</code> is initialized with the name of the directory containing
+the images.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">ccdproc</span> <span class="k">import</span> <span class="n">ImageFileCollection</span>
+<span class="n">im_collection</span> <span class="o">=</span> <span class="n">ImageFileCollection</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that we didn't need to worry about using <code>pathlib</code> to combine the directory
+and file name, instead we give the collection the name of the directory.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Summary-of-directory-contents">Summary of directory contents<a class="anchor-link" href="#Summary-of-directory-contents"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR288"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The <code>summary</code> property provides an overview of the files in the directory: it's
+an astropy <code>Table</code>, so you can access columns in the usual way.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">im_collection</span><span class="o">.</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<i>Table masked=True length=28</i>
+<table id="table47762205216" class="table-striped table-bordered table-condensed">
+<thead><tr><th>file</th><th>simple</th><th>bitpix</th><th>naxis</th><th>naxis1</th><th>naxis2</th><th>imagetyp</th><th>exposure</th><th>bunit</th><th>filter</th><th>object</th></tr></thead>
+<thead><tr><th>str13</th><th>bool</th><th>int64</th><th>int64</th><th>int64</th><th>int64</th><th>str5</th><th>float64</th><th>str3</th><th>object</th><th>object</th></tr></thead>
+<tr><td>img-0000.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>BIAS</td><td>0.0</td><td>adu</td><td>--</td><td>--</td></tr>
+<tr><td>img-0001.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>BIAS</td><td>0.0</td><td>adu</td><td>--</td><td>--</td></tr>
+<tr><td>img-0002.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>BIAS</td><td>0.0</td><td>adu</td><td>--</td><td>--</td></tr>
+<tr><td>img-0003.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>BIAS</td><td>0.0</td><td>adu</td><td>--</td><td>--</td></tr>
+<tr><td>img-0004.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>BIAS</td><td>0.0</td><td>adu</td><td>--</td><td>--</td></tr>
+<tr><td>img-0005.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>DARK</td><td>5.0</td><td>adu</td><td>--</td><td>--</td></tr>
+<tr><td>img-0006.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>DARK</td><td>30.0</td><td>adu</td><td>--</td><td>--</td></tr>
+<tr><td>img-0007.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>DARK</td><td>5.0</td><td>adu</td><td>--</td><td>--</td></tr>
+<tr><td>img-0008.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>DARK</td><td>30.0</td><td>adu</td><td>--</td><td>--</td></tr>
+<tr><td>img-0009.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>DARK</td><td>5.0</td><td>adu</td><td>--</td><td>--</td></tr>
+<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+<tr><td>img-0018.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>LIGHT</td><td>30.0</td><td>adu</td><td>V</td><td>m82</td></tr>
+<tr><td>img-0019.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>LIGHT</td><td>30.0</td><td>adu</td><td>V</td><td>xx cyg</td></tr>
+<tr><td>img-0020.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>LIGHT</td><td>30.0</td><td>adu</td><td>V</td><td>m82</td></tr>
+<tr><td>img-0021.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>LIGHT</td><td>30.0</td><td>adu</td><td>V</td><td>xx cyg</td></tr>
+<tr><td>img-0022.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>LIGHT</td><td>30.0</td><td>adu</td><td>V</td><td>m82</td></tr>
+<tr><td>img-0023.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>LIGHT</td><td>30.0</td><td>adu</td><td>V</td><td>xx cyg</td></tr>
+<tr><td>img-0024.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>LIGHT</td><td>30.0</td><td>adu</td><td>V</td><td>m82</td></tr>
+<tr><td>img-0025.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>LIGHT</td><td>30.0</td><td>adu</td><td>V</td><td>xx cyg</td></tr>
+<tr><td>img-0026.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>LIGHT</td><td>30.0</td><td>adu</td><td>V</td><td>m82</td></tr>
+<tr><td>img-0027.fits</td><td>True</td><td>-64</td><td>2</td><td>200</td><td>300</td><td>LIGHT</td><td>30.0</td><td>adu</td><td>V</td><td>xx cyg</td></tr>
+</table>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Filtering-and-iterating-over-images">Filtering and iterating over images<a class="anchor-link" href="#Filtering-and-iterating-over-images"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR307"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The convenient thing about <code>ImageFileCollection</code> is that it provides easy ways
+to filter or loop over files via FITS header keyword values.</p>
+<p>For example, looping over just the flat files is one line of code:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">a_flat</span> <span class="ow">in</span> <span class="n">im_collection</span><span class="o">.</span><span class="n">hdus</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;FLAT&#39;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a_flat</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;EXPOSURE&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>5.0
+6.1
+7.3
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Instead of iterating over HDUs, as in the example above, you can iterate over
+just the headers (with <code>.headers</code>) or just the data (with <code>.data</code>). You can use
+any FITS keyword from the header as a keyword for selecting the images you want.
+In addition, you can return the file name while also iterating.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">a_flat</span><span class="p">,</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">im_collection</span><span class="o">.</span><span class="n">hdus</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;LIGHT&#39;</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="s1">&#39;m82&#39;</span><span class="p">,</span> <span class="n">return_fname</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;In file </span><span class="si">{fname}</span><span class="s1"> the exposure is:&#39;</span><span class="p">,</span> <span class="n">a_flat</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;EXPOSURE&#39;</span><span class="p">],</span> <span class="s1">&#39;with standard deviation &#39;</span><span class="p">,</span> <span class="n">a_flat</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>In file img-0018.fits the exposure is: 30.0 with standard deviation  1.0023434541512826
+In file img-0020.fits the exposure is: 30.0 with standard deviation  1.0021333860021882
+In file img-0022.fits the exposure is: 30.0 with standard deviation  0.9976624235558654
+In file img-0024.fits the exposure is: 30.0 with standard deviation  1.0003018178935796
+In file img-0026.fits the exposure is: 30.0 with standard deviation  1.0001720895857
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <a href="https://ccdproc.readthedocs.io/en/latest/ccdproc/image_management.html">documentation for <code>ImageFileCollection</code></a> describes more of its capabilities.
+<code>ImageFileCollection</code> can automatically save a copy of each image as you iterate
+over them, for example.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">a_flat</span><span class="p">,</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">im_collection</span><span class="o">.</span><span class="n">ccds</span><span class="p">(</span><span class="n">bunit</span><span class="o">=</span><span class="s1">&#39;ADU&#39;</span><span class="p">,</span> <span class="n">return_fname</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a_flat</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+adu
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a_flat</span><span class="o">.</span><span class="n">header</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>SIMPLE  =                    T / conforms to FITS standard                      
+BITPIX  =                  -64 / array data type                                
+NAXIS   =                    2 / number of array dimensions                     
+NAXIS1  =                  200                                                  
+NAXIS2  =                  300                                                  
+IMAGETYP= &#39;LIGHT   &#39;                                                            
+EXPOSURE=                 30.0                                                  
+FILTER  = &#39;V       &#39;                                                            
+OBJECT  = &#39;xx cyg  &#39;                                                            
+BUNIT   = &#39;adu     &#39;                                                            </pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

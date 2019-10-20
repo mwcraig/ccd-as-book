@@ -1,0 +1,494 @@
+---
+redirect_from:
+  - "08-01-identifying-hot-pixels"
+interact_link: content/08-01-Identifying-hot-pixels.ipynb
+kernel_name: python3
+has_widgets: false
+title: |-
+  Identifying hot pixels
+prev_page:
+  url: /08-00-Image-masking.html
+  title: |-
+    Finding and dealing with bad pixels
+next_page:
+  url: /08-02-Creating-a-mask.html
+  title: |-
+    Identifying bad pixels with ccdmask
+suffix: .ipynb
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Identifying-hot-pixels">Identifying hot pixels<a class="anchor-link" href="#Identifying-hot-pixels"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Some-pixels-are-too-hot">Some pixels are too hot<a class="anchor-link" href="#Some-pixels-are-too-hot"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/204/files#diff-2c14c2dd0cde6cccd807515b609eec8cR14"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>Recall from the <a href="03-02-Real-dark-current-noise-and-other-artifacts.html">notebook about dark current</a> that even  a
+cryogenically-cooled camera with low dark current has some pixels with much
+higher dark current. In the <a href="03-01-Dark-current-The-ideal-case.html">discussion of "ideal" dark current</a> we noted that the
+counts in a dark image should be proportional to the exposure time.</p>
+<p>For some hot pixels that is not the case, unfortunately, which means that those
+pixels cannot easily be corrected by subtracting a combined dark. Those pixels
+can be identified by taking darks with two different (but long) exposure times
+and comparing the dark current derived from each of the images. The dark
+current, measured in electron/sec, should be the same in both images if the dark
+current is really constant.</p>
+<p>Fortunately, the pixels whose response is not proportional to exposure time are
+usually also pixels with high dark current. It is straightforward to identify
+those pixels and create a mask to exclude them when processing images. If this
+weren't the case it might be necessary to take some dark frames with much longer
+exposure time than otherwise needed.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">astropy.visualization</span> <span class="k">import</span> <span class="n">hist</span>
+<span class="kn">from</span> <span class="nn">astropy</span> <span class="k">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="kn">from</span> <span class="nn">astropy.nddata</span> <span class="k">import</span> <span class="n">CCDData</span>
+
+<span class="kn">import</span> <span class="nn">ccdproc</span> <span class="k">as</span> <span class="nn">ccdp</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Use custom style for larger fonts and figures</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;guide.mplstyle&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Example">Example<a class="anchor-link" href="#Example"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/204/files#diff-2c14c2dd0cde6cccd807515b609eec8cR67"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>There are two combined dark images available for the thermoelectrically-cooled
+Andor Aspen CG16M discussed as "Example 2" in previous notebooks. One is an
+average of ten 90 second exposures taken during observations of the transiting
+exoplanet Kelt 16b. The other is an average of twenty 1,000 second exposures
+taken during commission of the camera. Typically one will not have a single dark
+of with an exposure time that long, let alone several of them.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We begin by reading each combined dark and calculating the dark current from the
+counts in the image using</p>
+$$
+\text{dark current} = \text{gain} \times \text{dark counts}~/ \text{ exposure time }.
+$$<p>The gain for this camera is 1.5 $e^-$/adu. The 1,000 second exposure also needs
+to be trimmed to remove the overscan region.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ex2_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;example2-reduced&#39;</span><span class="p">)</span>
+
+<span class="n">dark_90</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ex2_path</span> <span class="o">/</span> <span class="s1">&#39;combined_dark_90.000.fit&#39;</span><span class="p">)</span>
+<span class="n">dark_1000</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;master_dark_exposure_1000.0.fit.bz2&#39;</span><span class="p">)</span>
+<span class="n">dark_1000</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">trim_image</span><span class="p">(</span><span class="n">dark_1000</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">4096</span><span class="p">])</span>
+
+<span class="n">dark_90</span> <span class="o">=</span> <span class="n">dark_90</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mf">1.5</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">electron</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">)</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mi">90</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
+<span class="n">dark_1000</span> <span class="o">=</span> <span class="n">dark_1000</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mf">1.5</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">electron</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">)</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The histogram below shows the distribution of dark current values in each image.
+There are some differences we should <em>expect</em> to see between the two images.</p>
+<p>Small values of dark current r much more accurately measured in the long
+exposure. The exposure time in that image was chosen to be as short as possible
+while still measuring the nominal dark current of 0.01 $e^-$/sec from the
+manufacturer given that the camera's read noise is 10$e^-$.</p>
+<p>For the average of ten 90 second exposures, that read noise will be reduced to
+10$e^-/\sqrt{10} \approx$3.2$e^-$. After dividng by exposure time this is
+equivalent to a "dark current" of 0.035$e^-$/sec. Roughly twice that is the
+smallest dark current that can be accurately measured in the 90 second dark.</p>
+<p>For large values of dark current the shorter exposure is more accurate. Some of
+the pixels saturate (i.e. reach the maximum value the chip can read out, roughly
+65,000) in under 90 sec and more of them saturate at some time between 90
+seconds and 1,000 seconds. None of those pixels are accurately measured by the
+long 1,000 second exposure time.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="n">hist</span><span class="p">(</span><span class="n">dark_90</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;90 sec dark&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">hist</span><span class="p">(</span><span class="n">dark_1000</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;1000 sec dark&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;dark current, $e^-$/sec&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of pixels&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/08-01-Identifying-hot-pixels_8_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Overall, there appear to be more hot pixels in the 90 sec exposure than in the
+1,000 sec exposure. For dark current under 0.1 $e^-$/sec that is certainly
+affected by the read noise in the 90 sec exposure.</p>
+<p>To get a better idea of how consistent the dark current measurements are we
+construct a scatter plot with the measured dark current from each image for
+those pixels in whihc the dark current is larger than 1$e^-$/sec as measured in
+the longer exposure.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hot_pixels</span> <span class="o">=</span> <span class="p">(</span><span class="n">dark_1000</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dark_90</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">hot_pixels</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">dark_1000</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">hot_pixels</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;dark current ($e^-$/sec), 90 sec exposure time&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;dark current ($e^-$/sec), 1000 sec exposure time&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Ideal relationship&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/08-01-Identifying-hot-pixels_11_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The upper limit on dark current that can be measured with the long exposure time
+can be clearly seen in the plot above; there is a ceiling at roughly 95$e^-$/sec
+above which the dark current in the long exposure does not go.</p>
+<p>It looks like the dark current as measured in each frame is equal for lower
+values of the dark current, so we replot to get a better look at that region.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dark_90</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">hot_pixels</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">dark_1000</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">hot_pixels</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;dark current ($e^-$/sec), 90 sec exposure time&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;dark current ($e^-$/sec), 1000 sec exposure time&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Ideal relationship&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/08-01-Identifying-hot-pixels_13_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here it looks like the measured dark currents are consistent until around
+4$e^-$/sec. Beyond that the dark current is consistently larger in the short
+exposure than in the long exposure.</p>
+<p>Because of this, we will mark all pixels with dark current larger than
+4$e^-$/sec as bad. Below that the dark current seems to be measured consistently
+in both exposures so it ought to be possible to remove the dark current by
+subtracting a combined dark frame.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bad_hot_pixels</span> <span class="o">=</span> <span class="p">(</span><span class="n">dark_90</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">bad_hot_pixels</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>4308</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This amounts to 4302 pixels, or 0.026% of the pixels in the camera.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Rule-of-thumb">Rule of thumb<a class="anchor-link" href="#Rule-of-thumb"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/204/files#diff-2c14c2dd0cde6cccd807515b609eec8cR250"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The example in this notebook is a little unusual in that a very long exposure
+dark is available. In deciding what pixels to mask because of high dark current
+you have a few options:</p>
+<ul>
+<li>Use whatever exposure time range you have. The images in "Example 1" from the
+previous notebook have darks with exposure times 7, 70 and 300 seconds. The 7
+second dark is primarily measuring read noise, so is not likely to be useful.
+The current in the 70 second and 300 second darks could be compared, though, as
+it was in this case.</li>
+<li>If that is not an option, as was the case in the data in "Example 2", then you
+may need to pick a cut off. Keep in mind that the typical camera has very, very
+low dark current, so a limit like 1$e^-$/sec is not unreasonable.</li>
+<li>Ask other users of the instrument what they do. Large observatories may
+provide a a mask image of bad pixels for the camera you are using.</li>
+<li>Do not do any masking. This is a more reasonable option than you might think.
+Most pixels are measuring light from the night time sky. If one of these hot
+pixels happens to be in that background, and outlying pixels are rejected by a
+method like sigma clipping, then these hot pixels will be excluded from your
+analysis. If the object of interest happens to fall on one the bad pixels you
+may well notice it. In time series photometry this sometimes manifests as a
+single data point that is well outside the trend in the rest of the data.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Saving-the-mask">Saving the mask<a class="anchor-link" href="#Saving-the-mask"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/204/files#diff-2c14c2dd0cde6cccd807515b609eec8cR279"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The mask can be saved as in a FITS file. We will see in the notebook <a href="">XXX</a> how
+to include this mask. Casting the mask as an unsigned integer is necessary
+because FITS cannot store boolean data.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mask_as_ccd</span> <span class="o">=</span> <span class="n">CCDData</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">bad_hot_pixels</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span><span class="p">)</span>
+<span class="n">mask_as_ccd</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;imagetyp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;dark mask&#39;</span>
+<span class="n">mask_as_ccd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ex2_path</span> <span class="o">/</span> <span class="s1">&#39;mask_from_dark_current.fits&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

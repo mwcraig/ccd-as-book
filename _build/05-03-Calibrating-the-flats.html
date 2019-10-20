@@ -1,0 +1,1356 @@
+---
+redirect_from:
+  - "05-03-calibrating-the-flats"
+interact_link: content/05-03-Calibrating-the-flats.ipynb
+kernel_name: python3
+has_widgets: false
+title: |-
+  Calibrating flat frames
+prev_page:
+  url: /05-00-Flat-corrections.html
+  title: |-
+    Flat fielding
+next_page:
+  url: /05-04-Combining-flats.html
+  title: |-
+    Combining flat frames
+suffix: .ipynb
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Calibrating-the-flats">Calibrating the flats<a class="anchor-link" href="#Calibrating-the-flats"> </a></h1><p>Recall that the counts in an astronomical image include dark current, noise and
+a nearly-constant offset, the bias. The individual flat frames need to have bias
+and dark removed from them. Depending on the exposure times of the images you
+have, you may or may not need to subtract dark and bias separately.</p>
+<p>If the combined dark frame needs to be scaled to a different exposure time then
+bias and dark must be handled separately; otherwise, the dark and bias can be
+removed in a single step because dark frames also include bias.</p>
+<p>The potential reduction steps for flat frames are below:</p>
+<ul>
+<li>Subtract overscan and trim, if necessary</li>
+<li>Subtract bias, if necessary</li>
+<li>Subtract dark current, scaling if necessary (scale down when possible)</li>
+</ul>
+<p>As in the chapters about bias and dark we will work through two example. In
+Example 1 the darks are not scaled and the overscan region is used as part of
+the calibration. In Example 2 the darks are scaled and the overscan region is
+trimmed off without being used.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Function-definition">Function definition<a class="anchor-link" href="#Function-definition"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/211/files#diff-bd41f594acd69139c487547a641d2628R34"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The function below finds the nearest dark exposure time to the exposure time of
+a given image. An exception is raised if the difference in exposure time is
+larger than <code>tolerance</code>, unless <code>tolerance</code> is set to <code>None</code>. A small numerical
+tolerance is most useful if you anticipate not scaling the dark frames and
+finding a dark exposure time close to the time of the image. Disregarding the
+tolerance is useful if the intent is to scale the dark frames anyway.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">find_nearest_dark_exposure</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dark_exposure_times</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the nearest exposure time of a dark frame to the exposure time of the image,</span>
+<span class="sd">    raising an error if the difference in exposure time is more than tolerance.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    </span>
+<span class="sd">    image : astropy.nddata.CCDData</span>
+<span class="sd">        Image for which a matching dark is needed.</span>
+<span class="sd">    </span>
+<span class="sd">    dark_exposure_times : list</span>
+<span class="sd">        Exposure times for which there are darks.</span>
+<span class="sd">    </span>
+<span class="sd">    tolerance : float or ``None``, optional</span>
+<span class="sd">        Maximum difference, in seconds, between the image and the closest dark. Set</span>
+<span class="sd">        to ``None`` to skip the tolerance test.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    </span>
+<span class="sd">    float</span>
+<span class="sd">        Closest dark exposure time to the image.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dark_exposures</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dark_exposure_times</span><span class="p">))</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dark_exposures</span> <span class="o">-</span> <span class="n">image</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;exptime&#39;</span><span class="p">]))</span>
+    <span class="n">closest_dark_exposure</span> <span class="o">=</span> <span class="n">dark_exposures</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">tolerance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> 
+        <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;exptime&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">closest_dark_exposure</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">tolerance</span><span class="p">):</span>
+        
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Closest dark exposure time is </span><span class="si">{}</span><span class="s1"> for flat of exposure &#39;</span>
+                           <span class="s1">&#39;time </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">closest_dark_exposure</span><span class="p">,</span> <span class="n">a_flat</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;exptime&#39;</span><span class="p">]))</span>
+        
+    
+    <span class="k">return</span> <span class="n">closest_dark_exposure</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">astropy</span> <span class="k">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="kn">from</span> <span class="nn">astropy.nddata</span> <span class="k">import</span> <span class="n">CCDData</span>
+<span class="kn">import</span> <span class="nn">ccdproc</span> <span class="k">as</span> <span class="nn">ccdp</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">convenience_functions</span> <span class="k">import</span> <span class="n">show_image</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Use custom style for larger fonts and figures</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;guide.mplstyle&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Example-1:-no-scaling-of-dark-frames">Example 1: no scaling of dark frames<a class="anchor-link" href="#Example-1:-no-scaling-of-dark-frames"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/211/files#diff-bd41f594acd69139c487547a641d2628R120"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The images for this example are from chip 0 of the Large Format Camera at
+Palomar Observatory. The raw images are at XXX, and this notebook assumes that
+you have worked through the notebooks on bias and dark so that there is a folder
+called <code>example1-reduced</code> in the same folder as this notebook.</p>
+<p>We'll go through this example twice: once with a single image to explain each
+step, then processing all of the flat frames in the directory of raw data.</p>
+<p>An image collection is defined below, along with a couple of settings useful for
+this example.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reduced_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;example1-reduced&#39;</span><span class="p">)</span>
+
+<span class="n">ifc_reduced</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="n">reduced_path</span><span class="p">)</span>
+
+<span class="n">combined_dark_files</span> <span class="o">=</span> <span class="n">ifc_reduced</span><span class="o">.</span><span class="n">files_filtered</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;dark&#39;</span><span class="p">,</span> <span class="n">combined</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">flat_image_type</span> <span class="o">=</span> <span class="s1">&#39;FLATFIELD&#39;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The raw data should be in the directory <code>example-cryo-LFC</code></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">raw_data</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;example-cryo-LFC&#39;</span><span class="p">)</span>
+
+<span class="n">ifc_raw</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The cell below checks that the files needed are available.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_combined_dark</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">combined_dark_files</span><span class="p">)</span>
+<span class="n">expected_exposure_times</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="mi">7</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">300</span><span class="p">])</span>
+
+<span class="k">if</span> <span class="n">n_combined_dark</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;One or more combined dark is missing. Please re-run the dark notebook.&#39;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">n_combined_dark</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;There are more combined dark frames than expected.&#39;</span><span class="p">)</span>
+    
+<span class="n">actual_exposure_times</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="s1">&#39;exptime&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">ifc_reduced</span><span class="o">.</span><span class="n">headers</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;dark&#39;</span><span class="p">,</span> <span class="n">combined</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">expected_exposure_times</span> <span class="o">-</span> <span class="n">actual_exposure_times</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Encountered unexpected exposure time in combined darks. &#39;</span>
+                       <span class="s1">&#39;The unexpected times are </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">actual_exposure_times</span> <span class="o">-</span> <span class="n">expected_exposure_times</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First, get one of the flat frames as a <code>CCDData</code> object and display it.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a_flat</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ifc_raw</span><span class="o">.</span><span class="n">files_filtered</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;flatfield&#39;</span><span class="p">,</span> <span class="n">include_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;adu&#39;</span><span class="p">)</span>
+
+<span class="n">show_image</span><span class="p">(</span><span class="n">a_flat</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>WARNING: The following attributes were set on the data object, but will be ignored by the function: meta, unit [astropy.nddata.decorators]
+WARNING:astropy:The following attributes were set on the data object, but will be ignored by the function: meta, unit
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/05-03-Calibrating-the-flats_12_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There is not a lot of variation in this. Note that the overscan region on the
+right stands out as a black bar, and that there is apparently also an overscan
+region across the top of the chip. There appears to be a slight variaion in
+pixel values from the bottom to the top of the image.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Subtract-overscan-and-trim,-if-necessary">Subtract overscan and trim, if necessary<a class="anchor-link" href="#Subtract-overscan-and-trim,-if-necessary"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/211/files#diff-bd41f594acd69139c487547a641d2628R227"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The overscan is useful for the LFC and needs to be subtracted and trimmed off.
+See <a href="03-05-Calibrate-dark-images.html#Decide-which-calibration--steps-to-take">this example in the dark reduction notebook</a> for a review of the overscan parameters.
+The overscan region is the Python slice <code>[:, 2055:]</code> while the region to be
+retained after trimming is the Python slice <code>[:, :2048]</code>.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Subtract the overscan</span>
+<span class="n">a_flat_reduced</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">subtract_overscan</span><span class="p">(</span><span class="n">a_flat</span><span class="p">,</span> <span class="n">overscan</span><span class="o">=</span><span class="n">a_flat</span><span class="p">[:,</span> <span class="mi">2055</span><span class="p">:],</span> <span class="n">median</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Trim the overscan</span>
+<span class="n">a_flat_reduced</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">trim_image</span><span class="p">(</span><span class="n">a_flat_reduced</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2048</span><span class="p">])</span>
+
+<span class="c1"># Display the result so far</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">a_flat_reduced</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Single flat frame, overscan subtracted and trimmed&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>WARNING: The following attributes were set on the data object, but will be ignored by the function: meta, unit [astropy.nddata.decorators]
+WARNING:astropy:The following attributes were set on the data object, but will be ignored by the function: meta, unit
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Text(0.5, 1.0, &#39;Single flat frame, overscan subtracted and trimmed&#39;)</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/05-03-Calibrating-the-flats_15_2.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Trimming off the overscan makes such a big difference primarily because the
+image stretch changed; the lowest pixel values are now around 18000 instead of</p>
+<ol>
+<li>With that change the non-uniformity across the detector is much clearer.</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Subtracting-bias-is-not-necessary-in-this-example">Subtracting bias is not necessary in this example<a class="anchor-link" href="#Subtracting-bias-is-not-necessary-in-this-example"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/211/files#diff-bd41f594acd69139c487547a641d2628R265"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>For this particular set of images there are darks with exposure time 7, 70 and
+300 sec. The flat images have the exposure times listed below:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="n">ifc_raw</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;exptime&#39;</span><span class="p">][</span><span class="n">ifc_raw</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;imagetyp&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;FLATFIELD&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{7.0, 70.001, 70.011}</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>These are close enough to the exposure time of the dark frames that there is no
+need to scale the darks by exposure time. If the darks are not going to be
+scaled then there is no need to subtract the bias.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Subtract-dark-current,-no-scaling-necessary-in-this-example">Subtract dark current, no scaling necessary in this example<a class="anchor-link" href="#Subtract-dark-current,-no-scaling-necessary-in-this-example"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/211/files#diff-bd41f594acd69139c487547a641d2628R293"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>We need to subtract the dark without scaling it. Rather than manually figuring
+out which dark to subtract we use the dark frame closest in exposure time to the
+flat, within a tolerance of 1 second to ensure that we do not end up using a
+dark <em>too</em> far off in exposure time from the flat.</p>
+<p>First, find the dark exposure time closest to the flat. We will need to do this
+again later in the notebook, so we define a function to do it.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">closest_dark</span> <span class="o">=</span> <span class="n">find_nearest_dark_exposure</span><span class="p">(</span><span class="n">a_flat_reduced</span><span class="p">,</span> <span class="n">actual_exposure_times</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It will be convenient to be able to access the darks via a dictionary whose key
+is the exposure time, so we set that up below.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">combined_darks</span> <span class="o">=</span> <span class="p">{</span><span class="n">ccd</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;exptime&#39;</span><span class="p">]:</span> <span class="n">ccd</span> <span class="k">for</span> <span class="n">ccd</span> <span class="ow">in</span> <span class="n">ifc_reduced</span><span class="o">.</span><span class="n">ccds</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;dark&#39;</span><span class="p">,</span> <span class="n">combined</span><span class="o">=</span><span class="kc">True</span><span class="p">)}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next, we subtract the dark from the flat and display the result.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a_flat_reduced</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">subtract_dark</span><span class="p">(</span><span class="n">a_flat_reduced</span><span class="p">,</span> <span class="n">combined_darks</span><span class="p">[</span><span class="n">closest_dark</span><span class="p">],</span> 
+                                    <span class="n">exposure_time</span><span class="o">=</span><span class="s1">&#39;exptime&#39;</span><span class="p">,</span> <span class="n">exposure_unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">second</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">a_flat_reduced</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>WARNING: The following attributes were set on the data object, but will be ignored by the function: meta, unit [astropy.nddata.decorators]
+WARNING:astropy:The following attributes were set on the data object, but will be ignored by the function: meta, unit
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/05-03-Calibrating-the-flats_25_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There is not much change here; that is not surprising since the dark current in
+this camera is low.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Calibrated-all-of-the-flats-in-the-folder">Calibrated all of the flats in the folder<a class="anchor-link" href="#Calibrated-all-of-the-flats-in-the-folder"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The cell below calibrates each of the flats in the folder, automatically
+grabbing the correct combined dark for each flat.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">ccd</span><span class="p">,</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">ifc_raw</span><span class="o">.</span><span class="n">ccds</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;FLATFIELD&#39;</span><span class="p">,</span>            <span class="c1"># Just get the bias frames</span>
+                                         <span class="n">ccd_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="s1">&#39;adu&#39;</span><span class="p">},</span> <span class="c1"># CCDData requires a unit for the image if </span>
+                                                                     <span class="c1"># it is not in the header</span>
+                                         <span class="n">return_fname</span><span class="o">=</span><span class="kc">True</span>           <span class="c1"># Provide the file name too.</span>
+                                        <span class="p">):</span>    
+    <span class="c1"># Subtract the overscan</span>
+    <span class="n">ccd</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">subtract_overscan</span><span class="p">(</span><span class="n">ccd</span><span class="p">,</span> <span class="n">overscan</span><span class="o">=</span><span class="n">ccd</span><span class="p">[:,</span> <span class="mi">2055</span><span class="p">:],</span> <span class="n">median</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># Trim the overscan</span>
+    <span class="n">ccd</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">trim_image</span><span class="p">(</span><span class="n">ccd</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2048</span><span class="p">])</span>
+    
+    <span class="c1"># Find the correct dark exposure</span>
+    <span class="n">closest_dark</span> <span class="o">=</span> <span class="n">find_nearest_dark_exposure</span><span class="p">(</span><span class="n">ccd</span><span class="p">,</span> <span class="n">actual_exposure_times</span><span class="p">)</span>
+    
+    <span class="c1"># Subtract the dark current </span>
+    <span class="n">ccd</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">subtract_dark</span><span class="p">(</span><span class="n">ccd</span><span class="p">,</span> <span class="n">combined_darks</span><span class="p">[</span><span class="n">closest_dark</span><span class="p">],</span>
+                             <span class="n">exposure_time</span><span class="o">=</span><span class="s1">&#39;exptime&#39;</span><span class="p">,</span> <span class="n">exposure_unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
+
+    <span class="c1"># Save the result; there are some duplicate file names so pre-pend &quot;flat&quot;</span>
+    <span class="n">ccd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">reduced_path</span> <span class="o">/</span> <span class="p">(</span><span class="s1">&#39;flat-&#39;</span> <span class="o">+</span> <span class="n">file_name</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Example-2:-Dark-frames-are-scaled">Example 2: Dark frames are scaled<a class="anchor-link" href="#Example-2:-Dark-frames-are-scaled"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/211/files#diff-bd41f594acd69139c487547a641d2628R403"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The images in this example, like in the previous notebooks, is a
+thermo-electrically cooled CCD described in more detail in the
+<a href="01-08-Overscan.html#Case-2:-Thermo-electrically-cooled-Apogee-Aspen-CG16M">overscan notebook</a>.</p>
+<p>We'll go through this example twice: once with a single image to explain each
+step, then processing all of the flat frames in the directory of raw data.</p>
+<p>An image collection is defined below, along with a couple of settings useful for
+this example.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reduced_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;example2-reduced&#39;</span><span class="p">)</span>
+
+<span class="n">ifc_reduced</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="n">reduced_path</span><span class="p">)</span>
+
+<span class="n">combined_dark_files</span> <span class="o">=</span> <span class="n">ifc_reduced</span><span class="o">.</span><span class="n">files_filtered</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;dark&#39;</span><span class="p">,</span> <span class="n">combined</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">flat_image_type</span> <span class="o">=</span> <span class="s1">&#39;FLAT&#39;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The raw data should be in the directory <code>example-thermo-electric</code></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">raw_data</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;example-thermo-electric&#39;</span><span class="p">)</span>
+
+<span class="n">ifc_raw</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">ImageFileCollection</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The cell below checks that the files needed are available.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_combined_dark</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">combined_dark_files</span><span class="p">)</span>
+
+<span class="n">n_dark_expected</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">expected_exposure_times</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="mi">90</span><span class="p">])</span>
+
+<span class="k">if</span> <span class="n">n_combined_dark</span> <span class="o">&lt;</span> <span class="n">n_dark_expected</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;One or more combined dark is missing. Please re-run the dark notebook.&#39;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">n_combined_dark</span> <span class="o">&gt;</span> <span class="n">n_dark_expected</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;There are more combined dark frames than expected.&#39;</span><span class="p">)</span>
+    
+<span class="n">actual_exposure_times</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="s1">&#39;exptime&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">ifc_reduced</span><span class="o">.</span><span class="n">headers</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;dark&#39;</span><span class="p">,</span> <span class="n">combined</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">expected_exposure_times</span> <span class="o">-</span> <span class="n">actual_exposure_times</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Encountered unexpected exposure time in combined darks. &#39;</span>
+                       <span class="s1">&#39;The unexpected times are </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">actual_exposure_times</span> <span class="o">-</span> <span class="n">expected_exposure_times</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First, get one of the flat frames as a <code>CCDData</code> object and display it.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a_flat</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ifc_raw</span><span class="o">.</span><span class="n">files_filtered</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;flat&#39;</span><span class="p">,</span> <span class="n">include_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;adu&#39;</span><span class="p">)</span>
+
+<span class="n">show_image</span><span class="p">(</span><span class="n">a_flat</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO:astropy:using the unit adu passed to the FITS reader instead of the unit adu in the FITS file.
+WARNING: FITSFixedWarning: RADECSYS= &#39;FK5 &#39; / Equatorial coordinate system 
+the RADECSYS keyword is deprecated, use RADESYSa. [astropy.wcs.wcs]
+WARNING:astropy:FITSFixedWarning: RADECSYS= &#39;FK5 &#39; / Equatorial coordinate system 
+the RADECSYS keyword is deprecated, use RADESYSa.
+WARNING: The following attributes were set on the data object, but will be ignored by the function: meta, unit [astropy.nddata.decorators]
+WARNING:astropy:The following attributes were set on the data object, but will be ignored by the function: meta, unit
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO: using the unit adu passed to the FITS reader instead of the unit adu in the FITS file. [astropy.nddata.ccddata]
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/05-03-Calibrating-the-flats_37_2.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There is a much different pattern of variation across the sensor in this case
+than in Example 1. The multiple "donuts" in the image are pieces of dust and
+there is significant vignetting (darkening) in the top and bottom corners of the
+image on the right side.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Subtract-overscan-and-trim:-only-trim-for-this-camera">Subtract overscan and trim: only trim for this camera<a class="anchor-link" href="#Subtract-overscan-and-trim:-only-trim-for-this-camera"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/211/files#diff-bd41f594acd69139c487547a641d2628R511"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The overscan is not useful for this camera. The region to be retained after
+trimming is the Python slice <code>[:, :4096]</code>.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Trim the overscan</span>
+<span class="n">a_flat_reduced</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">trim_image</span><span class="p">(</span><span class="n">a_flat</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">4096</span><span class="p">])</span>
+
+<span class="c1"># Display the result so far</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">a_flat_reduced</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Single flat frame, overscan trimmed&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>WARNING: The following attributes were set on the data object, but will be ignored by the function: meta, unit [astropy.nddata.decorators]
+WARNING:astropy:The following attributes were set on the data object, but will be ignored by the function: meta, unit
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Text(0.5, 1.0, &#39;Single flat frame, overscan trimmed&#39;)</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/05-03-Calibrating-the-flats_40_2.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Trimming off the overscan did not make a big difference primarily because the
+overscan region of this camera is not useful. A useful overscan would have had
+values around the bias level for this camera, about 1200 counts. The image
+stretch did change a bit; prior to trimming the lower end of the color scale was
+38000 and now it is 40000.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Subtracting-bias-is-necessary">Subtracting bias is necessary<a class="anchor-link" href="#Subtracting-bias-is-necessary"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/211/files#diff-bd41f594acd69139c487547a641d2628R546"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>For this particular set of images there is a combined dark with exposure time 90
+sec. The flat images have the exposure times listed below:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="n">ifc_raw</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;exptime&#39;</span><span class="p">][</span><span class="n">ifc_raw</span><span class="o">.</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;imagetyp&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;FLAT&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{1.0, 1.02, 1.06, 1.11, 1.16, 1.21}</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>These are quite different than the exposure time of the dark frames so the dark
+will need to be scaled by exposure time, which means that the bias has been
+removed from the combined dark.</p>
+<p>Because of that, the bias needs to be removed the flat before subtracting the
+dark.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">combined_bias</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ifc_reduced</span><span class="o">.</span><span class="n">ccds</span><span class="p">(</span><span class="n">combined</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;bias&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">a_flat_reduced</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">subtract_bias</span><span class="p">(</span><span class="n">a_flat_reduced</span><span class="p">,</span> <span class="n">combined_bias</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Display the result so far</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">a_flat_reduced</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Single flat frame, overscan trimmed and bias subtracted&#39;</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>WARNING: The following attributes were set on the data object, but will be ignored by the function: meta, unit [astropy.nddata.decorators]
+WARNING:astropy:The following attributes were set on the data object, but will be ignored by the function: meta, unit
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/05-03-Calibrating-the-flats_46_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Except for a change in the image scale shown on the color bar there isn't much
+visually different after subtracting the bias.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Subtract-dark-current,-scaling-as-needed">Subtract dark current, scaling as needed<a class="anchor-link" href="#Subtract-dark-current,-scaling-as-needed"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/211/files#diff-bd41f594acd69139c487547a641d2628R606"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>Here we will need to scale the dark from the 90 sec exposure time of the dark
+frame to the exposure time of each flat image. The <a href="">ccdproc function
+<code>subtract_dark</code></a> provides keywords for doing this scaling automatically.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">closest_dark</span> <span class="o">=</span> <span class="n">find_nearest_dark_exposure</span><span class="p">(</span><span class="n">a_flat_reduced</span><span class="p">,</span> <span class="n">actual_exposure_times</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It will be convenient to be able to access the darks via a dictionary whose key
+is the exposure time, so we set that up below.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">combined_darks</span> <span class="o">=</span> <span class="p">{</span><span class="n">ccd</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;exptime&#39;</span><span class="p">]:</span> <span class="n">ccd</span> <span class="k">for</span> <span class="n">ccd</span> <span class="ow">in</span> <span class="n">ifc_reduced</span><span class="o">.</span><span class="n">ccds</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;dark&#39;</span><span class="p">,</span> <span class="n">combined</span><span class="o">=</span><span class="kc">True</span><span class="p">)}</span>
+<span class="n">combined_darks</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{90.0: CCDData([[  7.04545455,  47.22727273,  39.80909091, ...,   3.59090909,
+             5.78181818,   1.03636364],
+          [  2.37272727,  55.59090909,  34.18181818, ...,   7.25454545,
+            -4.23636364,   5.05454545],
+          [ -3.00909091,  50.66363636,  37.44545455, ...,   9.79090909,
+             6.12727273,   9.63636364],
+          ...,
+          [  3.4       ,   5.78181818,   9.63636364, ...,  -2.03636364,
+             6.95454545,   2.47272727],
+          [  1.2       ,  11.52727273,   7.39090909, ...,   0.27272727,
+            12.70909091,  -2.27272727],
+          [ -0.2       , -11.03636364,   1.4       , ...,  -0.61818182,
+             1.51818182,   5.15454545]])}</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next, we subtract the dark from the flat and display the result.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a_flat_reduced</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">subtract_dark</span><span class="p">(</span><span class="n">a_flat_reduced</span><span class="p">,</span> <span class="n">combined_darks</span><span class="p">[</span><span class="n">closest_dark</span><span class="p">],</span> 
+                                    <span class="n">exposure_time</span><span class="o">=</span><span class="s1">&#39;exptime&#39;</span><span class="p">,</span> <span class="n">exposure_unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">second</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">a_flat_reduced</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>WARNING: The following attributes were set on the data object, but will be ignored by the function: meta, unit [astropy.nddata.decorators]
+WARNING:astropy:The following attributes were set on the data object, but will be ignored by the function: meta, unit
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/05-03-Calibrating-the-flats_53_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There is not much change here; that is not surprising since the dark current in
+this camera is low.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Calibrated-all-of-the-flats-in-the-folder">Calibrated all of the flats in the folder<a class="anchor-link" href="#Calibrated-all-of-the-flats-in-the-folder"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The cell below calibrates each of the flats in the folder, automatically
+grabbing the correct combined dark for each flat.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">ccd</span><span class="p">,</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">ifc_raw</span><span class="o">.</span><span class="n">ccds</span><span class="p">(</span><span class="n">imagetyp</span><span class="o">=</span><span class="s1">&#39;FLAT&#39;</span><span class="p">,</span>            <span class="c1"># Just get the bias frames</span>
+                                   <span class="n">return_fname</span><span class="o">=</span><span class="kc">True</span>           <span class="c1"># Provide the file name too.</span>
+                                  <span class="p">):</span>
+        
+    <span class="c1"># Trim the overscan</span>
+    <span class="n">ccd</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">trim_image</span><span class="p">(</span><span class="n">ccd</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">4096</span><span class="p">])</span>
+    
+    <span class="c1"># Find the correct dark exposure</span>
+    <span class="n">closest_dark</span> <span class="o">=</span> <span class="n">find_nearest_dark_exposure</span><span class="p">(</span><span class="n">ccd</span><span class="p">,</span> <span class="n">actual_exposure_times</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    
+    <span class="c1"># Subtract the dark current </span>
+    <span class="n">ccd</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">subtract_dark</span><span class="p">(</span><span class="n">ccd</span><span class="p">,</span> <span class="n">combined_darks</span><span class="p">[</span><span class="n">closest_dark</span><span class="p">],</span>
+                             <span class="n">exposure_time</span><span class="o">=</span><span class="s1">&#39;exptime&#39;</span><span class="p">,</span> <span class="n">exposure_unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">second</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Save the result</span>
+    <span class="n">ccd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">reduced_path</span> <span class="o">/</span> <span class="n">file_name</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>WARNING: FITSFixedWarning: RADECSYS= &#39;FK5 &#39; / Equatorial coordinate system 
+the RADECSYS keyword is deprecated, use RADESYSa. [astropy.wcs.wcs]
+WARNING:astropy:FITSFixedWarning: RADECSYS= &#39;FK5 &#39; / Equatorial coordinate system 
+the RADECSYS keyword is deprecated, use RADESYSa.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    
