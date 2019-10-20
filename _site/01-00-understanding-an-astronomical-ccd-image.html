@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  
-
   <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
   <title>Understanding astronomical images</title>
-  <meta name="description" content="Understanding an astronomical CCD image">
+  <meta name="description" content="        Understanding an astronomical CCD image An astronomical image like the one shown below is essentially a two-dimensionalarray of values. In an ideal w...">
 
   <link rel="canonical" href="/YOUR%20URL//01-00-Understanding-an-astronomical-CCD-image.html">
   <link rel="alternate" type="application/rss+xml" title="CCD Data Reduction Guide" href="/YOUR%20URL//feed.xml">
@@ -16,24 +14,21 @@
   <meta property="og:url"         content="/YOUR%20URL//01-00-Understanding-an-astronomical-CCD-image.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="Understanding astronomical images" />
-<meta property="og:description" content="Understanding an astronomical CCD image" />
-<meta property="og:image"       content="" />
+<meta property="og:description" content="        Understanding an astronomical CCD image An astronomical image like the one shown below is essentially a two-dimensionalarray of values. In an ideal w..." />
+<meta property="og:image"       content="YOUR%20URL/images/logo/logo.png" />
+
+<meta name="twitter:card" content="summary">
 
 
   <script type="application/ld+json">
   {
   "@context": "http://schema.org",
   "@type": "NewsArticle",
-  "mainEntityOfPage":
-    "YOUR URL//01-00-Understanding-an-astronomical-CCD-image.html",
-  "headline":
-    "Understanding astronomical images",
-  "datePublished":
-    "2019-07-23T10:17:20-05:00",
-  "dateModified":
-    "2019-07-23T10:17:20-05:00",
-  "description":
-    "Understanding an astronomical CCD image",
+  "mainEntityOfPage": "YOUR URL//01-00-Understanding-an-astronomical-CCD-image.html",
+  "headline": "Understanding astronomical images",
+  "datePublished": "2019-10-20T09:35:14-06:00",
+  "dateModified": "2019-10-20T09:35:14-06:00",
+  "description": "        Understanding an astronomical CCD image An astronomical image like the one shown below is essentially a two-dimensionalarray of values. In an ideal w...",
   "author": {
     "@type": "Person",
     "name": "Matthew Craig"
@@ -58,16 +53,6 @@
 
   </script>
   <link rel="stylesheet" href="/assets/css/styles.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css ">
-  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
 
   <!-- <link rel="manifest" href="/manifest.json"> -->
   <!-- <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#efae0a"> -->
@@ -80,6 +65,8 @@
 
   <!-- MathJax Config -->
   <!-- Allow inline math using $ and automatically break long math lines -->
+<!-- (mostly) copied from nbconvert configuration -->
+<!-- https://github.com/jupyter/nbconvert/blob/master/nbconvert/templates/html/mathjax.tpl -->
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     tex2jax: {
@@ -88,35 +75,23 @@ MathJax.Hub.Config({
         processEscapes: true,
         processEnvironments: true
     },
-    CommonHTML: {
-        linebreaks: {
-            automatic: true,
-        },
-    },
+    // Center justify equations in code and markdown cells. Elsewhere
+    // we use CSS to left justify single line equations in code cells.
+    displayAlign: 'center',
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}},
+        linebreaks: { automatic: true },
+    }
 });
 </script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML' async></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_HTML' async></script>
+
 
   <!-- DOM updating function -->
-  <script>
-const runWhenDOMLoaded = cb => {
-  if (document.readyState != 'loading') {
-    cb()
-  } else if (document.addEventListener) {
-    document.addEventListener('DOMContentLoaded', cb)
-  } else {
-    document.attachEvent('onreadystatechange', function() {
-      if (document.readyState == 'complete') cb()
-    })
-  }
-}
+  <script src="/assets/js/page/dom-update.js"></script>
 
-// Helper function to init things quickly
-initFunction = function(myfunc) {
-  runWhenDOMLoaded(myfunc);
-  document.addEventListener('turbolinks:load', myfunc);
-};
-</script>
+  <!-- Selectors for elements on the page -->
+  <script src="/assets/js/page/documentSelectors.js"></script>
 
   <!-- Define some javascript variables that will be useful in other javascript -->
   <script>
@@ -124,179 +99,42 @@ initFunction = function(myfunc) {
   </script>
 
   <!-- Add AnchorJS to let headers be linked -->
-  <script src="/assets/js/anchor.min.js"  type="text/javascript"></script>
-  <script>
-
-initFunction(function () {
-    anchors.add("main h1, main h2, main h3, main h4")
-});
-
-</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.2.0/anchor.min.js" async></script>
+  <script src="/assets/js/page/anchors.js" async></script>
 
   <!-- Include Turbolinks to make page loads fast -->
   <!-- https://github.com/turbolinks/turbolinks -->
-  <script src="/assets/js/turbolinks.js" async></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js" async></script>
   <meta name="turbolinks-cache-control" content="no-cache">
 
   <!-- Load nbinteract for widgets -->
-  <script src="https://unpkg.com/nbinteract-core" async></script>
+  
 
   <!-- Load Thebelab for interactive widgets -->
   <!-- Include Thebelab for interactive code if it's enabled -->
 
 
+
+  <!-- Load the auto-generating TOC (non-async otherwise the TOC won't load w/ turbolinks) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js" async></script>
+  <script src="/assets/js/page/tocbot.js"></script>
+
   <!-- Google analytics -->
-  <script src="/assets/js/ga.js" async></script>
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '');
+</script>
+
+
 
   <!-- Clipboard copy button -->
-  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" async></script>
-
-  <!-- Load JS that depends on site variables -->
-  <script>
-/**
- * Set up copy/paste for code blocks
- */
-const codeCellId = index => `codecell${index}`
-
-const clipboardButton = id =>
-  `<a class="btn copybtn o-tooltip--left" data-tooltip="Copy" data-clipboard-target="#${id}">
-    <img src="/assets/images/copy-button.svg" alt="Copy to clipboard">
-  </a>`
-
-// Clears selected text since ClipboardJS will select the text when copying
-const clearSelection = () => {
-  if (window.getSelection) {
-    window.getSelection().removeAllRanges()
-  } else if (document.selection) {
-    document.selection.empty()
-  }
-}
-
-// Changes tooltip text for two seconds, then changes it back
-const temporarilyChangeTooltip = (el, newText) => {
-  const oldText = el.getAttribute('data-tooltip')
-  el.setAttribute('data-tooltip', newText)
-  setTimeout(() => el.setAttribute('data-tooltip', oldText), 2000)
-}
-
-const addCopyButtonToCodeCells = () => {
-  // If ClipboardJS hasn't loaded, wait a bit and try again. This
-  // happens because we load ClipboardJS asynchronously.
-  if (window.ClipboardJS === undefined) {
-    setTimeout(addCopyButtonToCodeCells, 250)
-    return
-  }
-
-  const codeCells = document.querySelectorAll('div.highlighter-rouge:not(.output) pre')
-  codeCells.forEach((codeCell, index) => {
-    const id = codeCellId(index)
-    codeCell.setAttribute('id', id)
-    if (document.querySelector(`pre#${id} + a`) == null) {
-      codeCell.insertAdjacentHTML('afterend', clipboardButton(id));
-    }
-  })
-
-  const clipboard = new ClipboardJS('.copybtn')
-  clipboard.on('success', event => {
-    clearSelection()
-    temporarilyChangeTooltip(event.trigger, 'Copied!')
-  })
-
-  clipboard.on('error', event => {
-    temporarilyChangeTooltip(event.trigger, 'Failed to copy')
-  })
-
-  // Get rid of clipboard before the next page visit to avoid memory leak
-  document.addEventListener('turbolinks:before-visit', () =>
-    clipboard.destroy()
-  )
-}
-
-initFunction(addCopyButtonToCodeCells);
-</script>
-
-  <!-- Hide cell code -->
-  
-<script>
-/**
-Add buttons to hide code cells
-*/
-
-
-var setCodeCellVisibility = function(inputField, kind) {
-    // Update the image and class for hidden
-    var id = inputField.getAttribute('data-id');
-    var codeCell = document.querySelector(`#${id}`);
-
-    if (kind === "visible") {
-        codeCell.classList.remove('hidden');
-        inputField.checked = true;
-    } else {
-        codeCell.classList.add('hidden');
-        inputField.checked = false;
-    }
-}
-
-var toggleCodeCellVisibility = function (event) {
-    // The label is clicked, and now we decide what to do based on the input field's clicked status
-    if (event.target.tagName === "LABEL") {
-        var inputField = event.target.previousElementSibling;
-    } else {
-        // It is the span inside the target
-        var inputField = event.target.parentElement.previousElementSibling;
-    }
-
-    if (inputField.checked === true) {
-        setCodeCellVisibility(inputField, "visible");
-    } else {
-        setCodeCellVisibility(inputField, "hidden");
-    }
-}
-
-
-// Button constructor
-const hideCodeButton = id => `<input class="hidebtn" type="checkbox" id="hidebtn${id}" data-id="${id}"><label title="Toggle cell" for="hidebtn${id}" class="plusminus"><span class="pm_h"></span><span class="pm_v"></span></label>`
-
-var addHideButton = function () {
-  // If a hide button is already added, don't add another
-  if (document.querySelector('div.hidecode input') !== null) {
-      return;
-  }
-
-  // Find the input cells and add a hide button
-  document.querySelectorAll('div.input_area div.highlight').forEach(function (item, index) {
-    if (!item.parentElement.classList.contains("hidecode")) {
-        // Skip the cell if it doesn't have a hidecode class
-        return;
-    }
-
-    const id = codeCellId(index)
-    item.setAttribute('id', id);
-    item.insertAdjacentHTML('afterend', hideCodeButton(id))
-
-    // Set up the visibility toggle
-    hideLink = document.querySelector(`#${id} + input + label`);
-    hideLink.addEventListener('click', toggleCodeCellVisibility)
-  });
-}
-
-
-// Initialize the hide buttos
-var initHiddenCells = function () {
-    // Add hide buttons to the cells
-    addHideButton();
-
-    // Toggle the code cells that should be hidden
-    document.querySelectorAll('div.hidecode input').forEach(function (item) {
-        setCodeCellVisibility(item, 'hidden');
-        item.checked = true;
-    })
-}
-
-initFunction(initHiddenCells);
-
-</script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" async></script>
 
   <!-- Load custom website scripts -->
   <script src="/assets/js/scripts.js" async></script>
@@ -309,7 +147,7 @@ initFunction(initHiddenCells);
   
 
   <!-- Lunr search code - will only be executed on the /search page -->
-  <script src="/assets/js/lunr/lunr.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.6/lunr.min.js" async></script>
   <script>var initQuery = function() {
   // See if we have a search box
   var searchInput = document.querySelector('input#lunr_search');
@@ -395,6 +233,47 @@ initFunction(initHiddenCells);
 
 initFunction(initQuery);
 </script>
+
+  <!-- Load JS that depends on site variables -->
+  <script src="/assets/js/page/copy-button.js" async></script>
+
+  <!-- Hide cell code -->
+  <script src="/assets/js/page/hide-cell.js" async></script>
+
+  <!-- Printing the screen -->
+  <!-- Include nbinteract for interactive widgets -->
+<script src="https://printjs-4de6.kxcdn.com/print.min.js" async></script>
+<script>
+printContent = () => {
+    // MathJax displays a second version of any math for assistive devices etc.
+    // This prevents double-rendering in the PDF output.
+    var ignoreAssistList = [];
+    assistives = document.querySelectorAll('.MathJax_Display span.MJX_Assistive_MathML').forEach((element, index) => {
+        var thisId = 'MathJax-assistive-' + index.toString();
+        element.setAttribute('id', thisId);
+        ignoreAssistList.push(thisId)
+    });
+
+    // Print the actual content object
+    printJS({
+        printable: 'textbook_content',
+        type: 'html',
+        css: "/assets/css/styles.css",
+        style: "#textbook_content {padding-top: 40px};",
+        scanStyles: false,
+        targetStyles: ["*"],
+        ignoreElements: ignoreAssistList,
+        documentTitle: "Made with Jupyter Book"
+    })
+};
+
+initPrint = () => {
+    document.querySelector('#interact-button-print').addEventListener('click', printContent)
+}
+
+initFunction(initPrint)
+</script>
+
 </head>
 
   <body>
@@ -405,7 +284,7 @@ initFunction(initQuery);
 
 
 <nav id="js-sidebar" class="c-textbook__sidebar">
-  <a href="https://jupyter.org/jupyter-book/"><img src="/images/logo/logo.png" class="textbook_logo" id="sidebar-logo" data-turbolinks-permanent/></a>
+  <a href="https://jupyter.org/jupyter-book/"><img src="/images/logo/logo.png" class="textbook_logo" id="sidebar-logo" alt="textbook logo" data-turbolinks-permanent/></a>
   <h2 class="c-sidebar__title">CCD Data Reduction Guide</h2>
   <ul class="c-sidebar__chapters">
     
@@ -432,8 +311,27 @@ initFunction(initQuery);
     
       
       
-        <li class="c-sidebar__chapter"><a class="c-sidebar__entry" href="/search.html">Search</a></li>
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href=".html"
+        >
+          
+            1.
+          
+          Search
+        </a>
+
         
+      </li>
+
+      
+    
       
       
         <li class="c-sidebar__divider"></li>
@@ -455,7 +353,7 @@ initFunction(initQuery);
           href="/01-00-Understanding-an-astronomical-CCD-image.html"
         >
           
-            1.
+            2.
           
           Understanding astronomical images
         </a>
@@ -479,7 +377,7 @@ initFunction(initQuery);
                   href="/01-03-Construction-of-an-artificial-but-realistic-image.html"
                 >
                   
-                    1.1
+                    2.1
                   
                   An artificial, but realistic, image
                 </a>
@@ -498,7 +396,7 @@ initFunction(initQuery);
                   href="/01-04-Nonuniform-sensitivity.html"
                 >
                   
-                    1.2
+                    2.2
                   
                   Non-uniform sensitivity in astronomical detectors
                 </a>
@@ -517,7 +415,7 @@ initFunction(initQuery);
                   href="/01-05-Calibration-overview.html"
                 >
                   
-                    1.3
+                    2.3
                   
                   Calibration overview
                 </a>
@@ -536,7 +434,7 @@ initFunction(initQuery);
                   href="/01-06-Image-combination.html"
                 >
                   
-                    1.4
+                    2.4
                   
                   Image combination
                 </a>
@@ -555,7 +453,7 @@ initFunction(initQuery);
                   href="/01-08-Overscan.html"
                 >
                   
-                    1.5
+                    2.5
                   
                   Overscan
                 </a>
@@ -574,7 +472,7 @@ initFunction(initQuery);
                   href="/01-09-Calibration-choices-you-need-to-make.html"
                 >
                   
-                    1.6
+                    2.6
                   
                   Calibration choices to make
                 </a>
@@ -593,7 +491,7 @@ initFunction(initQuery);
                   href="/01-11-reading-images.html"
                 >
                   
-                    1.7
+                    2.7
                   
                   Reading images
                 </a>
@@ -623,7 +521,7 @@ initFunction(initQuery);
           href="/02-00-Handling-overscan-trimming-and-bias-subtraction.html"
         >
           
-            2.
+            3.
           
           Overscan and bias images
         </a>
@@ -647,7 +545,7 @@ initFunction(initQuery);
                   href="/02-01-Calibrating-bias-images.html"
                 >
                   
-                    2.1
+                    3.1
                   
                   Calibrating bias images
                 </a>
@@ -666,7 +564,7 @@ initFunction(initQuery);
                   href="/02-04-Combine-bias-images-to-make-master.html"
                 >
                   
-                    2.2
+                    3.2
                   
                   Combine bias images to make master bias
                 </a>
@@ -696,7 +594,7 @@ initFunction(initQuery);
           href="/03-00-Dark-current-and-hot-pixels.html"
         >
           
-            3.
+            4.
           
           Dark current and dark frames
         </a>
@@ -720,7 +618,7 @@ initFunction(initQuery);
                   href="/03-01-Dark-current-The-ideal-case.html"
                 >
                   
-                    3.1
+                    4.1
                   
                   Dark current: the ideal case
                 </a>
@@ -739,7 +637,7 @@ initFunction(initQuery);
                   href="/03-02-Real-dark-current-noise-and-other-artifacts.html"
                 >
                   
-                    3.2
+                    4.2
                   
                   Real dark current: noise and other artifacts
                 </a>
@@ -758,7 +656,7 @@ initFunction(initQuery);
                   href="/03-04-Handling-overscan-and-bias-for-dark-frames.html"
                 >
                   
-                    3.3
+                    4.3
                   
                   Handling overscan and bias for dark frames
                 </a>
@@ -777,7 +675,7 @@ initFunction(initQuery);
                   href="/03-05-Calibrate-dark-images.html"
                 >
                   
-                    3.4
+                    4.4
                   
                   Calibrate dark images
                 </a>
@@ -796,7 +694,7 @@ initFunction(initQuery);
                   href="/03-06-Combine-darks-for-use-in-later-calibration-steps.html"
                 >
                   
-                    3.5
+                    4.5
                   
                   Combine calibrated dark images for use in later reduction steps
                 </a>
@@ -826,7 +724,7 @@ initFunction(initQuery);
           href="/05-00-Flat-corrections.html"
         >
           
-            4.
+            5.
           
           Flat fielding
         </a>
@@ -850,7 +748,7 @@ initFunction(initQuery);
                   href="/05-03-Calibrating-the-flats.html"
                 >
                   
-                    4.1
+                    5.1
                   
                   Calibrating flat frames
                 </a>
@@ -869,7 +767,7 @@ initFunction(initQuery);
                   href="/05-04-Combining-flats.html"
                 >
                   
-                    4.2
+                    5.2
                   
                   Combining flat frames
                 </a>
@@ -899,7 +797,7 @@ initFunction(initQuery);
           href="/06-00-Reducing-science-images.html"
         >
           
-            5.
+            6.
           
           Calibrating science images
         </a>
@@ -922,7 +820,7 @@ initFunction(initQuery);
           href="/08-00-Image-masking.html"
         >
           
-            6.
+            7.
           
           Finding and dealing with bad pixels
         </a>
@@ -946,7 +844,7 @@ initFunction(initQuery);
                   href="/08-01-Identifying-hot-pixels.html"
                 >
                   
-                    6.1
+                    7.1
                   
                   Identifying hot pixels
                 </a>
@@ -965,7 +863,7 @@ initFunction(initQuery);
                   href="/08-02-Creating-a-mask.html"
                 >
                   
-                    6.2
+                    7.2
                   
                   Identifying bad pixels with ccdmask
                 </a>
@@ -984,7 +882,7 @@ initFunction(initQuery);
                   href="/08-03-Cosmic-ray-removal.html"
                 >
                   
-                    6.3
+                    7.3
                   
                   Removing cosmic rays
                 </a>
@@ -1003,7 +901,7 @@ initFunction(initQuery);
                   href="/08-05-incorporating-masks-into-calibrated-science-images.html"
                 >
                   
-                    6.4
+                    7.4
                   
                   Incorporating masks in science images
                 </a>
@@ -1050,168 +948,210 @@ initFunction(initQuery);
 </nav>
 
       
-      <!-- Shamelessly copied from minimal mistakes -->
+      <div class="c-topbar" id="top-navbar">
+  <!-- We show the sidebar by default so we use .is-active -->
+  <div class="c-topbar__buttons">
+    <button
+      id="js-sidebar-toggle"
+      class="hamburger hamburger--arrowalt is-active"
+    >
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+    <div class="buttons">
+<div class="download-buttons-dropdown">
+    <button id="dropdown-button-trigger" class="interact-button"><img src="/assets/images/download-solid.svg" alt="Download" /></button>
+    <div class="download-buttons">
+        <a href="/content/01-00-Understanding-an-astronomical-CCD-image.ipynb" download>
+        <button id="interact-button-download" class="interact-button">.ipynb</button>
+        </a>
+        
+        <a id="interact-button-print"><button id="interact-button-download" class="interact-button">.pdf</button></a>
+    </div>
+</div>
 
 
-<!-- TOC will only show up if it has at least one item -->
+  
+  
+  
+  
 
 
+</div>
+
+  </div>
+  <!-- Empty sidebar placeholder that we'll auto-fill with javascript -->
   <aside class="sidebar__right">
+    <header><h4 class="nav__title"><img src="/assets/images/list-solid.svg" alt="Search" />   On this page</h4></header>
     <nav class="onthispage">
-      <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
-      <ul class="toc__menu">
-  <li><a href="#counts-photons-and-electrons">Counts, photons, and electrons</a></li>
-  <li><a href="#not-all-counts-are-interesting-light">Not all counts are (interesting) light</a></li>
-  <li><a href="#ccds-are-not-perfect">CCDs are not perfect</a></li>
-  <li><a href="#references">References</a></li>
-</ul>
     </nav>
   </aside>
+  <a href="/search.html" class="topbar-right-button" id="search-button">
+    <img src="/assets/images/search-solid.svg" alt="Search" />
+  </a>
+</div>
 
-
-      
       <main class="c-textbook__page" tabindex="-1">
-          <div class="o-wrapper">
-            <div class="c-sidebar-toggle">
-  <!-- We show the sidebar by default so we use .is-active -->
-  <button
-    id="js-sidebar-toggle"
-    class="hamburger hamburger--arrowalt is-active"
-  >
-    <span class="hamburger-box">
-      <span class="hamburger-inner"></span>
-    </span>
-    <span class="c-sidebar-toggle__label">Toggle Sidebar</span>
-  </button>
+            <div class="c-textbook__content" id="textbook_content">
+                  <main class="jupyter-page">
+    
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Understanding-an-astronomical-CCD-image">Understanding an astronomical CCD image<a class="anchor-link" href="#Understanding-an-astronomical-CCD-image"> </a></h1>
+</div>
+</div>
+</div>
 </div>
 
-            
-<div class="buttons">
-<a href="/content/01-00-Understanding-an-astronomical-CCD-image.ipynb" download>
-<button id="interact-button-download" class="interact-button">Download</button>
-</a>
+<div class="jb_cell">
 
-
-
-
-
-</div>
-
-
-            <div class="c-textbook__content">
-              <h1 id="understanding-an-astronomical-ccd-image">Understanding an astronomical CCD image</h1>
-
-<p>An astronomical image like the one shown below is essentually a two-dimensional
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>An astronomical image like the one shown below is essentially a two-dimensional
 array of values. In an ideal world, the value of each pixel (a pixel being one
 element of the array) would be directly proportional to the amount of light that
-fell on the pixel during the time the camera’s shutter was open.</p>
-
+fell on the pixel during the time the camera's shutter was open.</p>
 <p>But the ideal scenario does not in fact hold true. A solid understanding of
 <em>why</em> pixel values are not directly proportional to light is useful before
 diving into the details of image reduction.</p>
 
-<h2 id="counts-photons-and-electrons">Counts, photons, and electrons</h2>
+</div>
+</div>
+</div>
+</div>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/105/files#diff-b3275978d8cf06c05a90ff9fa11f224cR28" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<div class="jb_cell">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Counts,-photons,-and-electrons">Counts, photons, and electrons<a class="anchor-link" href="#Counts,-photons,-and-electrons"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/194/files#diff-b3275978d8cf06c05a90ff9fa11f224cR28"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
 <p>The number stored in a raw astronomical image straight off a telescope is called
 an Analog Digital Unit (ADU) or count, because internally the camera converts
 the analog voltage in each pixel to a numerical count. The counts of interest to
 an astronomer are the ones generated via the photoelectric effect when a photon
 hits the detector. The number of photons (or equivalently, electrons) that reach
 the pixel is related to the counts in the pixel by the gain.</p>
-
 <p>The gain is typically provided by the manufacturer of the camera and can be
 measured from a combination of bias and flat images (Howell 2002; p. 71).</p>
-
 <p><strong>Take note</strong> that trying to convert a raw image count to photons/electrons by
 multiplying by the gain will not be meaningful because the raw counts include
 contributions from sources other than light.</p>
 
-<h2 id="not-all-counts-are-interesting-light">Not all counts are (interesting) light</h2>
+</div>
+</div>
+</div>
+</div>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/105/files#diff-b3275978d8cf06c05a90ff9fa11f224cR49" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<div class="jb_cell">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Not-all-counts-are-(interesting)-light">Not all counts are (interesting) light<a class="anchor-link" href="#Not-all-counts-are-(interesting)-light"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/194/files#diff-b3275978d8cf06c05a90ff9fa11f224cR49"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
 <p>There are several contributions to the counts in a pixel. Image reduction is
 essentially the process of removing all of these except those due to light from
 an astronomical object:</p>
-
 <ul>
-  <li>An offset voltage called <strong>bias</strong> is applied to the CCD chip to ensure there
+<li>An offset voltage called <strong>bias</strong> is applied to the CCD chip to ensure there
 are no negative counts during readout. There are small variations in the value
 of the bias across the chip, and there can be small variations in the bias level
 over time.</li>
-  <li>Counts can be generated in a pixel due to thermal motion of electrons in CCD;
+<li>Counts can be generated in a pixel due to thermal motion of electrons in CCD;
 cooling a CCD reduces, but may not fully eliminate, this <strong>dark current</strong>. In
 modern CCDs the dark current is often ignorable exept for a small fraction of
 pixels. Dark current is typically reported in electrons/second/pixel, and
 depends strongly on temperature.</li>
-  <li>There is <strong>read noise</strong> intrinsic to the electronics of the CCD. It is
-impossible to eliminate this noise (it’s present in every image taken by the
+<li>There is <strong>read noise</strong> intrinsic to the electronics of the CCD. It is
+impossible to eliminate this noise (it's present in every image taken by the
 camera) but there are approaches to minimizing it. Read noise is typically
 reported in electrons as it can depend on temperature.</li>
-  <li>Some light received by the telescope is scattered light coming from the night
+<li>Some light received by the telescope is scattered light coming from the night
 sky. The amount of <strong>sky background</strong> depends on the filter passband, the
 atmospheric conditions, and the local light sources.</li>
-  <li>Though a CCD chip is fairly small, it’s not unsual for <strong>cosmic rays</strong> to hit
+<li>Though a CCD chip is fairly small, it's not unsual for <strong>cosmic rays</strong> to hit
 the chip, releasing charge that is then converted to counts.</li>
 </ul>
-
 <p>Whatever remains after taking all of those things away is, in principle, light
 from astronomical sources.</p>
-
 <p>In practice, there are additional complications.</p>
 
-<h2 id="ccds-are-not-perfect">CCDs are not perfect</h2>
+</div>
+</div>
+</div>
+</div>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/105/files#diff-b3275978d8cf06c05a90ff9fa11f224cR84" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<div class="jb_cell">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="CCDs-are-not-perfect">CCDs are not perfect<a class="anchor-link" href="#CCDs-are-not-perfect"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/194/files#diff-b3275978d8cf06c05a90ff9fa11f224cR84"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
 <p>There are a number of issues that affect the sensitivity of the CCD to light,
 some of which can be corrected for and some of which cannot.</p>
-
 <ul>
-  <li>Vignetting, a darkening of the images in the corners, is common and
+<li>Vignetting, a darkening of the images in the corners, is common and
 correctable.</li>
-  <li>Dust in the optical path, which causes “donuts” or “worms” on the image, is
+<li>Dust in the optical path, which causes "donuts" or "worms" on the image, is
 also common and correctable.</li>
-  <li>Variations in the sensitivity of individual pixels are also common and
+<li>Variations in the sensitivity of individual pixels are also common and
 correctable.</li>
-  <li>Dead pixels, which are pixels that don’t respond to light, cannot be corrected
+<li>Dead pixels, which are pixels that don't respond to light, cannot be corrected
 for.</li>
 </ul>
-
 <p><strong>Flat</strong> corrections attempt to remove many of these effects. The idea is to
 image something which is uniformly illuminated as a way to measure variations in
 sensitivity (regardless of cause) and compensate for them.</p>
 
-<h2 id="references">References</h2>
+</div>
+</div>
+</div>
+</div>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/105/files#diff-b3275978d8cf06c05a90ff9fa11f224cR107" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<div class="jb_cell">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">References<a class="anchor-link" href="#References"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/194/files#diff-b3275978d8cf06c05a90ff9fa11f224cR107"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
 <p>Howell, S., <em>Handbook of CCD Astronomy</em>, Second Ed, Cambridge University Press
 2006</p>
 
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    
+            </div>
+            <div class="c-textbook__footer" id="textbook_footer">
               <nav class="c-page__nav">
   
     
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/00-00-Preface">
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/00-00-Preface.html">
       〈 <span class="u-margin-right-tiny"></span> Home
     </a>
   
 
   
     
-    <a id="js-page__nav__next" class="c-page__nav__next" href="/01-03-Construction-of-an-artificial-but-realistic-image">
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/01-03-Construction-of-an-artificial-but-realistic-image.html">
       An artificial, but realistic, image <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>
 
+              <footer>
+  <p class="footer">This page was created by <a href="https://github.com/jupyter/jupyter-book/graphs/contributors">The Jupyter Book Community</a></p>
+</footer>
+
             </div>
-          </div>
+
         </div>
       </main>
     </div>
-
   </body>
 </html>

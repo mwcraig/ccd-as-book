@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  
-
   <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
   <title>Removing cosmic rays</title>
-  <meta name="description" content="Cosmic ray removal">
+  <meta name="description" content="        Cosmic ray removal Almost all images from a CCD will include some number of cosmic rays, chargedparticles which bombard the Earth's upper atmosphere....">
 
   <link rel="canonical" href="/YOUR%20URL//08-03-Cosmic-ray-removal.html">
   <link rel="alternate" type="application/rss+xml" title="CCD Data Reduction Guide" href="/YOUR%20URL//feed.xml">
@@ -16,24 +14,21 @@
   <meta property="og:url"         content="/YOUR%20URL//08-03-Cosmic-ray-removal.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="Removing cosmic rays" />
-<meta property="og:description" content="Cosmic ray removal" />
-<meta property="og:image"       content="" />
+<meta property="og:description" content="        Cosmic ray removal Almost all images from a CCD will include some number of cosmic rays, chargedparticles which bombard the Earth's upper atmosphere...." />
+<meta property="og:image"       content="YOUR%20URL/images/logo/logo.png" />
+
+<meta name="twitter:card" content="summary">
 
 
   <script type="application/ld+json">
   {
   "@context": "http://schema.org",
   "@type": "NewsArticle",
-  "mainEntityOfPage":
-    "YOUR URL//08-03-Cosmic-ray-removal.html",
-  "headline":
-    "Removing cosmic rays",
-  "datePublished":
-    "2019-07-23T10:17:20-05:00",
-  "dateModified":
-    "2019-07-23T10:17:20-05:00",
-  "description":
-    "Cosmic ray removal",
+  "mainEntityOfPage": "YOUR URL//08-03-Cosmic-ray-removal.html",
+  "headline": "Removing cosmic rays",
+  "datePublished": "2019-10-20T09:35:14-06:00",
+  "dateModified": "2019-10-20T09:35:14-06:00",
+  "description": "        Cosmic ray removal Almost all images from a CCD will include some number of cosmic rays, chargedparticles which bombard the Earth's upper atmosphere....",
   "author": {
     "@type": "Person",
     "name": "Matthew Craig"
@@ -58,16 +53,6 @@
 
   </script>
   <link rel="stylesheet" href="/assets/css/styles.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css ">
-  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
 
   <!-- <link rel="manifest" href="/manifest.json"> -->
   <!-- <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#efae0a"> -->
@@ -80,6 +65,8 @@
 
   <!-- MathJax Config -->
   <!-- Allow inline math using $ and automatically break long math lines -->
+<!-- (mostly) copied from nbconvert configuration -->
+<!-- https://github.com/jupyter/nbconvert/blob/master/nbconvert/templates/html/mathjax.tpl -->
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     tex2jax: {
@@ -88,35 +75,23 @@ MathJax.Hub.Config({
         processEscapes: true,
         processEnvironments: true
     },
-    CommonHTML: {
-        linebreaks: {
-            automatic: true,
-        },
-    },
+    // Center justify equations in code and markdown cells. Elsewhere
+    // we use CSS to left justify single line equations in code cells.
+    displayAlign: 'center',
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}},
+        linebreaks: { automatic: true },
+    }
 });
 </script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML' async></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_HTML' async></script>
+
 
   <!-- DOM updating function -->
-  <script>
-const runWhenDOMLoaded = cb => {
-  if (document.readyState != 'loading') {
-    cb()
-  } else if (document.addEventListener) {
-    document.addEventListener('DOMContentLoaded', cb)
-  } else {
-    document.attachEvent('onreadystatechange', function() {
-      if (document.readyState == 'complete') cb()
-    })
-  }
-}
+  <script src="/assets/js/page/dom-update.js"></script>
 
-// Helper function to init things quickly
-initFunction = function(myfunc) {
-  runWhenDOMLoaded(myfunc);
-  document.addEventListener('turbolinks:load', myfunc);
-};
-</script>
+  <!-- Selectors for elements on the page -->
+  <script src="/assets/js/page/documentSelectors.js"></script>
 
   <!-- Define some javascript variables that will be useful in other javascript -->
   <script>
@@ -124,179 +99,42 @@ initFunction = function(myfunc) {
   </script>
 
   <!-- Add AnchorJS to let headers be linked -->
-  <script src="/assets/js/anchor.min.js"  type="text/javascript"></script>
-  <script>
-
-initFunction(function () {
-    anchors.add("main h1, main h2, main h3, main h4")
-});
-
-</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.2.0/anchor.min.js" async></script>
+  <script src="/assets/js/page/anchors.js" async></script>
 
   <!-- Include Turbolinks to make page loads fast -->
   <!-- https://github.com/turbolinks/turbolinks -->
-  <script src="/assets/js/turbolinks.js" async></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js" async></script>
   <meta name="turbolinks-cache-control" content="no-cache">
 
   <!-- Load nbinteract for widgets -->
-  <script src="https://unpkg.com/nbinteract-core" async></script>
+  
 
   <!-- Load Thebelab for interactive widgets -->
   <!-- Include Thebelab for interactive code if it's enabled -->
 
 
+
+  <!-- Load the auto-generating TOC (non-async otherwise the TOC won't load w/ turbolinks) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js" async></script>
+  <script src="/assets/js/page/tocbot.js"></script>
+
   <!-- Google analytics -->
-  <script src="/assets/js/ga.js" async></script>
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '');
+</script>
+
+
 
   <!-- Clipboard copy button -->
-  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" async></script>
-
-  <!-- Load JS that depends on site variables -->
-  <script>
-/**
- * Set up copy/paste for code blocks
- */
-const codeCellId = index => `codecell${index}`
-
-const clipboardButton = id =>
-  `<a class="btn copybtn o-tooltip--left" data-tooltip="Copy" data-clipboard-target="#${id}">
-    <img src="/assets/images/copy-button.svg" alt="Copy to clipboard">
-  </a>`
-
-// Clears selected text since ClipboardJS will select the text when copying
-const clearSelection = () => {
-  if (window.getSelection) {
-    window.getSelection().removeAllRanges()
-  } else if (document.selection) {
-    document.selection.empty()
-  }
-}
-
-// Changes tooltip text for two seconds, then changes it back
-const temporarilyChangeTooltip = (el, newText) => {
-  const oldText = el.getAttribute('data-tooltip')
-  el.setAttribute('data-tooltip', newText)
-  setTimeout(() => el.setAttribute('data-tooltip', oldText), 2000)
-}
-
-const addCopyButtonToCodeCells = () => {
-  // If ClipboardJS hasn't loaded, wait a bit and try again. This
-  // happens because we load ClipboardJS asynchronously.
-  if (window.ClipboardJS === undefined) {
-    setTimeout(addCopyButtonToCodeCells, 250)
-    return
-  }
-
-  const codeCells = document.querySelectorAll('div.highlighter-rouge:not(.output) pre')
-  codeCells.forEach((codeCell, index) => {
-    const id = codeCellId(index)
-    codeCell.setAttribute('id', id)
-    if (document.querySelector(`pre#${id} + a`) == null) {
-      codeCell.insertAdjacentHTML('afterend', clipboardButton(id));
-    }
-  })
-
-  const clipboard = new ClipboardJS('.copybtn')
-  clipboard.on('success', event => {
-    clearSelection()
-    temporarilyChangeTooltip(event.trigger, 'Copied!')
-  })
-
-  clipboard.on('error', event => {
-    temporarilyChangeTooltip(event.trigger, 'Failed to copy')
-  })
-
-  // Get rid of clipboard before the next page visit to avoid memory leak
-  document.addEventListener('turbolinks:before-visit', () =>
-    clipboard.destroy()
-  )
-}
-
-initFunction(addCopyButtonToCodeCells);
-</script>
-
-  <!-- Hide cell code -->
-  
-<script>
-/**
-Add buttons to hide code cells
-*/
-
-
-var setCodeCellVisibility = function(inputField, kind) {
-    // Update the image and class for hidden
-    var id = inputField.getAttribute('data-id');
-    var codeCell = document.querySelector(`#${id}`);
-
-    if (kind === "visible") {
-        codeCell.classList.remove('hidden');
-        inputField.checked = true;
-    } else {
-        codeCell.classList.add('hidden');
-        inputField.checked = false;
-    }
-}
-
-var toggleCodeCellVisibility = function (event) {
-    // The label is clicked, and now we decide what to do based on the input field's clicked status
-    if (event.target.tagName === "LABEL") {
-        var inputField = event.target.previousElementSibling;
-    } else {
-        // It is the span inside the target
-        var inputField = event.target.parentElement.previousElementSibling;
-    }
-
-    if (inputField.checked === true) {
-        setCodeCellVisibility(inputField, "visible");
-    } else {
-        setCodeCellVisibility(inputField, "hidden");
-    }
-}
-
-
-// Button constructor
-const hideCodeButton = id => `<input class="hidebtn" type="checkbox" id="hidebtn${id}" data-id="${id}"><label title="Toggle cell" for="hidebtn${id}" class="plusminus"><span class="pm_h"></span><span class="pm_v"></span></label>`
-
-var addHideButton = function () {
-  // If a hide button is already added, don't add another
-  if (document.querySelector('div.hidecode input') !== null) {
-      return;
-  }
-
-  // Find the input cells and add a hide button
-  document.querySelectorAll('div.input_area div.highlight').forEach(function (item, index) {
-    if (!item.parentElement.classList.contains("hidecode")) {
-        // Skip the cell if it doesn't have a hidecode class
-        return;
-    }
-
-    const id = codeCellId(index)
-    item.setAttribute('id', id);
-    item.insertAdjacentHTML('afterend', hideCodeButton(id))
-
-    // Set up the visibility toggle
-    hideLink = document.querySelector(`#${id} + input + label`);
-    hideLink.addEventListener('click', toggleCodeCellVisibility)
-  });
-}
-
-
-// Initialize the hide buttos
-var initHiddenCells = function () {
-    // Add hide buttons to the cells
-    addHideButton();
-
-    // Toggle the code cells that should be hidden
-    document.querySelectorAll('div.hidecode input').forEach(function (item) {
-        setCodeCellVisibility(item, 'hidden');
-        item.checked = true;
-    })
-}
-
-initFunction(initHiddenCells);
-
-</script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" async></script>
 
   <!-- Load custom website scripts -->
   <script src="/assets/js/scripts.js" async></script>
@@ -309,7 +147,7 @@ initFunction(initHiddenCells);
   
 
   <!-- Lunr search code - will only be executed on the /search page -->
-  <script src="/assets/js/lunr/lunr.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.6/lunr.min.js" async></script>
   <script>var initQuery = function() {
   // See if we have a search box
   var searchInput = document.querySelector('input#lunr_search');
@@ -395,6 +233,47 @@ initFunction(initHiddenCells);
 
 initFunction(initQuery);
 </script>
+
+  <!-- Load JS that depends on site variables -->
+  <script src="/assets/js/page/copy-button.js" async></script>
+
+  <!-- Hide cell code -->
+  <script src="/assets/js/page/hide-cell.js" async></script>
+
+  <!-- Printing the screen -->
+  <!-- Include nbinteract for interactive widgets -->
+<script src="https://printjs-4de6.kxcdn.com/print.min.js" async></script>
+<script>
+printContent = () => {
+    // MathJax displays a second version of any math for assistive devices etc.
+    // This prevents double-rendering in the PDF output.
+    var ignoreAssistList = [];
+    assistives = document.querySelectorAll('.MathJax_Display span.MJX_Assistive_MathML').forEach((element, index) => {
+        var thisId = 'MathJax-assistive-' + index.toString();
+        element.setAttribute('id', thisId);
+        ignoreAssistList.push(thisId)
+    });
+
+    // Print the actual content object
+    printJS({
+        printable: 'textbook_content',
+        type: 'html',
+        css: "/assets/css/styles.css",
+        style: "#textbook_content {padding-top: 40px};",
+        scanStyles: false,
+        targetStyles: ["*"],
+        ignoreElements: ignoreAssistList,
+        documentTitle: "Made with Jupyter Book"
+    })
+};
+
+initPrint = () => {
+    document.querySelector('#interact-button-print').addEventListener('click', printContent)
+}
+
+initFunction(initPrint)
+</script>
+
 </head>
 
   <body>
@@ -405,7 +284,7 @@ initFunction(initQuery);
 
 
 <nav id="js-sidebar" class="c-textbook__sidebar">
-  <a href="https://jupyter.org/jupyter-book/"><img src="/images/logo/logo.png" class="textbook_logo" id="sidebar-logo" data-turbolinks-permanent/></a>
+  <a href="https://jupyter.org/jupyter-book/"><img src="/images/logo/logo.png" class="textbook_logo" id="sidebar-logo" alt="textbook logo" data-turbolinks-permanent/></a>
   <h2 class="c-sidebar__title">CCD Data Reduction Guide</h2>
   <ul class="c-sidebar__chapters">
     
@@ -432,8 +311,27 @@ initFunction(initQuery);
     
       
       
-        <li class="c-sidebar__chapter"><a class="c-sidebar__entry" href="/search.html">Search</a></li>
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href=".html"
+        >
+          
+            1.
+          
+          Search
+        </a>
+
         
+      </li>
+
+      
+    
       
       
         <li class="c-sidebar__divider"></li>
@@ -455,7 +353,7 @@ initFunction(initQuery);
           href="/01-00-Understanding-an-astronomical-CCD-image.html"
         >
           
-            1.
+            2.
           
           Understanding astronomical images
         </a>
@@ -479,7 +377,7 @@ initFunction(initQuery);
                   href="/01-03-Construction-of-an-artificial-but-realistic-image.html"
                 >
                   
-                    1.1
+                    2.1
                   
                   An artificial, but realistic, image
                 </a>
@@ -498,7 +396,7 @@ initFunction(initQuery);
                   href="/01-04-Nonuniform-sensitivity.html"
                 >
                   
-                    1.2
+                    2.2
                   
                   Non-uniform sensitivity in astronomical detectors
                 </a>
@@ -517,7 +415,7 @@ initFunction(initQuery);
                   href="/01-05-Calibration-overview.html"
                 >
                   
-                    1.3
+                    2.3
                   
                   Calibration overview
                 </a>
@@ -536,7 +434,7 @@ initFunction(initQuery);
                   href="/01-06-Image-combination.html"
                 >
                   
-                    1.4
+                    2.4
                   
                   Image combination
                 </a>
@@ -555,7 +453,7 @@ initFunction(initQuery);
                   href="/01-08-Overscan.html"
                 >
                   
-                    1.5
+                    2.5
                   
                   Overscan
                 </a>
@@ -574,7 +472,7 @@ initFunction(initQuery);
                   href="/01-09-Calibration-choices-you-need-to-make.html"
                 >
                   
-                    1.6
+                    2.6
                   
                   Calibration choices to make
                 </a>
@@ -593,7 +491,7 @@ initFunction(initQuery);
                   href="/01-11-reading-images.html"
                 >
                   
-                    1.7
+                    2.7
                   
                   Reading images
                 </a>
@@ -623,7 +521,7 @@ initFunction(initQuery);
           href="/02-00-Handling-overscan-trimming-and-bias-subtraction.html"
         >
           
-            2.
+            3.
           
           Overscan and bias images
         </a>
@@ -647,7 +545,7 @@ initFunction(initQuery);
                   href="/02-01-Calibrating-bias-images.html"
                 >
                   
-                    2.1
+                    3.1
                   
                   Calibrating bias images
                 </a>
@@ -666,7 +564,7 @@ initFunction(initQuery);
                   href="/02-04-Combine-bias-images-to-make-master.html"
                 >
                   
-                    2.2
+                    3.2
                   
                   Combine bias images to make master bias
                 </a>
@@ -696,7 +594,7 @@ initFunction(initQuery);
           href="/03-00-Dark-current-and-hot-pixels.html"
         >
           
-            3.
+            4.
           
           Dark current and dark frames
         </a>
@@ -720,7 +618,7 @@ initFunction(initQuery);
                   href="/03-01-Dark-current-The-ideal-case.html"
                 >
                   
-                    3.1
+                    4.1
                   
                   Dark current: the ideal case
                 </a>
@@ -739,7 +637,7 @@ initFunction(initQuery);
                   href="/03-02-Real-dark-current-noise-and-other-artifacts.html"
                 >
                   
-                    3.2
+                    4.2
                   
                   Real dark current: noise and other artifacts
                 </a>
@@ -758,7 +656,7 @@ initFunction(initQuery);
                   href="/03-04-Handling-overscan-and-bias-for-dark-frames.html"
                 >
                   
-                    3.3
+                    4.3
                   
                   Handling overscan and bias for dark frames
                 </a>
@@ -777,7 +675,7 @@ initFunction(initQuery);
                   href="/03-05-Calibrate-dark-images.html"
                 >
                   
-                    3.4
+                    4.4
                   
                   Calibrate dark images
                 </a>
@@ -796,7 +694,7 @@ initFunction(initQuery);
                   href="/03-06-Combine-darks-for-use-in-later-calibration-steps.html"
                 >
                   
-                    3.5
+                    4.5
                   
                   Combine calibrated dark images for use in later reduction steps
                 </a>
@@ -826,7 +724,7 @@ initFunction(initQuery);
           href="/05-00-Flat-corrections.html"
         >
           
-            4.
+            5.
           
           Flat fielding
         </a>
@@ -850,7 +748,7 @@ initFunction(initQuery);
                   href="/05-03-Calibrating-the-flats.html"
                 >
                   
-                    4.1
+                    5.1
                   
                   Calibrating flat frames
                 </a>
@@ -869,7 +767,7 @@ initFunction(initQuery);
                   href="/05-04-Combining-flats.html"
                 >
                   
-                    4.2
+                    5.2
                   
                   Combining flat frames
                 </a>
@@ -899,7 +797,7 @@ initFunction(initQuery);
           href="/06-00-Reducing-science-images.html"
         >
           
-            5.
+            6.
           
           Calibrating science images
         </a>
@@ -922,7 +820,7 @@ initFunction(initQuery);
           href="/08-00-Image-masking.html"
         >
           
-            6.
+            7.
           
           Finding and dealing with bad pixels
         </a>
@@ -946,7 +844,7 @@ initFunction(initQuery);
                   href="/08-01-Identifying-hot-pixels.html"
                 >
                   
-                    6.1
+                    7.1
                   
                   Identifying hot pixels
                 </a>
@@ -965,7 +863,7 @@ initFunction(initQuery);
                   href="/08-02-Creating-a-mask.html"
                 >
                   
-                    6.2
+                    7.2
                   
                   Identifying bad pixels with ccdmask
                 </a>
@@ -984,7 +882,7 @@ initFunction(initQuery);
                   href="/08-03-Cosmic-ray-removal.html"
                 >
                   
-                    6.3
+                    7.3
                   
                   Removing cosmic rays
                 </a>
@@ -1003,7 +901,7 @@ initFunction(initQuery);
                   href="/08-05-incorporating-masks-into-calibrated-science-images.html"
                 >
                   
-                    6.4
+                    7.4
                   
                   Incorporating masks in science images
                 </a>
@@ -1050,112 +948,107 @@ initFunction(initQuery);
 </nav>
 
       
-      <!-- Shamelessly copied from minimal mistakes -->
+      <div class="c-topbar" id="top-navbar">
+  <!-- We show the sidebar by default so we use .is-active -->
+  <div class="c-topbar__buttons">
+    <button
+      id="js-sidebar-toggle"
+      class="hamburger hamburger--arrowalt is-active"
+    >
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+    <div class="buttons">
+<div class="download-buttons-dropdown">
+    <button id="dropdown-button-trigger" class="interact-button"><img src="/assets/images/download-solid.svg" alt="Download" /></button>
+    <div class="download-buttons">
+        <a href="/content/08-03-Cosmic-ray-removal.ipynb" download>
+        <button id="interact-button-download" class="interact-button">.ipynb</button>
+        </a>
+        
+        <a id="interact-button-print"><button id="interact-button-download" class="interact-button">.pdf</button></a>
+    </div>
+</div>
 
 
-<!-- TOC will only show up if it has at least one item -->
+  
+  
+  
+  
 
 
+</div>
+
+  </div>
+  <!-- Empty sidebar placeholder that we'll auto-fill with javascript -->
   <aside class="sidebar__right">
+    <header><h4 class="nav__title"><img src="/assets/images/list-solid.svg" alt="Search" />   On this page</h4></header>
     <nav class="onthispage">
-      <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
-      <ul class="toc__menu">
-  <li><a href="#removal-from-calibration-images">Removal from calibration images</a></li>
-  <li><a href="#removal-from-science-images">Removal from science images</a>
-    <ul>
-      <li><a href="#very-important-notes-about-using-lacosmic">Very important notes about using LACosmic</a></li>
-      <li><a href="#input-image">Input image</a></li>
-      <li><a href="#reading-in-and-applying-masks">Reading in and applying masks</a></li>
-      <li><a href="#running-lacosmic">Running LACosmic</a></li>
-      <li><a href="#examining-the-cosmic-rays-identified-by-lacosmic">Examining the cosmic rays identified by LACosmic</a></li>
-      <li><a href="#discussion-of-sample-cosmic-rays">Discussion of sample cosmic rays</a></li>
-      <li><a href="#saving-the-mask-with-the-image">Saving the mask with the image</a></li>
-    </ul>
-  </li>
-  <li><a href="#what-happens-if-you-do-not-mask">What happens if you do not mask?</a>
-    <ul>
-      <li><a href="#some-of-these-are-not-cosmic-rays">Some of these are not cosmic rays</a></li>
-      <li><a href="#discussion">Discussion</a></li>
-    </ul>
-  </li>
-</ul>
     </nav>
   </aside>
+  <a href="/search.html" class="topbar-right-button" id="search-button">
+    <img src="/assets/images/search-solid.svg" alt="Search" />
+  </a>
+</div>
 
-
-      
       <main class="c-textbook__page" tabindex="-1">
-          <div class="o-wrapper">
-            <div class="c-sidebar-toggle">
-  <!-- We show the sidebar by default so we use .is-active -->
-  <button
-    id="js-sidebar-toggle"
-    class="hamburger hamburger--arrowalt is-active"
-  >
-    <span class="hamburger-box">
-      <span class="hamburger-inner"></span>
-    </span>
-    <span class="c-sidebar-toggle__label">Toggle Sidebar</span>
-  </button>
-</div>
+            <div class="c-textbook__content" id="textbook_content">
+                  <main class="jupyter-page">
+    
+<div class="jb_cell">
 
-            
-<div class="buttons">
-<a href="/content/08-03-Cosmic-ray-removal.ipynb" download>
-<button id="interact-button-download" class="interact-button">Download</button>
-</a>
-
-
-
-
-
-</div>
-
-
-            <div class="c-textbook__content">
-              <h1 id="cosmic-ray-removal">Cosmic ray removal</h1>
-
-<p>Almost all images from a CCD will include some number of cosmic rays, charged
-particles which bombard the Earth’s upper atmosphere. Some of those will make it
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Cosmic-ray-removal">Cosmic ray removal<a class="anchor-link" href="#Cosmic-ray-removal"> </a></h1><p>Almost all images from a CCD will include some number of cosmic rays, charged
+particles which bombard the Earth's upper atmosphere. Some of those will make it
 through the atmosphere and into your detector (the rate of cosmic rays will be
 much higher for cameras in space). Although the number of cosmic rays is roughly
 proportional to exposure time, there will be cosmic rays even in bias frames in
 which the chip is immediately read out.</p>
-
 <p>This notebook explains how to remove cosmic rays from calibration images and
 science images.</p>
 
-<h2 id="removal-from-calibration-images">Removal from calibration images</h2>
+</div>
+</div>
+</div>
+</div>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/119/files#diff-f6ef62fd37828bd27c81ee882c661db1R24" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<div class="jb_cell">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Removal-from-calibration-images">Removal from calibration images<a class="anchor-link" href="#Removal-from-calibration-images"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R24"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
 <p>The easiest way to remove cosmic rays from calibration images (bias, dark and
 flat images) is to combine them properly. Cosmic rays are, by their nature,
 random events that will affect different parts of each of the calibration
 images. A pixel affected by a cosmic ray in one of the dark images, for example,
 will almost certainly <em>not</em> be affected by a cosmic ray in any of the other dark
 images.</p>
-
 <p>Combining those images by averaging (to reduce noise as much as possible) and
 sigma clipping (to exclude extreme pixels in individual images like the one with
 a cosmic ray) will eliminate the cosmic ray from the combined dark image. An
 alternative would be to combine the images using a median. A detailed
 description of each option is discussed in the <a href="01-06-Image-combination.html">section on image combination</a>.</p>
-
 <p>The method described below for removing cosmic rays from science images will not
 work well for removing them from calibration images and is unnecessary because
 they can be removed by properly combining the images.</p>
 
-<h2 id="removal-from-science-images">Removal from science images</h2>
+</div>
+</div>
+</div>
+</div>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/119/files#diff-f6ef62fd37828bd27c81ee882c661db1R48" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<div class="jb_cell">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Removal-from-science-images">Removal from science images<a class="anchor-link" href="#Removal-from-science-images"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R48"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
 <p>One good technique for removing cosmic rays from an image is the
 <a href="http://www.astro.yale.edu/dokkum/lacosmic/">LACosmic method</a> originally developed and implemented for IRAF
 by <a href="https://www.pietervandokkum.com/">Pieter G. van Dokkum</a>. The original paper describing the method,
 which uses the sharp edges of cosmic rays to distinguish them from other sources
 in the image, is <a href="http://adsabs.harvard.edu/abs/2001PASP..113.1420V">here</a>.</p>
-
 <p>The specific implementation of LACosmic used here is the astropy affiliated
 package <a href="https://github.com/astropy/astroscrappy">Astro-SCRAPPY</a>. If you use this code to remove cosmic
 rays you should cite both the original paper and
@@ -1163,292 +1056,850 @@ rays you should cite both the original paper and
 code below never directly imports <a href="https://github.com/astropy/astroscrappy">Astro-SCRAPPY</a> because
 ccdproc provides a wrapper for it, so we called attention to it here.</p>
 
-<h3 id="very-important-notes-about-using-lacosmic">Very important notes about using LACosmic</h3>
+</div>
+</div>
+</div>
+</div>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/119/files#diff-f6ef62fd37828bd27c81ee882c661db1R69" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<div class="jb_cell">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Very-important-notes-about-using-LACosmic">Very important notes about using LACosmic<a class="anchor-link" href="#Very-important-notes-about-using-LACosmic"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R69"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
 <p>There are a few things to be aware of before using the LACosmic technique. These
 are drawn from the advice van Dokkum provides under
 <a href="http://www.astro.yale.edu/dokkum/lacosmic/">Notes for Users</a> and the original paper.</p>
-
 <ol>
-  <li>The images must be bias and dark subtracted.</li>
-  <li>The images should be flat fielded, though the technique can be applied
+<li>The images must be bias and dark subtracted.</li>
+<li>The images should be flat fielded, though the technique can be applied
 without flat fielding.</li>
-  <li>The images should <strong>not</strong> have the sky subtracted before detecting the cosmic
+<li>The images should <strong>not</strong> have the sky subtracted before detecting the cosmic
 rays.</li>
-  <li>The noise level in the image needs to be accurately measured.</li>
-  <li>The image and the noise have to be in the same units, typically electrons.</li>
-  <li>If there are pixels that are known to be bad (e.g. hot pixels, pixels
-identified by <code class="highlighter-rouge">ccdmask</code>) they should be masked out before detecting cosmic rays.</li>
+<li>The noise level in the image needs to be accurately measured.</li>
+<li>The image and the noise have to be in the same units, typically electrons.</li>
+<li>If there are pixels that are known to be bad (e.g. hot pixels, pixels
+identified by <code>ccdmask</code>) they should be masked out before detecting cosmic rays.</li>
 </ol>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</div>
+</div>
+</div>
+</div>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<div class="jb_cell">
 
-<span class="kn">from</span> <span class="nn">astropy.nddata</span> <span class="kn">import</span> <span class="n">CCDData</span>
-<span class="kn">from</span> <span class="nn">astropy.nddata.utils</span> <span class="kn">import</span> <span class="n">block_replicate</span>
-<span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
-<span class="kn">import</span> <span class="nn">ccdproc</span> <span class="k">as</span> <span class="n">ccdp</span>
-<span class="kn">from</span> <span class="nn">photutils</span> <span class="kn">import</span> <span class="n">detect_sources</span>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-<span class="kn">from</span> <span class="nn">astrowidgets</span> <span class="kn">import</span> <span class="n">ImageWidget</span>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
 
-<span class="kn">from</span> <span class="nn">convenience_functions</span> <span class="kn">import</span> <span class="n">show_image</span><span class="p">,</span> <span class="n">display_cosmic_rays</span>
-</code></pre></div></div>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use custom style for larger fonts and figures</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">'guide.mplstyle'</span><span class="p">)</span>
-</code></pre></div></div>
+<span class="kn">from</span> <span class="nn">astropy.nddata</span> <span class="k">import</span> <span class="n">CCDData</span>
+<span class="kn">from</span> <span class="nn">astropy.nddata.utils</span> <span class="k">import</span> <span class="n">block_replicate</span>
+<span class="kn">from</span> <span class="nn">astropy</span> <span class="k">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="kn">import</span> <span class="nn">ccdproc</span> <span class="k">as</span> <span class="nn">ccdp</span>
+<span class="kn">from</span> <span class="nn">photutils</span> <span class="k">import</span> <span class="n">detect_sources</span>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sidecar</span> <span class="kn">import</span> <span class="n">Sidecar</span>
-</code></pre></div></div>
+<span class="kn">from</span> <span class="nn">astrowidgets</span> <span class="k">import</span> <span class="n">ImageWidget</span>
 
-<h3 id="input-image">Input image</h3>
+<span class="kn">from</span> <span class="nn">convenience_functions</span> <span class="k">import</span> <span class="n">show_image</span><span class="p">,</span> <span class="n">display_cosmic_rays</span>
+</pre></div>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/119/files#diff-f6ef62fd37828bd27c81ee882c661db1R131" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+    </div>
+</div>
+</div>
 
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Use custom style for larger fonts and figures</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;guide.mplstyle&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sidecar</span> <span class="k">import</span> <span class="n">Sidecar</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Input-image">Input image<a class="anchor-link" href="#Input-image"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R131"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
 <p>The image we will use in this notebook is one of the reduced images from Example
 2 in the previous notebooks. It is an image of the field of the exoplanet
 Kelt-16b, taken with a thermo-electrically cooled CCD with read noise of 10$e^-$
 and gain of $1.5~e^-$/ADU.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ex2_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'example2-reduced'</span><span class="p">)</span>
+</div>
+</div>
+</div>
+</div>
 
-<span class="n">ccd</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ex2_path</span> <span class="o">/</span> <span class="s">'kelt-16-b-S001-R001-C084-r.fit'</span><span class="p">)</span>
-</code></pre></div></div>
+<div class="jb_cell">
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">show_image</span><span class="p">(</span><span class="n">ccd</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
-</code></pre></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-<p class="output output_png"><img src="images/08-03-Cosmic-ray-removal_9_0.png" alt="png" /></p>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ex2_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;example2-reduced&#39;</span><span class="p">)</span>
 
+<span class="n">ccd</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ex2_path</span> <span class="o">/</span> <span class="s1">&#39;kelt-16-b-S001-R001-C084-r.fit&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>WARNING: FITSFixedWarning: RADECSYS= &#39;FK5 &#39; / Equatorial coordinate system 
+the RADECSYS keyword is deprecated, use RADESYSa. [astropy.wcs.wcs]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">show_image</span><span class="p">(</span><span class="n">ccd</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>WARNING: The following attributes were set on the data object, but will be ignored by the function: meta, unit, wcs [astropy.nddata.decorators]
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/08-03-Cosmic-ray-removal_9_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>The unit of this image is ADU, so we need to multiply by the gain to convert to
 electrons.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ccd</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">gain_correct</span><span class="p">(</span><span class="n">ccd</span><span class="p">,</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">electron</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">)</span>
-</code></pre></div></div>
+</div>
+</div>
+</div>
+</div>
 
-<h3 id="reading-in-and-applying-masks">Reading in and applying masks</h3>
+<div class="jb_cell">
 
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ccd</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">gain_correct</span><span class="p">(</span><span class="n">ccd</span><span class="p">,</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">electron</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Reading-in-and-applying-masks">Reading in and applying masks<a class="anchor-link" href="#Reading-in-and-applying-masks"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Two masks were calculated earlier. Hot pixels, whose dark current cannot be
 corrected, were <a href="08-01-Identifying-hot-pixels.html">identified by comparing dark frames of different exposure time</a>.  The
-<a href="08-02-Creating-a-mask">function <code class="highlighter-rouge">ccdmask</code> was used</a> to identify other bad pixels; one example was a
+<a href="08-02-Creating-a-mask">function <code>ccdmask</code> was used</a> to identify other bad pixels; one example was a
 column of pixels on the left side of the image.</p>
-
 <p>We read in both of the masks, which are the same for all images, and combine
 using logical or.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dark_mask</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ex2_path</span> <span class="o">/</span> <span class="s">'mask_from_dark_current.fits'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span><span class="p">)</span>
-</code></pre></div></div>
+</div>
+</div>
+</div>
+</div>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ccdmask_mask</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ex2_path</span> <span class="o">/</span> <span class="s">'mask_from_ccdmask.fits'</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span><span class="p">)</span>
-</code></pre></div></div>
+<div class="jb_cell">
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">combined_mask</span> <span class="o">=</span> <span class="n">dark_mask</span><span class="o">.</span><span class="n">data</span> <span class="o">|</span> <span class="n">ccdmask_mask</span><span class="o">.</span><span class="n">data</span>
-</code></pre></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">show_image</span><span class="p">(</span><span class="n">combined_mask</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
-</code></pre></div></div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dark_mask</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ex2_path</span> <span class="o">/</span> <span class="s1">&#39;mask_from_dark_current.fits&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span><span class="p">)</span>
+</pre></div>
 
-<p class="output output_png"><img src="images/08-03-Cosmic-ray-removal_17_0.png" alt="png" /></p>
+    </div>
+</div>
+</div>
 
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ccdmask_mask</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ex2_path</span> <span class="o">/</span> <span class="s1">&#39;mask_from_ccdmask.fits&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">combined_mask</span> <span class="o">=</span> <span class="n">dark_mask</span><span class="o">.</span><span class="n">data</span> <span class="o">|</span> <span class="n">ccdmask_mask</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">show_image</span><span class="p">(</span><span class="n">combined_mask</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/08-03-Cosmic-ray-removal_17_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Excluding these pixels from cosmic ray detection ensures that only cosmic rays
 are  identified.</p>
-
 <p>The mask is now applied to the image of Kelt 16.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ccd</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">combined_mask</span>
-</code></pre></div></div>
+</div>
+</div>
+</div>
+</div>
 
-<h3 id="running-lacosmic">Running LACosmic</h3>
+<div class="jb_cell">
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/119/files#diff-f6ef62fd37828bd27c81ee882c661db1R255" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ccd</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">combined_mask</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Running-LACosmic">Running LACosmic<a class="anchor-link" href="#Running-LACosmic"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R255"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
 <p>The actual invocation of LACosmic is fairly straightforward. The key parameters
-are <code class="highlighter-rouge">readnoise</code>, the read noise, and <code class="highlighter-rouge">sigclip</code>, which determines how far above
+are <code>readnoise</code>, the read noise, and <code>sigclip</code>, which determines how far above
 the background a pixel needs to be to consider it a cosmic ray. There is no
-hard-and-fast rule for selecting the proper value of <code class="highlighter-rouge">sigclip</code>. In the original
+hard-and-fast rule for selecting the proper value of <code>sigclip</code>. In the original
 paper a value of 5 is recommended, but for this image it finds several thousand
 pixels contaminated by cosmic rays. That is not plausible for an image taken
 with a camera a thousand feet above sea level.</p>
-
-<p>Higher values of <code class="highlighter-rouge">sigclip</code> reduce the number of cosmic rays found. The value
+<p>Higher values of <code>sigclip</code> reduce the number of cosmic rays found. The value
 used below, 7, seemed to work well for this image, finding a total of roughly 70
 pixels that are cosmic rays, and a couple dozen candidate cosmic rays that
 extend across multiple pixels.</p>
-
-<p>The function <a href=""><code class="highlighter-rouge">cosmicray_lacosmic</code></a> from ccdproc returns a new image in which
-the mask is <code class="highlighter-rouge">True</code> for pixels in which a cosmic ray was detected and <code class="highlighter-rouge">False</code>
+<p>The function <a href=""><code>cosmicray_lacosmic</code></a> from ccdproc returns a new image in which
+the mask is <code>True</code> for pixels in which a cosmic ray was detected and <code>False</code>
 otherwise. The data in the new image has values in the pixels in which cosmic
 rays were identified replaced by interpolating the neighboring pixels.</p>
-
 <p>We will take a look at the cosmic rays identified by LACosmic in a moment.</p>
-
 <p>Expect the code below to take at a few tens of seconds to run.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">time</span>
-<span class="n">new_ccd</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">cosmicray_lacosmic</span><span class="p">(</span><span class="n">ccd</span><span class="p">,</span> <span class="n">readnoise</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">sigclip</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</code></pre></div></div>
+</div>
+</div>
+</div>
+</div>
 
-<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting 4 L.A.Cosmic iterations
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">time</span>
+new_ccd = ccdp.cosmicray_lacosmic(ccd, readnoise=10, sigclip=7, verbose=True)
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Starting 4 L.A.Cosmic iterations
 Iteration 1:
 153 cosmic pixels this iteration
 Iteration 2:
 7 cosmic pixels this iteration
 Iteration 3:
 0 cosmic pixels this iteration
-CPU times: user 17 s, sys: 1.1 s, total: 18.1 s
-Wall time: 18.1 s
+CPU times: user 17 s, sys: 1.15 s, total: 18.1 s
+Wall time: 18.2 s
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 
-</code></pre></div></div>
+</div>
+</div>
 
-<p>The mask of <code class="highlighter-rouge">new_ccd</code> includes both cosmic rays identified by
-<code class="highlighter-rouge">cosmicray_lacosmic</code> and the mask we applied to <code class="highlighter-rouge">ccd</code> above. To get only the
-cosmic rays, we set the mask to <code class="highlighter-rouge">False</code> for all of those pixels that were masked
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The mask of <code>new_ccd</code> includes both cosmic rays identified by
+<code>cosmicray_lacosmic</code> and the mask we applied to <code>ccd</code> above. To get only the
+cosmic rays, we set the mask to <code>False</code> for all of those pixels that were masked
 before LACosmic ran.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cr_mask</span> <span class="o">=</span> <span class="n">new_ccd</span><span class="o">.</span><span class="n">mask</span>
-<span class="n">cr_mask</span><span class="p">[</span><span class="n">ccd</span><span class="o">.</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
-</code></pre></div></div>
+</div>
+</div>
+</div>
+</div>
 
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cr_mask</span> <span class="o">=</span> <span class="n">new_ccd</span><span class="o">.</span><span class="n">mask</span>
+<span class="n">cr_mask</span><span class="p">[</span><span class="n">ccd</span><span class="o">.</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>The sum of the mask indicates how many pixels have been identified as cosmic
 rays.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">new_ccd</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="nb">sum</span><span class="p">()</span> 
-</code></pre></div></div>
+</div>
+</div>
+</div>
+</div>
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>160
-</code></pre></div></div>
+<div class="jb_cell">
 
-<h3 id="examining-the-cosmic-rays-identified-by-lacosmic">Examining the cosmic rays identified by LACosmic</h3>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/119/files#diff-f6ef62fd37828bd27c81ee882c661db1R331" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">new_ccd</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> 
+</pre></div>
 
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>160</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Examining-the-cosmic-rays-identified-by-LACosmic">Examining the cosmic rays identified by LACosmic<a class="anchor-link" href="#Examining-the-cosmic-rays-identified-by-LACosmic"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R331"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
 <p>There are 70 pixels that have been flagged as cosmic rays. Looking through each
 of them individually would be tedious, at best. It would also presumably be
 difficult to decide visually if a single pixel tagged as a cosmic ray was
 actually a cosmic ray, but it would be helpful to look at the larger cosmic
 rays, i.e. those that span multiple pixels.</p>
-
-<p>To identify those larger cosmic rays we will use the function <code class="highlighter-rouge">detect_sources</code>
+<p>To identify those larger cosmic rays we will use the function <code>detect_sources</code>
 from the package <a href="https://photutils.readthedocs.io">photutils</a>, which identifies contiguous
 pixels in an image via image segmentation. Though
-<a href=""><code class="highlighter-rouge">detect_sources</code></a> is intended for detecting extended or stellar  sources in an image it happens to work very well for identifying extended cosmic rays in the mask generated by <a href=""><code class="highlighter-rouge">cosmicray_lacosmic</code></a>.</p>
-
+<a href=""><code>detect_sources</code></a> is intended for detecting extended or stellar  sources in an image it happens to work very well for identifying extended cosmic rays in the mask generated by <a href=""><code>cosmicray_lacosmic</code></a>.</p>
 <p>The threshold below should be something less than 1 to ensure that only the
 masked pixels, i.e. those whose values are 1, are included as sources. The
 number of pixels is the number which must be adjacent (either by edge or by
 corner) to be considered a source.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.5</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.5</span>
 <span class="n">n_pixels</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="n">crs</span> <span class="o">=</span> <span class="n">detect_sources</span><span class="p">(</span><span class="n">new_ccd</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">n_pixels</span><span class="p">)</span>
-</code></pre></div></div>
+</pre></div>
 
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>We first check to see how many of the pixels identified by LACosmic are part of
 these extended cosmic rays.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">crs</span><span class="o">.</span><span class="n">areas</span>
-</code></pre></div></div>
+</div>
+</div>
+</div>
+</div>
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([4, 3, 3, 3, 7, 3, 7, 8, 8, 3, 3, 5, 3, 7, 4, 3, 4, 3, 4])
-</code></pre></div></div>
+<div class="jb_cell">
 
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crs</span><span class="o">.</span><span class="n">areas</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([4, 3, 3, 3, 7, 3, 7, 8, 8, 3, 3, 5, 3, 7, 4, 3, 4, 3, 4])</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Looks like about 50% of the pixels marked as cosmic rays are extended over
 multiple adjacent pixels</p>
 
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>In this particular science image there are three things being identified as
 cosmic rays:</p>
-
 <ul>
-  <li>Actual cosmic rays.</li>
-  <li>Single hot pixels, i.e. pixels with unusually high dark current.</li>
+<li>Actual cosmic rays.</li>
+<li>Single hot pixels, i.e. pixels with unusually high dark current.</li>
 </ul>
-
 <p>These conclusions are not at all clear from what we have discussed in this
 notebook so far. They are based on a detailed examination of the images after
 looking at thumbnail views of the cosmic ray mask, the science image in which
 the cosmic rays were detected and the combined dark frame that was used to
 calibrate this science image.</p>
-
 <p>That thumbnail view turned out to be a useful enough comparison that a function
-called <code class="highlighter-rouge">display_cosmic_rays</code> is provided in <code class="highlighter-rouge">convenience_functions.py</code> that will
+called <code>display_cosmic_rays</code> is provided in <code>convenience_functions.py</code> that will
 display the cosmic ray mask and as many additional comparison images as you
 would like.</p>
-
 <p>Since one of the images it turns out to be useful to look at in this example is
 the combined dark used in calibrating the science image, we load it.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ccd_dark</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ex2_path</span> <span class="o">/</span> <span class="s">'combined_dark_90.000.fit'</span><span class="p">)</span>
-</code></pre></div></div>
+</div>
+</div>
+</div>
+</div>
 
-<p>One note about the argument <code class="highlighter-rouge">only_display_rays</code> below, which restricts the
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ccd_dark</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ex2_path</span> <span class="o">/</span> <span class="s1">&#39;combined_dark_90.000.fit&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>One note about the argument <code>only_display_rays</code> below, which restricts the
 cosmic rays that are displayed to that list. The list was chosen by first
 viewing <em>all</em> of the cosmic rays and choosing a representative sample for
 inclusion in this discussion. Display them all by setting
-<code class="highlighter-rouge">only_display_rays=None</code> in the call to <code class="highlighter-rouge">display_cosmic_rays</code>.</p>
+<code>only_display_rays=None</code> in the call to <code>display_cosmic_rays</code>.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">images_to_display</span> <span class="o">=</span> <span class="p">[</span><span class="n">new_ccd</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span> <span class="n">ccd</span><span class="p">,</span> <span class="n">ccd_dark</span><span class="p">]</span>
-<span class="n">image_titles</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Mask'</span><span class="p">,</span> <span class="s">'Science image'</span><span class="p">,</span> <span class="s">'Combined dark'</span><span class="p">]</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">images_to_display</span> <span class="o">=</span> <span class="p">[</span><span class="n">new_ccd</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span> <span class="n">ccd</span><span class="p">,</span> <span class="n">ccd_dark</span><span class="p">]</span>
+<span class="n">image_titles</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Mask&#39;</span><span class="p">,</span> <span class="s1">&#39;Science image&#39;</span><span class="p">,</span> <span class="s1">&#39;Combined dark&#39;</span><span class="p">]</span>
 <span class="n">display_cosmic_rays</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="n">images_to_display</span><span class="p">,</span> <span class="n">titles</span><span class="o">=</span><span class="n">image_titles</span><span class="p">,</span>
                     <span class="n">only_display_rays</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
                    <span class="p">)</span>
-</code></pre></div></div>
+</pre></div>
 
-<p class="output output_png"><img src="images/08-03-Cosmic-ray-removal_34_0.png" alt="png" /></p>
+    </div>
+</div>
+</div>
 
-<h3 id="discussion-of-sample-cosmic-rays">Discussion of sample cosmic rays</h3>
+<div class="output_wrapper">
+<div class="output">
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/119/files#diff-f6ef62fd37828bd27c81ee882c661db1R448" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
 
-<p>The first three examples above, labeled “Cosmic ray 0,” “Cosmic ray 1” and
-“Cosmic ray 14,” are straightforward; each is actually a cosmic ray.</p>
 
-<p>The fourth, “Cosmic ray 18”, is not a cosmic ray, though it does correspond to a
+
+<div class="output_png output_subarea ">
+<img src="images/08-03-Cosmic-ray-removal_34_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Discussion-of-sample-cosmic-rays">Discussion of sample cosmic rays<a class="anchor-link" href="#Discussion-of-sample-cosmic-rays"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R448"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
+<p>The first three examples above, labeled "Cosmic ray 0," "Cosmic ray 1" and
+"Cosmic ray 14," are straightforward; each is actually a cosmic ray.</p>
+<p>The fourth, "Cosmic ray 18", is not a cosmic ray, though it does correspond to a
 defect in the CCD. It is caused by a single  hot pixel (dark current around
 2$e^-$/sec) that has a  high value in the combined dark frame. When that
 combined dark is subtracted from the science image it causes a large <em>negative</em>
 value in the value in the science image which ends up being identified as a
 cosmic ray.</p>
 
-<h3 id="saving-the-mask-with-the-image">Saving the mask with the image</h3>
+</div>
+</div>
+</div>
+</div>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/119/files#diff-f6ef62fd37828bd27c81ee882c661db1R465" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<div class="jb_cell">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Saving-the-mask-with-the-image">Saving the mask with the image<a class="anchor-link" href="#Saving-the-mask-with-the-image"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R465"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
 <p>To save the full mask, including cosmic rays, hot pixels, and pixels identified
-by <code class="highlighter-rouge">ccdmask</code>, set the mask of <code class="highlighter-rouge">ccd</code> to the mask of <code class="highlighter-rouge">new_ccd</code>. In some use cases
-you might prefer to save <code class="highlighter-rouge">new_ccd</code> itself. The difference between the two is
+by <code>ccdmask</code>, set the mask of <code>ccd</code> to the mask of <code>new_ccd</code>. In some use cases
+you might prefer to save <code>new_ccd</code> itself. The difference between the two is
 that the pixel values in which there are cosmic rays have been replaced in
-<code class="highlighter-rouge">new_ccd</code> by values representative of the surrounding pixels.</p>
+<code>new_ccd</code> by values representative of the surrounding pixels.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ccd</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">new_ccd</span><span class="o">.</span><span class="n">mask</span>
+</div>
+</div>
+</div>
+</div>
 
-<span class="c"># This saves both the image and the mask</span>
-<span class="n">ccd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">'example-with-cosmic-rays.fits'</span><span class="p">)</span>
-</code></pre></div></div>
+<div class="jb_cell">
 
-<h2 id="what-happens-if-you-do-not-mask">What happens if you do not mask?</h2>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ccd</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">new_ccd</span><span class="o">.</span><span class="n">mask</span>
+
+<span class="c1"># This saves both the image and the mask</span>
+<span class="n">ccd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;example-with-cosmic-rays.fits&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="What-happens-if-you-do-not-mask?">What happens if you do not mask?<a class="anchor-link" href="#What-happens-if-you-do-not-mask?"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>In the example above we masked the pixels known to be bad in all of the images
 before detecting cosmic rays. It is possible to do cosmic ray detection without
 prior masking. The downside of not masking is that many features that are not
 cosmic rays are identified as cosmic rays, and some real cosmic rays are not
 detected.</p>
-
 <p>We begin with a fresh copy of the input image and run cosmic ray detection with
 the same parameters as above.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ccd</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ex2_path</span> <span class="o">/</span> <span class="s">'kelt-16-b-S001-R001-C084-r.fit'</span><span class="p">)</span>
-</code></pre></div></div>
+</div>
+</div>
+</div>
+</div>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">time</span>
-<span class="n">new_ccd_no_premask</span> <span class="o">=</span> <span class="n">ccdp</span><span class="o">.</span><span class="n">cosmicray_lacosmic</span><span class="p">(</span><span class="n">ccd</span><span class="p">,</span> <span class="n">readnoise</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">sigclip</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</code></pre></div></div>
+<div class="jb_cell">
 
-<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting 4 L.A.Cosmic iterations
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ccd</span> <span class="o">=</span> <span class="n">CCDData</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ex2_path</span> <span class="o">/</span> <span class="s1">&#39;kelt-16-b-S001-R001-C084-r.fit&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>WARNING: FITSFixedWarning: RADECSYS= &#39;FK5 &#39; / Equatorial coordinate system 
+the RADECSYS keyword is deprecated, use RADESYSa. [astropy.wcs.wcs]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">time</span>
+new_ccd_no_premask = ccdp.cosmicray_lacosmic(ccd, readnoise=10, sigclip=7, verbose=True)
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Starting 4 L.A.Cosmic iterations
 Iteration 1:
 239 cosmic pixels this iteration
 Iteration 2:
@@ -1457,97 +1908,239 @@ Iteration 3:
 128 cosmic pixels this iteration
 Iteration 4:
 109 cosmic pixels this iteration
-CPU times: user 22.1 s, sys: 1.43 s, total: 23.5 s
-Wall time: 23.5 s
+CPU times: user 21.8 s, sys: 1.49 s, total: 23.3 s
+Wall time: 23.4 s
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 
-</code></pre></div></div>
+</div>
+</div>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">"Pre-masking detects {} cosmic ray pixels.</span><span class="se">\n</span><span class="s">No pre-masking detects {} cosmic ray pixels."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_ccd</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="nb">sum</span><span class="p">(),</span> <span class="n">new_ccd_no_premask</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="nb">sum</span><span class="p">()))</span>
-</code></pre></div></div>
+<div class="jb_cell">
 
-<div class="output output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Pre-masking detects 160 cosmic ray pixels.
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pre-masking detects </span><span class="si">{}</span><span class="s2"> cosmic ray pixels.</span><span class="se">\n</span><span class="s2">No pre-masking detects </span><span class="si">{}</span><span class="s2"> cosmic ray pixels.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_ccd</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">new_ccd_no_premask</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Pre-masking detects 160 cosmic ray pixels.
 No pre-masking detects 321 cosmic ray pixels.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 
-</code></pre></div></div>
+</div>
+</div>
 
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Many of the additional pixels detected as cosmic rays are in the leftmost column
 of the image. The column is actually bad (it is covered on the CCD and receives
 no light).</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">crs_no_premask</span> <span class="o">=</span> <span class="n">detect_sources</span><span class="p">(</span><span class="n">new_ccd_no_premask</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">n_pixels</span><span class="p">)</span>
-</code></pre></div></div>
+</div>
+</div>
+</div>
+</div>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">crs_no_premask</span><span class="o">.</span><span class="n">areas</span>
-</code></pre></div></div>
+<div class="jb_cell">
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([20, 52,  3,  3, 24,  6,  3,  3,  4,  5,  6,  8,  5,  3,  5,  8,  5,
-        3,  3,  5,  4,  3,  5, 45,  3])
-</code></pre></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-<h3 id="some-of-these-are-not-cosmic-rays">Some of these are not cosmic rays</h3>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crs_no_premask</span> <span class="o">=</span> <span class="n">detect_sources</span><span class="p">(</span><span class="n">new_ccd_no_premask</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">n_pixels</span><span class="p">)</span>
+</pre></div>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/119/files#diff-f6ef62fd37828bd27c81ee882c661db1R566" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+    </div>
+</div>
+</div>
 
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crs_no_premask</span><span class="o">.</span><span class="n">areas</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([20, 52,  3,  3, 24,  6,  3,  3,  4,  5,  6,  8,  5,  3,  5,  8,  5,
+        3,  3,  5,  4,  3,  5, 45,  3])</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Some-of-these-are-not-cosmic-rays">Some of these are not cosmic rays<a class="anchor-link" href="#Some-of-these-are-not-cosmic-rays"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R566"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>{:target="_blank"}</p>
 <p>The display below shows a few examples of areas identified by
-<code class="highlighter-rouge">cosmicray_lacosmic</code> that are not actually cosmic rays. These false positives
+<code>cosmicray_lacosmic</code> that are not actually cosmic rays. These false positives
 are harmless because they reflect real problems with the detector and should be
 masked out anyway.</p>
-
 <p>More problematic are the cosmic rays that are undetected if the image is not
-masked first. As an example, the cosmic ray labeled “Cosmic ray 0” in the
+masked first. As an example, the cosmic ray labeled "Cosmic ray 0" in the
 <a href="#Discussion-of-sample-cosmic-rays">example above in which a mask was applied before detecting cosmic rays</a> is not detected at all when no masking is done.</p>
 
-<div class="language-python input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">images_to_display</span> <span class="o">=</span> <span class="p">[</span><span class="n">new_ccd_no_premask</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span> <span class="n">ccd</span><span class="p">,</span> <span class="n">ccd_dark</span><span class="p">]</span>
-<span class="n">image_titles</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Mask'</span><span class="p">,</span> <span class="s">'Science image'</span><span class="p">,</span> <span class="s">'Combined dark'</span><span class="p">]</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">images_to_display</span> <span class="o">=</span> <span class="p">[</span><span class="n">new_ccd_no_premask</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span> <span class="n">ccd</span><span class="p">,</span> <span class="n">ccd_dark</span><span class="p">]</span>
+<span class="n">image_titles</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Mask&#39;</span><span class="p">,</span> <span class="s1">&#39;Science image&#39;</span><span class="p">,</span> <span class="s1">&#39;Combined dark&#39;</span><span class="p">]</span>
 <span class="n">display_cosmic_rays</span><span class="p">(</span><span class="n">crs_no_premask</span><span class="p">,</span> <span class="n">images_to_display</span><span class="p">,</span> <span class="n">titles</span><span class="o">=</span><span class="n">image_titles</span><span class="p">,</span>
                     <span class="n">only_display_rays</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
                    <span class="p">)</span>
-</code></pre></div></div>
+</pre></div>
 
-<p class="output output_png"><img src="images/08-03-Cosmic-ray-removal_47_0.png" alt="png" /></p>
+    </div>
+</div>
+</div>
 
-<h3 id="discussion">Discussion</h3>
+<div class="output_wrapper">
+<div class="output">
 
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/08-03-Cosmic-ray-removal_47_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Discussion">Discussion<a class="anchor-link" href="#Discussion"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>The first example above is the bad column on the left side of the image.</p>
-
-<p>The one label “Cosmic ray 1” is caused by a single hot pixel with a large count
+<p>The one label "Cosmic ray 1" is caused by a single hot pixel with a large count
 in the dark frames, which leads to a large negative value in the calibrated
 science image. LACosmic tags that pixel and many around it as cosmic rays. While
 the individual hot pixel should be masked, the ones around it do not need to be
 masked.</p>
-
-<p>The final example, “Cosmic ray 3,”, looks a lot like a star. It is, in fact, the
+<p>The final example, "Cosmic ray 3,", looks a lot like a star. It is, in fact, the
 after-image of one of the bright stars in the field of Kelt 16b. Bright stars in
 the field of view can deposit enough charge that is does not dissipate between
-images. Typically the effect can be avoided altogether by “pre-flashing” the
+images. Typically the effect can be avoided altogether by "pre-flashing" the
 CCD.</p>
-
 <p>Since one cannot pre-flash after the images have been taken, we are stuck doing
 the next best thing: masking out this part of the images. The masking should be
 done at the stage at which how pixels are being identified because all of these
 pixels will be identified as how.</p>
 
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    
+            </div>
+            <div class="c-textbook__footer" id="textbook_footer">
               <nav class="c-page__nav">
   
     
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/08-02-Creating-a-mask">
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/08-02-Creating-a-mask.html">
       〈 <span class="u-margin-right-tiny"></span> Identifying bad pixels with ccdmask
     </a>
   
 
   
     
-    <a id="js-page__nav__next" class="c-page__nav__next" href="/08-05-incorporating-masks-into-calibrated-science-images">
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/08-05-incorporating-masks-into-calibrated-science-images.html">
       Incorporating masks in science images <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>
 
+              <footer>
+  <p class="footer">This page was created by <a href="https://github.com/jupyter/jupyter-book/graphs/contributors">The Jupyter Book Community</a></p>
+</footer>
+
             </div>
-          </div>
+
         </div>
       </main>
     </div>
-
   </body>
 </html>
