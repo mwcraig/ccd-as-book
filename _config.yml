@@ -18,7 +18,7 @@
 # Jekyll site settings
 title: CCD Data Reduction Guide
 author: Matthew Craig
-email: mattwcraig@gmail.com
+# email: mattwcraig@gmail.com
 description: >-
   This is an example book built with Jupyter Books.
 
@@ -95,57 +95,14 @@ google_analytics:
 # Jupyter book settings you probably don't need to change
 
 content_folder_name: content           # The folder where your raw content (notebooks/markdown files) are located
-images_url: /assets/images                   # Path to static image files
-css_url: /assets/css                      # Path to static CSS files
-js_url: /assets/js                       # Path to JS files
-custom_static_url: /assets/custom            # Path to user's custom CSS/JS files
+# images_url: /assets/images                   # Path to static image files
+# css_url: /assets/css                      # Path to static CSS files
+# js_url: /assets/js                       # Path to JS files
+# custom_static_url: /assets/custom            # Path to user's custom CSS/JS files
 
 
 #######################################################################################
-# Jekyll build settings (only modify if you know what you're doing)
 
-# Site settings
-defaults:
-- scope:
-    path: ''
-  values:
-    layout: default
-    toc: true
-    toc_label: '  On this page'
-    toc_icon: list-ul
-
-favicon_path: images/logo/favicon.ico
-
-# Markdown Processing
-markdown: kramdown
-kramdown:
-  input: GFM
-  syntax_highlighter: rouge
-
-sass:
-  style: compressed
-
-collections:
-  build:
-    output: true
-    permalink: /:path.html
-
-# Exclude from processing.
-# The following items will not be processed, by default. Create a custom list
-# to override the default setting.
-exclude:
-- scripts/
-- Gemfile
-- Gemfile.lock
-- node_modules
-- vendor/bundle/
-- vendor/cache/
-- vendor/gems/
-- vendor/ruby/
-
-plugins:
-- jekyll-redirect-from
-- jekyll-scholar
 
 # Jupyter Book version - DO NOT CHANGE THIS. It is generated when a new book is created
 jupyter_book_version: 0.6.3
