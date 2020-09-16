@@ -24,7 +24,7 @@
 # Top-level page
 - file: content/00-00-Preface.ipynb
   title: Home
-  numbered: false
+  numbered: true
 
 # Adds a searchbar link
 # - title: Search
