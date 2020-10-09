@@ -26,8 +26,8 @@
   "@type": "NewsArticle",
   "mainEntityOfPage": "YOUR URL//search",
   "headline": "Search the site",
-  "datePublished": "2019-10-20T11:28:18-06:00",
-  "dateModified": "2019-10-20T11:28:18-06:00",
+  "datePublished": "2020-10-09T07:55:01-05:00",
+  "dateModified": "2020-10-09T07:55:01-05:00",
   "description": "        ",
   "author": {
     "@type": "Person",
@@ -1001,6 +1001,14 @@ initFunction(initPrint)
         "tags": [],
         "url": "YOUR%20URL/00-00-Preface.html",
         "teaser":null},{
+        "title": "Home",
+        
+        "excerpt":
+            "Preface The purpose of this text is to walk through image reduction and photometry using Python, especially Astropy and its affiliated packages. It assumes some basic familiarity with astronomical images and with Python. The inspiration for this work is a pair of guides written for IRAF, \"A User's Guide to CCD Reductions with IRAF\" (Massey 1997) and \"A User's Guide to Stellar CCD Photometry with IRAF\" (Massey and Davis 1992). The focus is on optical/IR images, not spectra. Credits Authors This guide was written by Matt Craig and Lauren Chambers. Editing was done by Lauren Glattly. New contributors will be...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/00-00-Preface.html",
+        "teaser":null},{
         "title": "Understanding astronomical images",
         
         "excerpt":
@@ -1008,6 +1016,22 @@ initFunction(initPrint)
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/01-00-Understanding-an-astronomical-CCD-image.html",
+        "teaser":null},{
+        "title": "Understanding astronomical images",
+        
+        "excerpt":
+            "Understanding an astronomical CCD image An astronomical image like the one shown below is essentially a two-dimensional array of values. In an ideal world, the value of each pixel (a pixel being one element of the array) would be directly proportional to the amount of light that fell on the pixel during the time the camera's shutter was open. But the ideal scenario does not in fact hold true. A solid understanding of why pixel values are not directly proportional to light is useful before diving into the details of image reduction. Counts, photons, and electrons Click here to comment...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/01-00-Understanding-an-astronomical-CCD-image.html",
+        "teaser":null},{
+        "title": "An artificial, but realistic, image",
+        
+        "excerpt":
+            "Construction of an artificial (but realistic) image Before we move on to looking at a real image, let's spend a few minutes getting comfortable with what each of the different sources of counts look like in an artificial image. The advantage is that we can control how much of each count source goes into the image. Looking at extreme examples can help build an understanding of what's going on in your images. Imports Click here to comment on this section on GitHub (opens in new tab). Almost all of the notebooks in this tutorial will start with the import of...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/01-03-Construction-of-an-artificial-but-realistic-image.html",
         "teaser":null},{
         "title": "An artificial, but realistic, image",
         
@@ -1025,6 +1049,14 @@ initFunction(initPrint)
         "tags": [],
         "url": "YOUR%20URL/01-04-Nonuniform-sensitivity.html",
         "teaser":null},{
+        "title": "Non-uniform sensitivity in astronomical detectors",
+        
+        "excerpt":
+            "Nonuniform sensitivity Background Click here to comment on this section on GitHub (opens in new tab). Not all pixels in a camera have the same sensitivity to light: there are intrinsic differences from pixel-to-pixel. Vignetting, a dimming near the corners of an image caused by the optical system to which the camera is attached, and dust on optical elements such as filters, the glass window covering the CCD, and the CCD chip itself can also block some light. Vingetting and dust can reduce the amount of light reaching the CCD chip while pixel-to-pixel sensitivity variations affects the counts read from...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/01-04-Nonuniform-sensitivity.html",
+        "teaser":null},{
         "title": "Calibration overview",
         
         "excerpt":
@@ -1032,6 +1064,22 @@ initFunction(initPrint)
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/01-05-Calibration-overview.html",
+        "teaser":null},{
+        "title": "Calibration overview",
+        
+        "excerpt":
+            "Calibration overview An image of the sky contains counts from several sources. The task of data reduction (another name for image calibration) is to remove all non-celestial counts from the image and to correct for non-uniform sensitivity. At the end of the previous notebook we arrived at an expression for the counts in a science image in terms of the sources of counts: $$ \\text{raw image} = \\text{bias} + \\text{noise} + \\text{dark current} + \\text{flat} \\times (\\text{sky} + \\text{stars}). $$Solving for the counts just from the stars is as follows: $$ \\text{stars} + \\text{noise} = \\frac{\\text{raw image} - \\text{bias} -...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/01-05-Calibration-overview.html",
+        "teaser":null},{
+        "title": "Image combination",
+        
+        "excerpt":
+            "Image combination Image combination serves several purposes. Combining images: reduces noise in images can remove transient artifacts like cosmic rays and satellite tracks can remove stars in flat images taken at twilight It's essential that several of each type of calibration image (bias, dark, flat) be taken. Combining them reduces the noise in the images by roughly a factor of $1/\\sqrt{N}$, where $N$ is the number of images being combined. As shown in the previous notebook, using a single calibration image actually increases the noise in your image. There are a few ways to combine images; if done properly, features...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/01-06-Image-combination.html",
         "teaser":null},{
         "title": "Image combination",
         
@@ -1049,6 +1097,14 @@ initFunction(initPrint)
         "tags": [],
         "url": "YOUR%20URL/01-08-Overscan.html",
         "teaser":null},{
+        "title": "Overscan",
+        
+        "excerpt":
+            "Overscan The overscan region of a CCD, if present, is a part of the chip that is covered. Depending on the camera, it can be a useful way to remove small variations in the bias level from frame to frame. However, whether or not the overscan is useful depends on the camera. It's advisable to examine the overscan part of the camera you're using before deciding if you should include it in image reduction. One important note: overscan always includes bias, read noise, and dark current. The overscan pixels are still pixels, and just like any other pixel includes dark...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/01-08-Overscan.html",
+        "teaser":null},{
         "title": "Calibration choices to make",
         
         "excerpt":
@@ -1056,6 +1112,22 @@ initFunction(initPrint)
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/01-09-Calibration-choices-you-need-to-make.html",
+        "teaser":null},{
+        "title": "Calibration choices to make",
+        
+        "excerpt":
+            "Calibration choices you need to make There are a few choices you need to make about how you will calibrate your data. Sometimes the decision will be made for you by the data you have. Subtract bias and dark as separate steps or in one step? Click here to comment on this section on GitHub (opens in new tab). Every dark image contains bias when it comes off of the camera, so in principle you can take care of both bias and dark by constructing a master dark image that leaves the bias already present in the dark images in...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/01-09-Calibration-choices-you-need-to-make.html",
+        "teaser":null},{
+        "title": "Reading images",
+        
+        "excerpt":
+            "Reading images Astropy provides a few ways to read in FITS images, some in the core package and others in affiliated packages. Before exploring those, we'll create a set of (fake) images to work with. from pathlib import Path from astropy.nddata import CCDData from astropy.io import fits Working with directories Click here to comment on this section on GitHub (opens in new tab). The cell below contains the path to the images. In this notebook we'll use it both to store the fake images we generate and to read images. In normal use, you wouldn't start by writing images there,...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/01-11-reading-images.html",
         "teaser":null},{
         "title": "Reading images",
         
@@ -1073,6 +1145,14 @@ initFunction(initPrint)
         "tags": [],
         "url": "YOUR%20URL/02-00-Handling-overscan-trimming-and-bias-subtraction.html",
         "teaser":null},{
+        "title": "Overscan and bias images",
+        
+        "excerpt":
+            "Handling overscan, trimming, and bias subtraction Introduction The bias in a CCD camera is a DC offset applied to all pixels so that when the voltage in each pixel is converted to a number the number will always be positive. In an ideal CCD the bias would be the same for every pixel and not change over time. In practice, the bias is slightly different for each pixel, and can vary by a count or two from night to night or during a night. A bias image is a picture taken with the shutter closed and zero exposure time; think...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/02-00-Handling-overscan-trimming-and-bias-subtraction.html",
+        "teaser":null},{
         "title": "Calibrating bias images",
         
         "excerpt":
@@ -1080,6 +1160,22 @@ initFunction(initPrint)
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/02-01-Calibrating-bias-images.html",
+        "teaser":null},{
+        "title": "Calibrating bias images",
+        
+        "excerpt":
+            "Calibrating bias images The purpose of calibrating bias images is three-fold: Subtract overscan if you have decided your science will be better if you subtract overscan. See this discussion of overscan for some guidance. Trim the overscan region off of the image if it is present, regardless of whether you have chosen to subtract the overscan. Combine the bias images into a \"combined\" bias to be used in calibrating the rest of the images. The purpose of combining several images is to reduce as much as possible the read noise in the combined bias. The approach in this notebook will...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/02-01-Calibrating-bias-images.html",
+        "teaser":null},{
+        "title": "Combine bias images to make master bias",
+        
+        "excerpt":
+            "Combine bias images to make master The final step is to combine the individual calibrated bias images into a single combined image. That combined image will have less noise than the individual images, minimizing the noise added to the remaining images when the bias is subtracted. Regardless of which path you took through the calibration of the biases (with overscan or without) there should be a folder named reduced that contains the calibrated bias images. If there is not, please run the previous notebook before continuing with this one. from pathlib import Path import os from astropy.nddata import CCDData from...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/02-04-Combine-bias-images-to-make-master.html",
         "teaser":null},{
         "title": "Combine bias images to make master bias",
         
@@ -1097,6 +1193,14 @@ initFunction(initPrint)
         "tags": [],
         "url": "YOUR%20URL/03-00-Dark-current-and-hot-pixels.html",
         "teaser":null},{
+        "title": "Dark current and dark frames",
+        
+        "excerpt":
+            "Dark current and hot pixels Every image from a CCD contains dark current, which are counts in a raw image caused by thermal effects in the CCD. The dark current in modern CCDs is extremely small if the camera is cooled in some way. Cameras cooled with liquid nitrogen have nearly zero dark current while thermo-electrically cooled CCDs have a somewhat larger dark current. The dark current in a CCD operating at room temperature will typically be very large. Even a camera in which the dark current is typically very small will have a small fraction of pixels, called hot...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/03-00-Dark-current-and-hot-pixels.html",
+        "teaser":null},{
         "title": "Dark current: the ideal case",
         
         "excerpt":
@@ -1104,6 +1208,22 @@ initFunction(initPrint)
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/03-01-Dark-current-The-ideal-case.html",
+        "teaser":null},{
+        "title": "Dark current: the ideal case",
+        
+        "excerpt":
+            "Dark current: the ideal case import numpy as np from scipy import stats %matplotlib inline from matplotlib import pyplot as plt from image_sim import dark_current, read_noise # Use custom style for larger fonts and figures plt.style.use(&#39;guide.mplstyle&#39;) A dark frame measures dark current Click here to comment on this section on GitHub (opens in new tab). Recall that dark current refers to counts (electrons) generated in a pixel because an electron in the pixel happens to have enough energy to \"break free\" and register as a count. The distribution of electron thermal energies in pixel follows a Maxwell-Boltzmann distribution in which...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/03-01-Dark-current-The-ideal-case.html",
+        "teaser":null},{
+        "title": "Real dark current: noise and other artifacts",
+        
+        "excerpt":
+            "Real dark current: noise and other artifacts The dark current on modern CCDs, even relatively inexpensive ones, is very small. In a typical exposure the dark current is likely smaller, maybe much smaller, than the read noise. Despite that, it is worth examining some dark frames from your camera. because not all pixels have the same dark current. Some, called hot pixels, have much higher dark current than the rest of the sensor. Some sensors have non-astronomical sources of counts whose value are proportional to exposure time, like dark current, but whose origin is nonthermal effects. As we did in...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/03-02-Real-dark-current-noise-and-other-artifacts.html",
         "teaser":null},{
         "title": "Real dark current: noise and other artifacts",
         
@@ -1121,6 +1241,14 @@ initFunction(initPrint)
         "tags": [],
         "url": "YOUR%20URL/03-04-Handling-overscan-and-bias-for-dark-frames.html",
         "teaser":null},{
+        "title": "Handling overscan and bias for dark frames",
+        
+        "excerpt":
+            "Handling overscan and bias for dark frames The options for reducing dark frames Click here to comment on this section on GitHub (opens in new tab). The next steps to take depend on two things: Are you subtracting overscan? If so, you should subtract overscan for the dark frames. Will you need to scale these darks to a different exposure time? If so, you need to subtract bias from the darks. If not, leave the bias in. 1. Do you need to subtract overscan? If you decide to subtract the overscan from any of the images used in your data...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/03-04-Handling-overscan-and-bias-for-dark-frames.html",
+        "teaser":null},{
         "title": "Calibrate dark images",
         
         "excerpt":
@@ -1128,6 +1256,22 @@ initFunction(initPrint)
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/03-05-Calibrate-dark-images.html",
+        "teaser":null},{
+        "title": "Calibrate dark images",
+        
+        "excerpt":
+            "Calibrate dark images Dark images, like any other images, need to be calibrated. Depending on the data you have and the choices you have made in reducing your data the steps to reducing your images may include: Subtracting overscan (only if you decide to subtract overscan from all images) Trim the image (if it has overscan, whether you are using the overscan or not) Subtract bias (if you need to scale the calibrated dark frames to a different exposure time). from pathlib import Path from astropy.nddata import CCDData from ccdproc import ImageFileCollection import ccdproc as ccdp Example 1: Overscan subtracted,...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/03-05-Calibrate-dark-images.html",
+        "teaser":null},{
+        "title": "Combine calibrated dark images for use in later reduction steps",
+        
+        "excerpt":
+            "Combine calibrated dark images for use in later reduction steps The final step is to combine the individual calibrated dark images into a single combined image. That combined image will have less noise than the individual images, minimizing the noise added to the remaining images when the dark is subtracted. Regardless of which path you took through the calibration of the biases (with overscan or without) there should be a folder named either example1-reduced or example2-reduced that contains the calibrated bias and dark images. If there is not, please run the previous notebook before continuing with this one. from pathlib...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/03-06-Combine-darks-for-use-in-later-calibration-steps.html",
         "teaser":null},{
         "title": "Combine calibrated dark images for use in later reduction steps",
         
@@ -1145,6 +1289,14 @@ initFunction(initPrint)
         "tags": [],
         "url": "YOUR%20URL/05-00-Flat-corrections.html",
         "teaser":null},{
+        "title": "Flat fielding",
+        
+        "excerpt":
+            "Table of Contents 1&nbsp;&nbsp;What are flat corrections?2&nbsp;&nbsp;Overview of taking images for flat corrections3&nbsp;&nbsp;Calibrating and combining flat images Flat corrections What are flat corrections? Click here to comment on this section on GitHub (opens in new tab). The purpose of flat corrections is to compensate for any non-uniformity in the response of the CCD to light. There can be several reasons that the response is not uniform across the detector: variations in the sensitivity of pixels in the detector, though this source is usually small. dust on either the filter or the glass window covering the detector. vignetting, a dimming in...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/05-00-Flat-corrections.html",
+        "teaser":null},{
         "title": "Calibrating flat frames",
         
         "excerpt":
@@ -1152,6 +1304,22 @@ initFunction(initPrint)
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/05-03-Calibrating-the-flats.html",
+        "teaser":null},{
+        "title": "Calibrating flat frames",
+        
+        "excerpt":
+            "Calibrating the flats Recall that the counts in an astronomical image include dark current, noise and a nearly-constant offset, the bias. The individual flat frames need to have bias and dark removed from them. Depending on the exposure times of the images you have, you may or may not need to subtract dark and bias separately. If the combined dark frame needs to be scaled to a different exposure time then bias and dark must be handled separately; otherwise, the dark and bias can be removed in a single step because dark frames also include bias. The potential reduction steps...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/05-03-Calibrating-the-flats.html",
+        "teaser":null},{
+        "title": "Combining flat frames",
+        
+        "excerpt":
+            "Combining flats There is one step in combining flats that is different than for most other image combination: the flats should be scaled to a common value before combining them. This is particularly important if the flats are twilight flats in which the average image value typically changes significantly as the images are being taken. Flats are typically grouped by filter when combining them. That is, one combined flat is produced for each filter in which flats were taken. Combination will be done for each of the two examples in the previous notebook. from pathlib import Path import numpy as...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/05-04-Combining-flats.html",
         "teaser":null},{
         "title": "Combining flat frames",
         
@@ -1169,6 +1337,22 @@ initFunction(initPrint)
         "tags": [],
         "url": "YOUR%20URL/06-00-Reducing-science-images.html",
         "teaser":null},{
+        "title": "Calibrating science images",
+        
+        "excerpt":
+            "Reducing science images from pathlib import Path from matplotlib import pyplot as plt import numpy as np from astropy import units as u import ccdproc as ccdp from convenience_functions import show_image # Use custom style for larger fonts and figures plt.style.use(&#39;guide.mplstyle&#39;) Overview Click here to comment on this section on GitHub (opens in new tab). ccdproc provides a couple of ways to approach calibration of the science images: Perform each of the individual steps manually using subtract_bias, subtract_dark, and flat_correct. Use the ccd_process function to perform all of the reduction steps. This notebook will do each of those in separate...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/06-00-Reducing-science-images.html",
+        "teaser":null},{
+        "title": "Finding and dealing with bad pixels",
+        
+        "excerpt":
+            "              Image masking  There are several reasons a particular pixel in a specific image might not be useful:   The pixel could be \"hot,\" meaning it isn't possible to remove the dark current from the pixel. The pixel could be bad in the sense that it does not respond to light the way the other pixels do. A cosmic ray can hit the pixel during the image.  The following notebooks walk through identifying each of those types of bad pixels and how to create a mask for them.                      ",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/08-00-Image-masking.html",
+        "teaser":null},{
         "title": "Finding and dealing with bad pixels",
         
         "excerpt":
@@ -1176,6 +1360,14 @@ initFunction(initPrint)
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/08-00-Image-masking.html",
+        "teaser":null},{
+        "title": "Identifying hot pixels",
+        
+        "excerpt":
+            "Identifying hot pixels Some pixels are too hot Click here to comment on this section on GitHub (opens in new tab). Recall from the notebook about dark current that even a cryogenically-cooled camera with low dark current has some pixels with much higher dark current. In the discussion of \"ideal\" dark current we noted that the counts in a dark image should be proportional to the exposure time. For some hot pixels that is not the case, unfortunately, which means that those pixels cannot easily be corrected by subtracting a combined dark. Those pixels can be identified by taking darks...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/08-01-Identifying-hot-pixels.html",
         "teaser":null},{
         "title": "Identifying hot pixels",
         
@@ -1193,6 +1385,14 @@ initFunction(initPrint)
         "tags": [],
         "url": "YOUR%20URL/08-02-Creating-a-mask.html",
         "teaser":null},{
+        "title": "Identifying bad pixels with ccdmask",
+        
+        "excerpt":
+            "Creating an image mask Calibration cannot compensate for every defect in a CCD. Some examples (a non-exhaustive list): Some hot pixels are not actually linear with exposure time. Some pixels in the CCD may respond less to light than others in a way that flat frames cannot compensate for. There may be defects in all or part of a row or column of the chip. Cosmic rays strike the CCD during every exposure. While those are eliminated in the combined calibrated frames with the proper choice of combination parameters, they are not removed from science images. The first three are...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/08-02-Creating-a-mask.html",
+        "teaser":null},{
         "title": "Removing cosmic rays",
         
         "excerpt":
@@ -1200,6 +1400,22 @@ initFunction(initPrint)
         "categories": [],
         "tags": [],
         "url": "YOUR%20URL/08-03-Cosmic-ray-removal.html",
+        "teaser":null},{
+        "title": "Removing cosmic rays",
+        
+        "excerpt":
+            "Cosmic ray removal Almost all images from a CCD will include some number of cosmic rays, charged particles which bombard the Earth's upper atmosphere. Some of those will make it through the atmosphere and into your detector (the rate of cosmic rays will be much higher for cameras in space). Although the number of cosmic rays is roughly proportional to exposure time, there will be cosmic rays even in bias frames in which the chip is immediately read out. This notebook explains how to remove cosmic rays from calibration images and science images. Removal from calibration images Click here to...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/08-03-Cosmic-ray-removal.html",
+        "teaser":null},{
+        "title": "Incorporating masks in science images",
+        
+        "excerpt":
+            "Incorporating masks into calibrated science images There are three ways of determining which pixels in a CCD image may need to be masked (this is in addition to whatever mask or bit fields the observatory at which you are taking images may provide). Two of them are the same for all of the science images: Hot pixels unlikely to be properly calibrated by subtracting dark current, discussed in Identifying hot pixels. Bad pixels identified by ccdproc.ccdmask from flat field images, discussed in Creating a mask with ccdmask. The third, identifying cosmic rays, discussed in Cosmic ray removal, will by its...",
+        "categories": [],
+        "tags": [],
+        "url": "YOUR%20URL/08-05-incorporating-masks-into-calibrated-science-images.html",
         "teaser":null},{
         "title": "Incorporating masks in science images",
         

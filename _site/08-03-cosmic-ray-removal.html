@@ -26,8 +26,8 @@
   "@type": "NewsArticle",
   "mainEntityOfPage": "YOUR URL//08-03-Cosmic-ray-removal.html",
   "headline": "Removing cosmic rays",
-  "datePublished": "2019-10-20T11:28:18-06:00",
-  "dateModified": "2019-10-20T11:28:18-06:00",
+  "datePublished": "2020-10-09T07:55:01-05:00",
+  "dateModified": "2020-10-09T07:55:01-05:00",
   "description": "        Cosmic ray removal Almost all images from a CCD will include some number of cosmic rays, chargedparticles which bombard the Earth's upper atmosphere....",
   "author": {
     "@type": "Person",
@@ -1018,7 +1018,7 @@ science images.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Removal-from-calibration-images">Removal from calibration images<a class="anchor-link" href="#Removal-from-calibration-images"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R24" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h2 id="Removal-from-calibration-images">Removal from calibration images<a class="anchor-link" href="#Removal-from-calibration-images"> </a></h2><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R24" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The easiest way to remove cosmic rays from calibration images (bias, dark and
 flat images) is to combine them properly. Cosmic rays are, by their nature,
 random events that will affect different parts of each of the calibration
@@ -1043,7 +1043,7 @@ they can be removed by properly combining the images.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Removal-from-science-images">Removal from science images<a class="anchor-link" href="#Removal-from-science-images"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R48" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h2 id="Removal-from-science-images">Removal from science images<a class="anchor-link" href="#Removal-from-science-images"> </a></h2><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R48" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>One good technique for removing cosmic rays from an image is the
 <a href="http://www.astro.yale.edu/dokkum/lacosmic/">LACosmic method</a> originally developed and implemented for IRAF
 by <a href="https://www.pietervandokkum.com/">Pieter G. van Dokkum</a>. The original paper describing the method,
@@ -1065,7 +1065,7 @@ ccdproc provides a wrapper for it, so we called attention to it here.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Very-important-notes-about-using-LACosmic">Very important notes about using LACosmic<a class="anchor-link" href="#Very-important-notes-about-using-LACosmic"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R69" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Very-important-notes-about-using-LACosmic">Very important notes about using LACosmic<a class="anchor-link" href="#Very-important-notes-about-using-LACosmic"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R69" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>There are a few things to be aware of before using the LACosmic technique. These
 are drawn from the advice van Dokkum provides under
 <a href="http://www.astro.yale.edu/dokkum/lacosmic/">Notes for Users</a> and the original paper.</p>
@@ -1155,7 +1155,7 @@ identified by <code>ccdmask</code>) they should be masked out before detecting c
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Input-image">Input image<a class="anchor-link" href="#Input-image"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R131" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Input-image">Input image<a class="anchor-link" href="#Input-image"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R131" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The image we will use in this notebook is one of the reduced images from Example
 2 in the previous notebooks. It is an image of the field of the exoplanet
 Kelt-16b, taken with a thermo-electrically cooled CCD with read noise of 10$e^-$
@@ -1420,7 +1420,7 @@ are  identified.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Running-LACosmic">Running LACosmic<a class="anchor-link" href="#Running-LACosmic"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R255" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Running-LACosmic">Running LACosmic<a class="anchor-link" href="#Running-LACosmic"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R255" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The actual invocation of LACosmic is fairly straightforward. The key parameters
 are <code>readnoise</code>, the read noise, and <code>sigclip</code>, which determines how far above
 the background a pixel needs to be to consider it a cosmic ray. There is no
@@ -1567,7 +1567,7 @@ rays.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Examining-the-cosmic-rays-identified-by-LACosmic">Examining the cosmic rays identified by LACosmic<a class="anchor-link" href="#Examining-the-cosmic-rays-identified-by-LACosmic"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R331" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Examining-the-cosmic-rays-identified-by-LACosmic">Examining the cosmic rays identified by LACosmic<a class="anchor-link" href="#Examining-the-cosmic-rays-identified-by-LACosmic"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R331" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>There are 70 pixels that have been flagged as cosmic rays. Looking through each
 of them individually would be tedious, at best. It would also presumably be
 difficult to decide visually if a single pixel tagged as a cosmic ray was
@@ -1766,7 +1766,7 @@ inclusion in this discussion. Display them all by setting
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Discussion-of-sample-cosmic-rays">Discussion of sample cosmic rays<a class="anchor-link" href="#Discussion-of-sample-cosmic-rays"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R448" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Discussion-of-sample-cosmic-rays">Discussion of sample cosmic rays<a class="anchor-link" href="#Discussion-of-sample-cosmic-rays"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R448" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The first three examples above, labeled "Cosmic ray 0," "Cosmic ray 1" and
 "Cosmic ray 14," are straightforward; each is actually a cosmic ray.</p>
 <p>The fourth, "Cosmic ray 18", is not a cosmic ray, though it does correspond to a
@@ -1785,7 +1785,7 @@ cosmic ray.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Saving-the-mask-with-the-image">Saving the mask with the image<a class="anchor-link" href="#Saving-the-mask-with-the-image"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R465" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Saving-the-mask-with-the-image">Saving the mask with the image<a class="anchor-link" href="#Saving-the-mask-with-the-image"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R465" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>To save the full mask, including cosmic rays, hot pixels, and pixels identified
 by <code>ccdmask</code>, set the mask of <code>ccd</code> to the mask of <code>new_ccd</code>. In some use cases
 you might prefer to save <code>new_ccd</code> itself. The difference between the two is
@@ -2022,7 +2022,7 @@ no light).</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Some-of-these-are-not-cosmic-rays">Some of these are not cosmic rays<a class="anchor-link" href="#Some-of-these-are-not-cosmic-rays"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R566" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Some-of-these-are-not-cosmic-rays">Some of these are not cosmic rays<a class="anchor-link" href="#Some-of-these-are-not-cosmic-rays"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/208/files#diff-f6ef62fd37828bd27c81ee882c661db1R566" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The display below shows a few examples of areas identified by
 <code>cosmicray_lacosmic</code> that are not actually cosmic rays. These false positives
 are harmless because they reflect real problems with the detector and should be
@@ -2115,6 +2115,7 @@ pixels will be identified as how.</p>
 
     </main>
     
+
             </div>
             <div class="c-textbook__footer" id="textbook_footer">
               <nav class="c-page__nav">

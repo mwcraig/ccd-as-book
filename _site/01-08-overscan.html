@@ -26,8 +26,8 @@
   "@type": "NewsArticle",
   "mainEntityOfPage": "YOUR URL//01-08-Overscan.html",
   "headline": "Overscan",
-  "datePublished": "2019-10-20T11:28:18-06:00",
-  "dateModified": "2019-10-20T11:28:18-06:00",
+  "datePublished": "2020-10-09T07:55:01-05:00",
+  "dateModified": "2020-10-09T07:55:01-05:00",
   "description": "        Overscan The overscan region of a CCD, if present, is a part of the chip that is covered.Depending on the camera, it can be a useful way to remove sm...",
   "author": {
     "@type": "Person",
@@ -1081,7 +1081,7 @@ useful information.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Case-1:-Cryogenically-cooled-Large-Format-Camera-(LFC)-at-Palomar">Case 1: Cryogenically cooled Large Format Camera (LFC) at Palomar<a class="anchor-link" href="#Case-1:-Cryogenically-cooled-Large-Format-Camera-(LFC)-at-Palomar"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/213/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R69" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h2 id="Case-1:-Cryogenically-cooled-Large-Format-Camera-(LFC)-at-Palomar">Case 1: Cryogenically cooled Large Format Camera (LFC) at Palomar<a class="anchor-link" href="#Case-1:-Cryogenically-cooled-Large-Format-Camera-(LFC)-at-Palomar"> </a></h2><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/213/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R69" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The images below are from chip 0 of the LFC at the Palomar 200-inch telescope.
 Technical information about the camera is <a href="http://www.astro.caltech.edu/palomar/observer/200inchResources/lfcspecs.html">here</a>. It
 turns out that the images are not actually 2048 × 4096; as you can see below,
@@ -1218,7 +1218,7 @@ value in the exposed part of the camera is typically large.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Discussion-of-Example-1">Discussion of Example 1<a class="anchor-link" href="#Discussion-of-Example-1"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/213/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R135" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Discussion-of-Example-1">Discussion of Example 1<a class="anchor-link" href="#Discussion-of-Example-1"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/213/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R135" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>There are a few interesting things here.</p>
 <p><strong>The count value is nearly uniform in the overscan region.</strong></p>
 <p>This is good; ideally the overscan is nearly uniform since the pixels are not
@@ -1242,7 +1242,7 @@ of these offsets.</p>
 measuring bias.</strong></p>
 <p>To be clear, this isn't apparent from the graph above, but cryogenically cooled
 cameras have negligible dark current.</p>
-<h4 id="What-happens-if-you-don't-use-the-overscan?">What happens if you don't use the overscan?<a class="anchor-link" href="#What-happens-if-you-don't-use-the-overscan?"> </a></h4><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/213/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R171" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h4 id="What-happens-if-you-don't-use-the-overscan?">What happens if you don't use the overscan?<a class="anchor-link" href="#What-happens-if-you-don't-use-the-overscan?"> </a></h4><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/213/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R171" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>Nothing particularly bad. In the specific case above, ignoring the overscan will
 shift the background level in the science image by roughly 20 counts, since the
 difference between the overscan region of the science image is lower than the
@@ -1259,7 +1259,7 @@ the background.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Conclusion-for-case-1">Conclusion for case 1<a class="anchor-link" href="#Conclusion-for-case-1"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/213/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R185" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Conclusion-for-case-1">Conclusion for case 1<a class="anchor-link" href="#Conclusion-for-case-1"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/213/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R185" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The overscan is useful, but the usable overscan region extends from 2055 to the
 end of the chip rather than from 2048 to end of the chip as the FITS header
 claims. Put a little differently, the appropriate <code>BIASSEC</code> for these images is
@@ -1278,7 +1278,7 @@ consider using the overscan.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Case-2:-Thermo-electrically-cooled-Apogee-Aspen-CG16M">Case 2: Thermo-electrically cooled Apogee Aspen CG16M<a class="anchor-link" href="#Case-2:-Thermo-electrically-cooled-Apogee-Aspen-CG16M"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/213/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R202" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h2 id="Case-2:-Thermo-electrically-cooled-Apogee-Aspen-CG16M">Case 2: Thermo-electrically cooled Apogee Aspen CG16M<a class="anchor-link" href="#Case-2:-Thermo-electrically-cooled-Apogee-Aspen-CG16M"> </a></h2><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/213/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R202" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>This is a low-end, research-grade CCD sold by Andor. Basic information is
 <a href="https://andor.oxinst.com/assets/uploads/documents/Andor/apogee/Apogee_Aspen_CG16M_Specifications.pdf">here</a>, though you need to track down the description
 of the sensor chip, <a href="http://www.onsemi.com/pub/Collateral/KAF-16803-D.PDF">KAF-16803 CCD</a> to find out that the
@@ -1407,7 +1407,7 @@ INFO: using the unit adu passed to the FITS reader instead of the unit adu in th
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Discussion-of-Example-2">Discussion of Example 2<a class="anchor-link" href="#Discussion-of-Example-2"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/213/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R248" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Discussion-of-Example-2">Discussion of Example 2<a class="anchor-link" href="#Discussion-of-Example-2"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/213/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R248" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The camera also has some interesting features.</p>
 <p><strong>Count values change quite a bit in the overscan region</strong></p>
 <p>This is clearest in the overscan for the flat. Not only is light leaking into
@@ -1437,7 +1437,7 @@ region on this camera.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Conclusion-for-case-2">Conclusion for case 2<a class="anchor-link" href="#Conclusion-for-case-2"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/213/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R283" :target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Conclusion-for-case-2">Conclusion for case 2<a class="anchor-link" href="#Conclusion-for-case-2"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/213/files#diff-a39dc0de1b4b0c208cdeeb55123683a9R283" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>Do not use the overscan in this case. There are serious issues with light
 leakage and large differences in the overscan counts between the bias and
 science images.</p>
@@ -1452,6 +1452,7 @@ science images.</p>
 
     </main>
     
+
             </div>
             <div class="c-textbook__footer" id="textbook_footer">
               <nav class="c-page__nav">

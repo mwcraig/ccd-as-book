@@ -62,7 +62,7 @@ $$<p>Once again, note that the noise cannot be removed.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="This-noise-cannot-be-removed-from-CCD-images">This noise cannot be removed from CCD images<a class="anchor-link" href="#This-noise-cannot-be-removed-from-CCD-images"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R48" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h2 id="This-noise-cannot-be-removed-from-CCD-images">This noise cannot be removed from CCD images<a class="anchor-link" href="#This-noise-cannot-be-removed-from-CCD-images"> </a></h2><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R48" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>To demonstrate that you cannot remove the noise from an image, let's construct
 an image with just stars and noise and try to subtract a noise image created
 with the same parameters. The amount of noise here is exaggerated to make it
@@ -120,7 +120,7 @@ clear in the images.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="First,-some-stars-with-noise">First, some stars with noise<a class="anchor-link" href="#First,-some-stars-with-noise"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R87" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="First,-some-stars-with-noise">First, some stars with noise<a class="anchor-link" href="#First,-some-stars-with-noise"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R87" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The image below shows stars (the larger "blobs" in the image) but shows quite a
 bit of noise as well (the much smaller "dots").</p>
 
@@ -186,7 +186,7 @@ bit of noise as well (the much smaller "dots").</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Now-an-incorrect-attempt-at-reducing-noise">Now an <em>incorrect</em> attempt at reducing noise<a class="anchor-link" href="#Now-an-incorrect-attempt-at-reducing-noise"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R113" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Now-an-incorrect-attempt-at-reducing-noise">Now an <em>incorrect</em> attempt at reducing noise<a class="anchor-link" href="#Now-an-incorrect-attempt-at-reducing-noise"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R113" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>Notice that the call to the noise function has exactly the same arguments as
 above, in much the same way your camera's electronics will have the same noise
 properties every time you read out an image.</p>
@@ -239,7 +239,7 @@ to pick out the stars in this image.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Every-image-has-noise">Every image has noise<a class="anchor-link" href="#Every-image-has-noise"> </a></h2><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R138" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h2 id="Every-image-has-noise">Every image has noise<a class="anchor-link" href="#Every-image-has-noise"> </a></h2><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R138" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>Every image, including calibration images like bias and dark frames, has noise.
 If we tried to calibrate images by taking a single bias image and a single dark
 image, the final result might well look worse than before the image is reduced.</p>
@@ -256,7 +256,7 @@ of the flat; we'll return to that point later.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="First,-set-parameters-for-the-CCD">First, set parameters for the CCD<a class="anchor-link" href="#First,-set-parameters-for-the-CCD"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R154" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="First,-set-parameters-for-the-CCD">First, set parameters for the CCD<a class="anchor-link" href="#First,-set-parameters-for-the-CCD"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R154" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>These are the same as in the previous notebook, except for the read noise, which
 is 700$e-$, 100 times larger than in the previous notebook.</p>
 
@@ -380,7 +380,7 @@ is 700$e-$, 100 times larger than in the previous notebook.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Uncalibrated-image">Uncalibrated image<a class="anchor-link" href="#Uncalibrated-image"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R216" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Uncalibrated-image">Uncalibrated image<a class="anchor-link" href="#Uncalibrated-image"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R216" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>Below we display the uncalibrated image; in a moment we'll compare it to the
 calibrated version. Even though they don't stand out there really are stars in
 it.</p>
@@ -441,7 +441,7 @@ it.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Reduce-(calibrate)-the-star-image">Reduce (calibrate) the star image<a class="anchor-link" href="#Reduce-(calibrate)-the-star-image"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R237" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Reduce-(calibrate)-the-star-image">Reduce (calibrate) the star image<a class="anchor-link" href="#Reduce-(calibrate)-the-star-image"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R237" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>First we calculate the dark current, scaled to the exposure time of our light
 image.</p>
 
@@ -535,7 +535,7 @@ the flat correction.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Reducing-the-image-cleans-up-the-image-a-bit">Reducing the image cleans up the image a bit<a class="anchor-link" href="#Reducing-the-image-cleans-up-the-image-a-bit"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R282" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Reducing-the-image-cleans-up-the-image-a-bit">Reducing the image cleans up the image a bit<a class="anchor-link" href="#Reducing-the-image-cleans-up-the-image-a-bit"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R282" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The stars stand more clearly than in the unreduced image.</p>
 <p>This image does not look <em>much</em> better than the uncalibrated image, but remember
 that the read noise used in this simulated image, 700 $e^-$ per pixel, is
@@ -550,7 +550,7 @@ unrealistically high.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Reducing-the-image-increases-the-noise-in-the-image">Reducing the image increases the noise in the image<a class="anchor-link" href="#Reducing-the-image-increases-the-noise-in-the-image"> </a></h3><p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R295" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<h3 id="Reducing-the-image-increases-the-noise-in-the-image">Reducing the image increases the noise in the image<a class="anchor-link" href="#Reducing-the-image-increases-the-noise-in-the-image"> </a></h3><p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R295" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 <p>The histogram below shows pixel values before and after calibration. The width
 of the distribution is a measure of the read noise. As expected, reducing the
 image increases the read noise. One reason one takes several calibration images
