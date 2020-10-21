@@ -932,7 +932,7 @@ initFunction(initPrint)
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide"
+          href="https://github.com/astropy/ccd-reduction-and-photometry-guide"
         >
           
           GitHub repository
@@ -1004,7 +1004,7 @@ understanding of what’s going on in your images.</p>
 
 <h2 id="imports">Imports</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR20" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR20" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>Almost all of the notebooks in this tutorial will start with the import of the
 Python packages needed for that notebook. The lines below set up
@@ -1031,7 +1031,7 @@ Python files in the Jupyter notebook environment is possible.</p>
 
 <h2 id="start-a-blank-image">Start: a blank image</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR73" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR73" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>We’ll begin with the simplest possible image: an array of zeros. The dimensions
 of the image below are chosen to match some real images we’ll be working with
@@ -1047,7 +1047,7 @@ later.</p>
 
 <h2 id="add-some-read-noise">Add some read noise</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR102" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR102" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>With each of the things we add, we’ll write a small function for adding so that
 it’s easier to experiment with different values. Read noise has a Gaussian
@@ -1091,7 +1091,7 @@ so that it behaves like real noise.</p>
 
 <h2 id="bias">Bias</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR156" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR156" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>Bias is an offset voltage (which translates into some non-zero number of counts)
 added to every pixel in the image to ensure that when voltages are converted to
@@ -1180,7 +1180,7 @@ chip out.</p>
 
 <h2 id="dark-current">Dark current</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR256" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR256" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>Dark current depends on the temperature of the sensor. The amount of dark counts
 in an image also depends on the exposure time. Dark current is typically very
@@ -1278,7 +1278,7 @@ current and the exposure time.</p>
 
 <h2 id="sky-background">Sky background</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR373" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR373" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>The amount of sky background depends on the atmospheric conditions (humidity,
 presence of light clouds, fires upwind from the observatory), the light sources
@@ -1354,7 +1354,7 @@ Add those in quadrature and you get about 6.7.</p>
 
 <h3 id="interactive-demo">Interactive demo</h3>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR471" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR471" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>The cell below sets up an interactive demo that lets you change the value of
 read noise and other parameters to see the effect that changing them has on the
@@ -1392,7 +1392,7 @@ resulting image.</p>
 
 <h2 id="add-some-stars">Add some “stars”</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR-1" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR-1" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>The “stars” we’ll add below are essentially just (round) Gaussian sources. The
 function that does most of the work is from <a href="https://photutils.readthedocs.io/en/stable/index.html">photutils</a>,
@@ -1452,7 +1452,7 @@ which we’ll return to later for doing photometry.</p>
 
 <h3 id="discussion">Discussion</h3>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR594" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/199/files#diff-fc99a51012bba83185b859b4db365a9bR594" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>In the image above the single-pixel bright dots are hot pixels while the
 remaining dots that are larger than a pixel are simulated stars.</p>

@@ -932,7 +932,7 @@ initFunction(initPrint)
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide"
+          href="https://github.com/astropy/ccd-reduction-and-photometry-guide"
         >
           
           GitHub repository
@@ -1021,7 +1021,7 @@ Such an image has bias and read noise in it as well, so:</p>
 
 <h2 id="this-noise-cannot-be-removed-from-ccd-images">This noise cannot be removed from CCD images</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R48" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R48" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>To demonstrate that you cannot remove the noise from an image, let’s construct
 an image with just stars and noise and try to subtract a noise image created
@@ -1045,7 +1045,7 @@ clear in the images.</p>
 
 <h3 id="first-some-stars-with-noise">First, some stars with noise</h3>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R87" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R87" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>The image below shows stars (the larger “blobs” in the image) but shows quite a
 bit of noise as well (the much smaller “dots”).</p>
@@ -1067,7 +1067,7 @@ bit of noise as well (the much smaller “dots”).</p>
 
 <h3 id="now-an-incorrect-attempt-at-reducing-noise">Now an <em>incorrect</em> attempt at reducing noise</h3>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R113" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R113" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>Notice that the call to the noise function has exactly the same arguments as
 above, in much the same way your camera’s electronics will have the same noise
@@ -1085,7 +1085,7 @@ to pick out the stars in this image.</p>
 
 <h2 id="every-image-has-noise">Every image has noise</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R138" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R138" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>Every image, including calibration images like bias and dark frames, has noise.
 If we tried to calibrate images by taking a single bias image and a single dark
@@ -1098,7 +1098,7 @@ of the flat; we’ll return to that point later.</p>
 
 <h3 id="first-set-parameters-for-the-ccd">First, set parameters for the CCD</h3>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R154" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R154" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>These are the same as in the previous notebook, except for the read noise, which
 is 700$e-$, 100 times larger than in the previous notebook.</p>
@@ -1134,7 +1134,7 @@ is 700$e-$, 100 times larger than in the previous notebook.</p>
 
 <h3 id="uncalibrated-image">Uncalibrated image</h3>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R216" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R216" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>Below we display the uncalibrated image; in a moment we’ll compare it to the
 calibrated version. Even though they don’t stand out there really are stars in
@@ -1151,7 +1151,7 @@ it.</p>
 
 <h3 id="reduce-calibrate-the-star-image">Reduce (calibrate) the star image</h3>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R237" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R237" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>First we calculate the dark current, scaled to the exposure time of our light
 image.</p>
@@ -1172,7 +1172,7 @@ the flat correction.</p>
 
 <h3 id="reducing-the-image-cleans-up-the-image-a-bit">Reducing the image cleans up the image a bit</h3>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R282" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R282" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>The stars stand more clearly than in the unreduced image.</p>
 
@@ -1182,7 +1182,7 @@ unrealistically high.</p>
 
 <h3 id="reducing-the-image-increases-the-noise-in-the-image">Reducing the image increases the noise in the image</h3>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R295" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/218/files#diff-e68335d91ecff166e2afcee832511ee2R295" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>The histogram below shows pixel values before and after calibration. The width
 of the distribution is a measure of the read noise. As expected, reducing the

@@ -932,7 +932,7 @@ initFunction(initPrint)
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide"
+          href="https://github.com/astropy/ccd-reduction-and-photometry-guide"
         >
           
           GitHub repository
@@ -1008,7 +1008,7 @@ others in affiliated packages.</p>
 
 <h2 id="working-with-directories">Working with directories</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR30" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR30" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>The cell below contains the path to the images. In this notebook we’ll use it
 both to store the fake images we generate and to read images. In normal use, you
@@ -1029,7 +1029,7 @@ about this.</p>
 
 <h2 id="generate-some-fake-images">Generate some fake images</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR60" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR60" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>The cells below generate some fake images to use later in the notebook.</p>
 
@@ -1126,7 +1126,7 @@ path/to/my/images/img-0027.fits
 
 <h2 id="option-1-reading-a-single-image-with-astropyiofits">Option 1: Reading a single image with <code class="highlighter-rouge">astropy.io.fits</code></h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR135" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR135" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>This option gives you the most flexibility but is the least adapted to CCD
 images specifically. What you read in is a list of FITS extensions; you must
@@ -1190,7 +1190,7 @@ BUNIT   = 'adu     '
 
 <h2 id="option-2--use-ccddata-to-read-in-a-single-image">Option 2:  Use <code class="highlighter-rouge">CCDData</code> to read in a single image</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR199" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR199" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>Astropy contains a <code class="highlighter-rouge">CCDData</code> object for representing a single image. It’s not as
 flexible as using <code class="highlighter-rouge">astrop.io.fits</code> directly (for example, it assumes there is
@@ -1243,7 +1243,7 @@ detail in the notebooks that follow.</p>
 
 <h2 id="option-3-working-with-a-directory-of-images-using-imagefilecollection">Option 3: Working with a directory of images using <code class="highlighter-rouge">ImageFileCollection</code></h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR258" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR258" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>The affiliated package <a href="https://ccdproc.readthedocs.io/">ccdproc</a> provides an easier way
 to work with collections of images in a directory: an <code class="highlighter-rouge">ImageFileCollection</code>. The
@@ -1259,7 +1259,7 @@ and file name, instead we give the collection the name of the directory.</p>
 
 <h3 id="summary-of-directory-contents">Summary of directory contents</h3>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR288" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR288" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>The <code class="highlighter-rouge">summary</code> property provides an overview of the files in the directory: it’s
 an astropy <code class="highlighter-rouge">Table</code>, so you can access columns in the usual way.</p>
@@ -1298,7 +1298,7 @@ an astropy <code class="highlighter-rouge">Table</code>, so you can access colum
 
 <h3 id="filtering-and-iterating-over-images">Filtering and iterating over images</h3>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR307" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/206/files#diff-487933c57483df376c3cb4974dd2f82cR307" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>The great thing about <code class="highlighter-rouge">ImageFileCollection</code> is that it provides convenient ways
 to filter or loop over files via FITS header keyword values.</p>

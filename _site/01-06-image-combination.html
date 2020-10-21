@@ -932,7 +932,7 @@ initFunction(initPrint)
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide"
+          href="https://github.com/astropy/ccd-reduction-and-photometry-guide"
         >
           
           GitHub repository
@@ -1017,7 +1017,7 @@ contaminate your calibrated science images too.</p>
 
 <h2 id="the-bottom-line-combine-by-averaging-images-but-clip-extreme-values">The bottom line: combine by averaging images, but clip extreme values</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R26" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R26" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>The remainder of this notebook demonstrates this conclusion and explains how to
 do a combination by averaging images with <a href="https://ccdproc.readthedocs.io/en/latest/">ccdproc</a>.</p>
@@ -1043,7 +1043,7 @@ do a combination by averaging images with <a href="https://ccdproc.readthedocs.i
 
 <h2 id="combination-method-average-or-median">Combination method: average or median?</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R73" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R73" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>In this section we’ll look at a simplified version of the challenges of
 combining images to reduce noise. It’s fair to think of astronomical images
@@ -1110,7 +1110,7 @@ compute than the median.</p>
 
 <h3 id="image-view-of-these-distributions">Image view of these distributions</h3>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R160" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R160" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>As suggested above, we could view each of these distributions as an image
 instead of a histogram. One take away from the diagram below is that in this
@@ -1135,7 +1135,7 @@ width of the initial distribution.</p>
 
 <h2 id="the-effect-of-outliers">The effect of outliers</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R192" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R192" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>Suppose that, in just one of the 100 distributions we’re combining, there are a
 small number of extreme values. In astronomical images these extremes happen
@@ -1187,7 +1187,7 @@ looks for the middle value, an extreme value doesn’t affect the result too muc
 
 <h3 id="combining-using-the-average-has-a-noticeable-effect-on-the-result-median">Combining using the average has a noticeable effect on the result; median</h3>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R282" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R282" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a>
 removes the artifact</p>
 
 <p>The effect of the outlier is <em>much</em> clearer if the distributions are displayed
@@ -1220,7 +1220,7 @@ are common.</p>
 
 <h2 id="the-solution-average-combine-but-clip-the-extreme-values">The solution: average combine, but clip the extreme values</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R326" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R326" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>The answer here is to first clip extreme values from the distributions and then
 combine using the average. That rejects outlying values like the median but with
@@ -1236,7 +1236,7 @@ scenes in <a href="https://ccdproc.readthedocs.io">ccdproc</a>.</p>
 
 <h3 id="sigma-clipping">Sigma clipping</h3>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R350" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R350" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>Sigma clipping means calculating how “far” each pixel to be combined is from the
 “typical” value and excluding values from the combination if they are “too far”
@@ -1359,7 +1359,7 @@ you.</p>
 
 <h2 id="summary">Summary</h2>
 
-<p><a href="https://github.com/mwcraig/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R520" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
+<p><a href="https://github.com/astropy/ccd-reduction-and-photometry-guide/pull/215/files#diff-976ff4558111a0c8cd9acea1b437a089R520" target="_blank"><em>Click here to comment on this section on GitHub (opens in new tab).</em></a></p>
 
 <p>Combine images by (1) excluding extreme values using sigma clipping, with the
 median as the typical value and the MAD estimator of the standard deviation, and
